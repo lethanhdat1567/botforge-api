@@ -1,7 +1,7 @@
-import globals from 'globals'
-import pluginJs from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import eslintPluginPrettier from 'eslint-plugin-prettier'
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
 
 export default [
     { files: ['**/*.{js,mjs,cjs,ts}'] },
@@ -19,9 +19,9 @@ export default [
                 'warn',
                 {
                     arrowParens: 'always',
-                    semi: false,
+                    semi: true,
                     trailingComma: 'none',
-                    tabWidth: 2,
+                    tabWidth: 4,
                     endOfLine: 'auto',
                     useTabs: false,
                     singleQuote: true,
@@ -32,4 +32,4 @@ export default [
         },
         ignores: ['**/node_modules/', '**/dist/']
     }
-]
+];

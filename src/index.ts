@@ -1,2 +1,26 @@
-const name: any = 'Le Thanh Dat'
-console.log(name)
+import express from 'express';
+import cors from 'cors';
+import indexRouter from './routes';
+import response from '~/middlewares/response.middlewares';
+import notFound from '~/middlewares/notFound.middleware';
+import errorHandler from '~/middlewares/errorHandler.middleware';
+import dotven from 'dotenv';
+dotven.config();
+
+const app = express();
+const PORT = process.env.PORT || 8000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(response);
+
+// Routes
+app.use('/api', indexRouter);
+
+app.use(notFound);
+app.use(errorHandler);
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
