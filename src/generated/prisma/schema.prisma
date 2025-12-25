@@ -1,0 +1,221 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// =====================
+// User
+// =====================
+model User {
+  id          String   @id @default(uuid()) @map("id")
+  username    String   @unique @map("username")
+  displayName String?  @map("display_name")
+  email       String   @unique @map("email")
+  password    String   @map("password")
+  role        Role     @default(user) @map("role")
+  provider    Provider @default(local) @map("provider")
+  providerId  String?  @map("provider_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+
+  flows              Flow[]
+  flowShares         FlowShare[]
+  comments           FlowComment[]
+  ratings            FlowRating[]
+  notifications      Notification[]
+  userFlowStates     UserFlowState[]      @relation("Owner_UserFlowState")
+  refreshTokens      RefreshToken[]
+  PasswordResetToken PasswordResetToken[]
+
+  @@map("users")
+}
+
+enum Role {
+  admin
+  user
+}
+
+enum Provider {
+  local
+  facebook
+  google
+}
+
+// =====================
+// Refresh Token
+// =====================
+model RefreshToken {
+  id        String   @id @default(uuid()) @map("id")
+  token     String   @unique @map("token") @db.VarChar(512)
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("refresh_tokens")
+}
+
+// =====================
+// Password Reset Token
+// =====================
+model PasswordResetToken {
+  id        String   @id @default(uuid()) @map("id")
+  token     String   @unique @map("token") @db.VarChar(512) // token reset password
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime @map("expires_at") // thời điểm hết hạn token
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("password_reset_tokens")
+}
+
+// =====================
+// Flow
+// =====================
+model Flow {
+  id              String     @id @default(uuid()) @map("id")
+  userId          String     @map("user_id")
+  name            String     @map("name")
+  description     String?    @map("description")
+  status          FlowStatus @default(draft) @map("status")
+  logicJson       Json       @map("logic_json")
+  layoutJson      Json       @map("layout_json")
+  platform        Platform   @map("platform")
+  timeoutDuration String?    @map("timeout_duration")
+  timeoutText     String?    @map("timeout_text")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @default(now()) @map("updated_at")
+
+  user   User            @relation(fields: [userId], references: [id])
+  states UserFlowState[]
+  shares FlowShare[]
+
+  @@map("flows")
+}
+
+enum FlowStatus {
+  draft
+  published
+}
+
+enum Platform {
+  facebook
+  instagram
+  zalo
+}
+
+// =====================
+// UserFlowState
+// =====================
+model UserFlowState {
+  id                String         @id @default(uuid()) @map("id")
+  platformUserId    String         @map("platform_user_id")
+  ownerUserId       String         @map("owner_user_id")
+  flowId            String         @map("flow_id")
+  currentStep       String         @map("current_step")
+  variables         Json?          @map("variables")
+  status            UserFlowStatus @default(active) @map("status")
+  lastInteractionAt DateTime       @default(now()) @map("last_interaction_at")
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @default(now()) @map("updated_at")
+
+  owner User @relation(fields: [ownerUserId], references: [id], name: "Owner_UserFlowState")
+  flow  Flow @relation(fields: [flowId], references: [id])
+
+  @@map("user_flow_states")
+}
+
+enum UserFlowStatus {
+  active
+  done
+  cancelled
+}
+
+// =====================
+// FlowShare
+// =====================
+model FlowShare {
+  id            String   @id @default(uuid()) @map("id")
+  flowId        String   @map("flow_id")
+  userId        String   @map("user_id")
+  name          String   @map("name")
+  description   String?  @map("description")
+  downloadCount Int      @default(0) @map("download_count")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @map("updated_at")
+
+  flow     Flow          @relation(fields: [flowId], references: [id])
+  user     User          @relation(fields: [userId], references: [id])
+  ratings  FlowRating[]
+  comments FlowComment[]
+
+  @@map("flow_shares")
+}
+
+// =====================
+// FlowRating
+// =====================
+model FlowRating {
+  id          String   @id @default(uuid()) @map("id")
+  flowShareId String   @map("flow_share_id")
+  userId      String   @map("user_id")
+  rating      Int      @map("rating")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  flowShare FlowShare @relation(fields: [flowShareId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@map("flow_ratings")
+}
+
+// =====================
+// FlowComment
+// =====================
+model FlowComment {
+  id          String   @id @default(uuid()) @map("id")
+  flowShareId String   @map("flow_share_id")
+  userId      String   @map("user_id")
+  comment     String   @map("comment")
+  parentId    String?  @map("parent_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+
+  flowShare FlowShare     @relation(fields: [flowShareId], references: [id])
+  user      User          @relation(fields: [userId], references: [id])
+  parent    FlowComment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   FlowComment[] @relation("CommentReplies")
+
+  @@map("flow_comments")
+}
+
+// =====================
+// Notification
+// =====================
+model Notification {
+  id        String           @id @default(uuid()) @map("id")
+  userId    String           @map("user_id")
+  type      NotificationType @map("type")
+  message   String           @map("message")
+  read      Boolean          @default(false) @map("read")
+  createdAt DateTime         @default(now()) @map("created_at")
+  updatedAt DateTime         @default(now()) @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+enum NotificationType {
+  comment
+  reply
+  rating
+  download
+  flow_done
+  flow_cancelled
+  new_user
+  chat_message
+}

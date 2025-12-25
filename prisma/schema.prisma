@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -27,6 +28,8 @@ model User {
   ratings        FlowRating[]
   notifications  Notification[]
   userFlowStates UserFlowState[] @relation("Owner_UserFlowState")
+	refreshTokens RefreshToken[]
+	PasswordResetToken PasswordResetToken[]
 
   @@map("users")
 }
@@ -41,6 +44,36 @@ enum Provider {
   facebook
   google
 }
+
+// =====================
+// Refresh Token
+// =====================
+model RefreshToken {
+  id        String   @id @default(uuid()) @map("id")
+  token     String   @unique @db.VarChar(512) @map("token")
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("refresh_tokens")
+}
+
+
+// =====================
+// Password Reset Token
+// =====================
+model PasswordResetToken {
+  id        String   @id @default(uuid()) @map("id")
+  token     String   @unique @db.VarChar(512) @map("token") // token reset password
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime @map("expires_at") // thời điểm hết hạn token
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("password_reset_tokens")
+}
+
 
 // =====================
 // Flow
