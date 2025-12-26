@@ -5,6 +5,7 @@ import response from '~/middlewares/response.middlewares';
 import notFound from '~/middlewares/notFound.middleware';
 import errorHandler from '~/middlewares/errorHandler.middleware';
 import dotven from 'dotenv';
+import { runFlow } from '~/core/engine/engine';
 dotven.config();
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(response);
 
 // Routes
 app.use('/api', indexRouter);
+app.use('/api/fb', () => runFlow('node1'));
 
 app.use(notFound);
 app.use(errorHandler);
