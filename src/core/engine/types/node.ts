@@ -8,5 +8,5 @@ export interface Node {
     id: string;
     category: NodeCategory;
     payload: MessageData | ActionData | CollectionData;
-    children?: Record<string, string>; // nodeId next
+    children?: Record<string, string>;
 }

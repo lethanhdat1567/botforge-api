@@ -1,25 +1,28 @@
 import { Node } from './types/node';
 import { handleMessageNode } from './handlers/message';
-import { flow } from '~/core/flows/test.flow';
 import { MessageNode } from '~/core/engine/types/message';
-import { handleActionNode } from '~/core/engine/handlers/action';
+// import { handleActionNode } from '~/core/engine/handlers/action';
 import { ActionNode } from '~/core/engine/types/action';
 import { handleCollectionNode } from '~/core/engine/handlers/collection';
 import { CollectionNode } from '~/core/engine/types/collection';
+import userStore from '~/core/store/userStore';
+import { flowWithCollection } from '~/core/flows/test.flow';
 
-export async function runFlow(nodeId: string) {
-    const node: Node = flow[nodeId];
+export async function runFlow(nodeId: string, senderId: string, pageId: string) {
+    const node: Node = flowWithCollection[nodeId];
     if (!node) return console.warn('Node not found:', nodeId);
+
+    userStore.updateFlow(pageId, senderId, nodeId);
 
     switch (node.category) {
         case 'message':
-            handleMessageNode(node as MessageNode);
+            handleMessageNode(node as MessageNode, senderId, pageId);
             break;
-        case 'action':
-            await handleActionNode(node as ActionNode);
-            break;
+        // case 'action':
+        //     await handleActionNode(node as ActionNode);
+        //     break;
         case 'collection':
-            handleCollectionNode(node as CollectionNode);
+            handleCollectionNode(node as CollectionNode, senderId, pageId);
             break;
     }
 }

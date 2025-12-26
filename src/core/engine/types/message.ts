@@ -1,4 +1,4 @@
-import { ButtonNode } from '~/core/engine/types/button';
+import { ButtonNode, QuickReply } from '~/core/engine/types/button';
 
 // Overall message type
 export type MessageType =
@@ -45,7 +45,7 @@ export interface ButtonMessageData {
 export interface AttachmentMessageData {
     type: 'attachment';
     fields: {
-        attachmentType: 'image' | 'video' | 'audio' | 'file' | 'location' | 'sticker';
+        attachmentType: 'image' | 'video' | 'audio' | 'file';
         url: string;
     };
 }
@@ -54,7 +54,7 @@ export interface QuickRepliesData {
     type: 'quick_replies';
     fields: {
         text: string;
-        quickReplies: ButtonNode[];
+        quickReplies: QuickReply[];
     };
 }
 
@@ -77,6 +77,7 @@ export interface WelcomeScreenData {
 export interface PersistentMenuData {
     type: 'persistent_menu';
     fields: {
+        text: string;
         menuItems: ButtonNode[];
     };
 }

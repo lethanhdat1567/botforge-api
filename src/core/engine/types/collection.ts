@@ -2,18 +2,15 @@ export type CollectionType = 'collection';
 
 export type CollectionVariableType = 'text' | 'number' | 'email' | 'phone' | 'custom';
 
-export interface CollectionVariable {
-    key: string;
-    type?: CollectionVariableType;
-    value?: any;
-    regex?: string;
-}
-
 export interface CollectionData {
     type: CollectionType;
     fields: {
-        variables: CollectionVariable[];
-        next?: string;
+        type: CollectionVariableType;
+        key: string;
+        value?: any;
+        regex?: string;
+        fallback: string;
+        timeout: string;
     };
 }
 

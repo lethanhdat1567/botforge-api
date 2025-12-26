@@ -1,28 +1,22 @@
-import { CollectionNode } from '../types/collection';
-import { context } from '../context';
-import { runFlow } from '../engine';
+import { CollectionNode } from '~/core/engine/types/collection';
+import { PendingVariable } from '~/core/store/components/pendingVariables';
+import userStore from '~/core/store/userStore';
+import { parseDuration } from '~/utils/time';
 
-export function handleCollectionNode(node: CollectionNode) {
-    const payload = node.payload;
-    const variables = payload.fields.variables;
+export function handleCollectionNode(node: CollectionNode, senderId: string, pageId: string) {
+    const user = userStore.add(pageId, senderId);
 
-    variables.forEach((variable) => {
-        let value = variable.value ?? null;
+    const f = node.payload.fields;
 
-        // Nếu có regex, validate
-        if (variable.regex && value !== null) {
-            const regex = new RegExp(variable.regex);
-            if (!regex.test(value)) {
-                console.warn(`[Collection] Value of ${variable.key} does not match regex.`);
-                value = null; // invalid
-            }
-        }
-
-        context.variables[variable.key] = value;
-        console.log(`[Collection] Set ${variable.key} = ${value}`);
+    const pendingVariable = new PendingVariable({
+        type: f.type,
+        key: f.key,
+        regex: f.regex,
+        fallback: f.fallback,
+        timeout: parseDuration(f.timeout)
     });
 
-    // Chạy node tiếp theo nếu có
-    const nextNodeId = payload.fields.next;
-    if (nextNodeId) runFlow(nextNodeId);
+    user.addPendingVariables(pendingVariable, node.id);
+
+    console.log(`[Collection] User ${senderId} đang chờ nhập: ${f.key}`);
 }
