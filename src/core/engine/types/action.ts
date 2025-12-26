@@ -31,7 +31,7 @@ export interface ConditionActionData {
 export interface DelayActionData {
     type: 'delay';
     fields: {
-        duration: number; // ms
+        duration: string; // ms
         next: string; // node tiếp theo
     };
 }

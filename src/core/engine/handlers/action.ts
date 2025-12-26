@@ -1,58 +1,76 @@
-// import { runFlow } from '~/core/engine/engine';
-// import { ActionNode } from '~/core/engine/types/action';
+import { runFlow } from '~/core/engine/engine';
+import endFlowHandller from '~/core/engine/handlers/endFlow';
+import { ActionNode } from '~/core/engine/types/action';
+import userStore from '~/core/store/userStore';
+import { parseDuration } from '~/utils/time';
 
-// export async function handleActionNode(node: ActionNode) {
-//     const payload = node.payload;
+export async function handleActionNode(node: ActionNode, senderId: string, pageId: string) {
+    const payload = node.payload;
 
-//     let valueToCheck: any;
+    switch (payload.type) {
+        case 'condition': {
+            const items = payload.fields.items;
+            let matched = false;
 
-//     switch (payload.type) {
-//         case 'condition': {
-//             const items = payload.fields.items;
-//             let matched = false;
+            for (const item of items) {
+                const user = userStore.getUser(pageId, senderId);
 
-//             for (const item of items) {
-//                 const isAllTrue = item.conditions.every((cond) => {
-//                     valueToCheck = cond.field.startsWith('variables.')
-//                         ? context.variables[cond.field.replace('variables.', '')]
-//                         : cond.field;
+                const isAllTrue = item.conditions.every((cond) => {
+                    const valueToCheck = user?.getVariable(cond.field);
 
-//                     switch (cond.operator) {
-//                         case 'equals':
-//                             return valueToCheck === cond.value;
-//                         case 'not_equals':
-//                             return valueToCheck !== cond.value;
-//                         case 'contains':
-//                             return typeof valueToCheck === 'string' && valueToCheck.includes(cond.value);
-//                         case 'regex':
-//                             return new RegExp(cond.value).test(valueToCheck);
-//                     }
-//                 });
+                    if (valueToCheck === undefined) {
+                        return false;
+                    }
 
-//                 if (isAllTrue) {
-//                     matched = true;
-//                     runFlow(item.next);
-//                     break;
-//                 }
-//             }
+                    switch (cond.operator) {
+                        case 'equals':
+                            return valueToCheck === cond.value;
 
-//             if (!matched && payload.fields.defaultNext) {
-//                 runFlow(payload.fields.defaultNext);
-//             }
-//             break;
-//         }
+                        case 'not_equals':
+                            return valueToCheck !== cond.value;
 
-//         case 'delay': {
-//             await new Promise((res) => setTimeout(res, payload.fields.duration));
-//             if (payload.fields.next) runFlow(payload.fields.next);
-//             break;
-//         }
+                        case 'contains':
+                            return valueToCheck.includes(cond.value);
 
-//         case 'set_variable': {
-//             context.variables[payload.fields.key] = payload.fields.value;
-//             console.log(`[Set Variable] ${payload.fields.key} = ${payload.fields.value}`);
-//             if (payload.fields.next) runFlow(payload.fields.next);
-//             break;
-//         }
-//     }
-// }
+                        case 'regex':
+                            return new RegExp(cond.value).test(valueToCheck);
+
+                        default:
+                            return false;
+                    }
+                });
+
+                if (isAllTrue) {
+                    matched = true;
+                    runFlow(item.next, senderId, pageId);
+                    break;
+                }
+            }
+
+            if (!matched && payload.fields.defaultNext) {
+                runFlow(payload.fields.defaultNext, senderId, pageId);
+            }
+            break;
+        }
+
+        case 'delay': {
+            await new Promise((res) => setTimeout(res, parseDuration(payload.fields.duration)));
+            if (payload.fields.next) runFlow(payload.fields.next, senderId, pageId);
+            break;
+        }
+
+        case 'set_variable': {
+            const user = userStore.getUser(pageId, senderId);
+
+            if (!user) {
+                console.log('User not found in set variable');
+                endFlowHandller(pageId, senderId);
+                return;
+            }
+            user.variables[payload.fields.key] = payload.fields.value;
+            console.log(`[Set Variable] ${payload.fields.key} = ${payload.fields.value}`);
+            if (payload.fields.next) runFlow(payload.fields.next, senderId, pageId);
+            break;
+        }
+    }
+}

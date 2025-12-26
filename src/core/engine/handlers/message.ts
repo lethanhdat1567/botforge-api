@@ -7,6 +7,7 @@ import {
     sendSenderAction,
     sendTextMessage
 } from '~/core/services/services';
+import endFlowHandller from '~/core/engine/handlers/endFlow';
 
 export async function handleMessageNode(node: MessageNode, senderId: string, pageId: string) {
     const payload = node.payload;
@@ -41,5 +42,9 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
     }
 
     const nextNodeId = node.children?.next;
-    if (nextNodeId) runFlow(nextNodeId, senderId, pageId);
+    if (nextNodeId) {
+        runFlow(nextNodeId, senderId, pageId);
+    } else {
+        endFlowHandller(pageId, senderId);
+    }
 }

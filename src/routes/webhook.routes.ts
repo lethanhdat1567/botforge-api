@@ -1,5 +1,8 @@
 import express from 'express';
 import { runFlow } from '~/core/engine/engine';
+import endFlowHandller from '~/core/engine/handlers/endFlow';
+import { mockFlow } from '~/core/flows/test.flow';
+import { sendTextMessage } from '~/core/services/services';
 import userStore from '~/core/store/userStore';
 import { facebookWebhookMiddleware, FbRequest } from '~/middlewares/facebookWebhook.middleware';
 
@@ -24,36 +27,26 @@ router.post('/', facebookWebhookMiddleware, async (req: FbRequest, res) => {
         const senderId = event.senderId;
         const pageId = event.pageId;
         const user = userStore.getUser(pageId, senderId);
-        // // ------ XỬ LÝ PENDING VARIABLE ------
-        // if (user?.getPendingVariable()) {
-        //     const pending = user.getPendingVariable()!;
-        //     const text = event.message?.text;
-        //     if (text) {
-        //         const success = user.setPendingValue(pending.key, text);
-        //         if (success) {
-        //             // Chạy node tiếp theo nếu có
-        //             if (pending.next) {
-        //                 await runFlow(pending.next, senderId, pageId);
-        //             }
-        //         } else {
-        //             // Nếu value không hợp lệ, có thể gửi fallback
-        //             if (pending.fallback) {
-        //                 await runFlow(pending.fallback, senderId, pageId);
-        //             }
-        //         }
-        //         continue; // đã xử lý pending, bỏ qua flow bình thường
-        //     }
-        // }
 
+        if (user?.pendingVariables?.isExpired) {
+            console.log('Da het han');
+            endFlowHandller(pageId, senderId);
+            return;
+        }
         // ------ TEXT MESSAGE ------
         if (event.type === 'message') {
             const msg = event.message;
             // ------ RESPONSE ------
+            // QUICK REPLY
             if (msg.quick_reply) {
                 try {
                     const payload = JSON.parse(msg.quick_reply.payload);
+                    user?.setVariableValue(payload.key, payload.value);
+                    // Check next
                     if (payload.next) {
                         await runFlow(payload.next, senderId, pageId);
+                    } else {
+                        endFlowHandller(pageId, senderId);
                     }
                 } catch (err) {
                     console.error('Invalid quick reply payload', err);
@@ -63,8 +56,26 @@ router.post('/', facebookWebhookMiddleware, async (req: FbRequest, res) => {
             else {
                 if (msg.text === 'init') {
                     userStore.add(pageId, senderId);
-                    await runFlow('node1', senderId, pageId);
+                    await runFlow('start', senderId, pageId);
                     return;
+                } else {
+                    const currentNode = user?.flowId ? mockFlow[user.flowId] : null;
+                    const pendingVariable = user?.getPendingVariable();
+                    if (pendingVariable?.regex) {
+                        if (!pendingVariable.validate(msg.text)) {
+                            await sendTextMessage(senderId, 'Invalid input. Please try again.');
+                            runFlow(currentNode?.id as string, senderId, pageId);
+                            return;
+                        }
+                    }
+                    user?.setVariableValue(pendingVariable?.key || '', msg.text);
+
+                    // Check next
+                    if (currentNode && currentNode.children) {
+                        await runFlow(currentNode.children.next, senderId, pageId);
+                    } else {
+                        endFlowHandller(pageId, senderId);
+                    }
                 }
             }
         }
@@ -74,9 +85,11 @@ router.post('/', facebookWebhookMiddleware, async (req: FbRequest, res) => {
         else if (event.type === 'postback') {
             try {
                 const payload = JSON.parse(event.postback.payload);
-
+                user?.setVariableValue(payload.key, payload.value);
                 if (payload.next) {
                     await runFlow(payload.next, senderId, pageId);
+                } else {
+                    endFlowHandller(pageId, senderId);
                 }
             } catch (err) {
                 console.error('Invalid postback payload', err);

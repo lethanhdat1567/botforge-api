@@ -21,7 +21,7 @@ export class UserItem {
     }
 
     // Set giá trị cho pending variable, merge vào variables
-    setPendingValue(key: string, value: string): boolean {
+    setVariableValue(key: string, value: string): boolean {
         if (!this.pendingVariables) return false;
         if (this.pendingVariables.key !== key) return false;
 
@@ -39,5 +39,9 @@ export class UserItem {
     // Lấy pending variable hiện tại (nếu có)
     getPendingVariable(): PendingVariable | null {
         return this.pendingVariables;
+    }
+
+    getVariable(key: string): string | undefined {
+        return this.variables[key];
     }
 }

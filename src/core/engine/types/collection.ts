@@ -1,3 +1,5 @@
+import { ButtonNode } from '~/core/engine/types/button';
+
 export type CollectionType = 'collection';
 
 export type CollectionVariableType = 'text' | 'number' | 'email' | 'phone' | 'custom';
@@ -5,12 +7,16 @@ export type CollectionVariableType = 'text' | 'number' | 'email' | 'phone' | 'cu
 export interface CollectionData {
     type: CollectionType;
     fields: {
-        type: CollectionVariableType;
-        key: string;
-        value?: any;
-        regex?: string;
-        fallback: string;
-        timeout: string;
+        text: string;
+        buttons: ButtonNode[];
+        variable: {
+            type: CollectionVariableType;
+            key: string;
+            value?: any;
+            regex?: string;
+            fallback: string;
+            timeout: string;
+        };
     };
 }
 

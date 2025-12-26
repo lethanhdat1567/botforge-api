@@ -7,6 +7,7 @@ export class PendingVariable {
     fallback?: string;
     timeout?: number;
     value?: string;
+    expiresAt?: number;
 
     constructor(params: {
         key: string;
@@ -21,6 +22,9 @@ export class PendingVariable {
         this.timeout = params.timeout;
         this.value = undefined;
         this.type = params.type;
+        if (params.timeout) {
+            this.expiresAt = Date.now() + params.timeout;
+        }
     }
 
     // Validate giá trị input theo regex nếu có
@@ -36,5 +40,10 @@ export class PendingVariable {
             return true;
         }
         return false;
+    }
+
+    isExpired(): boolean {
+        if (!this.expiresAt) return false;
+        return Date.now() > this.expiresAt;
     }
 }
