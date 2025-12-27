@@ -112,28 +112,30 @@ enum Platform {
 // =====================
 // UserFlowState
 // =====================
+enum UserFlowStatus {
+  running
+  pending
+  cancelled
+  completed
+}
+
 model UserFlowState {
-  id                String         @id @default(uuid()) @map("id")
-  platformUserId    String         @map("platform_user_id")
-  ownerUserId       String         @map("owner_user_id")
-  flowId            String         @map("flow_id")
-  currentStep       String         @map("current_step")
-  variables         Json?          @map("variables")
-  status            UserFlowStatus @default(active) @map("status")
-  lastInteractionAt DateTime       @default(now()) @map("last_interaction_at")
-  createdAt         DateTime       @default(now()) @map("created_at")
-  updatedAt         DateTime       @default(now()) @map("updated_at")
+  id             String         @id @default(uuid()) @map("id")
+  platformUserId String         @map("platform_user_id")
+  ownerUserId    String         @map("owner_user_id")
+  flowId         String         @map("flow_id")
+  pageId         String         @map("page_id")
+  currentStep    String         @map("current_step")
+  stepHistory    Json?          @map("step_history")
+  variables      Json?          @map("variables")
+  status         UserFlowStatus @default(running) @map("status")
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
 
   owner User @relation(fields: [ownerUserId], references: [id], name: "Owner_UserFlowState")
   flow  Flow @relation(fields: [flowId], references: [id])
 
   @@map("user_flow_states")
-}
-
-enum UserFlowStatus {
-  active
-  done
-  cancelled
 }
 
 // =====================

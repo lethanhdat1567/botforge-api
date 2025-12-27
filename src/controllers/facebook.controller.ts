@@ -9,7 +9,8 @@ import {
     runNextOrEnd,
     setPostbackVariablePayload
 } from '~/core/facebook/engine/handlers/flow';
-import { testTemplateFlow } from '~/core/facebook/flows/template.flow';
+import userFlowStateModel from '~/models/userFlowState.model';
+import { mockFlow } from '~/core/facebook/flows/test.flow';
 
 class FacebookController {
     // Verify webhook
@@ -50,6 +51,8 @@ class FacebookController {
             // Check expired flow
             if (user?.pendingVariables?.isExpired()) {
                 endFlowHandller(pageId, senderId);
+
+                userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'cancelled' });
                 return;
             }
 
@@ -81,6 +84,15 @@ class FacebookController {
                     if (msg.text === 'init') {
                         userStore.add(pageId, senderId);
                         user?.updateFlowStatus('running');
+                        userFlowStateModel.create({
+                            platformUserId: senderId,
+                            ownerUserId: '56e0aab0-545a-481d-a26e-1f8c572a6709',
+                            flowId: 'asdsadasd',
+                            currentStep: 'start',
+                            status: 'running',
+                            pageId: pageId
+                        });
+
                         runFlow('start', senderId, pageId);
                         return;
                     }
@@ -89,7 +101,7 @@ class FacebookController {
                         const pendingVariable = user?.getPendingVariable();
                         // Set pending variable
                         if (pendingVariable) {
-                            const currentNode = user?.flowId ? testTemplateFlow[user.flowId] : null;
+                            const currentNode = user?.flowId ? mockFlow[user.flowId] : null;
                             handleSavePendingVariable(pendingVariable, msg, currentNode, senderId, pageId, user);
                         }
                         // Fallback
@@ -107,7 +119,7 @@ class FacebookController {
                 try {
                     const payload = JSON.parse(event.postback.payload);
                     setPostbackVariablePayload(payload, user);
-                    runNextOrEnd(payload.nextId, senderId, pageId);
+                    runNextOrEnd(payload.next, senderId, pageId);
                     return;
                 } catch (err) {
                     console.error('Invalid postback payload', err);

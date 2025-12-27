@@ -6,16 +6,18 @@ import { CollectionNode } from '~/core/facebook/engine/types/collection';
 import userStore from '~/core/facebook/store/userStore';
 import { handleActionNode } from '~/core/facebook/engine/handlers/action';
 import { MessageNode } from '~/core/facebook/engine/types/message';
-import { testTemplateFlow } from '~/core/facebook/flows/template.flow';
+import userFlowStateModel from '~/models/userFlowState.model';
+import { mockFlow } from '~/core/facebook/flows/test.flow';
 
 export async function runFlow(nodeId: string, senderId: string, pageId: string) {
-    const node: Node = testTemplateFlow[nodeId];
+    const node: Node = mockFlow[nodeId];
     if (!node) {
         console.warn('Node not found:', nodeId);
         return;
     }
 
     userStore.updateFlow(pageId, senderId, nodeId);
+    userFlowStateModel.appendStepByPlatformAndPage(senderId, pageId, nodeId);
     console.log(`[NODE START] ${node.id} (${node.category})`);
 
     switch (node.category) {

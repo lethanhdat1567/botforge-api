@@ -98,9 +98,10 @@ export type Platform = (typeof Platform)[keyof typeof Platform]
 
 
 export const UserFlowStatus: {
-  active: 'active',
-  done: 'done',
-  cancelled: 'cancelled'
+  running: 'running',
+  pending: 'pending',
+  cancelled: 'cancelled',
+  completed: 'completed'
 };
 
 export type UserFlowStatus = (typeof UserFlowStatus)[keyof typeof UserFlowStatus]
@@ -5954,9 +5955,9 @@ export namespace Prisma {
     platformUserId: string | null
     ownerUserId: string | null
     flowId: string | null
+    pageId: string | null
     currentStep: string | null
     status: $Enums.UserFlowStatus | null
-    lastInteractionAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5966,9 +5967,9 @@ export namespace Prisma {
     platformUserId: string | null
     ownerUserId: string | null
     flowId: string | null
+    pageId: string | null
     currentStep: string | null
     status: $Enums.UserFlowStatus | null
-    lastInteractionAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5978,10 +5979,11 @@ export namespace Prisma {
     platformUserId: number
     ownerUserId: number
     flowId: number
+    pageId: number
     currentStep: number
+    stepHistory: number
     variables: number
     status: number
-    lastInteractionAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5993,9 +5995,9 @@ export namespace Prisma {
     platformUserId?: true
     ownerUserId?: true
     flowId?: true
+    pageId?: true
     currentStep?: true
     status?: true
-    lastInteractionAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6005,9 +6007,9 @@ export namespace Prisma {
     platformUserId?: true
     ownerUserId?: true
     flowId?: true
+    pageId?: true
     currentStep?: true
     status?: true
-    lastInteractionAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6017,10 +6019,11 @@ export namespace Prisma {
     platformUserId?: true
     ownerUserId?: true
     flowId?: true
+    pageId?: true
     currentStep?: true
+    stepHistory?: true
     variables?: true
     status?: true
-    lastInteractionAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6103,10 +6106,11 @@ export namespace Prisma {
     platformUserId: string
     ownerUserId: string
     flowId: string
+    pageId: string
     currentStep: string
+    stepHistory: JsonValue | null
     variables: JsonValue | null
     status: $Enums.UserFlowStatus
-    lastInteractionAt: Date
     createdAt: Date
     updatedAt: Date
     _count: UserFlowStateCountAggregateOutputType | null
@@ -6133,10 +6137,11 @@ export namespace Prisma {
     platformUserId?: boolean
     ownerUserId?: boolean
     flowId?: boolean
+    pageId?: boolean
     currentStep?: boolean
+    stepHistory?: boolean
     variables?: boolean
     status?: boolean
-    lastInteractionAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
@@ -6150,15 +6155,16 @@ export namespace Prisma {
     platformUserId?: boolean
     ownerUserId?: boolean
     flowId?: boolean
+    pageId?: boolean
     currentStep?: boolean
+    stepHistory?: boolean
     variables?: boolean
     status?: boolean
-    lastInteractionAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserFlowStateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "platformUserId" | "ownerUserId" | "flowId" | "currentStep" | "variables" | "status" | "lastInteractionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["userFlowState"]>
+  export type UserFlowStateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "platformUserId" | "ownerUserId" | "flowId" | "pageId" | "currentStep" | "stepHistory" | "variables" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["userFlowState"]>
   export type UserFlowStateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     flow?: boolean | FlowDefaultArgs<ExtArgs>
@@ -6175,10 +6181,11 @@ export namespace Prisma {
       platformUserId: string
       ownerUserId: string
       flowId: string
+      pageId: string
       currentStep: string
+      stepHistory: Prisma.JsonValue | null
       variables: Prisma.JsonValue | null
       status: $Enums.UserFlowStatus
-      lastInteractionAt: Date
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["userFlowState"]>
@@ -6556,10 +6563,11 @@ export namespace Prisma {
     readonly platformUserId: FieldRef<"UserFlowState", 'String'>
     readonly ownerUserId: FieldRef<"UserFlowState", 'String'>
     readonly flowId: FieldRef<"UserFlowState", 'String'>
+    readonly pageId: FieldRef<"UserFlowState", 'String'>
     readonly currentStep: FieldRef<"UserFlowState", 'String'>
+    readonly stepHistory: FieldRef<"UserFlowState", 'Json'>
     readonly variables: FieldRef<"UserFlowState", 'Json'>
     readonly status: FieldRef<"UserFlowState", 'UserFlowStatus'>
-    readonly lastInteractionAt: FieldRef<"UserFlowState", 'DateTime'>
     readonly createdAt: FieldRef<"UserFlowState", 'DateTime'>
     readonly updatedAt: FieldRef<"UserFlowState", 'DateTime'>
   }
@@ -10983,10 +10991,11 @@ export namespace Prisma {
     platformUserId: 'platformUserId',
     ownerUserId: 'ownerUserId',
     flowId: 'flowId',
+    pageId: 'pageId',
     currentStep: 'currentStep',
+    stepHistory: 'stepHistory',
     variables: 'variables',
     status: 'status',
-    lastInteractionAt: 'lastInteractionAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11141,6 +11150,7 @@ export namespace Prisma {
     platformUserId: 'platformUserId',
     ownerUserId: 'ownerUserId',
     flowId: 'flowId',
+    pageId: 'pageId',
     currentStep: 'currentStep'
   };
 
@@ -11610,10 +11620,11 @@ export namespace Prisma {
     platformUserId?: StringFilter<"UserFlowState"> | string
     ownerUserId?: StringFilter<"UserFlowState"> | string
     flowId?: StringFilter<"UserFlowState"> | string
+    pageId?: StringFilter<"UserFlowState"> | string
     currentStep?: StringFilter<"UserFlowState"> | string
+    stepHistory?: JsonNullableFilter<"UserFlowState">
     variables?: JsonNullableFilter<"UserFlowState">
     status?: EnumUserFlowStatusFilter<"UserFlowState"> | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFilter<"UserFlowState"> | Date | string
     createdAt?: DateTimeFilter<"UserFlowState"> | Date | string
     updatedAt?: DateTimeFilter<"UserFlowState"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11625,10 +11636,11 @@ export namespace Prisma {
     platformUserId?: SortOrder
     ownerUserId?: SortOrder
     flowId?: SortOrder
+    pageId?: SortOrder
     currentStep?: SortOrder
+    stepHistory?: SortOrderInput | SortOrder
     variables?: SortOrderInput | SortOrder
     status?: SortOrder
-    lastInteractionAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     owner?: UserOrderByWithRelationInput
@@ -11644,10 +11656,11 @@ export namespace Prisma {
     platformUserId?: StringFilter<"UserFlowState"> | string
     ownerUserId?: StringFilter<"UserFlowState"> | string
     flowId?: StringFilter<"UserFlowState"> | string
+    pageId?: StringFilter<"UserFlowState"> | string
     currentStep?: StringFilter<"UserFlowState"> | string
+    stepHistory?: JsonNullableFilter<"UserFlowState">
     variables?: JsonNullableFilter<"UserFlowState">
     status?: EnumUserFlowStatusFilter<"UserFlowState"> | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFilter<"UserFlowState"> | Date | string
     createdAt?: DateTimeFilter<"UserFlowState"> | Date | string
     updatedAt?: DateTimeFilter<"UserFlowState"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11659,10 +11672,11 @@ export namespace Prisma {
     platformUserId?: SortOrder
     ownerUserId?: SortOrder
     flowId?: SortOrder
+    pageId?: SortOrder
     currentStep?: SortOrder
+    stepHistory?: SortOrderInput | SortOrder
     variables?: SortOrderInput | SortOrder
     status?: SortOrder
-    lastInteractionAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserFlowStateCountOrderByAggregateInput
@@ -11678,10 +11692,11 @@ export namespace Prisma {
     platformUserId?: StringWithAggregatesFilter<"UserFlowState"> | string
     ownerUserId?: StringWithAggregatesFilter<"UserFlowState"> | string
     flowId?: StringWithAggregatesFilter<"UserFlowState"> | string
+    pageId?: StringWithAggregatesFilter<"UserFlowState"> | string
     currentStep?: StringWithAggregatesFilter<"UserFlowState"> | string
+    stepHistory?: JsonNullableWithAggregatesFilter<"UserFlowState">
     variables?: JsonNullableWithAggregatesFilter<"UserFlowState">
     status?: EnumUserFlowStatusWithAggregatesFilter<"UserFlowState"> | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeWithAggregatesFilter<"UserFlowState"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"UserFlowState"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserFlowState"> | Date | string
   }
@@ -12325,10 +12340,11 @@ export namespace Prisma {
   export type UserFlowStateCreateInput = {
     id?: string
     platformUserId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutUserFlowStatesInput
@@ -12340,10 +12356,11 @@ export namespace Prisma {
     platformUserId: string
     ownerUserId: string
     flowId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12351,10 +12368,11 @@ export namespace Prisma {
   export type UserFlowStateUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutUserFlowStatesNestedInput
@@ -12366,10 +12384,11 @@ export namespace Prisma {
     platformUserId?: StringFieldUpdateOperationsInput | string
     ownerUserId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12379,10 +12398,11 @@ export namespace Prisma {
     platformUserId: string
     ownerUserId: string
     flowId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12390,10 +12410,11 @@ export namespace Prisma {
   export type UserFlowStateUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12403,10 +12424,11 @@ export namespace Prisma {
     platformUserId?: StringFieldUpdateOperationsInput | string
     ownerUserId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13187,10 +13209,11 @@ export namespace Prisma {
     platformUserId?: SortOrder
     ownerUserId?: SortOrder
     flowId?: SortOrder
+    pageId?: SortOrder
     currentStep?: SortOrder
+    stepHistory?: SortOrder
     variables?: SortOrder
     status?: SortOrder
-    lastInteractionAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13200,9 +13223,9 @@ export namespace Prisma {
     platformUserId?: SortOrder
     ownerUserId?: SortOrder
     flowId?: SortOrder
+    pageId?: SortOrder
     currentStep?: SortOrder
     status?: SortOrder
-    lastInteractionAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13212,9 +13235,9 @@ export namespace Prisma {
     platformUserId?: SortOrder
     ownerUserId?: SortOrder
     flowId?: SortOrder
+    pageId?: SortOrder
     currentStep?: SortOrder
     status?: SortOrder
-    lastInteractionAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14719,10 +14742,11 @@ export namespace Prisma {
   export type UserFlowStateCreateWithoutOwnerInput = {
     id?: string
     platformUserId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
     flow: FlowCreateNestedOneWithoutStatesInput
@@ -14732,10 +14756,11 @@ export namespace Prisma {
     id?: string
     platformUserId: string
     flowId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14971,10 +14996,11 @@ export namespace Prisma {
     platformUserId?: StringFilter<"UserFlowState"> | string
     ownerUserId?: StringFilter<"UserFlowState"> | string
     flowId?: StringFilter<"UserFlowState"> | string
+    pageId?: StringFilter<"UserFlowState"> | string
     currentStep?: StringFilter<"UserFlowState"> | string
+    stepHistory?: JsonNullableFilter<"UserFlowState">
     variables?: JsonNullableFilter<"UserFlowState">
     status?: EnumUserFlowStatusFilter<"UserFlowState"> | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFilter<"UserFlowState"> | Date | string
     createdAt?: DateTimeFilter<"UserFlowState"> | Date | string
     updatedAt?: DateTimeFilter<"UserFlowState"> | Date | string
   }
@@ -15283,10 +15309,11 @@ export namespace Prisma {
   export type UserFlowStateCreateWithoutFlowInput = {
     id?: string
     platformUserId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutUserFlowStatesInput
@@ -15296,10 +15323,11 @@ export namespace Prisma {
     id?: string
     platformUserId: string
     ownerUserId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16462,10 +16490,11 @@ export namespace Prisma {
     id?: string
     platformUserId: string
     flowId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16644,10 +16673,11 @@ export namespace Prisma {
   export type UserFlowStateUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flow?: FlowUpdateOneRequiredWithoutStatesNestedInput
@@ -16657,10 +16687,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16669,10 +16700,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16723,10 +16755,11 @@ export namespace Prisma {
     id?: string
     platformUserId: string
     ownerUserId: string
+    pageId: string
     currentStep: string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.UserFlowStatus
-    lastInteractionAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16744,10 +16777,11 @@ export namespace Prisma {
   export type UserFlowStateUpdateWithoutFlowInput = {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutUserFlowStatesNestedInput
@@ -16757,10 +16791,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
     ownerUserId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16769,10 +16804,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     platformUserId?: StringFieldUpdateOperationsInput | string
     ownerUserId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentStep?: StringFieldUpdateOperationsInput | string
+    stepHistory?: NullableJsonNullValueInput | InputJsonValue
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumUserFlowStatusFieldUpdateOperationsInput | $Enums.UserFlowStatus
-    lastInteractionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

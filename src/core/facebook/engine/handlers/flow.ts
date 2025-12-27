@@ -1,9 +1,11 @@
+import { sendEmail } from '~/config/mailer';
 import { runFlow } from '~/core/facebook/engine/engine';
 import { Node } from '~/core/facebook/engine/types/node';
 import { sendTextMessage } from '~/core/facebook/services/services';
 import { PendingVariable } from '~/core/facebook/store/components/pendingVariables';
 import { UserItem } from '~/core/facebook/store/components/userItem';
 import userStore from '~/core/facebook/store/userStore';
+import userFlowStateModel from '~/models/userFlowState.model';
 
 // ====== END FLOW ======
 export function endFlowHandller(pageId: string, senderId: string) {
@@ -12,8 +14,9 @@ export function endFlowHandller(pageId: string, senderId: string) {
     console.log('PendingValue: ', user?.getPendingVariable());
     console.log('Variables:', user?.variables);
     console.log('----------End node----------');
+    userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'completed' });
     userStore.remove(pageId, senderId);
-    console.log(userStore.getAll());
+    sendEmail('datlethanh1567@gmail.com', 'Done flow', 'Mot User da nhan tin cho ban');
 }
 
 // ====== SAVE VARIABLE AND STATUS ======
@@ -40,6 +43,7 @@ export async function handleSavePendingVariable(
             user.setVariableValue(pendingVariable.key, msg.text);
         }
         user.updateFlowStatus('running');
+        userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'running' });
 
         runNextOrEnd(currentNode?.children?.next, senderId, pageId);
     } else {
@@ -63,6 +67,7 @@ export function setPostbackVariablePayload(payload: { key?: string; value?: any 
         user?.updateFlowStatus('pending_processing');
         if (payload.key) user?.setVariableValue(payload.key, payload.value);
         user?.updateFlowStatus('running');
+        userFlowStateModel.updateByPlatformUserAndPage(user.psid, user.pageId, { status: 'running' });
     } else {
         console.log('User not found');
         return;

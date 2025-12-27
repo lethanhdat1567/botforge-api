@@ -4,7 +4,7 @@ export class UserItem {
     pageId: string;
     psid: string;
     flowId?: string;
-    flowStatus: 'pending' | 'pending_processing' | 'running';
+    flowStatus: 'pending' | 'pending_processing' | 'running' | 'cancelled' | 'completed';
     variables: Record<string, string>;
     pendingVariables: PendingVariable | null;
 

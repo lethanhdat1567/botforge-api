@@ -170,10 +170,11 @@ exports.Prisma.UserFlowStateScalarFieldEnum = {
   platformUserId: 'platformUserId',
   ownerUserId: 'ownerUserId',
   flowId: 'flowId',
+  pageId: 'pageId',
   currentStep: 'currentStep',
+  stepHistory: 'stepHistory',
   variables: 'variables',
   status: 'status',
-  lastInteractionAt: 'lastInteractionAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -283,6 +284,7 @@ exports.Prisma.UserFlowStateOrderByRelevanceFieldEnum = {
   platformUserId: 'platformUserId',
   ownerUserId: 'ownerUserId',
   flowId: 'flowId',
+  pageId: 'pageId',
   currentStep: 'currentStep'
 };
 
@@ -336,9 +338,10 @@ exports.Platform = exports.$Enums.Platform = {
 };
 
 exports.UserFlowStatus = exports.$Enums.UserFlowStatus = {
-  active: 'active',
-  done: 'done',
-  cancelled: 'cancelled'
+  running: 'running',
+  pending: 'pending',
+  cancelled: 'cancelled',
+  completed: 'completed'
 };
 
 exports.NotificationType = exports.$Enums.NotificationType = {

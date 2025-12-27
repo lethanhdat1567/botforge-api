@@ -1,5 +1,5 @@
 import { runFlow } from '~/core/facebook/engine/engine';
-import endFlowHandller from '~/core/facebook/engine/handlers/flow';
+import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
 import { ActionNode } from '~/core/facebook/engine/types/action';
 import userStore from '~/core/facebook/store/userStore';
 import { parseDuration } from '~/utils/time';

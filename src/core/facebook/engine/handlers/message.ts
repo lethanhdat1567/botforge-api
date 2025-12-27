@@ -12,7 +12,8 @@ import {
     sendTextMessage
 } from '~/core/facebook/services/services';
 import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
-import { send } from 'node:process';
+import userStore from '~/core/facebook/store/userStore';
+import userFlowStateModel from '~/models/userFlowState.model';
 
 export async function handleMessageNode(node: MessageNode, senderId: string, pageId: string) {
     const payload = node.payload;
@@ -62,6 +63,12 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
     if (nextNodeId) {
         runFlow(nextNodeId, senderId, pageId);
     } else {
-        endFlowHandller(pageId, senderId);
+        if (node.payload.type !== 'button' && node.payload.type !== 'quick_replies') {
+            endFlowHandller(pageId, senderId);
+        } else {
+            const user = userStore.getUser(pageId, senderId);
+            user?.updateFlowStatus('pending');
+            userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'pending' });
+        }
     }
 }
