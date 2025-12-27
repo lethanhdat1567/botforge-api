@@ -1,4 +1,4 @@
-import { CollectionVariableType } from '~/core/engine/types/collection';
+import { CollectionVariableType } from '~/core/facebook/engine/types/collection';
 
 export class PendingVariable {
     type: CollectionVariableType;

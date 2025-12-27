@@ -3,11 +3,16 @@ import { runFlow } from '../engine';
 import {
     sendAttachment,
     sendButtonMessage,
+    sendCouponTemplate,
+    sendGenericTemplate,
+    sendMediaTemplate,
     sendQuickReplies,
+    sendReceiptTemplate,
     sendSenderAction,
     sendTextMessage
-} from '~/core/services/services';
-import endFlowHandller from '~/core/engine/handlers/endFlow';
+} from '~/core/facebook/services/services';
+import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
+import { send } from 'node:process';
 
 export async function handleMessageNode(node: MessageNode, senderId: string, pageId: string) {
     const payload = node.payload;
@@ -38,6 +43,18 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
 
         case 'persistent_menu':
             await sendButtonMessage(senderId, payload.fields.text, payload.fields.menuItems);
+            break;
+        case 'generic_template':
+            await sendGenericTemplate(senderId, payload.fields.elements);
+            break;
+        case 'coupon_template':
+            sendCouponTemplate(senderId, payload.fields);
+            break;
+        case 'media_template':
+            sendMediaTemplate(senderId, payload.fields);
+            break;
+        case 'receipt_template':
+            await sendReceiptTemplate(senderId, payload.fields);
             break;
     }
 

@@ -1,7 +1,7 @@
-import { runFlow } from '~/core/engine/engine';
-import endFlowHandller from '~/core/engine/handlers/endFlow';
-import { ActionNode } from '~/core/engine/types/action';
-import userStore from '~/core/store/userStore';
+import { runFlow } from '~/core/facebook/engine/engine';
+import endFlowHandller from '~/core/facebook/engine/handlers/flow';
+import { ActionNode } from '~/core/facebook/engine/types/action';
+import userStore from '~/core/facebook/store/userStore';
 import { parseDuration } from '~/utils/time';
 
 export async function handleActionNode(node: ActionNode, senderId: string, pageId: string) {

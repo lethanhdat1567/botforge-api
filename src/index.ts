@@ -20,8 +20,9 @@ app.use(express.json());
 app.use(response);
 
 // Routes
-app.use('/webhook', webhookRouter);
 app.use('/api', indexRouter);
+// Facebook Webhook
+app.use('/webhook', webhookRouter);
 
 app.use(notFound);
 app.use(errorHandler);

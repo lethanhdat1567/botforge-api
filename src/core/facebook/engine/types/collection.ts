@@ -1,4 +1,4 @@
-import { ButtonNode } from '~/core/engine/types/button';
+import { ButtonNode } from '~/core/facebook/engine/types/button';
 
 export type CollectionType = 'collection';
 

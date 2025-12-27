@@ -1,7 +1,7 @@
-import { CollectionNode } from '~/core/engine/types/collection';
-import { sendButtonMessage, sendTextMessage } from '~/core/services/services';
-import { PendingVariable } from '~/core/store/components/pendingVariables';
-import userStore from '~/core/store/userStore';
+import { CollectionNode } from '~/core/facebook/engine/types/collection';
+import { sendButtonMessage, sendTextMessage } from '~/core/facebook/services/services';
+import { PendingVariable } from '~/core/facebook/store/components/pendingVariables';
+import userStore from '~/core/facebook/store/userStore';
 import { parseDuration } from '~/utils/time';
 
 export async function handleCollectionNode(node: CollectionNode, senderId: string, pageId: string) {
@@ -26,6 +26,7 @@ export async function handleCollectionNode(node: CollectionNode, senderId: strin
     });
 
     user.addPendingVariables(pendingVariable, node.id);
+    console.log(`[SET_PENDING_COLLECTION] key: ${variable.key}`);
 
     console.log('Waiting for user');
 }

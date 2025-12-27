@@ -32,6 +32,7 @@ export function facebookWebhookMiddleware(req: FbRequest, res: Response, next: N
 
             // Lọc duplicate message
             const mid = event.message?.mid;
+
             if (mid && handledMessageIds.has(mid)) return;
             if (mid) handledMessageIds.add(mid);
 

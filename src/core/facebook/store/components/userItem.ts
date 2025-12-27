@@ -1,23 +1,26 @@
-import { PendingVariable } from '~/core/store/components/pendingVariables';
+import { PendingVariable } from '~/core/facebook/store/components/pendingVariables';
 
 export class UserItem {
     pageId: string;
     psid: string;
     flowId?: string;
+    flowStatus: 'pending' | 'pending_processing' | 'running';
     variables: Record<string, string>;
-    pendingVariables: PendingVariable | null; // object duy nhất hoặc null
+    pendingVariables: PendingVariable | null;
 
     constructor(pageId: string, psid: string) {
         this.pageId = pageId;
         this.psid = psid;
         this.variables = {};
-        this.pendingVariables = null; // khởi tạo null
+        this.pendingVariables = null;
+        this.flowStatus = 'running';
     }
 
     // Thêm pending variable (start collection)
     addPendingVariables(pending: PendingVariable, flowId: string) {
         this.flowId = flowId;
         this.pendingVariables = pending;
+        this.flowStatus = 'pending';
     }
 
     // Set giá trị cho pending variable, merge vào variables
@@ -32,6 +35,7 @@ export class UserItem {
 
         // Xóa pending variable sau khi set xong
         this.pendingVariables = null;
+        this.flowStatus = 'running';
 
         return true;
     }
@@ -43,5 +47,10 @@ export class UserItem {
 
     getVariable(key: string): string | undefined {
         return this.variables[key];
+    }
+
+    updateFlowStatus(status: 'pending' | 'pending_processing' | 'running'): boolean {
+        this.flowStatus = status;
+        return true;
     }
 }

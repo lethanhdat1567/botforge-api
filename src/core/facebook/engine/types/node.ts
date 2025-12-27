@@ -1,6 +1,6 @@
-import { ActionData } from '~/core/engine/types/action';
-import { CollectionData } from '~/core/engine/types/collection';
-import { MessageData } from '~/core/engine/types/message';
+import { ActionData } from '~/core/facebook/engine/types/action';
+import { CollectionData } from '~/core/facebook/engine/types/collection';
+import { MessageData } from '~/core/facebook/engine/types/message';
 
 export type NodeCategory = 'message' | 'action' | 'collection';
 

@@ -1,4 +1,4 @@
-import { UserItem } from '~/core/store/components/userItem';
+import { UserItem } from '~/core/facebook/store/components/userItem';
 
 class UserStore {
     private store: UserItem[] = [];
