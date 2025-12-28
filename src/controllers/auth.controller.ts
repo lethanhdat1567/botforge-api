@@ -15,6 +15,7 @@ import {
 import { AuthRequest } from '~/middlewares/auth.middleware';
 import passwordResetTokenModel from '~/models/passwordResetToken.model';
 import { sendEmail } from '~/config/mailer';
+import { createNewUserNotification } from '~/helpers/notification-helper';
 
 class AuthController {
     async register(req: Request, res: any) {
@@ -46,6 +47,7 @@ class AuthController {
             const refreshTokenExpiresAt = getExpiresAt(process.env.REFRESH_EXPIRES || '7d');
 
             await refreshTokenModel.create(refreshToken, user.id, refreshTokenExpiresAt);
+            await createNewUserNotification(user.id, displayName as string, user.avatar);
 
             return res.success(
                 {
@@ -195,6 +197,7 @@ class AuthController {
                     providerId,
                     role: 'user'
                 });
+                await createNewUserNotification(user.id, displayName as string, user.avatar);
             }
 
             // Tạo token

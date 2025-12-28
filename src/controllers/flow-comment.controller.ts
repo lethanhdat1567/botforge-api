@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import { createCommentNotification, createReplyNotification } from '~/helpers/notification-helper';
 import FlowCommentModel from '~/models/flow-comment.model';
+import notificationModel from '~/models/notification.model';
 
 class FlowCommentController {
     async create(req: Request, res: Response) {
@@ -10,6 +12,14 @@ class FlowCommentController {
             if (!flowShareId || !comment) return (res as any).error('Missing required fields', 400);
 
             const newComment = await FlowCommentModel.create({ flowShareId, userId, comment, parentId });
+
+            // Save notification
+            if (parentId) {
+                await createReplyNotification(parentId, userId, flowShareId);
+            } else {
+                await createCommentNotification(flowShareId, userId);
+            }
+
             return (res as any).success(newComment, 201);
         } catch (error) {
             console.error(error);

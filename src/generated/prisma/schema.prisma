@@ -230,6 +230,8 @@ model Notification {
   userId    String           @map("user_id")
   type      NotificationType @map("type")
   message   String           @map("message")
+  avatar    String?          @map("avatar")
+  relatedId String           @map("related_id")
   read      Boolean          @default(false) @map("read")
   createdAt DateTime         @default(now()) @map("created_at")
   updatedAt DateTime         @default(now()) @map("updated_at")
@@ -242,7 +244,6 @@ model Notification {
 enum NotificationType {
   comment
   reply
-  rating
   download
   flow_done
   flow_cancelled

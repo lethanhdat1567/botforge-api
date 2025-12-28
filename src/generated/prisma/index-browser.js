@@ -223,6 +223,8 @@ exports.Prisma.NotificationScalarFieldEnum = {
   userId: 'userId',
   type: 'type',
   message: 'message',
+  avatar: 'avatar',
+  relatedId: 'relatedId',
   read: 'read',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -331,7 +333,9 @@ exports.Prisma.FlowSaveOrderByRelevanceFieldEnum = {
 exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
-  message: 'message'
+  message: 'message',
+  avatar: 'avatar',
+  relatedId: 'relatedId'
 };
 exports.Role = exports.$Enums.Role = {
   admin: 'admin',
@@ -370,7 +374,6 @@ exports.FlowShareStatus = exports.$Enums.FlowShareStatus = {
 exports.NotificationType = exports.$Enums.NotificationType = {
   comment: 'comment',
   reply: 'reply',
-  rating: 'rating',
   download: 'download',
   flow_done: 'flow_done',
   flow_cancelled: 'flow_cancelled',

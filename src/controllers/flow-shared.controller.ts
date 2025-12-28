@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { createDowloadNotification } from '~/helpers/notification-helper';
 import FlowSharedModel from '~/models/flow-shared.model';
 import { deleteFile } from '~/utils/file';
 import { buildUploadPath } from '~/utils/url';
@@ -126,6 +127,9 @@ class FlowSharedController {
             if (!flowShare) return (res as any).error({ message: 'FlowShare not found' }, 404);
 
             const newCount = await FlowSharedModel.incrementDownloadCount(id);
+
+            // Save Notification
+            await createDowloadNotification(id, (req as any).user.userId);
 
             return (res as any).success({
                 message: 'Download count updated',

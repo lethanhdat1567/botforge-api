@@ -99,6 +99,16 @@ class UserModel {
     async delete(id: string) {
         return prisma.user.delete({ where: { id } });
     }
+
+    async findAdmins() {
+        return prisma.user.findMany({
+            where: { role: 'admin' },
+            select: {
+                id: true
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+    }
 }
 
 export default new UserModel();
