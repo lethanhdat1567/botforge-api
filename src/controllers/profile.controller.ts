@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import userModel from '~/models/user.model';
+import { deleteFile } from '~/utils/file';
 import { buildUploadPath } from '~/utils/url';
 
 class ProfileController {
@@ -20,10 +21,15 @@ class ProfileController {
         }
 
         if (req.file) {
+            // Lấy user cũ để check avatar
+            const oldUser = await userModel.findById(userId);
+            if (oldUser && oldUser.avatar) {
+                deleteFile(oldUser.avatar); // xóa file avatar cũ
+            }
+
             data.avatar = buildUploadPath(req.file.filename);
         }
 
-        // nếu không có gì để update
         if (Object.keys(data).length === 0) {
             return res.success({ message: 'Nothing to update' });
         }

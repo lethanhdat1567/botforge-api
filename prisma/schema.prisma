@@ -25,8 +25,9 @@ model User {
 
   flows          Flow[]
   flowShares     FlowShare[]
-  comments       FlowComment[]
-  ratings        FlowRating[]
+  flowLikes   FlowLike[]
+  flowSave		FlowSave[]
+  flowComments       FlowComment[]
   notifications  Notification[]
   userFlowStates UserFlowState[] @relation("Owner_UserFlowState")
 	refreshTokens RefreshToken[]
@@ -53,7 +54,7 @@ model RefreshToken {
   id        String   @id @default(uuid()) @map("id")
   token     String   @unique @db.VarChar(512) @map("token")
   userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime @map("expires_at")
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -68,7 +69,7 @@ model PasswordResetToken {
   id        String   @id @default(uuid()) @map("id")
   token     String   @unique @db.VarChar(512) @map("token") // token reset password
   userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime @map("expires_at") // thời điểm hết hạn token
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -82,6 +83,8 @@ model PasswordResetToken {
 model Flow {
   id               String   @id @default(uuid()) @map("id")
   userId           String   @map("user_id")
+  pageId			String  @map("page_id")
+	pageAccessToken String   @map("page_access_token") @db.Text
   name             String   @map("name")
   description      String?  @map("description")
   status           FlowStatus @default(draft) @map("status")
@@ -89,11 +92,11 @@ model Flow {
   layoutJson       Json     @map("layout_json")
   platform         Platform @map("platform")
   timeoutDuration  String?  @map("timeout_duration")
-  timeoutText      String?  @map("timeout_text")
+  timeoutJson      Json?  @map("timeout_json")
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @default(now()) @map("updated_at")
 
-  user    User     @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   states  UserFlowState[]
   shares  FlowShare[]
 
@@ -134,8 +137,8 @@ model UserFlowState {
   createdAt      DateTime       @default(now()) @map("created_at")
   updatedAt      DateTime       @updatedAt @map("updated_at")
 
-  owner User @relation(fields: [ownerUserId], references: [id], name: "Owner_UserFlowState")
-  flow  Flow @relation(fields: [flowId], references: [id])
+  owner User @relation(fields: [ownerUserId], references: [id], name: "Owner_UserFlowState", onDelete: Cascade)
+  flow  Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
 
   @@map("user_flow_states")
 }
@@ -144,58 +147,83 @@ model UserFlowState {
 // FlowShare
 // =====================
 model FlowShare {
-  id            String @id @default(uuid()) @map("id")
-  flowId        String @map("flow_id")
-  userId        String @map("user_id")
-  name          String @map("name")
-  description   String? @map("description")
-  downloadCount Int    @default(0) @map("download_count")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @default(now()) @map("updated_at")
+  id            String       @id @default(uuid()) @map("id")
+  flowId        String       @map("flow_id")
+  userId        String       @map("user_id")
+  name          String       @map("name")
+  description   String?      @map("description")
+  thumbnail     String?       @map("thumbnail")
+  status        FlowShareStatus @default(active) @map("status") 
+  downloadCount Int          @default(0) @map("download_count")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @default(now()) @updatedAt @map("updated_at")
 
-  flow    Flow @relation(fields: [flowId], references: [id])
-  user    User @relation(fields: [userId], references: [id])
-  ratings FlowRating[]
-  comments FlowComment[]
+  flow    Flow         @relation(fields: [flowId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments FlowComment[] 
+  likes    FlowLike[]    
+  saves    FlowSave[]    
 
   @@map("flow_shares")
 }
 
-// =====================
-// FlowRating
-// =====================
-model FlowRating {
-  id            String @id @default(uuid()) @map("id")
-  flowShareId   String @map("flow_share_id")
-  userId        String @map("user_id")
-  rating        Int    @map("rating")
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  flowShare FlowShare @relation(fields: [flowShareId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
-
-  @@map("flow_ratings")
+enum FlowShareStatus {
+  active
+  inactive
 }
 
 // =====================
 // FlowComment
 // =====================
 model FlowComment {
-  id            String @id @default(uuid()) @map("id")
-  flowShareId   String @map("flow_share_id")
-  userId        String @map("user_id")
-  comment       String @map("comment")
-  parentId      String? @map("parent_id")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @default(now()) @map("updated_at")
+  id          String       @id @default(uuid()) @map("id")
+  flowShareId String       @map("flow_share_id")
+  userId      String       @map("user_id")
+  comment     String       @map("comment")
+  parentId    String?      @map("parent_id")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at")
 
-  flowShare FlowShare @relation(fields: [flowShareId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
-  parent    FlowComment? @relation("CommentReplies", fields: [parentId], references: [id])
+  flowShare FlowShare    @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent    FlowComment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies   FlowComment[] @relation("CommentReplies")
 
   @@map("flow_comments")
 }
+
+// =====================
+// FlowLike
+// =====================
+model FlowLike {
+  id          String     @id @default(uuid())
+  flowShareId String
+  userId      String
+  createdAt   DateTime   @default(now())
+
+  flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([flowShareId, userId]) // mỗi user chỉ like 1 lần
+  @@map("flow_likes")
+}
+
+// =====================
+// FlowSave
+// =====================
+model FlowSave {
+  id          String     @id @default(uuid())
+  flowShareId String
+  userId      String
+  createdAt   DateTime   @default(now())
+
+  flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([flowShareId, userId]) // mỗi user chỉ save 1 lần
+  @@map("flow_saves")
+}
+
 
 // =====================
 // Notification
@@ -209,7 +237,7 @@ model Notification {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id])
+   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("notifications")
 }

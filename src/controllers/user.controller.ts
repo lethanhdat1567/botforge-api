@@ -1,3 +1,4 @@
+import { deleteFile } from '~/utils/file';
 import UserModel from '../models/user.model';
 import { Role } from '@prisma/client';
 
@@ -53,6 +54,16 @@ class UserController {
     async remove(req: any, res: any) {
         const { id } = req.params;
 
+        // Lấy user cũ để kiểm tra avatar
+        const oldUser = await UserModel.findById(id);
+        if (!oldUser) return res.error({ message: 'User not found' }, 404);
+
+        // Xóa avatar nếu tồn tại
+        if (oldUser.avatar) {
+            deleteFile(oldUser.avatar);
+        }
+
+        // Xóa record user
         await UserModel.delete(id);
 
         return res.success({ message: 'User deleted' });

@@ -153,6 +153,8 @@ exports.Prisma.PasswordResetTokenScalarFieldEnum = {
 exports.Prisma.FlowScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  pageId: 'pageId',
+  pageAccessToken: 'pageAccessToken',
   name: 'name',
   description: 'description',
   status: 'status',
@@ -160,7 +162,7 @@ exports.Prisma.FlowScalarFieldEnum = {
   layoutJson: 'layoutJson',
   platform: 'platform',
   timeoutDuration: 'timeoutDuration',
-  timeoutText: 'timeoutText',
+  timeoutJson: 'timeoutJson',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -185,17 +187,11 @@ exports.Prisma.FlowShareScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   description: 'description',
+  thumbnail: 'thumbnail',
+  status: 'status',
   downloadCount: 'downloadCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.FlowRatingScalarFieldEnum = {
-  id: 'id',
-  flowShareId: 'flowShareId',
-  userId: 'userId',
-  rating: 'rating',
-  createdAt: 'createdAt'
 };
 
 exports.Prisma.FlowCommentScalarFieldEnum = {
@@ -206,6 +202,20 @@ exports.Prisma.FlowCommentScalarFieldEnum = {
   parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FlowLikeScalarFieldEnum = {
+  id: 'id',
+  flowShareId: 'flowShareId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FlowSaveScalarFieldEnum = {
+  id: 'id',
+  flowShareId: 'flowShareId',
+  userId: 'userId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
@@ -273,10 +283,11 @@ exports.Prisma.QueryMode = {
 exports.Prisma.FlowOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
+  pageId: 'pageId',
+  pageAccessToken: 'pageAccessToken',
   name: 'name',
   description: 'description',
-  timeoutDuration: 'timeoutDuration',
-  timeoutText: 'timeoutText'
+  timeoutDuration: 'timeoutDuration'
 };
 
 exports.Prisma.UserFlowStateOrderByRelevanceFieldEnum = {
@@ -293,13 +304,8 @@ exports.Prisma.FlowShareOrderByRelevanceFieldEnum = {
   flowId: 'flowId',
   userId: 'userId',
   name: 'name',
-  description: 'description'
-};
-
-exports.Prisma.FlowRatingOrderByRelevanceFieldEnum = {
-  id: 'id',
-  flowShareId: 'flowShareId',
-  userId: 'userId'
+  description: 'description',
+  thumbnail: 'thumbnail'
 };
 
 exports.Prisma.FlowCommentOrderByRelevanceFieldEnum = {
@@ -308,6 +314,18 @@ exports.Prisma.FlowCommentOrderByRelevanceFieldEnum = {
   userId: 'userId',
   comment: 'comment',
   parentId: 'parentId'
+};
+
+exports.Prisma.FlowLikeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  flowShareId: 'flowShareId',
+  userId: 'userId'
+};
+
+exports.Prisma.FlowSaveOrderByRelevanceFieldEnum = {
+  id: 'id',
+  flowShareId: 'flowShareId',
+  userId: 'userId'
 };
 
 exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
@@ -344,6 +362,11 @@ exports.UserFlowStatus = exports.$Enums.UserFlowStatus = {
   completed: 'completed'
 };
 
+exports.FlowShareStatus = exports.$Enums.FlowShareStatus = {
+  active: 'active',
+  inactive: 'inactive'
+};
+
 exports.NotificationType = exports.$Enums.NotificationType = {
   comment: 'comment',
   reply: 'reply',
@@ -362,8 +385,9 @@ exports.Prisma.ModelName = {
   Flow: 'Flow',
   UserFlowState: 'UserFlowState',
   FlowShare: 'FlowShare',
-  FlowRating: 'FlowRating',
   FlowComment: 'FlowComment',
+  FlowLike: 'FlowLike',
+  FlowSave: 'FlowSave',
   Notification: 'Notification'
 };
 

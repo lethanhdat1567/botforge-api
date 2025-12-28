@@ -44,15 +44,20 @@ export type UserFlowState = $Result.DefaultSelection<Prisma.$UserFlowStatePayloa
  */
 export type FlowShare = $Result.DefaultSelection<Prisma.$FlowSharePayload>
 /**
- * Model FlowRating
- * 
- */
-export type FlowRating = $Result.DefaultSelection<Prisma.$FlowRatingPayload>
-/**
  * Model FlowComment
  * 
  */
 export type FlowComment = $Result.DefaultSelection<Prisma.$FlowCommentPayload>
+/**
+ * Model FlowLike
+ * 
+ */
+export type FlowLike = $Result.DefaultSelection<Prisma.$FlowLikePayload>
+/**
+ * Model FlowSave
+ * 
+ */
+export type FlowSave = $Result.DefaultSelection<Prisma.$FlowSavePayload>
 /**
  * Model Notification
  * 
@@ -107,6 +112,14 @@ export const UserFlowStatus: {
 export type UserFlowStatus = (typeof UserFlowStatus)[keyof typeof UserFlowStatus]
 
 
+export const FlowShareStatus: {
+  active: 'active',
+  inactive: 'inactive'
+};
+
+export type FlowShareStatus = (typeof FlowShareStatus)[keyof typeof FlowShareStatus]
+
+
 export const NotificationType: {
   comment: 'comment',
   reply: 'reply',
@@ -141,6 +154,10 @@ export const Platform: typeof $Enums.Platform
 export type UserFlowStatus = $Enums.UserFlowStatus
 
 export const UserFlowStatus: typeof $Enums.UserFlowStatus
+
+export type FlowShareStatus = $Enums.FlowShareStatus
+
+export const FlowShareStatus: typeof $Enums.FlowShareStatus
 
 export type NotificationType = $Enums.NotificationType
 
@@ -324,16 +341,6 @@ export class PrismaClient<
   get flowShare(): Prisma.FlowShareDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.flowRating`: Exposes CRUD operations for the **FlowRating** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more FlowRatings
-    * const flowRatings = await prisma.flowRating.findMany()
-    * ```
-    */
-  get flowRating(): Prisma.FlowRatingDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.flowComment`: Exposes CRUD operations for the **FlowComment** model.
     * Example usage:
     * ```ts
@@ -342,6 +349,26 @@ export class PrismaClient<
     * ```
     */
   get flowComment(): Prisma.FlowCommentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.flowLike`: Exposes CRUD operations for the **FlowLike** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FlowLikes
+    * const flowLikes = await prisma.flowLike.findMany()
+    * ```
+    */
+  get flowLike(): Prisma.FlowLikeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.flowSave`: Exposes CRUD operations for the **FlowSave** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FlowSaves
+    * const flowSaves = await prisma.flowSave.findMany()
+    * ```
+    */
+  get flowSave(): Prisma.FlowSaveDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
@@ -792,8 +819,9 @@ export namespace Prisma {
     Flow: 'Flow',
     UserFlowState: 'UserFlowState',
     FlowShare: 'FlowShare',
-    FlowRating: 'FlowRating',
     FlowComment: 'FlowComment',
+    FlowLike: 'FlowLike',
+    FlowSave: 'FlowSave',
     Notification: 'Notification'
   };
 
@@ -810,7 +838,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "passwordResetToken" | "flow" | "userFlowState" | "flowShare" | "flowRating" | "flowComment" | "notification"
+      modelProps: "user" | "refreshToken" | "passwordResetToken" | "flow" | "userFlowState" | "flowShare" | "flowComment" | "flowLike" | "flowSave" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1210,72 +1238,6 @@ export namespace Prisma {
           }
         }
       }
-      FlowRating: {
-        payload: Prisma.$FlowRatingPayload<ExtArgs>
-        fields: Prisma.FlowRatingFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.FlowRatingFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.FlowRatingFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload>
-          }
-          findFirst: {
-            args: Prisma.FlowRatingFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.FlowRatingFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload>
-          }
-          findMany: {
-            args: Prisma.FlowRatingFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload>[]
-          }
-          create: {
-            args: Prisma.FlowRatingCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload>
-          }
-          createMany: {
-            args: Prisma.FlowRatingCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.FlowRatingDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload>
-          }
-          update: {
-            args: Prisma.FlowRatingUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload>
-          }
-          deleteMany: {
-            args: Prisma.FlowRatingDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.FlowRatingUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.FlowRatingUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FlowRatingPayload>
-          }
-          aggregate: {
-            args: Prisma.FlowRatingAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateFlowRating>
-          }
-          groupBy: {
-            args: Prisma.FlowRatingGroupByArgs<ExtArgs>
-            result: $Utils.Optional<FlowRatingGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.FlowRatingCountArgs<ExtArgs>
-            result: $Utils.Optional<FlowRatingCountAggregateOutputType> | number
-          }
-        }
-      }
       FlowComment: {
         payload: Prisma.$FlowCommentPayload<ExtArgs>
         fields: Prisma.FlowCommentFieldRefs
@@ -1339,6 +1301,138 @@ export namespace Prisma {
           count: {
             args: Prisma.FlowCommentCountArgs<ExtArgs>
             result: $Utils.Optional<FlowCommentCountAggregateOutputType> | number
+          }
+        }
+      }
+      FlowLike: {
+        payload: Prisma.$FlowLikePayload<ExtArgs>
+        fields: Prisma.FlowLikeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FlowLikeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FlowLikeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload>
+          }
+          findFirst: {
+            args: Prisma.FlowLikeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FlowLikeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload>
+          }
+          findMany: {
+            args: Prisma.FlowLikeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload>[]
+          }
+          create: {
+            args: Prisma.FlowLikeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload>
+          }
+          createMany: {
+            args: Prisma.FlowLikeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.FlowLikeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload>
+          }
+          update: {
+            args: Prisma.FlowLikeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload>
+          }
+          deleteMany: {
+            args: Prisma.FlowLikeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FlowLikeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FlowLikeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowLikePayload>
+          }
+          aggregate: {
+            args: Prisma.FlowLikeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFlowLike>
+          }
+          groupBy: {
+            args: Prisma.FlowLikeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FlowLikeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FlowLikeCountArgs<ExtArgs>
+            result: $Utils.Optional<FlowLikeCountAggregateOutputType> | number
+          }
+        }
+      }
+      FlowSave: {
+        payload: Prisma.$FlowSavePayload<ExtArgs>
+        fields: Prisma.FlowSaveFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FlowSaveFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FlowSaveFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload>
+          }
+          findFirst: {
+            args: Prisma.FlowSaveFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FlowSaveFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload>
+          }
+          findMany: {
+            args: Prisma.FlowSaveFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload>[]
+          }
+          create: {
+            args: Prisma.FlowSaveCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload>
+          }
+          createMany: {
+            args: Prisma.FlowSaveCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.FlowSaveDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload>
+          }
+          update: {
+            args: Prisma.FlowSaveUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload>
+          }
+          deleteMany: {
+            args: Prisma.FlowSaveDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FlowSaveUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FlowSaveUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowSavePayload>
+          }
+          aggregate: {
+            args: Prisma.FlowSaveAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFlowSave>
+          }
+          groupBy: {
+            args: Prisma.FlowSaveGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FlowSaveGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FlowSaveCountArgs<ExtArgs>
+            result: $Utils.Optional<FlowSaveCountAggregateOutputType> | number
           }
         }
       }
@@ -1522,8 +1616,9 @@ export namespace Prisma {
     flow?: FlowOmit
     userFlowState?: UserFlowStateOmit
     flowShare?: FlowShareOmit
-    flowRating?: FlowRatingOmit
     flowComment?: FlowCommentOmit
+    flowLike?: FlowLikeOmit
+    flowSave?: FlowSaveOmit
     notification?: NotificationOmit
   }
 
@@ -1607,8 +1702,9 @@ export namespace Prisma {
   export type UserCountOutputType = {
     flows: number
     flowShares: number
-    comments: number
-    ratings: number
+    flowLikes: number
+    flowSave: number
+    flowComments: number
     notifications: number
     userFlowStates: number
     refreshTokens: number
@@ -1618,8 +1714,9 @@ export namespace Prisma {
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     flows?: boolean | UserCountOutputTypeCountFlowsArgs
     flowShares?: boolean | UserCountOutputTypeCountFlowSharesArgs
-    comments?: boolean | UserCountOutputTypeCountCommentsArgs
-    ratings?: boolean | UserCountOutputTypeCountRatingsArgs
+    flowLikes?: boolean | UserCountOutputTypeCountFlowLikesArgs
+    flowSave?: boolean | UserCountOutputTypeCountFlowSaveArgs
+    flowComments?: boolean | UserCountOutputTypeCountFlowCommentsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     userFlowStates?: boolean | UserCountOutputTypeCountUserFlowStatesArgs
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
@@ -1654,15 +1751,22 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FlowCommentWhereInput
+  export type UserCountOutputTypeCountFlowLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowLikeWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FlowRatingWhereInput
+  export type UserCountOutputTypeCountFlowSaveArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowSaveWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFlowCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowCommentWhereInput
   }
 
   /**
@@ -1739,13 +1843,15 @@ export namespace Prisma {
    */
 
   export type FlowShareCountOutputType = {
-    ratings: number
     comments: number
+    likes: number
+    saves: number
   }
 
   export type FlowShareCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ratings?: boolean | FlowShareCountOutputTypeCountRatingsArgs
     comments?: boolean | FlowShareCountOutputTypeCountCommentsArgs
+    likes?: boolean | FlowShareCountOutputTypeCountLikesArgs
+    saves?: boolean | FlowShareCountOutputTypeCountSavesArgs
   }
 
   // Custom InputTypes
@@ -1762,15 +1868,22 @@ export namespace Prisma {
   /**
    * FlowShareCountOutputType without action
    */
-  export type FlowShareCountOutputTypeCountRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FlowRatingWhereInput
+  export type FlowShareCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowCommentWhereInput
   }
 
   /**
    * FlowShareCountOutputType without action
    */
-  export type FlowShareCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FlowCommentWhereInput
+  export type FlowShareCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowLikeWhereInput
+  }
+
+  /**
+   * FlowShareCountOutputType without action
+   */
+  export type FlowShareCountOutputTypeCountSavesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowSaveWhereInput
   }
 
 
@@ -2023,8 +2136,9 @@ export namespace Prisma {
     updatedAt?: boolean
     flows?: boolean | User$flowsArgs<ExtArgs>
     flowShares?: boolean | User$flowSharesArgs<ExtArgs>
-    comments?: boolean | User$commentsArgs<ExtArgs>
-    ratings?: boolean | User$ratingsArgs<ExtArgs>
+    flowLikes?: boolean | User$flowLikesArgs<ExtArgs>
+    flowSave?: boolean | User$flowSaveArgs<ExtArgs>
+    flowComments?: boolean | User$flowCommentsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     userFlowStates?: boolean | User$userFlowStatesArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
@@ -2052,8 +2166,9 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     flows?: boolean | User$flowsArgs<ExtArgs>
     flowShares?: boolean | User$flowSharesArgs<ExtArgs>
-    comments?: boolean | User$commentsArgs<ExtArgs>
-    ratings?: boolean | User$ratingsArgs<ExtArgs>
+    flowLikes?: boolean | User$flowLikesArgs<ExtArgs>
+    flowSave?: boolean | User$flowSaveArgs<ExtArgs>
+    flowComments?: boolean | User$flowCommentsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     userFlowStates?: boolean | User$userFlowStatesArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
@@ -2066,8 +2181,9 @@ export namespace Prisma {
     objects: {
       flows: Prisma.$FlowPayload<ExtArgs>[]
       flowShares: Prisma.$FlowSharePayload<ExtArgs>[]
-      comments: Prisma.$FlowCommentPayload<ExtArgs>[]
-      ratings: Prisma.$FlowRatingPayload<ExtArgs>[]
+      flowLikes: Prisma.$FlowLikePayload<ExtArgs>[]
+      flowSave: Prisma.$FlowSavePayload<ExtArgs>[]
+      flowComments: Prisma.$FlowCommentPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       userFlowStates: Prisma.$UserFlowStatePayload<ExtArgs>[]
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
@@ -2427,8 +2543,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     flows<T extends User$flowsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShares<T extends User$flowSharesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowSharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ratings<T extends User$ratingsArgs<ExtArgs> = {}>(args?: Subset<T, User$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    flowLikes<T extends User$flowLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    flowSave<T extends User$flowSaveArgs<ExtArgs> = {}>(args?: Subset<T, User$flowSaveArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    flowComments<T extends User$flowCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userFlowStates<T extends User$userFlowStatesArgs<ExtArgs> = {}>(args?: Subset<T, User$userFlowStatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserFlowStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2864,9 +2981,57 @@ export namespace Prisma {
   }
 
   /**
-   * User.comments
+   * User.flowLikes
    */
-  export type User$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$flowLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    where?: FlowLikeWhereInput
+    orderBy?: FlowLikeOrderByWithRelationInput | FlowLikeOrderByWithRelationInput[]
+    cursor?: FlowLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowLikeScalarFieldEnum | FlowLikeScalarFieldEnum[]
+  }
+
+  /**
+   * User.flowSave
+   */
+  export type User$flowSaveArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    where?: FlowSaveWhereInput
+    orderBy?: FlowSaveOrderByWithRelationInput | FlowSaveOrderByWithRelationInput[]
+    cursor?: FlowSaveWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowSaveScalarFieldEnum | FlowSaveScalarFieldEnum[]
+  }
+
+  /**
+   * User.flowComments
+   */
+  export type User$flowCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the FlowComment
      */
@@ -2885,30 +3050,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FlowCommentScalarFieldEnum | FlowCommentScalarFieldEnum[]
-  }
-
-  /**
-   * User.ratings
-   */
-  export type User$ratingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    where?: FlowRatingWhereInput
-    orderBy?: FlowRatingOrderByWithRelationInput | FlowRatingOrderByWithRelationInput[]
-    cursor?: FlowRatingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FlowRatingScalarFieldEnum | FlowRatingScalarFieldEnum[]
   }
 
   /**
@@ -4897,12 +5038,13 @@ export namespace Prisma {
   export type FlowMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    pageId: string | null
+    pageAccessToken: string | null
     name: string | null
     description: string | null
     status: $Enums.FlowStatus | null
     platform: $Enums.Platform | null
     timeoutDuration: string | null
-    timeoutText: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4910,12 +5052,13 @@ export namespace Prisma {
   export type FlowMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    pageId: string | null
+    pageAccessToken: string | null
     name: string | null
     description: string | null
     status: $Enums.FlowStatus | null
     platform: $Enums.Platform | null
     timeoutDuration: string | null
-    timeoutText: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4923,6 +5066,8 @@ export namespace Prisma {
   export type FlowCountAggregateOutputType = {
     id: number
     userId: number
+    pageId: number
+    pageAccessToken: number
     name: number
     description: number
     status: number
@@ -4930,7 +5075,7 @@ export namespace Prisma {
     layoutJson: number
     platform: number
     timeoutDuration: number
-    timeoutText: number
+    timeoutJson: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4940,12 +5085,13 @@ export namespace Prisma {
   export type FlowMinAggregateInputType = {
     id?: true
     userId?: true
+    pageId?: true
+    pageAccessToken?: true
     name?: true
     description?: true
     status?: true
     platform?: true
     timeoutDuration?: true
-    timeoutText?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4953,12 +5099,13 @@ export namespace Prisma {
   export type FlowMaxAggregateInputType = {
     id?: true
     userId?: true
+    pageId?: true
+    pageAccessToken?: true
     name?: true
     description?: true
     status?: true
     platform?: true
     timeoutDuration?: true
-    timeoutText?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4966,6 +5113,8 @@ export namespace Prisma {
   export type FlowCountAggregateInputType = {
     id?: true
     userId?: true
+    pageId?: true
+    pageAccessToken?: true
     name?: true
     description?: true
     status?: true
@@ -4973,7 +5122,7 @@ export namespace Prisma {
     layoutJson?: true
     platform?: true
     timeoutDuration?: true
-    timeoutText?: true
+    timeoutJson?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5054,6 +5203,8 @@ export namespace Prisma {
   export type FlowGroupByOutputType = {
     id: string
     userId: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description: string | null
     status: $Enums.FlowStatus
@@ -5061,7 +5212,7 @@ export namespace Prisma {
     layoutJson: JsonValue
     platform: $Enums.Platform
     timeoutDuration: string | null
-    timeoutText: string | null
+    timeoutJson: JsonValue | null
     createdAt: Date
     updatedAt: Date
     _count: FlowCountAggregateOutputType | null
@@ -5086,6 +5237,8 @@ export namespace Prisma {
   export type FlowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    pageId?: boolean
+    pageAccessToken?: boolean
     name?: boolean
     description?: boolean
     status?: boolean
@@ -5093,7 +5246,7 @@ export namespace Prisma {
     layoutJson?: boolean
     platform?: boolean
     timeoutDuration?: boolean
-    timeoutText?: boolean
+    timeoutJson?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -5107,6 +5260,8 @@ export namespace Prisma {
   export type FlowSelectScalar = {
     id?: boolean
     userId?: boolean
+    pageId?: boolean
+    pageAccessToken?: boolean
     name?: boolean
     description?: boolean
     status?: boolean
@@ -5114,12 +5269,12 @@ export namespace Prisma {
     layoutJson?: boolean
     platform?: boolean
     timeoutDuration?: boolean
-    timeoutText?: boolean
+    timeoutJson?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "description" | "status" | "logicJson" | "layoutJson" | "platform" | "timeoutDuration" | "timeoutText" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
+  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "pageAccessToken" | "name" | "description" | "status" | "logicJson" | "layoutJson" | "platform" | "timeoutDuration" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
   export type FlowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     states?: boolean | Flow$statesArgs<ExtArgs>
@@ -5137,6 +5292,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
+      pageId: string
+      pageAccessToken: string
       name: string
       description: string | null
       status: $Enums.FlowStatus
@@ -5144,7 +5301,7 @@ export namespace Prisma {
       layoutJson: Prisma.JsonValue
       platform: $Enums.Platform
       timeoutDuration: string | null
-      timeoutText: string | null
+      timeoutJson: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["flow"]>
@@ -5521,6 +5678,8 @@ export namespace Prisma {
   interface FlowFieldRefs {
     readonly id: FieldRef<"Flow", 'String'>
     readonly userId: FieldRef<"Flow", 'String'>
+    readonly pageId: FieldRef<"Flow", 'String'>
+    readonly pageAccessToken: FieldRef<"Flow", 'String'>
     readonly name: FieldRef<"Flow", 'String'>
     readonly description: FieldRef<"Flow", 'String'>
     readonly status: FieldRef<"Flow", 'FlowStatus'>
@@ -5528,7 +5687,7 @@ export namespace Prisma {
     readonly layoutJson: FieldRef<"Flow", 'Json'>
     readonly platform: FieldRef<"Flow", 'Platform'>
     readonly timeoutDuration: FieldRef<"Flow", 'String'>
-    readonly timeoutText: FieldRef<"Flow", 'String'>
+    readonly timeoutJson: FieldRef<"Flow", 'Json'>
     readonly createdAt: FieldRef<"Flow", 'DateTime'>
     readonly updatedAt: FieldRef<"Flow", 'DateTime'>
   }
@@ -6957,6 +7116,8 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     description: string | null
+    thumbnail: string | null
+    status: $Enums.FlowShareStatus | null
     downloadCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6968,6 +7129,8 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     description: string | null
+    thumbnail: string | null
+    status: $Enums.FlowShareStatus | null
     downloadCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6979,6 +7142,8 @@ export namespace Prisma {
     userId: number
     name: number
     description: number
+    thumbnail: number
+    status: number
     downloadCount: number
     createdAt: number
     updatedAt: number
@@ -7000,6 +7165,8 @@ export namespace Prisma {
     userId?: true
     name?: true
     description?: true
+    thumbnail?: true
+    status?: true
     downloadCount?: true
     createdAt?: true
     updatedAt?: true
@@ -7011,6 +7178,8 @@ export namespace Prisma {
     userId?: true
     name?: true
     description?: true
+    thumbnail?: true
+    status?: true
     downloadCount?: true
     createdAt?: true
     updatedAt?: true
@@ -7022,6 +7191,8 @@ export namespace Prisma {
     userId?: true
     name?: true
     description?: true
+    thumbnail?: true
+    status?: true
     downloadCount?: true
     createdAt?: true
     updatedAt?: true
@@ -7120,6 +7291,8 @@ export namespace Prisma {
     userId: string
     name: string
     description: string | null
+    thumbnail: string | null
+    status: $Enums.FlowShareStatus
     downloadCount: number
     createdAt: Date
     updatedAt: Date
@@ -7150,13 +7323,16 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     description?: boolean
+    thumbnail?: boolean
+    status?: boolean
     downloadCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     flow?: boolean | FlowDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    ratings?: boolean | FlowShare$ratingsArgs<ExtArgs>
     comments?: boolean | FlowShare$commentsArgs<ExtArgs>
+    likes?: boolean | FlowShare$likesArgs<ExtArgs>
+    saves?: boolean | FlowShare$savesArgs<ExtArgs>
     _count?: boolean | FlowShareCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["flowShare"]>
 
@@ -7168,17 +7344,20 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     description?: boolean
+    thumbnail?: boolean
+    status?: boolean
     downloadCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FlowShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "flowId" | "userId" | "name" | "description" | "downloadCount" | "createdAt" | "updatedAt", ExtArgs["result"]["flowShare"]>
+  export type FlowShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "flowId" | "userId" | "name" | "description" | "thumbnail" | "status" | "downloadCount" | "createdAt" | "updatedAt", ExtArgs["result"]["flowShare"]>
   export type FlowShareInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     flow?: boolean | FlowDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    ratings?: boolean | FlowShare$ratingsArgs<ExtArgs>
     comments?: boolean | FlowShare$commentsArgs<ExtArgs>
+    likes?: boolean | FlowShare$likesArgs<ExtArgs>
+    saves?: boolean | FlowShare$savesArgs<ExtArgs>
     _count?: boolean | FlowShareCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -7187,8 +7366,9 @@ export namespace Prisma {
     objects: {
       flow: Prisma.$FlowPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
-      ratings: Prisma.$FlowRatingPayload<ExtArgs>[]
       comments: Prisma.$FlowCommentPayload<ExtArgs>[]
+      likes: Prisma.$FlowLikePayload<ExtArgs>[]
+      saves: Prisma.$FlowSavePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7196,6 +7376,8 @@ export namespace Prisma {
       userId: string
       name: string
       description: string | null
+      thumbnail: string | null
+      status: $Enums.FlowShareStatus
       downloadCount: number
       createdAt: Date
       updatedAt: Date
@@ -7541,8 +7723,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     flow<T extends FlowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowDefaultArgs<ExtArgs>>): Prisma__FlowClient<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    ratings<T extends FlowShare$ratingsArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends FlowShare$commentsArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    likes<T extends FlowShare$likesArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    saves<T extends FlowShare$savesArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$savesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7577,6 +7760,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"FlowShare", 'String'>
     readonly name: FieldRef<"FlowShare", 'String'>
     readonly description: FieldRef<"FlowShare", 'String'>
+    readonly thumbnail: FieldRef<"FlowShare", 'String'>
+    readonly status: FieldRef<"FlowShare", 'FlowShareStatus'>
     readonly downloadCount: FieldRef<"FlowShare", 'Int'>
     readonly createdAt: FieldRef<"FlowShare", 'DateTime'>
     readonly updatedAt: FieldRef<"FlowShare", 'DateTime'>
@@ -7923,30 +8108,6 @@ export namespace Prisma {
   }
 
   /**
-   * FlowShare.ratings
-   */
-  export type FlowShare$ratingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    where?: FlowRatingWhereInput
-    orderBy?: FlowRatingOrderByWithRelationInput | FlowRatingOrderByWithRelationInput[]
-    cursor?: FlowRatingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FlowRatingScalarFieldEnum | FlowRatingScalarFieldEnum[]
-  }
-
-  /**
    * FlowShare.comments
    */
   export type FlowShare$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7971,6 +8132,54 @@ export namespace Prisma {
   }
 
   /**
+   * FlowShare.likes
+   */
+  export type FlowShare$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    where?: FlowLikeWhereInput
+    orderBy?: FlowLikeOrderByWithRelationInput | FlowLikeOrderByWithRelationInput[]
+    cursor?: FlowLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowLikeScalarFieldEnum | FlowLikeScalarFieldEnum[]
+  }
+
+  /**
+   * FlowShare.saves
+   */
+  export type FlowShare$savesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    where?: FlowSaveWhereInput
+    orderBy?: FlowSaveOrderByWithRelationInput | FlowSaveOrderByWithRelationInput[]
+    cursor?: FlowSaveWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowSaveScalarFieldEnum | FlowSaveScalarFieldEnum[]
+  }
+
+  /**
    * FlowShare without action
    */
   export type FlowShareDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7986,973 +8195,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: FlowShareInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model FlowRating
-   */
-
-  export type AggregateFlowRating = {
-    _count: FlowRatingCountAggregateOutputType | null
-    _avg: FlowRatingAvgAggregateOutputType | null
-    _sum: FlowRatingSumAggregateOutputType | null
-    _min: FlowRatingMinAggregateOutputType | null
-    _max: FlowRatingMaxAggregateOutputType | null
-  }
-
-  export type FlowRatingAvgAggregateOutputType = {
-    rating: number | null
-  }
-
-  export type FlowRatingSumAggregateOutputType = {
-    rating: number | null
-  }
-
-  export type FlowRatingMinAggregateOutputType = {
-    id: string | null
-    flowShareId: string | null
-    userId: string | null
-    rating: number | null
-    createdAt: Date | null
-  }
-
-  export type FlowRatingMaxAggregateOutputType = {
-    id: string | null
-    flowShareId: string | null
-    userId: string | null
-    rating: number | null
-    createdAt: Date | null
-  }
-
-  export type FlowRatingCountAggregateOutputType = {
-    id: number
-    flowShareId: number
-    userId: number
-    rating: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type FlowRatingAvgAggregateInputType = {
-    rating?: true
-  }
-
-  export type FlowRatingSumAggregateInputType = {
-    rating?: true
-  }
-
-  export type FlowRatingMinAggregateInputType = {
-    id?: true
-    flowShareId?: true
-    userId?: true
-    rating?: true
-    createdAt?: true
-  }
-
-  export type FlowRatingMaxAggregateInputType = {
-    id?: true
-    flowShareId?: true
-    userId?: true
-    rating?: true
-    createdAt?: true
-  }
-
-  export type FlowRatingCountAggregateInputType = {
-    id?: true
-    flowShareId?: true
-    userId?: true
-    rating?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type FlowRatingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which FlowRating to aggregate.
-     */
-    where?: FlowRatingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of FlowRatings to fetch.
-     */
-    orderBy?: FlowRatingOrderByWithRelationInput | FlowRatingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: FlowRatingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` FlowRatings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` FlowRatings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned FlowRatings
-    **/
-    _count?: true | FlowRatingCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: FlowRatingAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: FlowRatingSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: FlowRatingMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: FlowRatingMaxAggregateInputType
-  }
-
-  export type GetFlowRatingAggregateType<T extends FlowRatingAggregateArgs> = {
-        [P in keyof T & keyof AggregateFlowRating]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateFlowRating[P]>
-      : GetScalarType<T[P], AggregateFlowRating[P]>
-  }
-
-
-
-
-  export type FlowRatingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FlowRatingWhereInput
-    orderBy?: FlowRatingOrderByWithAggregationInput | FlowRatingOrderByWithAggregationInput[]
-    by: FlowRatingScalarFieldEnum[] | FlowRatingScalarFieldEnum
-    having?: FlowRatingScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: FlowRatingCountAggregateInputType | true
-    _avg?: FlowRatingAvgAggregateInputType
-    _sum?: FlowRatingSumAggregateInputType
-    _min?: FlowRatingMinAggregateInputType
-    _max?: FlowRatingMaxAggregateInputType
-  }
-
-  export type FlowRatingGroupByOutputType = {
-    id: string
-    flowShareId: string
-    userId: string
-    rating: number
-    createdAt: Date
-    _count: FlowRatingCountAggregateOutputType | null
-    _avg: FlowRatingAvgAggregateOutputType | null
-    _sum: FlowRatingSumAggregateOutputType | null
-    _min: FlowRatingMinAggregateOutputType | null
-    _max: FlowRatingMaxAggregateOutputType | null
-  }
-
-  type GetFlowRatingGroupByPayload<T extends FlowRatingGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<FlowRatingGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof FlowRatingGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], FlowRatingGroupByOutputType[P]>
-            : GetScalarType<T[P], FlowRatingGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type FlowRatingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    flowShareId?: boolean
-    userId?: boolean
-    rating?: boolean
-    createdAt?: boolean
-    flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["flowRating"]>
-
-
-
-  export type FlowRatingSelectScalar = {
-    id?: boolean
-    flowShareId?: boolean
-    userId?: boolean
-    rating?: boolean
-    createdAt?: boolean
-  }
-
-  export type FlowRatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "flowShareId" | "userId" | "rating" | "createdAt", ExtArgs["result"]["flowRating"]>
-  export type FlowRatingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $FlowRatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "FlowRating"
-    objects: {
-      flowShare: Prisma.$FlowSharePayload<ExtArgs>
-      user: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      flowShareId: string
-      userId: string
-      rating: number
-      createdAt: Date
-    }, ExtArgs["result"]["flowRating"]>
-    composites: {}
-  }
-
-  type FlowRatingGetPayload<S extends boolean | null | undefined | FlowRatingDefaultArgs> = $Result.GetResult<Prisma.$FlowRatingPayload, S>
-
-  type FlowRatingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<FlowRatingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: FlowRatingCountAggregateInputType | true
-    }
-
-  export interface FlowRatingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FlowRating'], meta: { name: 'FlowRating' } }
-    /**
-     * Find zero or one FlowRating that matches the filter.
-     * @param {FlowRatingFindUniqueArgs} args - Arguments to find a FlowRating
-     * @example
-     * // Get one FlowRating
-     * const flowRating = await prisma.flowRating.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends FlowRatingFindUniqueArgs>(args: SelectSubset<T, FlowRatingFindUniqueArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one FlowRating that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {FlowRatingFindUniqueOrThrowArgs} args - Arguments to find a FlowRating
-     * @example
-     * // Get one FlowRating
-     * const flowRating = await prisma.flowRating.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends FlowRatingFindUniqueOrThrowArgs>(args: SelectSubset<T, FlowRatingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first FlowRating that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FlowRatingFindFirstArgs} args - Arguments to find a FlowRating
-     * @example
-     * // Get one FlowRating
-     * const flowRating = await prisma.flowRating.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends FlowRatingFindFirstArgs>(args?: SelectSubset<T, FlowRatingFindFirstArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first FlowRating that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FlowRatingFindFirstOrThrowArgs} args - Arguments to find a FlowRating
-     * @example
-     * // Get one FlowRating
-     * const flowRating = await prisma.flowRating.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends FlowRatingFindFirstOrThrowArgs>(args?: SelectSubset<T, FlowRatingFindFirstOrThrowArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more FlowRatings that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FlowRatingFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all FlowRatings
-     * const flowRatings = await prisma.flowRating.findMany()
-     * 
-     * // Get first 10 FlowRatings
-     * const flowRatings = await prisma.flowRating.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const flowRatingWithIdOnly = await prisma.flowRating.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends FlowRatingFindManyArgs>(args?: SelectSubset<T, FlowRatingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a FlowRating.
-     * @param {FlowRatingCreateArgs} args - Arguments to create a FlowRating.
-     * @example
-     * // Create one FlowRating
-     * const FlowRating = await prisma.flowRating.create({
-     *   data: {
-     *     // ... data to create a FlowRating
-     *   }
-     * })
-     * 
-     */
-    create<T extends FlowRatingCreateArgs>(args: SelectSubset<T, FlowRatingCreateArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many FlowRatings.
-     * @param {FlowRatingCreateManyArgs} args - Arguments to create many FlowRatings.
-     * @example
-     * // Create many FlowRatings
-     * const flowRating = await prisma.flowRating.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends FlowRatingCreateManyArgs>(args?: SelectSubset<T, FlowRatingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a FlowRating.
-     * @param {FlowRatingDeleteArgs} args - Arguments to delete one FlowRating.
-     * @example
-     * // Delete one FlowRating
-     * const FlowRating = await prisma.flowRating.delete({
-     *   where: {
-     *     // ... filter to delete one FlowRating
-     *   }
-     * })
-     * 
-     */
-    delete<T extends FlowRatingDeleteArgs>(args: SelectSubset<T, FlowRatingDeleteArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one FlowRating.
-     * @param {FlowRatingUpdateArgs} args - Arguments to update one FlowRating.
-     * @example
-     * // Update one FlowRating
-     * const flowRating = await prisma.flowRating.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends FlowRatingUpdateArgs>(args: SelectSubset<T, FlowRatingUpdateArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more FlowRatings.
-     * @param {FlowRatingDeleteManyArgs} args - Arguments to filter FlowRatings to delete.
-     * @example
-     * // Delete a few FlowRatings
-     * const { count } = await prisma.flowRating.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends FlowRatingDeleteManyArgs>(args?: SelectSubset<T, FlowRatingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more FlowRatings.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FlowRatingUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many FlowRatings
-     * const flowRating = await prisma.flowRating.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends FlowRatingUpdateManyArgs>(args: SelectSubset<T, FlowRatingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one FlowRating.
-     * @param {FlowRatingUpsertArgs} args - Arguments to update or create a FlowRating.
-     * @example
-     * // Update or create a FlowRating
-     * const flowRating = await prisma.flowRating.upsert({
-     *   create: {
-     *     // ... data to create a FlowRating
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the FlowRating we want to update
-     *   }
-     * })
-     */
-    upsert<T extends FlowRatingUpsertArgs>(args: SelectSubset<T, FlowRatingUpsertArgs<ExtArgs>>): Prisma__FlowRatingClient<$Result.GetResult<Prisma.$FlowRatingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of FlowRatings.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FlowRatingCountArgs} args - Arguments to filter FlowRatings to count.
-     * @example
-     * // Count the number of FlowRatings
-     * const count = await prisma.flowRating.count({
-     *   where: {
-     *     // ... the filter for the FlowRatings we want to count
-     *   }
-     * })
-    **/
-    count<T extends FlowRatingCountArgs>(
-      args?: Subset<T, FlowRatingCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], FlowRatingCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a FlowRating.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FlowRatingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends FlowRatingAggregateArgs>(args: Subset<T, FlowRatingAggregateArgs>): Prisma.PrismaPromise<GetFlowRatingAggregateType<T>>
-
-    /**
-     * Group by FlowRating.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FlowRatingGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends FlowRatingGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FlowRatingGroupByArgs['orderBy'] }
-        : { orderBy?: FlowRatingGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, FlowRatingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFlowRatingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the FlowRating model
-   */
-  readonly fields: FlowRatingFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for FlowRating.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__FlowRatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    flowShare<T extends FlowShareDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowShareDefaultArgs<ExtArgs>>): Prisma__FlowShareClient<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the FlowRating model
-   */
-  interface FlowRatingFieldRefs {
-    readonly id: FieldRef<"FlowRating", 'String'>
-    readonly flowShareId: FieldRef<"FlowRating", 'String'>
-    readonly userId: FieldRef<"FlowRating", 'String'>
-    readonly rating: FieldRef<"FlowRating", 'Int'>
-    readonly createdAt: FieldRef<"FlowRating", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * FlowRating findUnique
-   */
-  export type FlowRatingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * Filter, which FlowRating to fetch.
-     */
-    where: FlowRatingWhereUniqueInput
-  }
-
-  /**
-   * FlowRating findUniqueOrThrow
-   */
-  export type FlowRatingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * Filter, which FlowRating to fetch.
-     */
-    where: FlowRatingWhereUniqueInput
-  }
-
-  /**
-   * FlowRating findFirst
-   */
-  export type FlowRatingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * Filter, which FlowRating to fetch.
-     */
-    where?: FlowRatingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of FlowRatings to fetch.
-     */
-    orderBy?: FlowRatingOrderByWithRelationInput | FlowRatingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for FlowRatings.
-     */
-    cursor?: FlowRatingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` FlowRatings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` FlowRatings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of FlowRatings.
-     */
-    distinct?: FlowRatingScalarFieldEnum | FlowRatingScalarFieldEnum[]
-  }
-
-  /**
-   * FlowRating findFirstOrThrow
-   */
-  export type FlowRatingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * Filter, which FlowRating to fetch.
-     */
-    where?: FlowRatingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of FlowRatings to fetch.
-     */
-    orderBy?: FlowRatingOrderByWithRelationInput | FlowRatingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for FlowRatings.
-     */
-    cursor?: FlowRatingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` FlowRatings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` FlowRatings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of FlowRatings.
-     */
-    distinct?: FlowRatingScalarFieldEnum | FlowRatingScalarFieldEnum[]
-  }
-
-  /**
-   * FlowRating findMany
-   */
-  export type FlowRatingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * Filter, which FlowRatings to fetch.
-     */
-    where?: FlowRatingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of FlowRatings to fetch.
-     */
-    orderBy?: FlowRatingOrderByWithRelationInput | FlowRatingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing FlowRatings.
-     */
-    cursor?: FlowRatingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` FlowRatings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` FlowRatings.
-     */
-    skip?: number
-    distinct?: FlowRatingScalarFieldEnum | FlowRatingScalarFieldEnum[]
-  }
-
-  /**
-   * FlowRating create
-   */
-  export type FlowRatingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * The data needed to create a FlowRating.
-     */
-    data: XOR<FlowRatingCreateInput, FlowRatingUncheckedCreateInput>
-  }
-
-  /**
-   * FlowRating createMany
-   */
-  export type FlowRatingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many FlowRatings.
-     */
-    data: FlowRatingCreateManyInput | FlowRatingCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * FlowRating update
-   */
-  export type FlowRatingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * The data needed to update a FlowRating.
-     */
-    data: XOR<FlowRatingUpdateInput, FlowRatingUncheckedUpdateInput>
-    /**
-     * Choose, which FlowRating to update.
-     */
-    where: FlowRatingWhereUniqueInput
-  }
-
-  /**
-   * FlowRating updateMany
-   */
-  export type FlowRatingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update FlowRatings.
-     */
-    data: XOR<FlowRatingUpdateManyMutationInput, FlowRatingUncheckedUpdateManyInput>
-    /**
-     * Filter which FlowRatings to update
-     */
-    where?: FlowRatingWhereInput
-    /**
-     * Limit how many FlowRatings to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * FlowRating upsert
-   */
-  export type FlowRatingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * The filter to search for the FlowRating to update in case it exists.
-     */
-    where: FlowRatingWhereUniqueInput
-    /**
-     * In case the FlowRating found by the `where` argument doesn't exist, create a new FlowRating with this data.
-     */
-    create: XOR<FlowRatingCreateInput, FlowRatingUncheckedCreateInput>
-    /**
-     * In case the FlowRating was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<FlowRatingUpdateInput, FlowRatingUncheckedUpdateInput>
-  }
-
-  /**
-   * FlowRating delete
-   */
-  export type FlowRatingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
-    /**
-     * Filter which FlowRating to delete.
-     */
-    where: FlowRatingWhereUniqueInput
-  }
-
-  /**
-   * FlowRating deleteMany
-   */
-  export type FlowRatingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which FlowRatings to delete
-     */
-    where?: FlowRatingWhereInput
-    /**
-     * Limit how many FlowRatings to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * FlowRating without action
-   */
-  export type FlowRatingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRating
-     */
-    select?: FlowRatingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRating
-     */
-    omit?: FlowRatingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRatingInclude<ExtArgs> | null
   }
 
 
@@ -9965,6 +9207,1850 @@ export namespace Prisma {
 
 
   /**
+   * Model FlowLike
+   */
+
+  export type AggregateFlowLike = {
+    _count: FlowLikeCountAggregateOutputType | null
+    _min: FlowLikeMinAggregateOutputType | null
+    _max: FlowLikeMaxAggregateOutputType | null
+  }
+
+  export type FlowLikeMinAggregateOutputType = {
+    id: string | null
+    flowShareId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type FlowLikeMaxAggregateOutputType = {
+    id: string | null
+    flowShareId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type FlowLikeCountAggregateOutputType = {
+    id: number
+    flowShareId: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FlowLikeMinAggregateInputType = {
+    id?: true
+    flowShareId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type FlowLikeMaxAggregateInputType = {
+    id?: true
+    flowShareId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type FlowLikeCountAggregateInputType = {
+    id?: true
+    flowShareId?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FlowLikeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowLike to aggregate.
+     */
+    where?: FlowLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowLikes to fetch.
+     */
+    orderBy?: FlowLikeOrderByWithRelationInput | FlowLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FlowLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FlowLikes
+    **/
+    _count?: true | FlowLikeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FlowLikeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FlowLikeMaxAggregateInputType
+  }
+
+  export type GetFlowLikeAggregateType<T extends FlowLikeAggregateArgs> = {
+        [P in keyof T & keyof AggregateFlowLike]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFlowLike[P]>
+      : GetScalarType<T[P], AggregateFlowLike[P]>
+  }
+
+
+
+
+  export type FlowLikeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowLikeWhereInput
+    orderBy?: FlowLikeOrderByWithAggregationInput | FlowLikeOrderByWithAggregationInput[]
+    by: FlowLikeScalarFieldEnum[] | FlowLikeScalarFieldEnum
+    having?: FlowLikeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FlowLikeCountAggregateInputType | true
+    _min?: FlowLikeMinAggregateInputType
+    _max?: FlowLikeMaxAggregateInputType
+  }
+
+  export type FlowLikeGroupByOutputType = {
+    id: string
+    flowShareId: string
+    userId: string
+    createdAt: Date
+    _count: FlowLikeCountAggregateOutputType | null
+    _min: FlowLikeMinAggregateOutputType | null
+    _max: FlowLikeMaxAggregateOutputType | null
+  }
+
+  type GetFlowLikeGroupByPayload<T extends FlowLikeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FlowLikeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FlowLikeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FlowLikeGroupByOutputType[P]>
+            : GetScalarType<T[P], FlowLikeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FlowLikeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    flowShareId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["flowLike"]>
+
+
+
+  export type FlowLikeSelectScalar = {
+    id?: boolean
+    flowShareId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+  }
+
+  export type FlowLikeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "flowShareId" | "userId" | "createdAt", ExtArgs["result"]["flowLike"]>
+  export type FlowLikeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FlowLikePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FlowLike"
+    objects: {
+      flowShare: Prisma.$FlowSharePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      flowShareId: string
+      userId: string
+      createdAt: Date
+    }, ExtArgs["result"]["flowLike"]>
+    composites: {}
+  }
+
+  type FlowLikeGetPayload<S extends boolean | null | undefined | FlowLikeDefaultArgs> = $Result.GetResult<Prisma.$FlowLikePayload, S>
+
+  type FlowLikeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FlowLikeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FlowLikeCountAggregateInputType | true
+    }
+
+  export interface FlowLikeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FlowLike'], meta: { name: 'FlowLike' } }
+    /**
+     * Find zero or one FlowLike that matches the filter.
+     * @param {FlowLikeFindUniqueArgs} args - Arguments to find a FlowLike
+     * @example
+     * // Get one FlowLike
+     * const flowLike = await prisma.flowLike.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FlowLikeFindUniqueArgs>(args: SelectSubset<T, FlowLikeFindUniqueArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FlowLike that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FlowLikeFindUniqueOrThrowArgs} args - Arguments to find a FlowLike
+     * @example
+     * // Get one FlowLike
+     * const flowLike = await prisma.flowLike.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FlowLikeFindUniqueOrThrowArgs>(args: SelectSubset<T, FlowLikeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowLike that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowLikeFindFirstArgs} args - Arguments to find a FlowLike
+     * @example
+     * // Get one FlowLike
+     * const flowLike = await prisma.flowLike.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FlowLikeFindFirstArgs>(args?: SelectSubset<T, FlowLikeFindFirstArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowLike that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowLikeFindFirstOrThrowArgs} args - Arguments to find a FlowLike
+     * @example
+     * // Get one FlowLike
+     * const flowLike = await prisma.flowLike.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FlowLikeFindFirstOrThrowArgs>(args?: SelectSubset<T, FlowLikeFindFirstOrThrowArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FlowLikes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowLikeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FlowLikes
+     * const flowLikes = await prisma.flowLike.findMany()
+     * 
+     * // Get first 10 FlowLikes
+     * const flowLikes = await prisma.flowLike.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const flowLikeWithIdOnly = await prisma.flowLike.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FlowLikeFindManyArgs>(args?: SelectSubset<T, FlowLikeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FlowLike.
+     * @param {FlowLikeCreateArgs} args - Arguments to create a FlowLike.
+     * @example
+     * // Create one FlowLike
+     * const FlowLike = await prisma.flowLike.create({
+     *   data: {
+     *     // ... data to create a FlowLike
+     *   }
+     * })
+     * 
+     */
+    create<T extends FlowLikeCreateArgs>(args: SelectSubset<T, FlowLikeCreateArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FlowLikes.
+     * @param {FlowLikeCreateManyArgs} args - Arguments to create many FlowLikes.
+     * @example
+     * // Create many FlowLikes
+     * const flowLike = await prisma.flowLike.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FlowLikeCreateManyArgs>(args?: SelectSubset<T, FlowLikeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a FlowLike.
+     * @param {FlowLikeDeleteArgs} args - Arguments to delete one FlowLike.
+     * @example
+     * // Delete one FlowLike
+     * const FlowLike = await prisma.flowLike.delete({
+     *   where: {
+     *     // ... filter to delete one FlowLike
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FlowLikeDeleteArgs>(args: SelectSubset<T, FlowLikeDeleteArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FlowLike.
+     * @param {FlowLikeUpdateArgs} args - Arguments to update one FlowLike.
+     * @example
+     * // Update one FlowLike
+     * const flowLike = await prisma.flowLike.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FlowLikeUpdateArgs>(args: SelectSubset<T, FlowLikeUpdateArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FlowLikes.
+     * @param {FlowLikeDeleteManyArgs} args - Arguments to filter FlowLikes to delete.
+     * @example
+     * // Delete a few FlowLikes
+     * const { count } = await prisma.flowLike.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FlowLikeDeleteManyArgs>(args?: SelectSubset<T, FlowLikeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FlowLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowLikeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FlowLikes
+     * const flowLike = await prisma.flowLike.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FlowLikeUpdateManyArgs>(args: SelectSubset<T, FlowLikeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FlowLike.
+     * @param {FlowLikeUpsertArgs} args - Arguments to update or create a FlowLike.
+     * @example
+     * // Update or create a FlowLike
+     * const flowLike = await prisma.flowLike.upsert({
+     *   create: {
+     *     // ... data to create a FlowLike
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FlowLike we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FlowLikeUpsertArgs>(args: SelectSubset<T, FlowLikeUpsertArgs<ExtArgs>>): Prisma__FlowLikeClient<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FlowLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowLikeCountArgs} args - Arguments to filter FlowLikes to count.
+     * @example
+     * // Count the number of FlowLikes
+     * const count = await prisma.flowLike.count({
+     *   where: {
+     *     // ... the filter for the FlowLikes we want to count
+     *   }
+     * })
+    **/
+    count<T extends FlowLikeCountArgs>(
+      args?: Subset<T, FlowLikeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FlowLikeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FlowLike.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowLikeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FlowLikeAggregateArgs>(args: Subset<T, FlowLikeAggregateArgs>): Prisma.PrismaPromise<GetFlowLikeAggregateType<T>>
+
+    /**
+     * Group by FlowLike.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowLikeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FlowLikeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FlowLikeGroupByArgs['orderBy'] }
+        : { orderBy?: FlowLikeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FlowLikeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFlowLikeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FlowLike model
+   */
+  readonly fields: FlowLikeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FlowLike.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FlowLikeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    flowShare<T extends FlowShareDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowShareDefaultArgs<ExtArgs>>): Prisma__FlowShareClient<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FlowLike model
+   */
+  interface FlowLikeFieldRefs {
+    readonly id: FieldRef<"FlowLike", 'String'>
+    readonly flowShareId: FieldRef<"FlowLike", 'String'>
+    readonly userId: FieldRef<"FlowLike", 'String'>
+    readonly createdAt: FieldRef<"FlowLike", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FlowLike findUnique
+   */
+  export type FlowLikeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowLike to fetch.
+     */
+    where: FlowLikeWhereUniqueInput
+  }
+
+  /**
+   * FlowLike findUniqueOrThrow
+   */
+  export type FlowLikeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowLike to fetch.
+     */
+    where: FlowLikeWhereUniqueInput
+  }
+
+  /**
+   * FlowLike findFirst
+   */
+  export type FlowLikeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowLike to fetch.
+     */
+    where?: FlowLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowLikes to fetch.
+     */
+    orderBy?: FlowLikeOrderByWithRelationInput | FlowLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowLikes.
+     */
+    cursor?: FlowLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowLikes.
+     */
+    distinct?: FlowLikeScalarFieldEnum | FlowLikeScalarFieldEnum[]
+  }
+
+  /**
+   * FlowLike findFirstOrThrow
+   */
+  export type FlowLikeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowLike to fetch.
+     */
+    where?: FlowLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowLikes to fetch.
+     */
+    orderBy?: FlowLikeOrderByWithRelationInput | FlowLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowLikes.
+     */
+    cursor?: FlowLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowLikes.
+     */
+    distinct?: FlowLikeScalarFieldEnum | FlowLikeScalarFieldEnum[]
+  }
+
+  /**
+   * FlowLike findMany
+   */
+  export type FlowLikeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowLikes to fetch.
+     */
+    where?: FlowLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowLikes to fetch.
+     */
+    orderBy?: FlowLikeOrderByWithRelationInput | FlowLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FlowLikes.
+     */
+    cursor?: FlowLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowLikes.
+     */
+    skip?: number
+    distinct?: FlowLikeScalarFieldEnum | FlowLikeScalarFieldEnum[]
+  }
+
+  /**
+   * FlowLike create
+   */
+  export type FlowLikeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FlowLike.
+     */
+    data: XOR<FlowLikeCreateInput, FlowLikeUncheckedCreateInput>
+  }
+
+  /**
+   * FlowLike createMany
+   */
+  export type FlowLikeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FlowLikes.
+     */
+    data: FlowLikeCreateManyInput | FlowLikeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FlowLike update
+   */
+  export type FlowLikeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FlowLike.
+     */
+    data: XOR<FlowLikeUpdateInput, FlowLikeUncheckedUpdateInput>
+    /**
+     * Choose, which FlowLike to update.
+     */
+    where: FlowLikeWhereUniqueInput
+  }
+
+  /**
+   * FlowLike updateMany
+   */
+  export type FlowLikeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FlowLikes.
+     */
+    data: XOR<FlowLikeUpdateManyMutationInput, FlowLikeUncheckedUpdateManyInput>
+    /**
+     * Filter which FlowLikes to update
+     */
+    where?: FlowLikeWhereInput
+    /**
+     * Limit how many FlowLikes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowLike upsert
+   */
+  export type FlowLikeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FlowLike to update in case it exists.
+     */
+    where: FlowLikeWhereUniqueInput
+    /**
+     * In case the FlowLike found by the `where` argument doesn't exist, create a new FlowLike with this data.
+     */
+    create: XOR<FlowLikeCreateInput, FlowLikeUncheckedCreateInput>
+    /**
+     * In case the FlowLike was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FlowLikeUpdateInput, FlowLikeUncheckedUpdateInput>
+  }
+
+  /**
+   * FlowLike delete
+   */
+  export type FlowLikeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+    /**
+     * Filter which FlowLike to delete.
+     */
+    where: FlowLikeWhereUniqueInput
+  }
+
+  /**
+   * FlowLike deleteMany
+   */
+  export type FlowLikeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowLikes to delete
+     */
+    where?: FlowLikeWhereInput
+    /**
+     * Limit how many FlowLikes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowLike without action
+   */
+  export type FlowLikeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowLike
+     */
+    select?: FlowLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowLike
+     */
+    omit?: FlowLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowLikeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FlowSave
+   */
+
+  export type AggregateFlowSave = {
+    _count: FlowSaveCountAggregateOutputType | null
+    _min: FlowSaveMinAggregateOutputType | null
+    _max: FlowSaveMaxAggregateOutputType | null
+  }
+
+  export type FlowSaveMinAggregateOutputType = {
+    id: string | null
+    flowShareId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type FlowSaveMaxAggregateOutputType = {
+    id: string | null
+    flowShareId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type FlowSaveCountAggregateOutputType = {
+    id: number
+    flowShareId: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FlowSaveMinAggregateInputType = {
+    id?: true
+    flowShareId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type FlowSaveMaxAggregateInputType = {
+    id?: true
+    flowShareId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type FlowSaveCountAggregateInputType = {
+    id?: true
+    flowShareId?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FlowSaveAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowSave to aggregate.
+     */
+    where?: FlowSaveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowSaves to fetch.
+     */
+    orderBy?: FlowSaveOrderByWithRelationInput | FlowSaveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FlowSaveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowSaves from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowSaves.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FlowSaves
+    **/
+    _count?: true | FlowSaveCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FlowSaveMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FlowSaveMaxAggregateInputType
+  }
+
+  export type GetFlowSaveAggregateType<T extends FlowSaveAggregateArgs> = {
+        [P in keyof T & keyof AggregateFlowSave]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFlowSave[P]>
+      : GetScalarType<T[P], AggregateFlowSave[P]>
+  }
+
+
+
+
+  export type FlowSaveGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowSaveWhereInput
+    orderBy?: FlowSaveOrderByWithAggregationInput | FlowSaveOrderByWithAggregationInput[]
+    by: FlowSaveScalarFieldEnum[] | FlowSaveScalarFieldEnum
+    having?: FlowSaveScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FlowSaveCountAggregateInputType | true
+    _min?: FlowSaveMinAggregateInputType
+    _max?: FlowSaveMaxAggregateInputType
+  }
+
+  export type FlowSaveGroupByOutputType = {
+    id: string
+    flowShareId: string
+    userId: string
+    createdAt: Date
+    _count: FlowSaveCountAggregateOutputType | null
+    _min: FlowSaveMinAggregateOutputType | null
+    _max: FlowSaveMaxAggregateOutputType | null
+  }
+
+  type GetFlowSaveGroupByPayload<T extends FlowSaveGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FlowSaveGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FlowSaveGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FlowSaveGroupByOutputType[P]>
+            : GetScalarType<T[P], FlowSaveGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FlowSaveSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    flowShareId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["flowSave"]>
+
+
+
+  export type FlowSaveSelectScalar = {
+    id?: boolean
+    flowShareId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+  }
+
+  export type FlowSaveOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "flowShareId" | "userId" | "createdAt", ExtArgs["result"]["flowSave"]>
+  export type FlowSaveInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FlowSavePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FlowSave"
+    objects: {
+      flowShare: Prisma.$FlowSharePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      flowShareId: string
+      userId: string
+      createdAt: Date
+    }, ExtArgs["result"]["flowSave"]>
+    composites: {}
+  }
+
+  type FlowSaveGetPayload<S extends boolean | null | undefined | FlowSaveDefaultArgs> = $Result.GetResult<Prisma.$FlowSavePayload, S>
+
+  type FlowSaveCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FlowSaveFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FlowSaveCountAggregateInputType | true
+    }
+
+  export interface FlowSaveDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FlowSave'], meta: { name: 'FlowSave' } }
+    /**
+     * Find zero or one FlowSave that matches the filter.
+     * @param {FlowSaveFindUniqueArgs} args - Arguments to find a FlowSave
+     * @example
+     * // Get one FlowSave
+     * const flowSave = await prisma.flowSave.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FlowSaveFindUniqueArgs>(args: SelectSubset<T, FlowSaveFindUniqueArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FlowSave that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FlowSaveFindUniqueOrThrowArgs} args - Arguments to find a FlowSave
+     * @example
+     * // Get one FlowSave
+     * const flowSave = await prisma.flowSave.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FlowSaveFindUniqueOrThrowArgs>(args: SelectSubset<T, FlowSaveFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowSave that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowSaveFindFirstArgs} args - Arguments to find a FlowSave
+     * @example
+     * // Get one FlowSave
+     * const flowSave = await prisma.flowSave.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FlowSaveFindFirstArgs>(args?: SelectSubset<T, FlowSaveFindFirstArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowSave that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowSaveFindFirstOrThrowArgs} args - Arguments to find a FlowSave
+     * @example
+     * // Get one FlowSave
+     * const flowSave = await prisma.flowSave.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FlowSaveFindFirstOrThrowArgs>(args?: SelectSubset<T, FlowSaveFindFirstOrThrowArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FlowSaves that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowSaveFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FlowSaves
+     * const flowSaves = await prisma.flowSave.findMany()
+     * 
+     * // Get first 10 FlowSaves
+     * const flowSaves = await prisma.flowSave.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const flowSaveWithIdOnly = await prisma.flowSave.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FlowSaveFindManyArgs>(args?: SelectSubset<T, FlowSaveFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FlowSave.
+     * @param {FlowSaveCreateArgs} args - Arguments to create a FlowSave.
+     * @example
+     * // Create one FlowSave
+     * const FlowSave = await prisma.flowSave.create({
+     *   data: {
+     *     // ... data to create a FlowSave
+     *   }
+     * })
+     * 
+     */
+    create<T extends FlowSaveCreateArgs>(args: SelectSubset<T, FlowSaveCreateArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FlowSaves.
+     * @param {FlowSaveCreateManyArgs} args - Arguments to create many FlowSaves.
+     * @example
+     * // Create many FlowSaves
+     * const flowSave = await prisma.flowSave.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FlowSaveCreateManyArgs>(args?: SelectSubset<T, FlowSaveCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a FlowSave.
+     * @param {FlowSaveDeleteArgs} args - Arguments to delete one FlowSave.
+     * @example
+     * // Delete one FlowSave
+     * const FlowSave = await prisma.flowSave.delete({
+     *   where: {
+     *     // ... filter to delete one FlowSave
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FlowSaveDeleteArgs>(args: SelectSubset<T, FlowSaveDeleteArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FlowSave.
+     * @param {FlowSaveUpdateArgs} args - Arguments to update one FlowSave.
+     * @example
+     * // Update one FlowSave
+     * const flowSave = await prisma.flowSave.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FlowSaveUpdateArgs>(args: SelectSubset<T, FlowSaveUpdateArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FlowSaves.
+     * @param {FlowSaveDeleteManyArgs} args - Arguments to filter FlowSaves to delete.
+     * @example
+     * // Delete a few FlowSaves
+     * const { count } = await prisma.flowSave.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FlowSaveDeleteManyArgs>(args?: SelectSubset<T, FlowSaveDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FlowSaves.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowSaveUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FlowSaves
+     * const flowSave = await prisma.flowSave.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FlowSaveUpdateManyArgs>(args: SelectSubset<T, FlowSaveUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FlowSave.
+     * @param {FlowSaveUpsertArgs} args - Arguments to update or create a FlowSave.
+     * @example
+     * // Update or create a FlowSave
+     * const flowSave = await prisma.flowSave.upsert({
+     *   create: {
+     *     // ... data to create a FlowSave
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FlowSave we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FlowSaveUpsertArgs>(args: SelectSubset<T, FlowSaveUpsertArgs<ExtArgs>>): Prisma__FlowSaveClient<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FlowSaves.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowSaveCountArgs} args - Arguments to filter FlowSaves to count.
+     * @example
+     * // Count the number of FlowSaves
+     * const count = await prisma.flowSave.count({
+     *   where: {
+     *     // ... the filter for the FlowSaves we want to count
+     *   }
+     * })
+    **/
+    count<T extends FlowSaveCountArgs>(
+      args?: Subset<T, FlowSaveCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FlowSaveCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FlowSave.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowSaveAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FlowSaveAggregateArgs>(args: Subset<T, FlowSaveAggregateArgs>): Prisma.PrismaPromise<GetFlowSaveAggregateType<T>>
+
+    /**
+     * Group by FlowSave.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowSaveGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FlowSaveGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FlowSaveGroupByArgs['orderBy'] }
+        : { orderBy?: FlowSaveGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FlowSaveGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFlowSaveGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FlowSave model
+   */
+  readonly fields: FlowSaveFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FlowSave.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FlowSaveClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    flowShare<T extends FlowShareDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowShareDefaultArgs<ExtArgs>>): Prisma__FlowShareClient<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FlowSave model
+   */
+  interface FlowSaveFieldRefs {
+    readonly id: FieldRef<"FlowSave", 'String'>
+    readonly flowShareId: FieldRef<"FlowSave", 'String'>
+    readonly userId: FieldRef<"FlowSave", 'String'>
+    readonly createdAt: FieldRef<"FlowSave", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FlowSave findUnique
+   */
+  export type FlowSaveFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowSave to fetch.
+     */
+    where: FlowSaveWhereUniqueInput
+  }
+
+  /**
+   * FlowSave findUniqueOrThrow
+   */
+  export type FlowSaveFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowSave to fetch.
+     */
+    where: FlowSaveWhereUniqueInput
+  }
+
+  /**
+   * FlowSave findFirst
+   */
+  export type FlowSaveFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowSave to fetch.
+     */
+    where?: FlowSaveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowSaves to fetch.
+     */
+    orderBy?: FlowSaveOrderByWithRelationInput | FlowSaveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowSaves.
+     */
+    cursor?: FlowSaveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowSaves from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowSaves.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowSaves.
+     */
+    distinct?: FlowSaveScalarFieldEnum | FlowSaveScalarFieldEnum[]
+  }
+
+  /**
+   * FlowSave findFirstOrThrow
+   */
+  export type FlowSaveFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowSave to fetch.
+     */
+    where?: FlowSaveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowSaves to fetch.
+     */
+    orderBy?: FlowSaveOrderByWithRelationInput | FlowSaveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowSaves.
+     */
+    cursor?: FlowSaveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowSaves from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowSaves.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowSaves.
+     */
+    distinct?: FlowSaveScalarFieldEnum | FlowSaveScalarFieldEnum[]
+  }
+
+  /**
+   * FlowSave findMany
+   */
+  export type FlowSaveFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowSaves to fetch.
+     */
+    where?: FlowSaveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowSaves to fetch.
+     */
+    orderBy?: FlowSaveOrderByWithRelationInput | FlowSaveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FlowSaves.
+     */
+    cursor?: FlowSaveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowSaves from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowSaves.
+     */
+    skip?: number
+    distinct?: FlowSaveScalarFieldEnum | FlowSaveScalarFieldEnum[]
+  }
+
+  /**
+   * FlowSave create
+   */
+  export type FlowSaveCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FlowSave.
+     */
+    data: XOR<FlowSaveCreateInput, FlowSaveUncheckedCreateInput>
+  }
+
+  /**
+   * FlowSave createMany
+   */
+  export type FlowSaveCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FlowSaves.
+     */
+    data: FlowSaveCreateManyInput | FlowSaveCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FlowSave update
+   */
+  export type FlowSaveUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FlowSave.
+     */
+    data: XOR<FlowSaveUpdateInput, FlowSaveUncheckedUpdateInput>
+    /**
+     * Choose, which FlowSave to update.
+     */
+    where: FlowSaveWhereUniqueInput
+  }
+
+  /**
+   * FlowSave updateMany
+   */
+  export type FlowSaveUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FlowSaves.
+     */
+    data: XOR<FlowSaveUpdateManyMutationInput, FlowSaveUncheckedUpdateManyInput>
+    /**
+     * Filter which FlowSaves to update
+     */
+    where?: FlowSaveWhereInput
+    /**
+     * Limit how many FlowSaves to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowSave upsert
+   */
+  export type FlowSaveUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FlowSave to update in case it exists.
+     */
+    where: FlowSaveWhereUniqueInput
+    /**
+     * In case the FlowSave found by the `where` argument doesn't exist, create a new FlowSave with this data.
+     */
+    create: XOR<FlowSaveCreateInput, FlowSaveUncheckedCreateInput>
+    /**
+     * In case the FlowSave was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FlowSaveUpdateInput, FlowSaveUncheckedUpdateInput>
+  }
+
+  /**
+   * FlowSave delete
+   */
+  export type FlowSaveDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+    /**
+     * Filter which FlowSave to delete.
+     */
+    where: FlowSaveWhereUniqueInput
+  }
+
+  /**
+   * FlowSave deleteMany
+   */
+  export type FlowSaveDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowSaves to delete
+     */
+    where?: FlowSaveWhereInput
+    /**
+     * Limit how many FlowSaves to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowSave without action
+   */
+  export type FlowSaveDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowSave
+     */
+    select?: FlowSaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowSave
+     */
+    omit?: FlowSaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowSaveInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notification
    */
 
@@ -10971,6 +12057,8 @@ export namespace Prisma {
   export const FlowScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    pageId: 'pageId',
+    pageAccessToken: 'pageAccessToken',
     name: 'name',
     description: 'description',
     status: 'status',
@@ -10978,7 +12066,7 @@ export namespace Prisma {
     layoutJson: 'layoutJson',
     platform: 'platform',
     timeoutDuration: 'timeoutDuration',
-    timeoutText: 'timeoutText',
+    timeoutJson: 'timeoutJson',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11009,23 +12097,14 @@ export namespace Prisma {
     userId: 'userId',
     name: 'name',
     description: 'description',
+    thumbnail: 'thumbnail',
+    status: 'status',
     downloadCount: 'downloadCount',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type FlowShareScalarFieldEnum = (typeof FlowShareScalarFieldEnum)[keyof typeof FlowShareScalarFieldEnum]
-
-
-  export const FlowRatingScalarFieldEnum: {
-    id: 'id',
-    flowShareId: 'flowShareId',
-    userId: 'userId',
-    rating: 'rating',
-    createdAt: 'createdAt'
-  };
-
-  export type FlowRatingScalarFieldEnum = (typeof FlowRatingScalarFieldEnum)[keyof typeof FlowRatingScalarFieldEnum]
 
 
   export const FlowCommentScalarFieldEnum: {
@@ -11039,6 +12118,26 @@ export namespace Prisma {
   };
 
   export type FlowCommentScalarFieldEnum = (typeof FlowCommentScalarFieldEnum)[keyof typeof FlowCommentScalarFieldEnum]
+
+
+  export const FlowLikeScalarFieldEnum: {
+    id: 'id',
+    flowShareId: 'flowShareId',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type FlowLikeScalarFieldEnum = (typeof FlowLikeScalarFieldEnum)[keyof typeof FlowLikeScalarFieldEnum]
+
+
+  export const FlowSaveScalarFieldEnum: {
+    id: 'id',
+    flowShareId: 'flowShareId',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type FlowSaveScalarFieldEnum = (typeof FlowSaveScalarFieldEnum)[keyof typeof FlowSaveScalarFieldEnum]
 
 
   export const NotificationScalarFieldEnum: {
@@ -11136,10 +12235,11 @@ export namespace Prisma {
   export const FlowOrderByRelevanceFieldEnum: {
     id: 'id',
     userId: 'userId',
+    pageId: 'pageId',
+    pageAccessToken: 'pageAccessToken',
     name: 'name',
     description: 'description',
-    timeoutDuration: 'timeoutDuration',
-    timeoutText: 'timeoutText'
+    timeoutDuration: 'timeoutDuration'
   };
 
   export type FlowOrderByRelevanceFieldEnum = (typeof FlowOrderByRelevanceFieldEnum)[keyof typeof FlowOrderByRelevanceFieldEnum]
@@ -11162,19 +12262,11 @@ export namespace Prisma {
     flowId: 'flowId',
     userId: 'userId',
     name: 'name',
-    description: 'description'
+    description: 'description',
+    thumbnail: 'thumbnail'
   };
 
   export type FlowShareOrderByRelevanceFieldEnum = (typeof FlowShareOrderByRelevanceFieldEnum)[keyof typeof FlowShareOrderByRelevanceFieldEnum]
-
-
-  export const FlowRatingOrderByRelevanceFieldEnum: {
-    id: 'id',
-    flowShareId: 'flowShareId',
-    userId: 'userId'
-  };
-
-  export type FlowRatingOrderByRelevanceFieldEnum = (typeof FlowRatingOrderByRelevanceFieldEnum)[keyof typeof FlowRatingOrderByRelevanceFieldEnum]
 
 
   export const FlowCommentOrderByRelevanceFieldEnum: {
@@ -11186,6 +12278,24 @@ export namespace Prisma {
   };
 
   export type FlowCommentOrderByRelevanceFieldEnum = (typeof FlowCommentOrderByRelevanceFieldEnum)[keyof typeof FlowCommentOrderByRelevanceFieldEnum]
+
+
+  export const FlowLikeOrderByRelevanceFieldEnum: {
+    id: 'id',
+    flowShareId: 'flowShareId',
+    userId: 'userId'
+  };
+
+  export type FlowLikeOrderByRelevanceFieldEnum = (typeof FlowLikeOrderByRelevanceFieldEnum)[keyof typeof FlowLikeOrderByRelevanceFieldEnum]
+
+
+  export const FlowSaveOrderByRelevanceFieldEnum: {
+    id: 'id',
+    flowShareId: 'flowShareId',
+    userId: 'userId'
+  };
+
+  export type FlowSaveOrderByRelevanceFieldEnum = (typeof FlowSaveOrderByRelevanceFieldEnum)[keyof typeof FlowSaveOrderByRelevanceFieldEnum]
 
 
   export const NotificationOrderByRelevanceFieldEnum: {
@@ -11266,6 +12376,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'FlowShareStatus'
+   */
+  export type EnumFlowShareStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FlowShareStatus'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -11313,8 +12430,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     flows?: FlowListRelationFilter
     flowShares?: FlowShareListRelationFilter
-    comments?: FlowCommentListRelationFilter
-    ratings?: FlowRatingListRelationFilter
+    flowLikes?: FlowLikeListRelationFilter
+    flowSave?: FlowSaveListRelationFilter
+    flowComments?: FlowCommentListRelationFilter
     notifications?: NotificationListRelationFilter
     userFlowStates?: UserFlowStateListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
@@ -11335,8 +12453,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
     flows?: FlowOrderByRelationAggregateInput
     flowShares?: FlowShareOrderByRelationAggregateInput
-    comments?: FlowCommentOrderByRelationAggregateInput
-    ratings?: FlowRatingOrderByRelationAggregateInput
+    flowLikes?: FlowLikeOrderByRelationAggregateInput
+    flowSave?: FlowSaveOrderByRelationAggregateInput
+    flowComments?: FlowCommentOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
     userFlowStates?: UserFlowStateOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
@@ -11361,8 +12480,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     flows?: FlowListRelationFilter
     flowShares?: FlowShareListRelationFilter
-    comments?: FlowCommentListRelationFilter
-    ratings?: FlowRatingListRelationFilter
+    flowLikes?: FlowLikeListRelationFilter
+    flowSave?: FlowSaveListRelationFilter
+    flowComments?: FlowCommentListRelationFilter
     notifications?: NotificationListRelationFilter
     userFlowStates?: UserFlowStateListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
@@ -11521,6 +12641,8 @@ export namespace Prisma {
     NOT?: FlowWhereInput | FlowWhereInput[]
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
+    pageId?: StringFilter<"Flow"> | string
+    pageAccessToken?: StringFilter<"Flow"> | string
     name?: StringFilter<"Flow"> | string
     description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
@@ -11528,7 +12650,7 @@ export namespace Prisma {
     layoutJson?: JsonFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
-    timeoutText?: StringNullableFilter<"Flow"> | string | null
+    timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11539,6 +12661,8 @@ export namespace Prisma {
   export type FlowOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -11546,7 +12670,7 @@ export namespace Prisma {
     layoutJson?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrderInput | SortOrder
-    timeoutText?: SortOrderInput | SortOrder
+    timeoutJson?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -11561,6 +12685,8 @@ export namespace Prisma {
     OR?: FlowWhereInput[]
     NOT?: FlowWhereInput | FlowWhereInput[]
     userId?: StringFilter<"Flow"> | string
+    pageId?: StringFilter<"Flow"> | string
+    pageAccessToken?: StringFilter<"Flow"> | string
     name?: StringFilter<"Flow"> | string
     description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
@@ -11568,7 +12694,7 @@ export namespace Prisma {
     layoutJson?: JsonFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
-    timeoutText?: StringNullableFilter<"Flow"> | string | null
+    timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11579,6 +12705,8 @@ export namespace Prisma {
   export type FlowOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -11586,7 +12714,7 @@ export namespace Prisma {
     layoutJson?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrderInput | SortOrder
-    timeoutText?: SortOrderInput | SortOrder
+    timeoutJson?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FlowCountOrderByAggregateInput
@@ -11600,6 +12728,8 @@ export namespace Prisma {
     NOT?: FlowScalarWhereWithAggregatesInput | FlowScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Flow"> | string
     userId?: StringWithAggregatesFilter<"Flow"> | string
+    pageId?: StringWithAggregatesFilter<"Flow"> | string
+    pageAccessToken?: StringWithAggregatesFilter<"Flow"> | string
     name?: StringWithAggregatesFilter<"Flow"> | string
     description?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     status?: EnumFlowStatusWithAggregatesFilter<"Flow"> | $Enums.FlowStatus
@@ -11607,7 +12737,7 @@ export namespace Prisma {
     layoutJson?: JsonWithAggregatesFilter<"Flow">
     platform?: EnumPlatformWithAggregatesFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableWithAggregatesFilter<"Flow"> | string | null
-    timeoutText?: StringNullableWithAggregatesFilter<"Flow"> | string | null
+    timeoutJson?: JsonNullableWithAggregatesFilter<"Flow">
     createdAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
   }
@@ -11710,13 +12840,16 @@ export namespace Prisma {
     userId?: StringFilter<"FlowShare"> | string
     name?: StringFilter<"FlowShare"> | string
     description?: StringNullableFilter<"FlowShare"> | string | null
+    thumbnail?: StringNullableFilter<"FlowShare"> | string | null
+    status?: EnumFlowShareStatusFilter<"FlowShare"> | $Enums.FlowShareStatus
     downloadCount?: IntFilter<"FlowShare"> | number
     createdAt?: DateTimeFilter<"FlowShare"> | Date | string
     updatedAt?: DateTimeFilter<"FlowShare"> | Date | string
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    ratings?: FlowRatingListRelationFilter
     comments?: FlowCommentListRelationFilter
+    likes?: FlowLikeListRelationFilter
+    saves?: FlowSaveListRelationFilter
   }
 
   export type FlowShareOrderByWithRelationInput = {
@@ -11725,13 +12858,16 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    status?: SortOrder
     downloadCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     flow?: FlowOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
-    ratings?: FlowRatingOrderByRelationAggregateInput
     comments?: FlowCommentOrderByRelationAggregateInput
+    likes?: FlowLikeOrderByRelationAggregateInput
+    saves?: FlowSaveOrderByRelationAggregateInput
     _relevance?: FlowShareOrderByRelevanceInput
   }
 
@@ -11744,13 +12880,16 @@ export namespace Prisma {
     userId?: StringFilter<"FlowShare"> | string
     name?: StringFilter<"FlowShare"> | string
     description?: StringNullableFilter<"FlowShare"> | string | null
+    thumbnail?: StringNullableFilter<"FlowShare"> | string | null
+    status?: EnumFlowShareStatusFilter<"FlowShare"> | $Enums.FlowShareStatus
     downloadCount?: IntFilter<"FlowShare"> | number
     createdAt?: DateTimeFilter<"FlowShare"> | Date | string
     updatedAt?: DateTimeFilter<"FlowShare"> | Date | string
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    ratings?: FlowRatingListRelationFilter
     comments?: FlowCommentListRelationFilter
+    likes?: FlowLikeListRelationFilter
+    saves?: FlowSaveListRelationFilter
   }, "id">
 
   export type FlowShareOrderByWithAggregationInput = {
@@ -11759,6 +12898,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    status?: SortOrder
     downloadCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11778,70 +12919,11 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"FlowShare"> | string
     name?: StringWithAggregatesFilter<"FlowShare"> | string
     description?: StringNullableWithAggregatesFilter<"FlowShare"> | string | null
+    thumbnail?: StringNullableWithAggregatesFilter<"FlowShare"> | string | null
+    status?: EnumFlowShareStatusWithAggregatesFilter<"FlowShare"> | $Enums.FlowShareStatus
     downloadCount?: IntWithAggregatesFilter<"FlowShare"> | number
     createdAt?: DateTimeWithAggregatesFilter<"FlowShare"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FlowShare"> | Date | string
-  }
-
-  export type FlowRatingWhereInput = {
-    AND?: FlowRatingWhereInput | FlowRatingWhereInput[]
-    OR?: FlowRatingWhereInput[]
-    NOT?: FlowRatingWhereInput | FlowRatingWhereInput[]
-    id?: StringFilter<"FlowRating"> | string
-    flowShareId?: StringFilter<"FlowRating"> | string
-    userId?: StringFilter<"FlowRating"> | string
-    rating?: IntFilter<"FlowRating"> | number
-    createdAt?: DateTimeFilter<"FlowRating"> | Date | string
-    flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }
-
-  export type FlowRatingOrderByWithRelationInput = {
-    id?: SortOrder
-    flowShareId?: SortOrder
-    userId?: SortOrder
-    rating?: SortOrder
-    createdAt?: SortOrder
-    flowShare?: FlowShareOrderByWithRelationInput
-    user?: UserOrderByWithRelationInput
-    _relevance?: FlowRatingOrderByRelevanceInput
-  }
-
-  export type FlowRatingWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: FlowRatingWhereInput | FlowRatingWhereInput[]
-    OR?: FlowRatingWhereInput[]
-    NOT?: FlowRatingWhereInput | FlowRatingWhereInput[]
-    flowShareId?: StringFilter<"FlowRating"> | string
-    userId?: StringFilter<"FlowRating"> | string
-    rating?: IntFilter<"FlowRating"> | number
-    createdAt?: DateTimeFilter<"FlowRating"> | Date | string
-    flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
-
-  export type FlowRatingOrderByWithAggregationInput = {
-    id?: SortOrder
-    flowShareId?: SortOrder
-    userId?: SortOrder
-    rating?: SortOrder
-    createdAt?: SortOrder
-    _count?: FlowRatingCountOrderByAggregateInput
-    _avg?: FlowRatingAvgOrderByAggregateInput
-    _max?: FlowRatingMaxOrderByAggregateInput
-    _min?: FlowRatingMinOrderByAggregateInput
-    _sum?: FlowRatingSumOrderByAggregateInput
-  }
-
-  export type FlowRatingScalarWhereWithAggregatesInput = {
-    AND?: FlowRatingScalarWhereWithAggregatesInput | FlowRatingScalarWhereWithAggregatesInput[]
-    OR?: FlowRatingScalarWhereWithAggregatesInput[]
-    NOT?: FlowRatingScalarWhereWithAggregatesInput | FlowRatingScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"FlowRating"> | string
-    flowShareId?: StringWithAggregatesFilter<"FlowRating"> | string
-    userId?: StringWithAggregatesFilter<"FlowRating"> | string
-    rating?: IntWithAggregatesFilter<"FlowRating"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"FlowRating"> | Date | string
   }
 
   export type FlowCommentWhereInput = {
@@ -11917,6 +12999,116 @@ export namespace Prisma {
     parentId?: StringNullableWithAggregatesFilter<"FlowComment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"FlowComment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FlowComment"> | Date | string
+  }
+
+  export type FlowLikeWhereInput = {
+    AND?: FlowLikeWhereInput | FlowLikeWhereInput[]
+    OR?: FlowLikeWhereInput[]
+    NOT?: FlowLikeWhereInput | FlowLikeWhereInput[]
+    id?: StringFilter<"FlowLike"> | string
+    flowShareId?: StringFilter<"FlowLike"> | string
+    userId?: StringFilter<"FlowLike"> | string
+    createdAt?: DateTimeFilter<"FlowLike"> | Date | string
+    flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FlowLikeOrderByWithRelationInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    flowShare?: FlowShareOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    _relevance?: FlowLikeOrderByRelevanceInput
+  }
+
+  export type FlowLikeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    flowShareId_userId?: FlowLikeFlowShareIdUserIdCompoundUniqueInput
+    AND?: FlowLikeWhereInput | FlowLikeWhereInput[]
+    OR?: FlowLikeWhereInput[]
+    NOT?: FlowLikeWhereInput | FlowLikeWhereInput[]
+    flowShareId?: StringFilter<"FlowLike"> | string
+    userId?: StringFilter<"FlowLike"> | string
+    createdAt?: DateTimeFilter<"FlowLike"> | Date | string
+    flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "flowShareId_userId">
+
+  export type FlowLikeOrderByWithAggregationInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    _count?: FlowLikeCountOrderByAggregateInput
+    _max?: FlowLikeMaxOrderByAggregateInput
+    _min?: FlowLikeMinOrderByAggregateInput
+  }
+
+  export type FlowLikeScalarWhereWithAggregatesInput = {
+    AND?: FlowLikeScalarWhereWithAggregatesInput | FlowLikeScalarWhereWithAggregatesInput[]
+    OR?: FlowLikeScalarWhereWithAggregatesInput[]
+    NOT?: FlowLikeScalarWhereWithAggregatesInput | FlowLikeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FlowLike"> | string
+    flowShareId?: StringWithAggregatesFilter<"FlowLike"> | string
+    userId?: StringWithAggregatesFilter<"FlowLike"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"FlowLike"> | Date | string
+  }
+
+  export type FlowSaveWhereInput = {
+    AND?: FlowSaveWhereInput | FlowSaveWhereInput[]
+    OR?: FlowSaveWhereInput[]
+    NOT?: FlowSaveWhereInput | FlowSaveWhereInput[]
+    id?: StringFilter<"FlowSave"> | string
+    flowShareId?: StringFilter<"FlowSave"> | string
+    userId?: StringFilter<"FlowSave"> | string
+    createdAt?: DateTimeFilter<"FlowSave"> | Date | string
+    flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FlowSaveOrderByWithRelationInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    flowShare?: FlowShareOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    _relevance?: FlowSaveOrderByRelevanceInput
+  }
+
+  export type FlowSaveWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    flowShareId_userId?: FlowSaveFlowShareIdUserIdCompoundUniqueInput
+    AND?: FlowSaveWhereInput | FlowSaveWhereInput[]
+    OR?: FlowSaveWhereInput[]
+    NOT?: FlowSaveWhereInput | FlowSaveWhereInput[]
+    flowShareId?: StringFilter<"FlowSave"> | string
+    userId?: StringFilter<"FlowSave"> | string
+    createdAt?: DateTimeFilter<"FlowSave"> | Date | string
+    flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "flowShareId_userId">
+
+  export type FlowSaveOrderByWithAggregationInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    _count?: FlowSaveCountOrderByAggregateInput
+    _max?: FlowSaveMaxOrderByAggregateInput
+    _min?: FlowSaveMinOrderByAggregateInput
+  }
+
+  export type FlowSaveScalarWhereWithAggregatesInput = {
+    AND?: FlowSaveScalarWhereWithAggregatesInput | FlowSaveScalarWhereWithAggregatesInput[]
+    OR?: FlowSaveScalarWhereWithAggregatesInput[]
+    NOT?: FlowSaveScalarWhereWithAggregatesInput | FlowSaveScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FlowSave"> | string
+    flowShareId?: StringWithAggregatesFilter<"FlowSave"> | string
+    userId?: StringWithAggregatesFilter<"FlowSave"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"FlowSave"> | Date | string
   }
 
   export type NotificationWhereInput = {
@@ -11999,8 +13191,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -12021,8 +13214,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -12043,8 +13237,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -12065,8 +13260,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -12227,6 +13423,8 @@ export namespace Prisma {
 
   export type FlowCreateInput = {
     id?: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -12234,7 +13432,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
@@ -12245,6 +13443,8 @@ export namespace Prisma {
   export type FlowUncheckedCreateInput = {
     id?: string
     userId: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -12252,7 +13452,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     states?: UserFlowStateUncheckedCreateNestedManyWithoutFlowInput
@@ -12261,6 +13461,8 @@ export namespace Prisma {
 
   export type FlowUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -12268,7 +13470,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
@@ -12279,6 +13481,8 @@ export namespace Prisma {
   export type FlowUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -12286,7 +13490,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     states?: UserFlowStateUncheckedUpdateManyWithoutFlowNestedInput
@@ -12296,6 +13500,8 @@ export namespace Prisma {
   export type FlowCreateManyInput = {
     id?: string
     userId: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -12303,13 +13509,15 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FlowUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -12317,7 +13525,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12325,6 +13533,8 @@ export namespace Prisma {
   export type FlowUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -12332,7 +13542,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12437,13 +13647,16 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     flow: FlowCreateNestedOneWithoutSharesInput
     user: UserCreateNestedOneWithoutFlowSharesInput
-    ratings?: FlowRatingCreateNestedManyWithoutFlowShareInput
     comments?: FlowCommentCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareUncheckedCreateInput = {
@@ -12452,24 +13665,30 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutFlowShareInput
     comments?: FlowCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeUncheckedCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveUncheckedCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flow?: FlowUpdateOneRequiredWithoutSharesNestedInput
     user?: UserUpdateOneRequiredWithoutFlowSharesNestedInput
-    ratings?: FlowRatingUpdateManyWithoutFlowShareNestedInput
     comments?: FlowCommentUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUpdateManyWithoutFlowShareNestedInput
   }
 
   export type FlowShareUncheckedUpdateInput = {
@@ -12478,11 +13697,14 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ratings?: FlowRatingUncheckedUpdateManyWithoutFlowShareNestedInput
     comments?: FlowCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUncheckedUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUncheckedUpdateManyWithoutFlowShareNestedInput
   }
 
   export type FlowShareCreateManyInput = {
@@ -12491,6 +13713,8 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12500,6 +13724,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12511,63 +13737,11 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRatingCreateInput = {
-    id?: string
-    rating: number
-    createdAt?: Date | string
-    flowShare: FlowShareCreateNestedOneWithoutRatingsInput
-    user: UserCreateNestedOneWithoutRatingsInput
-  }
-
-  export type FlowRatingUncheckedCreateInput = {
-    id?: string
-    flowShareId: string
-    userId: string
-    rating: number
-    createdAt?: Date | string
-  }
-
-  export type FlowRatingUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flowShare?: FlowShareUpdateOneRequiredWithoutRatingsNestedInput
-    user?: UserUpdateOneRequiredWithoutRatingsNestedInput
-  }
-
-  export type FlowRatingUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    flowShareId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRatingCreateManyInput = {
-    id?: string
-    flowShareId: string
-    userId: string
-    rating: number
-    createdAt?: Date | string
-  }
-
-  export type FlowRatingUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRatingUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    flowShareId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FlowCommentCreateInput = {
@@ -12576,7 +13750,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flowShare: FlowShareCreateNestedOneWithoutCommentsInput
-    user: UserCreateNestedOneWithoutCommentsInput
+    user: UserCreateNestedOneWithoutFlowCommentsInput
     parent?: FlowCommentCreateNestedOneWithoutRepliesInput
     replies?: FlowCommentCreateNestedManyWithoutParentInput
   }
@@ -12598,7 +13772,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShare?: FlowShareUpdateOneRequiredWithoutCommentsNestedInput
-    user?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowCommentsNestedInput
     parent?: FlowCommentUpdateOneWithoutRepliesNestedInput
     replies?: FlowCommentUpdateManyWithoutParentNestedInput
   }
@@ -12639,6 +13813,100 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowLikeCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    flowShare: FlowShareCreateNestedOneWithoutLikesInput
+    user: UserCreateNestedOneWithoutFlowLikesInput
+  }
+
+  export type FlowLikeUncheckedCreateInput = {
+    id?: string
+    flowShareId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowLikeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowShare?: FlowShareUpdateOneRequiredWithoutLikesNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowLikesNestedInput
+  }
+
+  export type FlowLikeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowLikeCreateManyInput = {
+    id?: string
+    flowShareId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowLikeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowLikeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowSaveCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    flowShare: FlowShareCreateNestedOneWithoutSavesInput
+    user: UserCreateNestedOneWithoutFlowSaveInput
+  }
+
+  export type FlowSaveUncheckedCreateInput = {
+    id?: string
+    flowShareId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowSaveUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowShare?: FlowShareUpdateOneRequiredWithoutSavesNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowSaveNestedInput
+  }
+
+  export type FlowSaveUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowSaveCreateManyInput = {
+    id?: string
+    flowShareId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowSaveUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowSaveUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationCreateInput = {
@@ -12777,16 +14045,22 @@ export namespace Prisma {
     none?: FlowShareWhereInput
   }
 
+  export type FlowLikeListRelationFilter = {
+    every?: FlowLikeWhereInput
+    some?: FlowLikeWhereInput
+    none?: FlowLikeWhereInput
+  }
+
+  export type FlowSaveListRelationFilter = {
+    every?: FlowSaveWhereInput
+    some?: FlowSaveWhereInput
+    none?: FlowSaveWhereInput
+  }
+
   export type FlowCommentListRelationFilter = {
     every?: FlowCommentWhereInput
     some?: FlowCommentWhereInput
     none?: FlowCommentWhereInput
-  }
-
-  export type FlowRatingListRelationFilter = {
-    every?: FlowRatingWhereInput
-    some?: FlowRatingWhereInput
-    none?: FlowRatingWhereInput
   }
 
   export type NotificationListRelationFilter = {
@@ -12826,11 +14100,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type FlowCommentOrderByRelationAggregateInput = {
+  export type FlowLikeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type FlowRatingOrderByRelationAggregateInput = {
+  export type FlowSaveOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FlowCommentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13069,6 +14347,29 @@ export namespace Prisma {
     notIn?: $Enums.Platform[]
     not?: NestedEnumPlatformFilter<$PrismaModel> | $Enums.Platform
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type FlowOrderByRelevanceInput = {
     fields: FlowOrderByRelevanceFieldEnum | FlowOrderByRelevanceFieldEnum[]
@@ -13079,6 +14380,8 @@ export namespace Prisma {
   export type FlowCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrder
     status?: SortOrder
@@ -13086,7 +14389,7 @@ export namespace Prisma {
     layoutJson?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrder
-    timeoutText?: SortOrder
+    timeoutJson?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13094,12 +14397,13 @@ export namespace Prisma {
   export type FlowMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrder
     status?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrder
-    timeoutText?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13107,12 +14411,13 @@ export namespace Prisma {
   export type FlowMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrder
     status?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrder
-    timeoutText?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13162,14 +14467,14 @@ export namespace Prisma {
     _min?: NestedEnumPlatformFilter<$PrismaModel>
     _max?: NestedEnumPlatformFilter<$PrismaModel>
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -13184,6 +14489,9 @@ export namespace Prisma {
     gt?: InputJsonValue
     gte?: InputJsonValue
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumUserFlowStatusFilter<$PrismaModel = never> = {
@@ -13241,32 +14549,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
 
   export type EnumUserFlowStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserFlowStatus | EnumUserFlowStatusFieldRefInput<$PrismaModel>
@@ -13276,6 +14558,13 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserFlowStatusFilter<$PrismaModel>
     _max?: NestedEnumUserFlowStatusFilter<$PrismaModel>
+  }
+
+  export type EnumFlowShareStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlowShareStatus | EnumFlowShareStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlowShareStatus[]
+    notIn?: $Enums.FlowShareStatus[]
+    not?: NestedEnumFlowShareStatusFilter<$PrismaModel> | $Enums.FlowShareStatus
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -13301,6 +14590,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    thumbnail?: SortOrder
+    status?: SortOrder
     downloadCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13316,6 +14607,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    thumbnail?: SortOrder
+    status?: SortOrder
     downloadCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13327,6 +14620,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    thumbnail?: SortOrder
+    status?: SortOrder
     downloadCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13334,6 +14629,16 @@ export namespace Prisma {
 
   export type FlowShareSumOrderByAggregateInput = {
     downloadCount?: SortOrder
+  }
+
+  export type EnumFlowShareStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlowShareStatus | EnumFlowShareStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlowShareStatus[]
+    notIn?: $Enums.FlowShareStatus[]
+    not?: NestedEnumFlowShareStatusWithAggregatesFilter<$PrismaModel> | $Enums.FlowShareStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFlowShareStatusFilter<$PrismaModel>
+    _max?: NestedEnumFlowShareStatusFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -13355,44 +14660,6 @@ export namespace Prisma {
   export type FlowShareScalarRelationFilter = {
     is?: FlowShareWhereInput
     isNot?: FlowShareWhereInput
-  }
-
-  export type FlowRatingOrderByRelevanceInput = {
-    fields: FlowRatingOrderByRelevanceFieldEnum | FlowRatingOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
-  export type FlowRatingCountOrderByAggregateInput = {
-    id?: SortOrder
-    flowShareId?: SortOrder
-    userId?: SortOrder
-    rating?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type FlowRatingAvgOrderByAggregateInput = {
-    rating?: SortOrder
-  }
-
-  export type FlowRatingMaxOrderByAggregateInput = {
-    id?: SortOrder
-    flowShareId?: SortOrder
-    userId?: SortOrder
-    rating?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type FlowRatingMinOrderByAggregateInput = {
-    id?: SortOrder
-    flowShareId?: SortOrder
-    userId?: SortOrder
-    rating?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type FlowRatingSumOrderByAggregateInput = {
-    rating?: SortOrder
   }
 
   export type FlowCommentNullableScalarRelationFilter = {
@@ -13434,6 +14701,70 @@ export namespace Prisma {
     parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type FlowLikeOrderByRelevanceInput = {
+    fields: FlowLikeOrderByRelevanceFieldEnum | FlowLikeOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type FlowLikeFlowShareIdUserIdCompoundUniqueInput = {
+    flowShareId: string
+    userId: string
+  }
+
+  export type FlowLikeCountOrderByAggregateInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FlowLikeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FlowLikeMinOrderByAggregateInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FlowSaveOrderByRelevanceInput = {
+    fields: FlowSaveOrderByRelevanceFieldEnum | FlowSaveOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type FlowSaveFlowShareIdUserIdCompoundUniqueInput = {
+    flowShareId: string
+    userId: string
+  }
+
+  export type FlowSaveCountOrderByAggregateInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FlowSaveMaxOrderByAggregateInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FlowSaveMinOrderByAggregateInput = {
+    id?: SortOrder
+    flowShareId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumNotificationTypeFilter<$PrismaModel = never> = {
@@ -13516,18 +14847,25 @@ export namespace Prisma {
     connect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
   }
 
+  export type FlowLikeCreateNestedManyWithoutUserInput = {
+    create?: XOR<FlowLikeCreateWithoutUserInput, FlowLikeUncheckedCreateWithoutUserInput> | FlowLikeCreateWithoutUserInput[] | FlowLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutUserInput | FlowLikeCreateOrConnectWithoutUserInput[]
+    createMany?: FlowLikeCreateManyUserInputEnvelope
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+  }
+
+  export type FlowSaveCreateNestedManyWithoutUserInput = {
+    create?: XOR<FlowSaveCreateWithoutUserInput, FlowSaveUncheckedCreateWithoutUserInput> | FlowSaveCreateWithoutUserInput[] | FlowSaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutUserInput | FlowSaveCreateOrConnectWithoutUserInput[]
+    createMany?: FlowSaveCreateManyUserInputEnvelope
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+  }
+
   export type FlowCommentCreateNestedManyWithoutUserInput = {
     create?: XOR<FlowCommentCreateWithoutUserInput, FlowCommentUncheckedCreateWithoutUserInput> | FlowCommentCreateWithoutUserInput[] | FlowCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCommentCreateOrConnectWithoutUserInput | FlowCommentCreateOrConnectWithoutUserInput[]
     createMany?: FlowCommentCreateManyUserInputEnvelope
     connect?: FlowCommentWhereUniqueInput | FlowCommentWhereUniqueInput[]
-  }
-
-  export type FlowRatingCreateNestedManyWithoutUserInput = {
-    create?: XOR<FlowRatingCreateWithoutUserInput, FlowRatingUncheckedCreateWithoutUserInput> | FlowRatingCreateWithoutUserInput[] | FlowRatingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutUserInput | FlowRatingCreateOrConnectWithoutUserInput[]
-    createMany?: FlowRatingCreateManyUserInputEnvelope
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
   }
 
   export type NotificationCreateNestedManyWithoutUserInput = {
@@ -13572,18 +14910,25 @@ export namespace Prisma {
     connect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
   }
 
+  export type FlowLikeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FlowLikeCreateWithoutUserInput, FlowLikeUncheckedCreateWithoutUserInput> | FlowLikeCreateWithoutUserInput[] | FlowLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutUserInput | FlowLikeCreateOrConnectWithoutUserInput[]
+    createMany?: FlowLikeCreateManyUserInputEnvelope
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+  }
+
+  export type FlowSaveUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FlowSaveCreateWithoutUserInput, FlowSaveUncheckedCreateWithoutUserInput> | FlowSaveCreateWithoutUserInput[] | FlowSaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutUserInput | FlowSaveCreateOrConnectWithoutUserInput[]
+    createMany?: FlowSaveCreateManyUserInputEnvelope
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+  }
+
   export type FlowCommentUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<FlowCommentCreateWithoutUserInput, FlowCommentUncheckedCreateWithoutUserInput> | FlowCommentCreateWithoutUserInput[] | FlowCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCommentCreateOrConnectWithoutUserInput | FlowCommentCreateOrConnectWithoutUserInput[]
     createMany?: FlowCommentCreateManyUserInputEnvelope
     connect?: FlowCommentWhereUniqueInput | FlowCommentWhereUniqueInput[]
-  }
-
-  export type FlowRatingUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<FlowRatingCreateWithoutUserInput, FlowRatingUncheckedCreateWithoutUserInput> | FlowRatingCreateWithoutUserInput[] | FlowRatingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutUserInput | FlowRatingCreateOrConnectWithoutUserInput[]
-    createMany?: FlowRatingCreateManyUserInputEnvelope
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
@@ -13662,6 +15007,34 @@ export namespace Prisma {
     deleteMany?: FlowShareScalarWhereInput | FlowShareScalarWhereInput[]
   }
 
+  export type FlowLikeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FlowLikeCreateWithoutUserInput, FlowLikeUncheckedCreateWithoutUserInput> | FlowLikeCreateWithoutUserInput[] | FlowLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutUserInput | FlowLikeCreateOrConnectWithoutUserInput[]
+    upsert?: FlowLikeUpsertWithWhereUniqueWithoutUserInput | FlowLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FlowLikeCreateManyUserInputEnvelope
+    set?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    disconnect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    delete?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    update?: FlowLikeUpdateWithWhereUniqueWithoutUserInput | FlowLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FlowLikeUpdateManyWithWhereWithoutUserInput | FlowLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FlowLikeScalarWhereInput | FlowLikeScalarWhereInput[]
+  }
+
+  export type FlowSaveUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FlowSaveCreateWithoutUserInput, FlowSaveUncheckedCreateWithoutUserInput> | FlowSaveCreateWithoutUserInput[] | FlowSaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutUserInput | FlowSaveCreateOrConnectWithoutUserInput[]
+    upsert?: FlowSaveUpsertWithWhereUniqueWithoutUserInput | FlowSaveUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FlowSaveCreateManyUserInputEnvelope
+    set?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    disconnect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    delete?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    update?: FlowSaveUpdateWithWhereUniqueWithoutUserInput | FlowSaveUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FlowSaveUpdateManyWithWhereWithoutUserInput | FlowSaveUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FlowSaveScalarWhereInput | FlowSaveScalarWhereInput[]
+  }
+
   export type FlowCommentUpdateManyWithoutUserNestedInput = {
     create?: XOR<FlowCommentCreateWithoutUserInput, FlowCommentUncheckedCreateWithoutUserInput> | FlowCommentCreateWithoutUserInput[] | FlowCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCommentCreateOrConnectWithoutUserInput | FlowCommentCreateOrConnectWithoutUserInput[]
@@ -13674,20 +15047,6 @@ export namespace Prisma {
     update?: FlowCommentUpdateWithWhereUniqueWithoutUserInput | FlowCommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: FlowCommentUpdateManyWithWhereWithoutUserInput | FlowCommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: FlowCommentScalarWhereInput | FlowCommentScalarWhereInput[]
-  }
-
-  export type FlowRatingUpdateManyWithoutUserNestedInput = {
-    create?: XOR<FlowRatingCreateWithoutUserInput, FlowRatingUncheckedCreateWithoutUserInput> | FlowRatingCreateWithoutUserInput[] | FlowRatingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutUserInput | FlowRatingCreateOrConnectWithoutUserInput[]
-    upsert?: FlowRatingUpsertWithWhereUniqueWithoutUserInput | FlowRatingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: FlowRatingCreateManyUserInputEnvelope
-    set?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    disconnect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    delete?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    update?: FlowRatingUpdateWithWhereUniqueWithoutUserInput | FlowRatingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: FlowRatingUpdateManyWithWhereWithoutUserInput | FlowRatingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: FlowRatingScalarWhereInput | FlowRatingScalarWhereInput[]
   }
 
   export type NotificationUpdateManyWithoutUserNestedInput = {
@@ -13774,6 +15133,34 @@ export namespace Prisma {
     deleteMany?: FlowShareScalarWhereInput | FlowShareScalarWhereInput[]
   }
 
+  export type FlowLikeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FlowLikeCreateWithoutUserInput, FlowLikeUncheckedCreateWithoutUserInput> | FlowLikeCreateWithoutUserInput[] | FlowLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutUserInput | FlowLikeCreateOrConnectWithoutUserInput[]
+    upsert?: FlowLikeUpsertWithWhereUniqueWithoutUserInput | FlowLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FlowLikeCreateManyUserInputEnvelope
+    set?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    disconnect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    delete?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    update?: FlowLikeUpdateWithWhereUniqueWithoutUserInput | FlowLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FlowLikeUpdateManyWithWhereWithoutUserInput | FlowLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FlowLikeScalarWhereInput | FlowLikeScalarWhereInput[]
+  }
+
+  export type FlowSaveUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FlowSaveCreateWithoutUserInput, FlowSaveUncheckedCreateWithoutUserInput> | FlowSaveCreateWithoutUserInput[] | FlowSaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutUserInput | FlowSaveCreateOrConnectWithoutUserInput[]
+    upsert?: FlowSaveUpsertWithWhereUniqueWithoutUserInput | FlowSaveUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FlowSaveCreateManyUserInputEnvelope
+    set?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    disconnect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    delete?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    update?: FlowSaveUpdateWithWhereUniqueWithoutUserInput | FlowSaveUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FlowSaveUpdateManyWithWhereWithoutUserInput | FlowSaveUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FlowSaveScalarWhereInput | FlowSaveScalarWhereInput[]
+  }
+
   export type FlowCommentUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<FlowCommentCreateWithoutUserInput, FlowCommentUncheckedCreateWithoutUserInput> | FlowCommentCreateWithoutUserInput[] | FlowCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCommentCreateOrConnectWithoutUserInput | FlowCommentCreateOrConnectWithoutUserInput[]
@@ -13786,20 +15173,6 @@ export namespace Prisma {
     update?: FlowCommentUpdateWithWhereUniqueWithoutUserInput | FlowCommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: FlowCommentUpdateManyWithWhereWithoutUserInput | FlowCommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: FlowCommentScalarWhereInput | FlowCommentScalarWhereInput[]
-  }
-
-  export type FlowRatingUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<FlowRatingCreateWithoutUserInput, FlowRatingUncheckedCreateWithoutUserInput> | FlowRatingCreateWithoutUserInput[] | FlowRatingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutUserInput | FlowRatingCreateOrConnectWithoutUserInput[]
-    upsert?: FlowRatingUpsertWithWhereUniqueWithoutUserInput | FlowRatingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: FlowRatingCreateManyUserInputEnvelope
-    set?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    disconnect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    delete?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    update?: FlowRatingUpdateWithWhereUniqueWithoutUserInput | FlowRatingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: FlowRatingUpdateManyWithWhereWithoutUserInput | FlowRatingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: FlowRatingScalarWhereInput | FlowRatingScalarWhereInput[]
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
@@ -14036,13 +15409,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type FlowRatingCreateNestedManyWithoutFlowShareInput = {
-    create?: XOR<FlowRatingCreateWithoutFlowShareInput, FlowRatingUncheckedCreateWithoutFlowShareInput> | FlowRatingCreateWithoutFlowShareInput[] | FlowRatingUncheckedCreateWithoutFlowShareInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutFlowShareInput | FlowRatingCreateOrConnectWithoutFlowShareInput[]
-    createMany?: FlowRatingCreateManyFlowShareInputEnvelope
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-  }
-
   export type FlowCommentCreateNestedManyWithoutFlowShareInput = {
     create?: XOR<FlowCommentCreateWithoutFlowShareInput, FlowCommentUncheckedCreateWithoutFlowShareInput> | FlowCommentCreateWithoutFlowShareInput[] | FlowCommentUncheckedCreateWithoutFlowShareInput[]
     connectOrCreate?: FlowCommentCreateOrConnectWithoutFlowShareInput | FlowCommentCreateOrConnectWithoutFlowShareInput[]
@@ -14050,11 +15416,18 @@ export namespace Prisma {
     connect?: FlowCommentWhereUniqueInput | FlowCommentWhereUniqueInput[]
   }
 
-  export type FlowRatingUncheckedCreateNestedManyWithoutFlowShareInput = {
-    create?: XOR<FlowRatingCreateWithoutFlowShareInput, FlowRatingUncheckedCreateWithoutFlowShareInput> | FlowRatingCreateWithoutFlowShareInput[] | FlowRatingUncheckedCreateWithoutFlowShareInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutFlowShareInput | FlowRatingCreateOrConnectWithoutFlowShareInput[]
-    createMany?: FlowRatingCreateManyFlowShareInputEnvelope
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
+  export type FlowLikeCreateNestedManyWithoutFlowShareInput = {
+    create?: XOR<FlowLikeCreateWithoutFlowShareInput, FlowLikeUncheckedCreateWithoutFlowShareInput> | FlowLikeCreateWithoutFlowShareInput[] | FlowLikeUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutFlowShareInput | FlowLikeCreateOrConnectWithoutFlowShareInput[]
+    createMany?: FlowLikeCreateManyFlowShareInputEnvelope
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+  }
+
+  export type FlowSaveCreateNestedManyWithoutFlowShareInput = {
+    create?: XOR<FlowSaveCreateWithoutFlowShareInput, FlowSaveUncheckedCreateWithoutFlowShareInput> | FlowSaveCreateWithoutFlowShareInput[] | FlowSaveUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutFlowShareInput | FlowSaveCreateOrConnectWithoutFlowShareInput[]
+    createMany?: FlowSaveCreateManyFlowShareInputEnvelope
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
   }
 
   export type FlowCommentUncheckedCreateNestedManyWithoutFlowShareInput = {
@@ -14062,6 +15435,24 @@ export namespace Prisma {
     connectOrCreate?: FlowCommentCreateOrConnectWithoutFlowShareInput | FlowCommentCreateOrConnectWithoutFlowShareInput[]
     createMany?: FlowCommentCreateManyFlowShareInputEnvelope
     connect?: FlowCommentWhereUniqueInput | FlowCommentWhereUniqueInput[]
+  }
+
+  export type FlowLikeUncheckedCreateNestedManyWithoutFlowShareInput = {
+    create?: XOR<FlowLikeCreateWithoutFlowShareInput, FlowLikeUncheckedCreateWithoutFlowShareInput> | FlowLikeCreateWithoutFlowShareInput[] | FlowLikeUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutFlowShareInput | FlowLikeCreateOrConnectWithoutFlowShareInput[]
+    createMany?: FlowLikeCreateManyFlowShareInputEnvelope
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+  }
+
+  export type FlowSaveUncheckedCreateNestedManyWithoutFlowShareInput = {
+    create?: XOR<FlowSaveCreateWithoutFlowShareInput, FlowSaveUncheckedCreateWithoutFlowShareInput> | FlowSaveCreateWithoutFlowShareInput[] | FlowSaveUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutFlowShareInput | FlowSaveCreateOrConnectWithoutFlowShareInput[]
+    createMany?: FlowSaveCreateManyFlowShareInputEnvelope
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+  }
+
+  export type EnumFlowShareStatusFieldUpdateOperationsInput = {
+    set?: $Enums.FlowShareStatus
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -14088,20 +15479,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFlowSharesInput, UserUpdateWithoutFlowSharesInput>, UserUncheckedUpdateWithoutFlowSharesInput>
   }
 
-  export type FlowRatingUpdateManyWithoutFlowShareNestedInput = {
-    create?: XOR<FlowRatingCreateWithoutFlowShareInput, FlowRatingUncheckedCreateWithoutFlowShareInput> | FlowRatingCreateWithoutFlowShareInput[] | FlowRatingUncheckedCreateWithoutFlowShareInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutFlowShareInput | FlowRatingCreateOrConnectWithoutFlowShareInput[]
-    upsert?: FlowRatingUpsertWithWhereUniqueWithoutFlowShareInput | FlowRatingUpsertWithWhereUniqueWithoutFlowShareInput[]
-    createMany?: FlowRatingCreateManyFlowShareInputEnvelope
-    set?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    disconnect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    delete?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    update?: FlowRatingUpdateWithWhereUniqueWithoutFlowShareInput | FlowRatingUpdateWithWhereUniqueWithoutFlowShareInput[]
-    updateMany?: FlowRatingUpdateManyWithWhereWithoutFlowShareInput | FlowRatingUpdateManyWithWhereWithoutFlowShareInput[]
-    deleteMany?: FlowRatingScalarWhereInput | FlowRatingScalarWhereInput[]
-  }
-
   export type FlowCommentUpdateManyWithoutFlowShareNestedInput = {
     create?: XOR<FlowCommentCreateWithoutFlowShareInput, FlowCommentUncheckedCreateWithoutFlowShareInput> | FlowCommentCreateWithoutFlowShareInput[] | FlowCommentUncheckedCreateWithoutFlowShareInput[]
     connectOrCreate?: FlowCommentCreateOrConnectWithoutFlowShareInput | FlowCommentCreateOrConnectWithoutFlowShareInput[]
@@ -14116,18 +15493,32 @@ export namespace Prisma {
     deleteMany?: FlowCommentScalarWhereInput | FlowCommentScalarWhereInput[]
   }
 
-  export type FlowRatingUncheckedUpdateManyWithoutFlowShareNestedInput = {
-    create?: XOR<FlowRatingCreateWithoutFlowShareInput, FlowRatingUncheckedCreateWithoutFlowShareInput> | FlowRatingCreateWithoutFlowShareInput[] | FlowRatingUncheckedCreateWithoutFlowShareInput[]
-    connectOrCreate?: FlowRatingCreateOrConnectWithoutFlowShareInput | FlowRatingCreateOrConnectWithoutFlowShareInput[]
-    upsert?: FlowRatingUpsertWithWhereUniqueWithoutFlowShareInput | FlowRatingUpsertWithWhereUniqueWithoutFlowShareInput[]
-    createMany?: FlowRatingCreateManyFlowShareInputEnvelope
-    set?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    disconnect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    delete?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    connect?: FlowRatingWhereUniqueInput | FlowRatingWhereUniqueInput[]
-    update?: FlowRatingUpdateWithWhereUniqueWithoutFlowShareInput | FlowRatingUpdateWithWhereUniqueWithoutFlowShareInput[]
-    updateMany?: FlowRatingUpdateManyWithWhereWithoutFlowShareInput | FlowRatingUpdateManyWithWhereWithoutFlowShareInput[]
-    deleteMany?: FlowRatingScalarWhereInput | FlowRatingScalarWhereInput[]
+  export type FlowLikeUpdateManyWithoutFlowShareNestedInput = {
+    create?: XOR<FlowLikeCreateWithoutFlowShareInput, FlowLikeUncheckedCreateWithoutFlowShareInput> | FlowLikeCreateWithoutFlowShareInput[] | FlowLikeUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutFlowShareInput | FlowLikeCreateOrConnectWithoutFlowShareInput[]
+    upsert?: FlowLikeUpsertWithWhereUniqueWithoutFlowShareInput | FlowLikeUpsertWithWhereUniqueWithoutFlowShareInput[]
+    createMany?: FlowLikeCreateManyFlowShareInputEnvelope
+    set?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    disconnect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    delete?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    update?: FlowLikeUpdateWithWhereUniqueWithoutFlowShareInput | FlowLikeUpdateWithWhereUniqueWithoutFlowShareInput[]
+    updateMany?: FlowLikeUpdateManyWithWhereWithoutFlowShareInput | FlowLikeUpdateManyWithWhereWithoutFlowShareInput[]
+    deleteMany?: FlowLikeScalarWhereInput | FlowLikeScalarWhereInput[]
+  }
+
+  export type FlowSaveUpdateManyWithoutFlowShareNestedInput = {
+    create?: XOR<FlowSaveCreateWithoutFlowShareInput, FlowSaveUncheckedCreateWithoutFlowShareInput> | FlowSaveCreateWithoutFlowShareInput[] | FlowSaveUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutFlowShareInput | FlowSaveCreateOrConnectWithoutFlowShareInput[]
+    upsert?: FlowSaveUpsertWithWhereUniqueWithoutFlowShareInput | FlowSaveUpsertWithWhereUniqueWithoutFlowShareInput[]
+    createMany?: FlowSaveCreateManyFlowShareInputEnvelope
+    set?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    disconnect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    delete?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    update?: FlowSaveUpdateWithWhereUniqueWithoutFlowShareInput | FlowSaveUpdateWithWhereUniqueWithoutFlowShareInput[]
+    updateMany?: FlowSaveUpdateManyWithWhereWithoutFlowShareInput | FlowSaveUpdateManyWithWhereWithoutFlowShareInput[]
+    deleteMany?: FlowSaveScalarWhereInput | FlowSaveScalarWhereInput[]
   }
 
   export type FlowCommentUncheckedUpdateManyWithoutFlowShareNestedInput = {
@@ -14144,32 +15535,32 @@ export namespace Prisma {
     deleteMany?: FlowCommentScalarWhereInput | FlowCommentScalarWhereInput[]
   }
 
-  export type FlowShareCreateNestedOneWithoutRatingsInput = {
-    create?: XOR<FlowShareCreateWithoutRatingsInput, FlowShareUncheckedCreateWithoutRatingsInput>
-    connectOrCreate?: FlowShareCreateOrConnectWithoutRatingsInput
-    connect?: FlowShareWhereUniqueInput
+  export type FlowLikeUncheckedUpdateManyWithoutFlowShareNestedInput = {
+    create?: XOR<FlowLikeCreateWithoutFlowShareInput, FlowLikeUncheckedCreateWithoutFlowShareInput> | FlowLikeCreateWithoutFlowShareInput[] | FlowLikeUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowLikeCreateOrConnectWithoutFlowShareInput | FlowLikeCreateOrConnectWithoutFlowShareInput[]
+    upsert?: FlowLikeUpsertWithWhereUniqueWithoutFlowShareInput | FlowLikeUpsertWithWhereUniqueWithoutFlowShareInput[]
+    createMany?: FlowLikeCreateManyFlowShareInputEnvelope
+    set?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    disconnect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    delete?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    connect?: FlowLikeWhereUniqueInput | FlowLikeWhereUniqueInput[]
+    update?: FlowLikeUpdateWithWhereUniqueWithoutFlowShareInput | FlowLikeUpdateWithWhereUniqueWithoutFlowShareInput[]
+    updateMany?: FlowLikeUpdateManyWithWhereWithoutFlowShareInput | FlowLikeUpdateManyWithWhereWithoutFlowShareInput[]
+    deleteMany?: FlowLikeScalarWhereInput | FlowLikeScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutRatingsInput = {
-    create?: XOR<UserCreateWithoutRatingsInput, UserUncheckedCreateWithoutRatingsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutRatingsInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type FlowShareUpdateOneRequiredWithoutRatingsNestedInput = {
-    create?: XOR<FlowShareCreateWithoutRatingsInput, FlowShareUncheckedCreateWithoutRatingsInput>
-    connectOrCreate?: FlowShareCreateOrConnectWithoutRatingsInput
-    upsert?: FlowShareUpsertWithoutRatingsInput
-    connect?: FlowShareWhereUniqueInput
-    update?: XOR<XOR<FlowShareUpdateToOneWithWhereWithoutRatingsInput, FlowShareUpdateWithoutRatingsInput>, FlowShareUncheckedUpdateWithoutRatingsInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutRatingsNestedInput = {
-    create?: XOR<UserCreateWithoutRatingsInput, UserUncheckedCreateWithoutRatingsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutRatingsInput
-    upsert?: UserUpsertWithoutRatingsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRatingsInput, UserUpdateWithoutRatingsInput>, UserUncheckedUpdateWithoutRatingsInput>
+  export type FlowSaveUncheckedUpdateManyWithoutFlowShareNestedInput = {
+    create?: XOR<FlowSaveCreateWithoutFlowShareInput, FlowSaveUncheckedCreateWithoutFlowShareInput> | FlowSaveCreateWithoutFlowShareInput[] | FlowSaveUncheckedCreateWithoutFlowShareInput[]
+    connectOrCreate?: FlowSaveCreateOrConnectWithoutFlowShareInput | FlowSaveCreateOrConnectWithoutFlowShareInput[]
+    upsert?: FlowSaveUpsertWithWhereUniqueWithoutFlowShareInput | FlowSaveUpsertWithWhereUniqueWithoutFlowShareInput[]
+    createMany?: FlowSaveCreateManyFlowShareInputEnvelope
+    set?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    disconnect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    delete?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    connect?: FlowSaveWhereUniqueInput | FlowSaveWhereUniqueInput[]
+    update?: FlowSaveUpdateWithWhereUniqueWithoutFlowShareInput | FlowSaveUpdateWithWhereUniqueWithoutFlowShareInput[]
+    updateMany?: FlowSaveUpdateManyWithWhereWithoutFlowShareInput | FlowSaveUpdateManyWithWhereWithoutFlowShareInput[]
+    deleteMany?: FlowSaveScalarWhereInput | FlowSaveScalarWhereInput[]
   }
 
   export type FlowShareCreateNestedOneWithoutCommentsInput = {
@@ -14178,9 +15569,9 @@ export namespace Prisma {
     connect?: FlowShareWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutCommentsInput = {
-    create?: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommentsInput
+  export type UserCreateNestedOneWithoutFlowCommentsInput = {
+    create?: XOR<UserCreateWithoutFlowCommentsInput, UserUncheckedCreateWithoutFlowCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFlowCommentsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -14212,12 +15603,12 @@ export namespace Prisma {
     update?: XOR<XOR<FlowShareUpdateToOneWithWhereWithoutCommentsInput, FlowShareUpdateWithoutCommentsInput>, FlowShareUncheckedUpdateWithoutCommentsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
-    create?: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommentsInput
-    upsert?: UserUpsertWithoutCommentsInput
+  export type UserUpdateOneRequiredWithoutFlowCommentsNestedInput = {
+    create?: XOR<UserCreateWithoutFlowCommentsInput, UserUncheckedCreateWithoutFlowCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFlowCommentsInput
+    upsert?: UserUpsertWithoutFlowCommentsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentsInput, UserUpdateWithoutCommentsInput>, UserUncheckedUpdateWithoutCommentsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFlowCommentsInput, UserUpdateWithoutFlowCommentsInput>, UserUncheckedUpdateWithoutFlowCommentsInput>
   }
 
   export type FlowCommentUpdateOneWithoutRepliesNestedInput = {
@@ -14256,6 +15647,62 @@ export namespace Prisma {
     update?: FlowCommentUpdateWithWhereUniqueWithoutParentInput | FlowCommentUpdateWithWhereUniqueWithoutParentInput[]
     updateMany?: FlowCommentUpdateManyWithWhereWithoutParentInput | FlowCommentUpdateManyWithWhereWithoutParentInput[]
     deleteMany?: FlowCommentScalarWhereInput | FlowCommentScalarWhereInput[]
+  }
+
+  export type FlowShareCreateNestedOneWithoutLikesInput = {
+    create?: XOR<FlowShareCreateWithoutLikesInput, FlowShareUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: FlowShareCreateOrConnectWithoutLikesInput
+    connect?: FlowShareWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFlowLikesInput = {
+    create?: XOR<UserCreateWithoutFlowLikesInput, UserUncheckedCreateWithoutFlowLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFlowLikesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FlowShareUpdateOneRequiredWithoutLikesNestedInput = {
+    create?: XOR<FlowShareCreateWithoutLikesInput, FlowShareUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: FlowShareCreateOrConnectWithoutLikesInput
+    upsert?: FlowShareUpsertWithoutLikesInput
+    connect?: FlowShareWhereUniqueInput
+    update?: XOR<XOR<FlowShareUpdateToOneWithWhereWithoutLikesInput, FlowShareUpdateWithoutLikesInput>, FlowShareUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutFlowLikesNestedInput = {
+    create?: XOR<UserCreateWithoutFlowLikesInput, UserUncheckedCreateWithoutFlowLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFlowLikesInput
+    upsert?: UserUpsertWithoutFlowLikesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFlowLikesInput, UserUpdateWithoutFlowLikesInput>, UserUncheckedUpdateWithoutFlowLikesInput>
+  }
+
+  export type FlowShareCreateNestedOneWithoutSavesInput = {
+    create?: XOR<FlowShareCreateWithoutSavesInput, FlowShareUncheckedCreateWithoutSavesInput>
+    connectOrCreate?: FlowShareCreateOrConnectWithoutSavesInput
+    connect?: FlowShareWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFlowSaveInput = {
+    create?: XOR<UserCreateWithoutFlowSaveInput, UserUncheckedCreateWithoutFlowSaveInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFlowSaveInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FlowShareUpdateOneRequiredWithoutSavesNestedInput = {
+    create?: XOR<FlowShareCreateWithoutSavesInput, FlowShareUncheckedCreateWithoutSavesInput>
+    connectOrCreate?: FlowShareCreateOrConnectWithoutSavesInput
+    upsert?: FlowShareUpsertWithoutSavesInput
+    connect?: FlowShareWhereUniqueInput
+    update?: XOR<XOR<FlowShareUpdateToOneWithWhereWithoutSavesInput, FlowShareUpdateWithoutSavesInput>, FlowShareUncheckedUpdateWithoutSavesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutFlowSaveNestedInput = {
+    create?: XOR<UserCreateWithoutFlowSaveInput, UserUncheckedCreateWithoutFlowSaveInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFlowSaveInput
+    upsert?: UserUpsertWithoutFlowSaveInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFlowSaveInput, UserUpdateWithoutFlowSaveInput>, UserUncheckedUpdateWithoutFlowSaveInput>
   }
 
   export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -14483,13 +15930,6 @@ export namespace Prisma {
     _min?: NestedEnumPlatformFilter<$PrismaModel>
     _max?: NestedEnumPlatformFilter<$PrismaModel>
   }
-
-  export type NestedEnumUserFlowStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserFlowStatus | EnumUserFlowStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.UserFlowStatus[]
-    notIn?: $Enums.UserFlowStatus[]
-    not?: NestedEnumUserFlowStatusFilter<$PrismaModel> | $Enums.UserFlowStatus
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -14514,6 +15954,13 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedEnumUserFlowStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserFlowStatus | EnumUserFlowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserFlowStatus[]
+    notIn?: $Enums.UserFlowStatus[]
+    not?: NestedEnumUserFlowStatusFilter<$PrismaModel> | $Enums.UserFlowStatus
+  }
+
   export type NestedEnumUserFlowStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserFlowStatus | EnumUserFlowStatusFieldRefInput<$PrismaModel>
     in?: $Enums.UserFlowStatus[]
@@ -14522,6 +15969,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserFlowStatusFilter<$PrismaModel>
     _max?: NestedEnumUserFlowStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFlowShareStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlowShareStatus | EnumFlowShareStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlowShareStatus[]
+    notIn?: $Enums.FlowShareStatus[]
+    not?: NestedEnumFlowShareStatusFilter<$PrismaModel> | $Enums.FlowShareStatus
+  }
+
+  export type NestedEnumFlowShareStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlowShareStatus | EnumFlowShareStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlowShareStatus[]
+    notIn?: $Enums.FlowShareStatus[]
+    not?: NestedEnumFlowShareStatusWithAggregatesFilter<$PrismaModel> | $Enums.FlowShareStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFlowShareStatusFilter<$PrismaModel>
+    _max?: NestedEnumFlowShareStatusFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -14583,6 +16047,8 @@ export namespace Prisma {
 
   export type FlowCreateWithoutUserInput = {
     id?: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -14590,7 +16056,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     states?: UserFlowStateCreateNestedManyWithoutFlowInput
@@ -14599,6 +16065,8 @@ export namespace Prisma {
 
   export type FlowUncheckedCreateWithoutUserInput = {
     id?: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -14606,7 +16074,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     states?: UserFlowStateUncheckedCreateNestedManyWithoutFlowInput
@@ -14627,12 +16095,15 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     flow: FlowCreateNestedOneWithoutSharesInput
-    ratings?: FlowRatingCreateNestedManyWithoutFlowShareInput
     comments?: FlowCommentCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareUncheckedCreateWithoutUserInput = {
@@ -14640,11 +16111,14 @@ export namespace Prisma {
     flowId: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutFlowShareInput
     comments?: FlowCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeUncheckedCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveUncheckedCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareCreateOrConnectWithoutUserInput = {
@@ -14654,6 +16128,50 @@ export namespace Prisma {
 
   export type FlowShareCreateManyUserInputEnvelope = {
     data: FlowShareCreateManyUserInput | FlowShareCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FlowLikeCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    flowShare: FlowShareCreateNestedOneWithoutLikesInput
+  }
+
+  export type FlowLikeUncheckedCreateWithoutUserInput = {
+    id?: string
+    flowShareId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowLikeCreateOrConnectWithoutUserInput = {
+    where: FlowLikeWhereUniqueInput
+    create: XOR<FlowLikeCreateWithoutUserInput, FlowLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type FlowLikeCreateManyUserInputEnvelope = {
+    data: FlowLikeCreateManyUserInput | FlowLikeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FlowSaveCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    flowShare: FlowShareCreateNestedOneWithoutSavesInput
+  }
+
+  export type FlowSaveUncheckedCreateWithoutUserInput = {
+    id?: string
+    flowShareId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowSaveCreateOrConnectWithoutUserInput = {
+    where: FlowSaveWhereUniqueInput
+    create: XOR<FlowSaveCreateWithoutUserInput, FlowSaveUncheckedCreateWithoutUserInput>
+  }
+
+  export type FlowSaveCreateManyUserInputEnvelope = {
+    data: FlowSaveCreateManyUserInput | FlowSaveCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -14684,30 +16202,6 @@ export namespace Prisma {
 
   export type FlowCommentCreateManyUserInputEnvelope = {
     data: FlowCommentCreateManyUserInput | FlowCommentCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FlowRatingCreateWithoutUserInput = {
-    id?: string
-    rating: number
-    createdAt?: Date | string
-    flowShare: FlowShareCreateNestedOneWithoutRatingsInput
-  }
-
-  export type FlowRatingUncheckedCreateWithoutUserInput = {
-    id?: string
-    flowShareId: string
-    rating: number
-    createdAt?: Date | string
-  }
-
-  export type FlowRatingCreateOrConnectWithoutUserInput = {
-    where: FlowRatingWhereUniqueInput
-    create: XOR<FlowRatingCreateWithoutUserInput, FlowRatingUncheckedCreateWithoutUserInput>
-  }
-
-  export type FlowRatingCreateManyUserInputEnvelope = {
-    data: FlowRatingCreateManyUserInput | FlowRatingCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -14845,6 +16339,8 @@ export namespace Prisma {
     NOT?: FlowScalarWhereInput | FlowScalarWhereInput[]
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
+    pageId?: StringFilter<"Flow"> | string
+    pageAccessToken?: StringFilter<"Flow"> | string
     name?: StringFilter<"Flow"> | string
     description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
@@ -14852,7 +16348,7 @@ export namespace Prisma {
     layoutJson?: JsonFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
-    timeoutText?: StringNullableFilter<"Flow"> | string | null
+    timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
   }
@@ -14882,9 +16378,63 @@ export namespace Prisma {
     userId?: StringFilter<"FlowShare"> | string
     name?: StringFilter<"FlowShare"> | string
     description?: StringNullableFilter<"FlowShare"> | string | null
+    thumbnail?: StringNullableFilter<"FlowShare"> | string | null
+    status?: EnumFlowShareStatusFilter<"FlowShare"> | $Enums.FlowShareStatus
     downloadCount?: IntFilter<"FlowShare"> | number
     createdAt?: DateTimeFilter<"FlowShare"> | Date | string
     updatedAt?: DateTimeFilter<"FlowShare"> | Date | string
+  }
+
+  export type FlowLikeUpsertWithWhereUniqueWithoutUserInput = {
+    where: FlowLikeWhereUniqueInput
+    update: XOR<FlowLikeUpdateWithoutUserInput, FlowLikeUncheckedUpdateWithoutUserInput>
+    create: XOR<FlowLikeCreateWithoutUserInput, FlowLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type FlowLikeUpdateWithWhereUniqueWithoutUserInput = {
+    where: FlowLikeWhereUniqueInput
+    data: XOR<FlowLikeUpdateWithoutUserInput, FlowLikeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FlowLikeUpdateManyWithWhereWithoutUserInput = {
+    where: FlowLikeScalarWhereInput
+    data: XOR<FlowLikeUpdateManyMutationInput, FlowLikeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FlowLikeScalarWhereInput = {
+    AND?: FlowLikeScalarWhereInput | FlowLikeScalarWhereInput[]
+    OR?: FlowLikeScalarWhereInput[]
+    NOT?: FlowLikeScalarWhereInput | FlowLikeScalarWhereInput[]
+    id?: StringFilter<"FlowLike"> | string
+    flowShareId?: StringFilter<"FlowLike"> | string
+    userId?: StringFilter<"FlowLike"> | string
+    createdAt?: DateTimeFilter<"FlowLike"> | Date | string
+  }
+
+  export type FlowSaveUpsertWithWhereUniqueWithoutUserInput = {
+    where: FlowSaveWhereUniqueInput
+    update: XOR<FlowSaveUpdateWithoutUserInput, FlowSaveUncheckedUpdateWithoutUserInput>
+    create: XOR<FlowSaveCreateWithoutUserInput, FlowSaveUncheckedCreateWithoutUserInput>
+  }
+
+  export type FlowSaveUpdateWithWhereUniqueWithoutUserInput = {
+    where: FlowSaveWhereUniqueInput
+    data: XOR<FlowSaveUpdateWithoutUserInput, FlowSaveUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FlowSaveUpdateManyWithWhereWithoutUserInput = {
+    where: FlowSaveScalarWhereInput
+    data: XOR<FlowSaveUpdateManyMutationInput, FlowSaveUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FlowSaveScalarWhereInput = {
+    AND?: FlowSaveScalarWhereInput | FlowSaveScalarWhereInput[]
+    OR?: FlowSaveScalarWhereInput[]
+    NOT?: FlowSaveScalarWhereInput | FlowSaveScalarWhereInput[]
+    id?: StringFilter<"FlowSave"> | string
+    flowShareId?: StringFilter<"FlowSave"> | string
+    userId?: StringFilter<"FlowSave"> | string
+    createdAt?: DateTimeFilter<"FlowSave"> | Date | string
   }
 
   export type FlowCommentUpsertWithWhereUniqueWithoutUserInput = {
@@ -14914,33 +16464,6 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"FlowComment"> | string | null
     createdAt?: DateTimeFilter<"FlowComment"> | Date | string
     updatedAt?: DateTimeFilter<"FlowComment"> | Date | string
-  }
-
-  export type FlowRatingUpsertWithWhereUniqueWithoutUserInput = {
-    where: FlowRatingWhereUniqueInput
-    update: XOR<FlowRatingUpdateWithoutUserInput, FlowRatingUncheckedUpdateWithoutUserInput>
-    create: XOR<FlowRatingCreateWithoutUserInput, FlowRatingUncheckedCreateWithoutUserInput>
-  }
-
-  export type FlowRatingUpdateWithWhereUniqueWithoutUserInput = {
-    where: FlowRatingWhereUniqueInput
-    data: XOR<FlowRatingUpdateWithoutUserInput, FlowRatingUncheckedUpdateWithoutUserInput>
-  }
-
-  export type FlowRatingUpdateManyWithWhereWithoutUserInput = {
-    where: FlowRatingScalarWhereInput
-    data: XOR<FlowRatingUpdateManyMutationInput, FlowRatingUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type FlowRatingScalarWhereInput = {
-    AND?: FlowRatingScalarWhereInput | FlowRatingScalarWhereInput[]
-    OR?: FlowRatingScalarWhereInput[]
-    NOT?: FlowRatingScalarWhereInput | FlowRatingScalarWhereInput[]
-    id?: StringFilter<"FlowRating"> | string
-    flowShareId?: StringFilter<"FlowRating"> | string
-    userId?: StringFilter<"FlowRating"> | string
-    rating?: IntFilter<"FlowRating"> | number
-    createdAt?: DateTimeFilter<"FlowRating"> | Date | string
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
@@ -15073,8 +16596,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -15094,8 +16618,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -15131,8 +16656,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -15152,8 +16678,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -15173,8 +16700,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -15194,8 +16722,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -15231,8 +16760,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -15252,8 +16782,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -15272,8 +16803,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -15293,8 +16825,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -15346,12 +16879,15 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowSharesInput
-    ratings?: FlowRatingCreateNestedManyWithoutFlowShareInput
     comments?: FlowCommentCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareUncheckedCreateWithoutFlowInput = {
@@ -15359,11 +16895,14 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutFlowShareInput
     comments?: FlowCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeUncheckedCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveUncheckedCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareCreateOrConnectWithoutFlowInput = {
@@ -15400,8 +16939,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -15421,8 +16961,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -15475,8 +17016,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -15496,8 +17038,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -15510,6 +17053,8 @@ export namespace Prisma {
 
   export type FlowCreateWithoutStatesInput = {
     id?: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -15517,7 +17062,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
@@ -15527,6 +17072,8 @@ export namespace Prisma {
   export type FlowUncheckedCreateWithoutStatesInput = {
     id?: string
     userId: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -15534,7 +17081,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
@@ -15570,8 +17117,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -15591,8 +17139,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -15611,6 +17160,8 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutStatesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -15618,7 +17169,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
@@ -15628,6 +17179,8 @@ export namespace Prisma {
   export type FlowUncheckedUpdateWithoutStatesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -15635,7 +17188,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
@@ -15643,6 +17196,8 @@ export namespace Prisma {
 
   export type FlowCreateWithoutSharesInput = {
     id?: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -15650,7 +17205,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
@@ -15660,6 +17215,8 @@ export namespace Prisma {
   export type FlowUncheckedCreateWithoutSharesInput = {
     id?: string
     userId: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -15667,7 +17224,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     states?: UserFlowStateUncheckedCreateNestedManyWithoutFlowInput
@@ -15691,8 +17248,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -15712,8 +17270,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -15725,36 +17284,12 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutFlowSharesInput, UserUncheckedCreateWithoutFlowSharesInput>
   }
 
-  export type FlowRatingCreateWithoutFlowShareInput = {
-    id?: string
-    rating: number
-    createdAt?: Date | string
-    user: UserCreateNestedOneWithoutRatingsInput
-  }
-
-  export type FlowRatingUncheckedCreateWithoutFlowShareInput = {
-    id?: string
-    userId: string
-    rating: number
-    createdAt?: Date | string
-  }
-
-  export type FlowRatingCreateOrConnectWithoutFlowShareInput = {
-    where: FlowRatingWhereUniqueInput
-    create: XOR<FlowRatingCreateWithoutFlowShareInput, FlowRatingUncheckedCreateWithoutFlowShareInput>
-  }
-
-  export type FlowRatingCreateManyFlowShareInputEnvelope = {
-    data: FlowRatingCreateManyFlowShareInput | FlowRatingCreateManyFlowShareInput[]
-    skipDuplicates?: boolean
-  }
-
   export type FlowCommentCreateWithoutFlowShareInput = {
     id?: string
     comment: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutCommentsInput
+    user: UserCreateNestedOneWithoutFlowCommentsInput
     parent?: FlowCommentCreateNestedOneWithoutRepliesInput
     replies?: FlowCommentCreateNestedManyWithoutParentInput
   }
@@ -15779,6 +17314,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FlowLikeCreateWithoutFlowShareInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutFlowLikesInput
+  }
+
+  export type FlowLikeUncheckedCreateWithoutFlowShareInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowLikeCreateOrConnectWithoutFlowShareInput = {
+    where: FlowLikeWhereUniqueInput
+    create: XOR<FlowLikeCreateWithoutFlowShareInput, FlowLikeUncheckedCreateWithoutFlowShareInput>
+  }
+
+  export type FlowLikeCreateManyFlowShareInputEnvelope = {
+    data: FlowLikeCreateManyFlowShareInput | FlowLikeCreateManyFlowShareInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FlowSaveCreateWithoutFlowShareInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutFlowSaveInput
+  }
+
+  export type FlowSaveUncheckedCreateWithoutFlowShareInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowSaveCreateOrConnectWithoutFlowShareInput = {
+    where: FlowSaveWhereUniqueInput
+    create: XOR<FlowSaveCreateWithoutFlowShareInput, FlowSaveUncheckedCreateWithoutFlowShareInput>
+  }
+
+  export type FlowSaveCreateManyFlowShareInputEnvelope = {
+    data: FlowSaveCreateManyFlowShareInput | FlowSaveCreateManyFlowShareInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FlowUpsertWithoutSharesInput = {
     update: XOR<FlowUpdateWithoutSharesInput, FlowUncheckedUpdateWithoutSharesInput>
     create: XOR<FlowCreateWithoutSharesInput, FlowUncheckedCreateWithoutSharesInput>
@@ -15792,6 +17371,8 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -15799,7 +17380,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
@@ -15809,6 +17390,8 @@ export namespace Prisma {
   export type FlowUncheckedUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -15816,7 +17399,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     states?: UserFlowStateUncheckedUpdateManyWithoutFlowNestedInput
@@ -15846,8 +17429,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -15867,28 +17451,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type FlowRatingUpsertWithWhereUniqueWithoutFlowShareInput = {
-    where: FlowRatingWhereUniqueInput
-    update: XOR<FlowRatingUpdateWithoutFlowShareInput, FlowRatingUncheckedUpdateWithoutFlowShareInput>
-    create: XOR<FlowRatingCreateWithoutFlowShareInput, FlowRatingUncheckedCreateWithoutFlowShareInput>
-  }
-
-  export type FlowRatingUpdateWithWhereUniqueWithoutFlowShareInput = {
-    where: FlowRatingWhereUniqueInput
-    data: XOR<FlowRatingUpdateWithoutFlowShareInput, FlowRatingUncheckedUpdateWithoutFlowShareInput>
-  }
-
-  export type FlowRatingUpdateManyWithWhereWithoutFlowShareInput = {
-    where: FlowRatingScalarWhereInput
-    data: XOR<FlowRatingUpdateManyMutationInput, FlowRatingUncheckedUpdateManyWithoutFlowShareInput>
   }
 
   export type FlowCommentUpsertWithWhereUniqueWithoutFlowShareInput = {
@@ -15907,180 +17476,51 @@ export namespace Prisma {
     data: XOR<FlowCommentUpdateManyMutationInput, FlowCommentUncheckedUpdateManyWithoutFlowShareInput>
   }
 
-  export type FlowShareCreateWithoutRatingsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    downloadCount?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flow: FlowCreateNestedOneWithoutSharesInput
-    user: UserCreateNestedOneWithoutFlowSharesInput
-    comments?: FlowCommentCreateNestedManyWithoutFlowShareInput
+  export type FlowLikeUpsertWithWhereUniqueWithoutFlowShareInput = {
+    where: FlowLikeWhereUniqueInput
+    update: XOR<FlowLikeUpdateWithoutFlowShareInput, FlowLikeUncheckedUpdateWithoutFlowShareInput>
+    create: XOR<FlowLikeCreateWithoutFlowShareInput, FlowLikeUncheckedCreateWithoutFlowShareInput>
   }
 
-  export type FlowShareUncheckedCreateWithoutRatingsInput = {
-    id?: string
-    flowId: string
-    userId: string
-    name: string
-    description?: string | null
-    downloadCount?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutFlowShareInput
+  export type FlowLikeUpdateWithWhereUniqueWithoutFlowShareInput = {
+    where: FlowLikeWhereUniqueInput
+    data: XOR<FlowLikeUpdateWithoutFlowShareInput, FlowLikeUncheckedUpdateWithoutFlowShareInput>
   }
 
-  export type FlowShareCreateOrConnectWithoutRatingsInput = {
-    where: FlowShareWhereUniqueInput
-    create: XOR<FlowShareCreateWithoutRatingsInput, FlowShareUncheckedCreateWithoutRatingsInput>
+  export type FlowLikeUpdateManyWithWhereWithoutFlowShareInput = {
+    where: FlowLikeScalarWhereInput
+    data: XOR<FlowLikeUpdateManyMutationInput, FlowLikeUncheckedUpdateManyWithoutFlowShareInput>
   }
 
-  export type UserCreateWithoutRatingsInput = {
-    id?: string
-    username: string
-    displayName?: string | null
-    email: string
-    avatar?: string | null
-    password: string
-    role?: $Enums.Role
-    provider?: $Enums.Provider
-    providerId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowCreateNestedManyWithoutUserInput
-    flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
-    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
-    PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  export type FlowSaveUpsertWithWhereUniqueWithoutFlowShareInput = {
+    where: FlowSaveWhereUniqueInput
+    update: XOR<FlowSaveUpdateWithoutFlowShareInput, FlowSaveUncheckedUpdateWithoutFlowShareInput>
+    create: XOR<FlowSaveCreateWithoutFlowShareInput, FlowSaveUncheckedCreateWithoutFlowShareInput>
   }
 
-  export type UserUncheckedCreateWithoutRatingsInput = {
-    id?: string
-    username: string
-    displayName?: string | null
-    email: string
-    avatar?: string | null
-    password: string
-    role?: $Enums.Role
-    provider?: $Enums.Provider
-    providerId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
-    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
-    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
-    PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  export type FlowSaveUpdateWithWhereUniqueWithoutFlowShareInput = {
+    where: FlowSaveWhereUniqueInput
+    data: XOR<FlowSaveUpdateWithoutFlowShareInput, FlowSaveUncheckedUpdateWithoutFlowShareInput>
   }
 
-  export type UserCreateOrConnectWithoutRatingsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutRatingsInput, UserUncheckedCreateWithoutRatingsInput>
-  }
-
-  export type FlowShareUpsertWithoutRatingsInput = {
-    update: XOR<FlowShareUpdateWithoutRatingsInput, FlowShareUncheckedUpdateWithoutRatingsInput>
-    create: XOR<FlowShareCreateWithoutRatingsInput, FlowShareUncheckedCreateWithoutRatingsInput>
-    where?: FlowShareWhereInput
-  }
-
-  export type FlowShareUpdateToOneWithWhereWithoutRatingsInput = {
-    where?: FlowShareWhereInput
-    data: XOR<FlowShareUpdateWithoutRatingsInput, FlowShareUncheckedUpdateWithoutRatingsInput>
-  }
-
-  export type FlowShareUpdateWithoutRatingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    downloadCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flow?: FlowUpdateOneRequiredWithoutSharesNestedInput
-    user?: UserUpdateOneRequiredWithoutFlowSharesNestedInput
-    comments?: FlowCommentUpdateManyWithoutFlowShareNestedInput
-  }
-
-  export type FlowShareUncheckedUpdateWithoutRatingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    flowId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    downloadCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    comments?: FlowCommentUncheckedUpdateManyWithoutFlowShareNestedInput
-  }
-
-  export type UserUpsertWithoutRatingsInput = {
-    update: XOR<UserUpdateWithoutRatingsInput, UserUncheckedUpdateWithoutRatingsInput>
-    create: XOR<UserCreateWithoutRatingsInput, UserUncheckedCreateWithoutRatingsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutRatingsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutRatingsInput, UserUncheckedUpdateWithoutRatingsInput>
-  }
-
-  export type UserUpdateWithoutRatingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
-    providerId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUpdateManyWithoutUserNestedInput
-    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
-    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
-    PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutRatingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
-    providerId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
-    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
-    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
-    PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  export type FlowSaveUpdateManyWithWhereWithoutFlowShareInput = {
+    where: FlowSaveScalarWhereInput
+    data: XOR<FlowSaveUpdateManyMutationInput, FlowSaveUncheckedUpdateManyWithoutFlowShareInput>
   }
 
   export type FlowShareCreateWithoutCommentsInput = {
     id?: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     flow: FlowCreateNestedOneWithoutSharesInput
     user: UserCreateNestedOneWithoutFlowSharesInput
-    ratings?: FlowRatingCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareUncheckedCreateWithoutCommentsInput = {
@@ -16089,10 +17529,13 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeUncheckedCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveUncheckedCreateNestedManyWithoutFlowShareInput
   }
 
   export type FlowShareCreateOrConnectWithoutCommentsInput = {
@@ -16100,7 +17543,7 @@ export namespace Prisma {
     create: XOR<FlowShareCreateWithoutCommentsInput, FlowShareUncheckedCreateWithoutCommentsInput>
   }
 
-  export type UserCreateWithoutCommentsInput = {
+  export type UserCreateWithoutFlowCommentsInput = {
     id?: string
     username: string
     displayName?: string | null
@@ -16114,14 +17557,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutCommentsInput = {
+  export type UserUncheckedCreateWithoutFlowCommentsInput = {
     id?: string
     username: string
     displayName?: string | null
@@ -16135,16 +17579,17 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutCommentsInput = {
+  export type UserCreateOrConnectWithoutFlowCommentsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+    create: XOR<UserCreateWithoutFlowCommentsInput, UserUncheckedCreateWithoutFlowCommentsInput>
   }
 
   export type FlowCommentCreateWithoutRepliesInput = {
@@ -16153,7 +17598,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flowShare: FlowShareCreateNestedOneWithoutCommentsInput
-    user: UserCreateNestedOneWithoutCommentsInput
+    user: UserCreateNestedOneWithoutFlowCommentsInput
     parent?: FlowCommentCreateNestedOneWithoutRepliesInput
   }
 
@@ -16178,7 +17623,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flowShare: FlowShareCreateNestedOneWithoutCommentsInput
-    user: UserCreateNestedOneWithoutCommentsInput
+    user: UserCreateNestedOneWithoutFlowCommentsInput
     replies?: FlowCommentCreateNestedManyWithoutParentInput
   }
 
@@ -16217,12 +17662,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flow?: FlowUpdateOneRequiredWithoutSharesNestedInput
     user?: UserUpdateOneRequiredWithoutFlowSharesNestedInput
-    ratings?: FlowRatingUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUpdateManyWithoutFlowShareNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutCommentsInput = {
@@ -16231,24 +17679,27 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ratings?: FlowRatingUncheckedUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUncheckedUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUncheckedUpdateManyWithoutFlowShareNestedInput
   }
 
-  export type UserUpsertWithoutCommentsInput = {
-    update: XOR<UserUpdateWithoutCommentsInput, UserUncheckedUpdateWithoutCommentsInput>
-    create: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+  export type UserUpsertWithoutFlowCommentsInput = {
+    update: XOR<UserUpdateWithoutFlowCommentsInput, UserUncheckedUpdateWithoutFlowCommentsInput>
+    create: XOR<UserCreateWithoutFlowCommentsInput, UserUncheckedCreateWithoutFlowCommentsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutCommentsInput = {
+  export type UserUpdateToOneWithWhereWithoutFlowCommentsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutCommentsInput, UserUncheckedUpdateWithoutCommentsInput>
+    data: XOR<UserUpdateWithoutFlowCommentsInput, UserUncheckedUpdateWithoutFlowCommentsInput>
   }
 
-  export type UserUpdateWithoutCommentsInput = {
+  export type UserUpdateWithoutFlowCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16262,14 +17713,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutCommentsInput = {
+  export type UserUncheckedUpdateWithoutFlowCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16283,7 +17735,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -16307,7 +17760,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShare?: FlowShareUpdateOneRequiredWithoutCommentsNestedInput
-    user?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowCommentsNestedInput
     parent?: FlowCommentUpdateOneWithoutRepliesNestedInput
   }
 
@@ -16337,6 +17790,366 @@ export namespace Prisma {
     data: XOR<FlowCommentUpdateManyMutationInput, FlowCommentUncheckedUpdateManyWithoutParentInput>
   }
 
+  export type FlowShareCreateWithoutLikesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
+    downloadCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flow: FlowCreateNestedOneWithoutSharesInput
+    user: UserCreateNestedOneWithoutFlowSharesInput
+    comments?: FlowCommentCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveCreateNestedManyWithoutFlowShareInput
+  }
+
+  export type FlowShareUncheckedCreateWithoutLikesInput = {
+    id?: string
+    flowId: string
+    userId: string
+    name: string
+    description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
+    downloadCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comments?: FlowCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    saves?: FlowSaveUncheckedCreateNestedManyWithoutFlowShareInput
+  }
+
+  export type FlowShareCreateOrConnectWithoutLikesInput = {
+    where: FlowShareWhereUniqueInput
+    create: XOR<FlowShareCreateWithoutLikesInput, FlowShareUncheckedCreateWithoutLikesInput>
+  }
+
+  export type UserCreateWithoutFlowLikesInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFlowLikesInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFlowLikesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFlowLikesInput, UserUncheckedCreateWithoutFlowLikesInput>
+  }
+
+  export type FlowShareUpsertWithoutLikesInput = {
+    update: XOR<FlowShareUpdateWithoutLikesInput, FlowShareUncheckedUpdateWithoutLikesInput>
+    create: XOR<FlowShareCreateWithoutLikesInput, FlowShareUncheckedCreateWithoutLikesInput>
+    where?: FlowShareWhereInput
+  }
+
+  export type FlowShareUpdateToOneWithWhereWithoutLikesInput = {
+    where?: FlowShareWhereInput
+    data: XOR<FlowShareUpdateWithoutLikesInput, FlowShareUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type FlowShareUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
+    downloadCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flow?: FlowUpdateOneRequiredWithoutSharesNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowSharesNestedInput
+    comments?: FlowCommentUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUpdateManyWithoutFlowShareNestedInput
+  }
+
+  export type FlowShareUncheckedUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
+    downloadCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comments?: FlowCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUncheckedUpdateManyWithoutFlowShareNestedInput
+  }
+
+  export type UserUpsertWithoutFlowLikesInput = {
+    update: XOR<UserUpdateWithoutFlowLikesInput, UserUncheckedUpdateWithoutFlowLikesInput>
+    create: XOR<UserCreateWithoutFlowLikesInput, UserUncheckedCreateWithoutFlowLikesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFlowLikesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFlowLikesInput, UserUncheckedUpdateWithoutFlowLikesInput>
+  }
+
+  export type UserUpdateWithoutFlowLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFlowLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type FlowShareCreateWithoutSavesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
+    downloadCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flow: FlowCreateNestedOneWithoutSharesInput
+    user: UserCreateNestedOneWithoutFlowSharesInput
+    comments?: FlowCommentCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeCreateNestedManyWithoutFlowShareInput
+  }
+
+  export type FlowShareUncheckedCreateWithoutSavesInput = {
+    id?: string
+    flowId: string
+    userId: string
+    name: string
+    description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
+    downloadCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comments?: FlowCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    likes?: FlowLikeUncheckedCreateNestedManyWithoutFlowShareInput
+  }
+
+  export type FlowShareCreateOrConnectWithoutSavesInput = {
+    where: FlowShareWhereUniqueInput
+    create: XOR<FlowShareCreateWithoutSavesInput, FlowShareUncheckedCreateWithoutSavesInput>
+  }
+
+  export type UserCreateWithoutFlowSaveInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFlowSaveInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFlowSaveInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFlowSaveInput, UserUncheckedCreateWithoutFlowSaveInput>
+  }
+
+  export type FlowShareUpsertWithoutSavesInput = {
+    update: XOR<FlowShareUpdateWithoutSavesInput, FlowShareUncheckedUpdateWithoutSavesInput>
+    create: XOR<FlowShareCreateWithoutSavesInput, FlowShareUncheckedCreateWithoutSavesInput>
+    where?: FlowShareWhereInput
+  }
+
+  export type FlowShareUpdateToOneWithWhereWithoutSavesInput = {
+    where?: FlowShareWhereInput
+    data: XOR<FlowShareUpdateWithoutSavesInput, FlowShareUncheckedUpdateWithoutSavesInput>
+  }
+
+  export type FlowShareUpdateWithoutSavesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
+    downloadCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flow?: FlowUpdateOneRequiredWithoutSharesNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowSharesNestedInput
+    comments?: FlowCommentUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUpdateManyWithoutFlowShareNestedInput
+  }
+
+  export type FlowShareUncheckedUpdateWithoutSavesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
+    downloadCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comments?: FlowCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUncheckedUpdateManyWithoutFlowShareNestedInput
+  }
+
+  export type UserUpsertWithoutFlowSaveInput = {
+    update: XOR<UserUpdateWithoutFlowSaveInput, UserUncheckedUpdateWithoutFlowSaveInput>
+    create: XOR<UserCreateWithoutFlowSaveInput, UserUncheckedCreateWithoutFlowSaveInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFlowSaveInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFlowSaveInput, UserUncheckedUpdateWithoutFlowSaveInput>
+  }
+
+  export type UserUpdateWithoutFlowSaveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFlowSaveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutNotificationsInput = {
     id?: string
     username: string
@@ -16351,8 +18164,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    comments?: FlowCommentCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -16372,8 +18186,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    comments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
-    ratings?: FlowRatingUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -16409,8 +18224,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -16430,8 +18246,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    comments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
-    ratings?: FlowRatingUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -16439,6 +18256,8 @@ export namespace Prisma {
 
   export type FlowCreateManyUserInput = {
     id?: string
+    pageId: string
+    pageAccessToken: string
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
@@ -16446,7 +18265,7 @@ export namespace Prisma {
     layoutJson: JsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
-    timeoutText?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16456,9 +18275,23 @@ export namespace Prisma {
     flowId: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type FlowLikeCreateManyUserInput = {
+    id?: string
+    flowShareId: string
+    createdAt?: Date | string
+  }
+
+  export type FlowSaveCreateManyUserInput = {
+    id?: string
+    flowShareId: string
+    createdAt?: Date | string
   }
 
   export type FlowCommentCreateManyUserInput = {
@@ -16468,13 +18301,6 @@ export namespace Prisma {
     parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type FlowRatingCreateManyUserInput = {
-    id?: string
-    flowShareId: string
-    rating: number
-    createdAt?: Date | string
   }
 
   export type NotificationCreateManyUserInput = {
@@ -16515,6 +18341,8 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -16522,7 +18350,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     states?: UserFlowStateUpdateManyWithoutFlowNestedInput
@@ -16531,6 +18359,8 @@ export namespace Prisma {
 
   export type FlowUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -16538,7 +18368,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     states?: UserFlowStateUncheckedUpdateManyWithoutFlowNestedInput
@@ -16547,6 +18377,8 @@ export namespace Prisma {
 
   export type FlowUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
@@ -16554,7 +18386,7 @@ export namespace Prisma {
     layoutJson?: JsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutText?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16563,12 +18395,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flow?: FlowUpdateOneRequiredWithoutSharesNestedInput
-    ratings?: FlowRatingUpdateManyWithoutFlowShareNestedInput
     comments?: FlowCommentUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUpdateManyWithoutFlowShareNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutUserInput = {
@@ -16576,11 +18411,14 @@ export namespace Prisma {
     flowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ratings?: FlowRatingUncheckedUpdateManyWithoutFlowShareNestedInput
     comments?: FlowCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUncheckedUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUncheckedUpdateManyWithoutFlowShareNestedInput
   }
 
   export type FlowShareUncheckedUpdateManyWithoutUserInput = {
@@ -16588,9 +18426,47 @@ export namespace Prisma {
     flowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowLikeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowShare?: FlowShareUpdateOneRequiredWithoutLikesNestedInput
+  }
+
+  export type FlowLikeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowLikeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowSaveUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowShare?: FlowShareUpdateOneRequiredWithoutSavesNestedInput
+  }
+
+  export type FlowSaveUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowSaveUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FlowCommentUpdateWithoutUserInput = {
@@ -16620,27 +18496,6 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRatingUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flowShare?: FlowShareUpdateOneRequiredWithoutRatingsNestedInput
-  }
-
-  export type FlowRatingUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    flowShareId?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRatingUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    flowShareId?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationUpdateWithoutUserInput = {
@@ -16769,6 +18624,8 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    thumbnail?: string | null
+    status?: $Enums.FlowShareStatus
     downloadCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16817,12 +18674,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowSharesNestedInput
-    ratings?: FlowRatingUpdateManyWithoutFlowShareNestedInput
     comments?: FlowCommentUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUpdateManyWithoutFlowShareNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutFlowInput = {
@@ -16830,11 +18690,14 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ratings?: FlowRatingUncheckedUpdateManyWithoutFlowShareNestedInput
     comments?: FlowCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    likes?: FlowLikeUncheckedUpdateManyWithoutFlowShareNestedInput
+    saves?: FlowSaveUncheckedUpdateManyWithoutFlowShareNestedInput
   }
 
   export type FlowShareUncheckedUpdateManyWithoutFlowInput = {
@@ -16842,16 +18705,11 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     downloadCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRatingCreateManyFlowShareInput = {
-    id?: string
-    userId: string
-    rating: number
-    createdAt?: Date | string
   }
 
   export type FlowCommentCreateManyFlowShareInput = {
@@ -16863,25 +18721,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type FlowRatingUpdateWithoutFlowShareInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutRatingsNestedInput
+  export type FlowLikeCreateManyFlowShareInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
   }
 
-  export type FlowRatingUncheckedUpdateWithoutFlowShareInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRatingUncheckedUpdateManyWithoutFlowShareInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type FlowSaveCreateManyFlowShareInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
   }
 
   export type FlowCommentUpdateWithoutFlowShareInput = {
@@ -16889,7 +18738,7 @@ export namespace Prisma {
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowCommentsNestedInput
     parent?: FlowCommentUpdateOneWithoutRepliesNestedInput
     replies?: FlowCommentUpdateManyWithoutParentNestedInput
   }
@@ -16913,6 +18762,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FlowLikeUpdateWithoutFlowShareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFlowLikesNestedInput
+  }
+
+  export type FlowLikeUncheckedUpdateWithoutFlowShareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowLikeUncheckedUpdateManyWithoutFlowShareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowSaveUpdateWithoutFlowShareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFlowSaveNestedInput
+  }
+
+  export type FlowSaveUncheckedUpdateWithoutFlowShareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowSaveUncheckedUpdateManyWithoutFlowShareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FlowCommentCreateManyParentInput = {
     id?: string
     flowShareId: string
@@ -16928,7 +18813,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShare?: FlowShareUpdateOneRequiredWithoutCommentsNestedInput
-    user?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowCommentsNestedInput
     replies?: FlowCommentUpdateManyWithoutParentNestedInput
   }
 
