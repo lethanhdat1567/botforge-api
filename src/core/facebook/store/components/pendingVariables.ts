@@ -1,8 +1,9 @@
 import { CollectionVariableType } from '~/core/facebook/engine/types/collection';
+const DEFAULT_PENDING_TIMEOUT = 5 * 1000;
 
 export class PendingVariable {
     type: CollectionVariableType;
-    key: string;
+    key: string | null;
     regex?: string;
     fallback?: string;
     timeout?: number;
@@ -10,7 +11,7 @@ export class PendingVariable {
     expiresAt?: number;
 
     constructor(params: {
-        key: string;
+        key: string | null;
         regex?: string;
         fallback?: string;
         timeout?: number;
@@ -19,12 +20,10 @@ export class PendingVariable {
         this.key = params.key;
         this.regex = params.regex;
         this.fallback = params.fallback;
-        this.timeout = params.timeout;
+        this.timeout = params.timeout ?? DEFAULT_PENDING_TIMEOUT;
         this.value = undefined;
         this.type = params.type;
-        if (params.timeout) {
-            this.expiresAt = Date.now() + params.timeout;
-        }
+        this.expiresAt = Date.now() + this.timeout;
     }
 
     // Validate giá trị input theo regex nếu có

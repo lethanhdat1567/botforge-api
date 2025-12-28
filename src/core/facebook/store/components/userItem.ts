@@ -11,7 +11,9 @@ export class UserItem {
     constructor(pageId: string, psid: string) {
         this.pageId = pageId;
         this.psid = psid;
-        this.variables = {};
+        this.variables = {
+            email: 'dat'
+        };
         this.pendingVariables = null;
         this.flowStatus = 'running';
     }

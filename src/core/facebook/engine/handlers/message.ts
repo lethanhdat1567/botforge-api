@@ -14,61 +14,72 @@ import {
 import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
 import userStore from '~/core/facebook/store/userStore';
 import userFlowStateModel from '~/models/userFlowState.model';
+import { PendingVariable } from '~/core/facebook/store/components/pendingVariables';
 
 export async function handleMessageNode(node: MessageNode, senderId: string, pageId: string) {
+    let isButton = null;
     const payload = node.payload;
 
-    switch (payload.type) {
-        case 'text':
-            await sendTextMessage(senderId, payload.fields.text);
-            break;
-        case 'button':
-            await sendButtonMessage(senderId, payload.fields.text, payload.fields.buttons);
-            break;
+    for (const data of payload) {
+        if (data.type === 'button' || data.type === 'quick_replies') {
+            isButton = true;
+        }
 
-        case 'quick_replies':
-            await sendQuickReplies(senderId, payload.fields.text, payload.fields.quickReplies);
-            break;
+        switch (data.type) {
+            case 'text':
+                await sendTextMessage(senderId, pageId, data.fields.text);
+                break;
+            case 'button':
+                await sendButtonMessage(senderId, pageId, data.fields.text, data.fields.buttons);
+                break;
 
-        case 'attachment':
-            await sendAttachment(senderId, payload.fields.attachmentType, payload.fields.url);
-            break;
+            case 'quick_replies':
+                await sendQuickReplies(senderId, pageId, data.fields.text, data.fields.quickReplies);
+                break;
 
-        case 'sender_actions':
-            await sendSenderAction(senderId, payload.fields.action);
-            break;
+            case 'attachment':
+                await sendAttachment(senderId, data.fields.attachmentType, data.fields.url);
+                break;
 
-        case 'welcome_screen':
-            await sendTextMessage(senderId, payload.fields.text);
-            break;
+            case 'sender_actions':
+                await sendSenderAction(senderId, data.fields.action);
+                break;
 
-        case 'persistent_menu':
-            await sendButtonMessage(senderId, payload.fields.text, payload.fields.menuItems);
-            break;
-        case 'generic_template':
-            await sendGenericTemplate(senderId, payload.fields.elements);
-            break;
-        case 'coupon_template':
-            sendCouponTemplate(senderId, payload.fields);
-            break;
-        case 'media_template':
-            sendMediaTemplate(senderId, payload.fields);
-            break;
-        case 'receipt_template':
-            await sendReceiptTemplate(senderId, payload.fields);
-            break;
+            case 'welcome_screen':
+                await sendTextMessage(senderId, pageId, data.fields.text);
+                break;
+
+            case 'persistent_menu':
+                await sendButtonMessage(senderId, pageId, data.fields.text, data.fields.menuItems);
+                break;
+            case 'generic_template':
+                await sendGenericTemplate(senderId, pageId, data.fields.elements);
+                break;
+            case 'coupon_template':
+                sendCouponTemplate(senderId, pageId, data.fields);
+                break;
+            case 'media_template':
+                sendMediaTemplate(senderId, pageId, data.fields);
+                break;
+            case 'receipt_template':
+                await sendReceiptTemplate(senderId, data.fields);
+                break;
+        }
     }
-
     const nextNodeId = node.children?.next;
     if (nextNodeId) {
         runFlow(nextNodeId, senderId, pageId);
     } else {
-        if (node.payload.type !== 'button' && node.payload.type !== 'quick_replies') {
-            endFlowHandller(pageId, senderId);
-        } else {
+        if (isButton) {
             const user = userStore.getUser(pageId, senderId);
-            user?.updateFlowStatus('pending');
+            const pendingVariable = new PendingVariable({
+                type: 'postback' as any, // ! Đây là ngoại lệ, type này không có key, được dùng để next cho message
+                key: null
+            });
+            user?.addPendingVariables(pendingVariable, node.id);
             userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'pending' });
+        } else {
+            endFlowHandller(pageId, senderId);
         }
     }
 }

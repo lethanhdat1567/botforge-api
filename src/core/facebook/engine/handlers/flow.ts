@@ -30,10 +30,16 @@ export async function handleSavePendingVariable(
 ) {
     if (user) {
         user.updateFlowStatus('pending_processing');
+        // ! Ngoại lệ cho message, dùng để pending button và quick_replies
+        if (pendingVariable?.type === ('postback' as any)) {
+            await sendTextMessage(senderId, pageId, 'Hãy chọn button đi!');
+            if (currentNode?.id) runFlow(currentNode.id, senderId, pageId);
+            return;
+        }
 
         //  Validate input
         if (pendingVariable?.regex && !pendingVariable.validate(msg.text)) {
-            await sendTextMessage(senderId, 'Invalid input. Please try again.');
+            await sendTextMessage(senderId, pageId, 'Invalid input. Please try again.');
             if (currentNode?.id) runFlow(currentNode.id, senderId, pageId);
             return;
         }

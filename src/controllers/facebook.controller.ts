@@ -50,8 +50,8 @@ class FacebookController {
 
             // Check expired flow
             if (user?.pendingVariables?.isExpired()) {
+                sendTextMessage(senderId, pageId, 'Qua thời gian hành động, vui lồng tập trình lập lai.');
                 endFlowHandller(pageId, senderId);
-
                 userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'cancelled' });
                 return;
             }
@@ -62,6 +62,7 @@ class FacebookController {
                 if (msg.attachments && msg.attachments.length > 0) {
                     await sendTextMessage(
                         senderId,
+                        pageId,
                         '⚠️ Bot hiện chỉ hỗ trợ văn bản. Vui lòng gửi lại nội dung dạng text.'
                     );
                     continue;
@@ -106,7 +107,7 @@ class FacebookController {
                         }
                         // Fallback
                         else {
-                            sendTextMessage(senderId, 'Fallback message. Please try again.');
+                            sendTextMessage(senderId, pageId, 'Fallback message. Please try again.');
                             endFlowHandller(pageId, senderId);
                         }
                     }

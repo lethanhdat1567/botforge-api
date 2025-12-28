@@ -17,7 +17,7 @@ export type MessageType =
 export interface MessageNode {
     id: string;
     category: 'message';
-    payload: MessageData;
+    payload: MessageData[];
     children?: Record<string, string>;
 }
 

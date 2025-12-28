@@ -7,6 +7,6 @@ export type NodeCategory = 'message' | 'action' | 'collection';
 export interface Node {
     id: string;
     category: NodeCategory;
-    payload: MessageData | ActionData | CollectionData;
+    payload: MessageData[] | ActionData[] | CollectionData;
     children?: Record<string, string>;
 }

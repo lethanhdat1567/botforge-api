@@ -5,6 +5,7 @@ import {
     MediaTemplateData,
     ReceiptTemplateElement
 } from '~/core/facebook/engine/types/message';
+import { renderContent } from '~/core/facebook/helpers';
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN!;
 if (!PAGE_ACCESS_TOKEN) throw new Error('PAGE_ACCESS_TOKEN is not set in .env');
@@ -29,20 +30,25 @@ async function callSendAPI(body: any) {
 }
 
 // Gửi text message
-export async function sendTextMessage(psid: string, text: string) {
+export async function sendTextMessage(psid: string, pageId: string, text: string) {
     await callSendAPI({
         recipient: { id: psid },
-        message: { text }
+        message: { text: renderContent(text, pageId, psid) }
     });
 }
 
 // Gửi button template (có thể dùng cho button node hoặc persistent menu)
-export async function sendButtonMessage(psid: string, text: string, buttons: ButtonNode[]) {
+export async function sendButtonMessage(psid: string, pageId: string, text: string, buttons: ButtonNode[]) {
     const formattedButtons = buttons
         .map((btn) => {
             if (btn.type === 'postback')
-                return { type: 'postback', title: btn.title, payload: JSON.stringify(btn.payload) };
-            if (btn.type === 'url') return { type: 'web_url', title: btn.title, url: btn.url };
+                return {
+                    type: 'postback',
+                    title: renderContent(btn.title, pageId, psid),
+                    payload: JSON.stringify(btn.payload)
+                };
+            if (btn.type === 'url')
+                return { type: 'web_url', title: renderContent(btn.title, pageId, psid), url: btn.url };
             return null;
         })
         .filter(Boolean);
@@ -54,7 +60,7 @@ export async function sendButtonMessage(psid: string, text: string, buttons: But
                 type: 'template',
                 payload: {
                     template_type: 'button',
-                    text,
+                    text: renderContent(text, pageId, psid),
                     buttons: formattedButtons
                 }
             }
@@ -63,17 +69,17 @@ export async function sendButtonMessage(psid: string, text: string, buttons: But
 }
 
 // Gửi quick replies
-export async function sendQuickReplies(psid: string, text: string, quickReplies: QuickReply[]) {
+export async function sendQuickReplies(psid: string, pageId: string, text: string, quickReplies: QuickReply[]) {
     const formatted = quickReplies.map((qr) => ({
         content_type: 'text',
-        title: qr.title,
+        title: renderContent(qr.title, pageId, psid),
         payload: JSON.stringify(qr.payload)
     }));
 
     await callSendAPI({
         recipient: { id: psid },
         message: {
-            text,
+            text: renderContent(text, pageId, psid),
             quick_replies: formatted
         }
     });
@@ -103,18 +109,23 @@ export async function sendAttachment(psid: string, type: 'image' | 'video' | 'au
     });
 }
 
-export async function sendGenericTemplate(psid: string, elements: GenericTemplateElement[]) {
+export async function sendGenericTemplate(psid: string, pageId: string, elements: GenericTemplateElement[]) {
     // Format buttons trong mỗi element nếu có
     const formattedElements = elements.map((el) => ({
-        title: el.title,
-        subtitle: el.subtitle,
+        title: renderContent(el.title, pageId, psid),
+        subtitle: renderContent(el.subtitle || '', pageId, psid),
         image_url: el.image_url,
         default_action: el.default_action,
         buttons: el.buttons
             ?.map((btn) => {
                 if (btn.type === 'postback')
-                    return { type: 'postback', title: btn.title, payload: JSON.stringify(btn.payload) };
-                if (btn.type === 'url') return { type: 'web_url', title: btn.title, url: btn.url };
+                    return {
+                        type: 'postback',
+                        title: renderContent(btn.title, pageId, psid),
+                        payload: JSON.stringify(btn.payload)
+                    };
+                if (btn.type === 'url')
+                    return { type: 'web_url', title: renderContent(btn.title, pageId, psid), url: btn.url };
                 return null;
             })
             .filter(Boolean)
@@ -134,20 +145,25 @@ export async function sendGenericTemplate(psid: string, elements: GenericTemplat
     });
 }
 
-export async function sendCouponTemplate(psid: string, data: CouponTemplateElement) {
+export async function sendCouponTemplate(psid: string, pageId: string, data: CouponTemplateElement) {
     const payload: any = {
         template_type: 'coupon',
-        title: data.title
+        title: renderContent(data.title, pageId, psid)
     };
 
     if (data.coupon_code) payload.coupon_code = data.coupon_code;
-    if (data.coupon_pre_message) payload.coupon_pre_message = data.coupon_pre_message;
-    if (data.subtitle) payload.subtitle = data.subtitle;
+
+    if (data.coupon_pre_message) payload.coupon_pre_message = renderContent(data.coupon_pre_message, pageId, psid);
+
+    if (data.subtitle) payload.subtitle = renderContent(data.subtitle, pageId, psid);
+
     if (data.image_url) payload.image_url = data.image_url;
+
     if (data.coupon_url) {
         payload.coupon_url = data.coupon_url;
-        payload.coupon_url_button_title = data.coupon_url_button_title ?? 'Shop now';
+        payload.coupon_url_button_title = renderContent(data.coupon_url_button_title ?? 'Shop now', pageId, psid);
     }
+
     if (data.payload) payload.payload = data.payload;
 
     await callSendAPI({
@@ -161,15 +177,24 @@ export async function sendCouponTemplate(psid: string, data: CouponTemplateEleme
     });
 }
 
-export async function sendMediaTemplate(psid: string, data: MediaTemplateData['fields']) {
+export async function sendMediaTemplate(psid: string, pageId: string, data: MediaTemplateData['fields']) {
     const element = {
         media_type: data.media_type,
         media_url: data.media_url,
         buttons: data.buttons
             ?.map((btn) => {
                 if (btn.type === 'postback')
-                    return { type: 'postback', title: btn.title, payload: JSON.stringify(btn.payload) };
-                if (btn.type === 'url') return { type: 'web_url', title: btn.title, url: btn.url };
+                    return {
+                        type: 'postback',
+                        title: renderContent(btn.title, pageId, psid),
+                        payload: JSON.stringify(btn.payload)
+                    };
+                if (btn.type === 'url')
+                    return {
+                        type: 'web_url',
+                        title: renderContent(btn.title, pageId, psid),
+                        url: btn.url
+                    };
                 return null;
             })
             .filter(Boolean)

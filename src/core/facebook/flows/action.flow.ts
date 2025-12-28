@@ -1,41 +1,86 @@
-import { Node } from '~/core/facebook/engine/types/node';
+import { ActionNode } from '~/core/facebook/engine/types/action';
 
-export const delayFlow: Record<string, Node> = {
-    // Node 1: start message
-    start: {
-        id: 'start',
-        category: 'message',
-        payload: {
-            type: 'text',
-            fields: {
-                text: 'Flow bắt đầu. Sẽ delay 5 giây trước khi gửi message tiếp theo...'
-            }
-        },
-        children: { next: 'delayNode' }
-    },
-
-    // Node 2: action - delay 5 giây
-    delayNode: {
-        id: 'delayNode',
+export const actionFlow: Record<string, ActionNode> = {
+    // Node 1: kiểm tra email hợp lệ hay không
+    checkEmail: {
+        id: 'checkEmail',
         category: 'action',
-        payload: {
-            type: 'delay',
-            fields: {
-                duration: '5s', // 5 giây
-                next: 'endMessage'
+        payload: [
+            {
+                type: 'condition',
+                fields: {
+                    items: [
+                        {
+                            // Case 1: email tồn tại và đúng format
+                            conditions: [
+                                {
+                                    field: 'variable.user_email',
+                                    operator: 'regex',
+                                    value: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$'
+                                }
+                            ],
+                            next: 'saveEmail'
+                        },
+                        {
+                            // Case 2: email rỗng hoặc sai
+                            conditions: [
+                                {
+                                    field: 'email',
+                                    operator: 'equals',
+                                    value: 'dat'
+                                }
+                            ],
+                            next: 'saveEmail'
+                        }
+                    ]
+                }
             }
+        ]
+    },
+
+    // Node 2: delay giả lập typing
+    saveEmail: {
+        id: 'saveEmail',
+        category: 'action',
+        payload: [
+            {
+                type: 'delay',
+                fields: {
+                    duration: '1s' // 1s
+                }
+            },
+            {
+                type: 'set_variable',
+                fields: {
+                    key: 'email_saved',
+                    value: true
+                }
+            }
+        ],
+        children: {
+            next: 'thankYouMessage'
         }
     },
 
-    // Node 3: end message
-    endMessage: {
-        id: 'endMessage',
-        category: 'message',
-        payload: {
-            type: 'text',
-            fields: {
-                text: 'Delay đã xong. Flow kết thúc.'
+    // Node 3: email không hợp lệ → hỏi lại
+    askEmailAgain: {
+        id: 'askEmailAgain',
+        category: 'action',
+        payload: [
+            {
+                type: 'delay',
+                fields: {
+                    duration: '5s'
+                }
+            },
+            {
+                type: 'set_variable',
+                fields: {
+                    key: 'email_error',
+                    value: 'INVALID_EMAIL'
+                }
             }
-        }
+        ],
+        children: {}
     }
 };

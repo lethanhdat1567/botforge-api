@@ -1,79 +1,146 @@
 import { ActionNode } from '~/core/facebook/engine/types/action';
 import { MessageNode } from '~/core/facebook/engine/types/message';
+import { CollectionNode } from '~/core/facebook/engine/types/collection';
 
-export const mockFlow: Record<string, ActionNode | MessageNode> = {
+export const mockFlow: Record<string, ActionNode | MessageNode | CollectionNode> = {
     start: {
         id: 'start',
         category: 'message',
+        payload: [
+            {
+                type: 'text',
+                fields: { text: 'Xin chào 👋' }
+            },
+            {
+                type: 'text',
+                fields: { text: 'Mình là bot test message node.' }
+            }
+        ],
+        children: { next: 'showOptions' }
+    },
+
+    showOptions: {
+        id: 'showOptions',
+        category: 'message',
+        payload: [
+            {
+                type: 'text',
+                fields: { text: 'Bạn muốn tiếp tục theo cách nào?' }
+            },
+            {
+                type: 'button',
+                fields: {
+                    text: 'Chọn một tuỳ chọn:',
+                    buttons: [
+                        { type: 'postback', title: 'Option A', payload: { next: 'afterChoice' } },
+                        { type: 'postback', title: 'Option B', payload: { next: 'afterChoice' } }
+                    ]
+                }
+            }
+        ]
+    },
+
+    afterChoice: {
+        id: 'afterChoice',
+        category: 'message',
+        payload: [
+            {
+                type: 'text',
+                fields: { text: 'Bạn cảm thấy trải nghiệm này thế nào?' }
+            },
+            {
+                type: 'quick_replies',
+                fields: {
+                    text: 'Chọn nhanh nhé:',
+                    quickReplies: [
+                        { title: 'Quick 1', payload: {} },
+                        { title: 'Quick 2', payload: {} }
+                    ]
+                }
+            }
+        ],
+        children: { next: 'askEmail' }
+    },
+
+    askEmail: {
+        id: 'askEmail',
+        category: 'collection',
         payload: {
-            type: 'text',
+            type: 'collection',
             fields: {
-                text: '👋 Xin chào! Bạn muốn được hỗ trợ về dịch vụ nào?'
+                text: 'Vui lòng nhập email của bạn:',
+                buttons: [],
+                variable: {
+                    type: 'email',
+                    key: 'user_email',
+                    fallback: 'Email không hợp lệ. Vui lòng thử lại.',
+                    timeout: '60s'
+                }
             }
         },
-        children: { next: 'choose_service' }
+        children: { next: 'checkEmail' }
     },
 
-    choose_service: {
-        id: 'choose_service',
-        category: 'message',
-        payload: {
-            type: 'button',
-            fields: {
-                text: 'Chọn một trong các dịch vụ bên dưới:',
-                buttons: [
-                    { type: 'postback', title: 'Thanh toán', payload: { next: 'payment_info' } },
-                    { type: 'postback', title: 'Hỗ trợ kỹ thuật', payload: { next: 'tech_support' } },
-                    { type: 'postback', title: 'Khác', payload: { next: 'other_info' } }
-                ]
+    checkEmail: {
+        id: 'checkEmail',
+        category: 'action',
+        payload: [
+            {
+                type: 'condition',
+                fields: {
+                    items: [
+                        {
+                            conditions: [
+                                {
+                                    field: 'user_email',
+                                    operator: 'regex',
+                                    value: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$'
+                                }
+                            ],
+                            next: 'thankYou'
+                        },
+                        {
+                            conditions: [{ field: 'user_email', operator: 'equals', value: null }],
+                            next: 'askEmailAgain'
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
 
-    payment_info: {
-        id: 'payment_info',
+    askEmailAgain: {
+        id: 'askEmailAgain',
         category: 'message',
-        payload: {
-            type: 'text',
-            fields: {
-                text: '💳 Bạn muốn thanh toán bằng phương thức nào? Chúng tôi có: Thẻ, Ví điện tử, Chuyển khoản.'
+        payload: [
+            {
+                type: 'text',
+                fields: { text: 'Email bạn nhập không hợp lệ. Vui lòng thử lại.' }
             }
-        },
-        children: { next: 'done' }
+        ],
+        children: { next: 'askEmail' }
     },
 
-    tech_support: {
-        id: 'tech_support',
+    thankYou: {
+        id: 'thankYou',
         category: 'message',
-        payload: {
-            type: 'text',
-            fields: {
-                text: '🛠 Vui lòng mô tả vấn đề kỹ thuật bạn gặp phải, chúng tôi sẽ liên hệ sớm nhất!'
+        payload: [
+            {
+                type: 'text',
+                fields: { text: 'Cảm ơn bạn! Email của bạn đã được lưu.' }
             }
-        },
-        children: { next: 'done' }
+        ],
+        children: { next: 'showOrder' }
     },
 
-    other_info: {
-        id: 'other_info',
+    showOrder: {
+        id: 'showOrder',
         category: 'message',
-        payload: {
-            type: 'text',
-            fields: {
-                text: 'ℹ️ Chúng tôi sẽ ghi nhận yêu cầu của bạn và phản hồi nhanh nhất có thể.'
+        payload: [
+            {
+                type: 'text',
+                fields: { text: 'Email của bạn là: {{user_email}}' }
             }
-        },
-        children: { next: 'done' }
-    },
-
-    done: {
-        id: 'done',
-        category: 'message',
-        payload: {
-            type: 'text',
-            fields: {
-                text: '✅ Cảm ơn bạn đã liên hệ! Chúc bạn một ngày tốt lành.'
-            }
-        }
+        ]
     }
 };

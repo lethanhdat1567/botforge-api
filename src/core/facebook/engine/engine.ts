@@ -7,12 +7,14 @@ import userStore from '~/core/facebook/store/userStore';
 import { handleActionNode } from '~/core/facebook/engine/handlers/action';
 import { MessageNode } from '~/core/facebook/engine/types/message';
 import userFlowStateModel from '~/models/userFlowState.model';
+import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
 import { mockFlow } from '~/core/facebook/flows/test.flow';
 
 export async function runFlow(nodeId: string, senderId: string, pageId: string) {
     const node: Node = mockFlow[nodeId];
     if (!node) {
         console.warn('Node not found:', nodeId);
+        endFlowHandller(pageId, senderId);
         return;
     }
 

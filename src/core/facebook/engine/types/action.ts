@@ -7,7 +7,7 @@ export type ActionData = ConditionActionData | DelayActionData | SetVariableActi
 export interface ActionNode {
     id: string;
     category: 'action';
-    payload: ActionData;
+    payload: ActionData[];
     children?: Record<string, string>;
 }
 
@@ -23,7 +23,6 @@ export interface ConditionActionData {
             }[];
             next: string; // nodeId nếu tất cả điều kiện trong item thỏa
         }[];
-        defaultNext?: string; // nodeId nếu không có item nào thỏa
     };
 }
 
@@ -32,7 +31,6 @@ export interface DelayActionData {
     type: 'delay';
     fields: {
         duration: string; // ms
-        next: string; // node tiếp theo
     };
 }
 
@@ -42,6 +40,5 @@ export interface SetVariableActionData {
     fields: {
         key: string;
         value: any;
-        next?: string; // node tiếp theo
     };
 }
