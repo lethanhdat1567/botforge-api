@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { createCommentNotification, createReplyNotification } from '~/helpers/notification-helper';
 import FlowCommentModel from '~/models/flow-comment.model';
-import notificationModel from '~/models/notification.model';
 
 class FlowCommentController {
     async create(req: Request, res: Response) {

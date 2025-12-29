@@ -2,13 +2,16 @@ import { z } from 'zod';
 
 // Register schema
 export const registerSchema = z.object({
-    username: z.string().min(3, 'Username must be at least 3 characters'),
+    username: z
+        .string()
+        .min(3, 'Username must be at least 3 characters')
+        .regex(/^\S+$/, 'Username cannot contain spaces'),
     email: z.string().email('Invalid email format'),
     password: z
         .string()
         .min(6, 'Password must be at least 6 characters')
         .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$/, 'Password must include uppercase, lowercase, and number'),
-    displayName: z.string().optional()
+    displayName: z.string().min(1, 'Full Name is required') // bắt buộc, ít nhất 1 ký tự
 });
 
 // Login schema

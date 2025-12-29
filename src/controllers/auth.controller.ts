@@ -16,23 +16,39 @@ import { AuthRequest } from '~/middlewares/auth.middleware';
 import passwordResetTokenModel from '~/models/passwordResetToken.model';
 import { sendEmail } from '~/config/mailer';
 import { createNewUserNotification } from '~/helpers/notification-helper';
+import { formatZodErrors } from '~/helpers/auth-helper';
 
 class AuthController {
     async register(req: Request, res: any) {
         try {
             const parseResult = registerSchema.safeParse(req.body);
+
             if (!parseResult.success) {
-                return res.error({ message: parseResult.error.issues[0].message }, 400);
+                const errors = formatZodErrors(parseResult.error.issues);
+                return res.error({ errors }, 400);
             }
+
             const { username, email, password, displayName } = parseResult.data;
 
             // Kiểm tra user tồn tại
             const existingUser = await UserModel.findByEmailOrUsername(email, username);
             if (existingUser) {
-                return res.error(
-                    { message: 'Username or email already exists', code: authCode.FIELD_ALREADY_EXISTS },
-                    409
-                );
+                const errors = [];
+                if (existingUser.username === username) {
+                    errors.push({
+                        field: 'username',
+                        message: 'Username already exists',
+                        code: authCode.FIELD_ALREADY_EXISTS
+                    });
+                }
+                if (existingUser.email === email) {
+                    errors.push({
+                        field: 'email',
+                        message: 'Email already exists',
+                        code: authCode.FIELD_ALREADY_EXISTS
+                    });
+                }
+                return res.error({ errors, code: authCode.FIELD_ALREADY_EXISTS }, 409);
             }
 
             // Tạo user
@@ -62,29 +78,62 @@ class AuthController {
             );
         } catch (error) {
             console.error('Register error:', error);
-            return res.error(error);
+            return res.error(
+                {
+                    errors: [{ field: 'server', message: 'Internal server error', code: authCode.SERVER_ERROR }]
+                },
+                500
+            );
         }
     }
 
     async login(req: Request, res: any) {
         try {
+            // 1️⃣ Validate request
             const parseResult = loginSchema.safeParse(req.body);
+
             if (!parseResult.success) {
-                return res.error({ message: parseResult.error.issues[0].message }, 400);
+                const errors = formatZodErrors(parseResult.error.issues);
+                return res.error({ errors }, 400);
             }
+
             const { emailOrUsername, password } = parseResult.data;
 
+            // 2️⃣ Tìm user theo email hoặc username
             const user = await UserModel.findByEmailOrUsername(emailOrUsername, emailOrUsername);
             if (!user) {
-                return res.error({ message: 'Invalid credentials', code: authCode.USER_NOT_FOUND }, 401);
+                return res.error(
+                    {
+                        errors: [
+                            {
+                                field: 'emailOrUsername',
+                                message: 'Email hoặc tên đăng nhập không tồn tại',
+                                code: authCode.USER_NOT_FOUND
+                            }
+                        ]
+                    },
+                    401
+                );
             }
 
+            // 3️⃣ Kiểm tra password
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
-                return res.error({ message: 'Invalid credentials', code: authCode.INVALID_PASSWORD }, 401);
+                return res.error(
+                    {
+                        errors: [
+                            {
+                                field: 'password',
+                                message: 'Mật khẩu không chính xác',
+                                code: authCode.INVALID_PASSWORD
+                            }
+                        ]
+                    },
+                    401
+                );
             }
 
-            // Tạo tokens
+            // 4️⃣ Tạo token
             const tokenPayload = { userId: user.id, role: user.role };
             const accessToken = generateAccessToken(tokenPayload);
             const refreshToken = generateRefreshToken(tokenPayload);
@@ -92,8 +141,10 @@ class AuthController {
             const accessTokenExpiresIn = parseDuration(process.env.ACCESS_EXPIRES || '1h');
             const refreshTokenExpiresAt = getExpiresAt(process.env.REFRESH_EXPIRES || '7d');
 
+            // Lưu refresh token
             await refreshTokenModel.create(refreshToken, user.id, refreshTokenExpiresAt);
 
+            // 5️⃣ Trả về response
             return res.success(
                 {
                     user,
@@ -107,7 +158,18 @@ class AuthController {
             );
         } catch (error) {
             console.error('Login error:', error);
-            return res.error(error);
+            return res.error(
+                {
+                    errors: [
+                        {
+                            field: 'server',
+                            message: 'Internal server error',
+                            code: authCode.SERVER_ERROR
+                        }
+                    ]
+                },
+                500
+            );
         }
     }
 
@@ -231,7 +293,8 @@ class AuthController {
         try {
             const parseResult = forgotPasswordSchema.safeParse(req.body);
             if (!parseResult.success) {
-                return res.error({ message: parseResult.error.issues[0].message }, 400);
+                const errors = formatZodErrors(parseResult.error.issues);
+                return res.error({ errors }, 400);
             }
 
             const { email } = parseResult.data;
