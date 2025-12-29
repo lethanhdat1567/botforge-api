@@ -53,7 +53,7 @@ class AuthController {
 
             // Tạo user
             const user = await UserModel.createUser({ username, email, password, displayName });
-
+            const { password: _, ...userWithoutPassword } = user;
             // Tạo tokens
             const tokenPayload = { userId: user.id, role: user.role };
             const accessToken = generateAccessToken(tokenPayload);
@@ -67,7 +67,7 @@ class AuthController {
 
             return res.success(
                 {
-                    user,
+                    user: userWithoutPassword,
                     token: {
                         access_token: accessToken,
                         expired_in: accessTokenExpiresIn,
@@ -143,11 +143,11 @@ class AuthController {
 
             // Lưu refresh token
             await refreshTokenModel.create(refreshToken, user.id, refreshTokenExpiresAt);
-
+            const { password: _, ...userWithoutPassword } = user;
             // 5️⃣ Trả về response
             return res.success(
                 {
-                    user,
+                    user: userWithoutPassword,
                     token: {
                         access_token: accessToken,
                         expired_in: accessTokenExpiresIn,
@@ -362,16 +362,21 @@ class AuthController {
             // Validate input
             const parseResult = resetPasswordSchema.safeParse(req.body);
             if (!parseResult.success) {
-                return res.error({ message: parseResult.error.issues[0].message }, 400);
+                const errors = formatZodErrors(parseResult.error.issues);
+                return res.error({ errors }, 400);
             }
 
-            const { email, newPassword } = parseResult.data;
+            const { newPassword } = parseResult.data;
 
             // Hash new password
             const hashedPassword = await bcrypt.hash(newPassword, 10);
+            const tokenRecord = await passwordResetTokenModel.findByToken(req.query.token as string);
+            if (!tokenRecord) {
+                return res.error({ message: 'Token not found', code: authCode.INVALID_TOKEN }, 404);
+            }
 
             // Update user password
-            await UserModel.updatePassword(email, hashedPassword);
+            await UserModel.update(tokenRecord.userId, { password: hashedPassword });
 
             return res.success({ message: 'Password successfully reset' }, 200);
         } catch (error) {

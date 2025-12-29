@@ -18,6 +18,6 @@ export const authMiddleware = (req: AuthRequest, res: any, next: NextFunction) =
         req.user = decoded;
         next();
     } catch (err) {
-        return res.error({ message: 'Invalid or expired token' }, 401);
+        return res.error({ message: 'Invalid or expired token', code: authCode.UNAUTHORIZED }, 401);
     }
 };
