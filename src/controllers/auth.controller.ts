@@ -237,55 +237,239 @@ class AuthController {
         return res.success({ message: 'Logged out successfully' });
     }
 
-    async socialAuth(req: Request, res: any) {
+    async googleAuth(req: Request, res: any) {
         try {
-            const { provider, providerId, email, displayName } = req.body;
+            const { code } = req.body;
 
-            if (!provider || !providerId) {
-                return res.error({ message: 'Missing provider or providerId' }, 400);
+            if (!code) {
+                return res.error({ message: 'Missing code' }, 400);
             }
 
-            // Tìm user theo provider + providerId
-            let user = await UserModel.findByProvider(provider, providerId);
+            // 1️⃣ Đổi code → token
+            const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    client_id: process.env.GOOGLE_CLIENT_ID!,
+                    client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+                    redirect_uri: `${process.env.FRONTEND_URL}/auth/google/callback`,
+                    grant_type: 'authorization_code',
+                    code
+                })
+            });
+
+            if (!tokenRes.ok) {
+                throw new Error(await tokenRes.text());
+            }
+
+            const tokenData = await tokenRes.json();
+            const { access_token } = tokenData;
+
+            // 2️⃣ Lấy user info
+            const userRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            });
+
+            if (!userRes.ok) {
+                throw new Error(await userRes.text());
+            }
+
+            const ggUser = await userRes.json();
+
+            const socialUser = {
+                provider: 'google',
+                providerId: ggUser.sub,
+                email: ggUser.email,
+                displayName: ggUser.name,
+                avatar: ggUser.picture
+            };
+
+            let user = await UserModel.findByEmail(socialUser.email);
+
+            if (user) {
+                if (!user.providerId) {
+                    return res.error(
+                        {
+                            message: 'This email is registered with password. Please sign in using email and password.',
+                            code: authCode.LOCAL_ACCOUNT_ONLY
+                        },
+                        409
+                    );
+                }
+
+                if (user.provider === 'google' && user.providerId !== socialUser.providerId) {
+                    return res.error(
+                        {
+                            message:
+                                'This email is registered with Google. Please sign in using the correct Google account.',
+                            code: authCode.GOOGLE_ACCOUNT_MISMATCH
+                        },
+                        409
+                    );
+                }
+            }
 
             if (!user) {
-                // Nếu chưa có, tạo user mới
                 user = await UserModel.createUser({
-                    username: `${provider}_${providerId}`,
-                    email: email || `${provider}_${providerId}@example.com`,
+                    username: `google_${socialUser.providerId}`,
+                    email: socialUser.email,
                     password: '',
-                    displayName,
-                    provider,
-                    providerId,
+                    displayName: socialUser.displayName,
+                    provider: 'google',
+                    providerId: socialUser.providerId,
+                    avatar: socialUser.avatar,
                     role: 'user'
                 });
-                await createNewUserNotification(user.id, displayName as string, user.avatar);
+
+                await createNewUserNotification(user.id, user.displayName || '', user.avatar);
             }
 
-            // Tạo token
-            const tokenPayload = { userId: user.id, role: user.role };
-            const accessToken = generateAccessToken(tokenPayload);
-            const refreshToken = generateRefreshToken(tokenPayload);
+            // 4️⃣ Tạo token hệ thống
+            const payload = { userId: user.id, role: user.role };
+            const accessToken = generateAccessToken(payload);
+            const refreshToken = generateRefreshToken(payload);
 
-            const accessTokenExpiresIn = parseDuration(process.env.ACCESS_EXPIRES || '1h');
-            const refreshTokenExpiresAt = getExpiresAt(process.env.REFRESH_EXPIRES || '7d');
+            await refreshTokenModel.create(refreshToken, user.id, getExpiresAt(process.env.REFRESH_EXPIRES || '7d'));
 
-            await refreshTokenModel.create(refreshToken, user.id, refreshTokenExpiresAt);
+            return res.success({
+                user,
+                token: {
+                    access_token: accessToken,
+                    refresh_token: refreshToken,
+                    expired_in: parseDuration(process.env.ACCESS_EXPIRES || '1h')
+                }
+            });
+        } catch (err) {
+            console.error('Google auth error:', err);
+            return res.error(err);
+        }
+    }
 
-            return res.success(
-                {
-                    user,
-                    token: {
-                        access_token: accessToken,
-                        expired_in: accessTokenExpiresIn,
-                        refresh_token: refreshToken
-                    }
-                },
-                200
+    async facebookAuth(req: Request, res: any) {
+        try {
+            const { code } = req.body;
+
+            if (!code) {
+                return res.error({ message: 'Missing code' }, 400);
+            }
+
+            // 1️⃣ Đổi code → access_token (Facebook)
+            const tokenRes = await fetch(
+                'https://graph.facebook.com/v19.0/oauth/access_token?' +
+                    new URLSearchParams({
+                        client_id: process.env.FACEBOOK_APP_ID!,
+                        client_secret: process.env.FACEBOOK_APP_SECRET!,
+                        redirect_uri: `${process.env.FRONTEND_URL}/auth/facebook/callback`,
+                        code
+                    })
             );
-        } catch (error) {
-            console.error('Social auth error:', error);
-            return res.error(error);
+
+            if (!tokenRes.ok) {
+                throw new Error(await tokenRes.text());
+            }
+
+            const tokenData = await tokenRes.json();
+            const { access_token } = tokenData;
+
+            // 2️⃣ Lấy user info
+            const userRes = await fetch(
+                'https://graph.facebook.com/me?' +
+                    new URLSearchParams({
+                        fields: 'id,name,email,picture',
+                        access_token
+                    })
+            );
+
+            if (!userRes.ok) {
+                throw new Error(await userRes.text());
+            }
+
+            const fbUser = await userRes.json();
+
+            // ❗ Facebook có thể KHÔNG trả email
+            if (!fbUser.email) {
+                return res.error(
+                    {
+                        message: 'Facebook account does not have an email address.',
+                        code: authCode.EMAIL_REQUIRED
+                    },
+                    400
+                );
+            }
+
+            const socialUser = {
+                provider: 'facebook',
+                providerId: fbUser.id,
+                email: fbUser.email,
+                displayName: fbUser.name,
+                avatar: fbUser.picture?.data?.url
+            };
+
+            // 3️⃣ Tìm user theo email
+            let user = await UserModel.findByEmail(socialUser.email);
+
+            if (user) {
+                // ❌ Local account
+                if (!user.providerId) {
+                    return res.error(
+                        {
+                            message: 'This email is registered with password. Please sign in using email and password.',
+                            code: authCode.LOCAL_ACCOUNT_ONLY
+                        },
+                        409
+                    );
+                }
+
+                // ❌ Facebook account mismatch
+                if (user.provider === 'facebook' && user.providerId !== socialUser.providerId) {
+                    return res.error(
+                        {
+                            message:
+                                'This email is registered with Facebook. Please sign in using the correct Facebook account.',
+                            code: authCode.FACEBOOK_ACCOUNT_MISMATCH
+                        },
+                        409
+                    );
+                }
+            }
+            console.log(socialUser);
+
+            // 4️⃣ Tạo user nếu chưa tồn tại
+            if (!user) {
+                user = await UserModel.createUser({
+                    username: `facebook_${socialUser.providerId}`,
+                    email: socialUser.email,
+                    password: '', // ❗ không dùng ''
+                    displayName: socialUser.displayName,
+                    provider: 'facebook',
+                    providerId: socialUser.providerId,
+                    avatar: socialUser.avatar,
+                    role: 'user'
+                });
+
+                await createNewUserNotification(user.id, user.displayName || '', user.avatar);
+            }
+
+            // 5️⃣ Tạo token hệ thống
+            const payload = { userId: user.id, role: user.role };
+            const accessToken = generateAccessToken(payload);
+            const refreshToken = generateRefreshToken(payload);
+
+            await refreshTokenModel.create(refreshToken, user.id, getExpiresAt(process.env.REFRESH_EXPIRES || '7d'));
+
+            return res.success({
+                user,
+                token: {
+                    access_token: accessToken,
+                    refresh_token: refreshToken,
+                    expired_in: parseDuration(process.env.ACCESS_EXPIRES || '1h')
+                }
+            });
+        } catch (err) {
+            console.error('Facebook auth error:', err);
+            return res.error(err);
         }
     }
 

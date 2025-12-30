@@ -15,7 +15,7 @@ model User {
   username    String   @unique @map("username")
   displayName String?  @map("display_name")
   email       String   @unique @map("email")
-  avatar      String?  @map("avatar")
+  avatar      String?  @map("avatar") @db.Text
   password    String   @map("password")
   role        Role     @default(user) @map("role")
   provider    Provider @default(local) @map("provider")

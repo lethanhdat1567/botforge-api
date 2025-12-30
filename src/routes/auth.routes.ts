@@ -11,7 +11,8 @@ router.post('/refresh-token', authController.refreshToken);
 router.post('/logout', authMiddleware, authController.logout);
 
 // Social
-router.post('/social', authController.socialAuth);
+router.post('/social/google', authController.googleAuth);
+router.post('/social/facebook', authController.facebookAuth);
 
 // Forgot password
 router.post('/forgot-password', authController.forgotPassword);

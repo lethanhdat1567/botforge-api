@@ -38,6 +38,7 @@ class UserModel {
         role?: Role;
         provider?: Provider;
         providerId?: string;
+        avatar?: string;
     }) {
         const hashedPassword = await bcrypt.hash(data.password, 10);
 
