@@ -23,6 +23,7 @@ model User {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @map("updated_at")
 
+  folders            Folder[]
   flows              Flow[]
   flowShares         FlowShare[]
   flowLikes          FlowLike[]
@@ -76,18 +77,38 @@ model PasswordResetToken {
 }
 
 // =====================
+// Folder
+// =====================
+
+model Folder {
+  id        String   @id @default(uuid()) @map("id")
+  userId    String   @map("user_id")
+  name      String   @map("name")
+  platform  Platform @map("platform")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flows Flow[]
+
+  @@unique([userId, platform, name], name: "userId_platform_name")
+  @@map("folders")
+}
+
+// =====================
 // Flow
 // =====================
 model Flow {
   id              String     @id @default(uuid()) @map("id")
   userId          String     @map("user_id")
-  pageId          String     @map("page_id")
-  pageAccessToken String     @map("page_access_token") @db.Text
+  pageId          String?    @map("page_id")
+  folderId        String     @map("folder_id")
+  pageAccessToken String?    @map("page_access_token") @db.Text
   name            String     @map("name")
   description     String?    @map("description")
   status          FlowStatus @default(draft) @map("status")
-  logicJson       Json       @map("logic_json")
-  layoutJson      Json       @map("layout_json")
+  logicJson       Json?      @map("logic_json")
+  layoutJson      Json?      @map("layout_json")
   platform        Platform   @map("platform")
   timeoutDuration String?    @map("timeout_duration")
   timeoutJson     Json?      @map("timeout_json")
@@ -95,6 +116,7 @@ model Flow {
   updatedAt       DateTime   @default(now()) @map("updated_at")
 
   user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder Folder          @relation(fields: [folderId], references: [id], onDelete: Cascade)
   states UserFlowState[]
   shares FlowShare[]
 

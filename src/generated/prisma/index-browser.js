@@ -150,10 +150,20 @@ exports.Prisma.PasswordResetTokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FolderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  platform: 'platform',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FlowScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   pageId: 'pageId',
+  folderId: 'folderId',
   pageAccessToken: 'pageAccessToken',
   name: 'name',
   description: 'description',
@@ -235,10 +245,6 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
-  JsonNull: Prisma.JsonNull
-};
-
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
@@ -271,6 +277,12 @@ exports.Prisma.PasswordResetTokenOrderByRelevanceFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.FolderOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name'
+};
+
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
@@ -286,6 +298,7 @@ exports.Prisma.FlowOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
   pageId: 'pageId',
+  folderId: 'folderId',
   pageAccessToken: 'pageAccessToken',
   name: 'name',
   description: 'description',
@@ -348,15 +361,15 @@ exports.Provider = exports.$Enums.Provider = {
   google: 'google'
 };
 
-exports.FlowStatus = exports.$Enums.FlowStatus = {
-  draft: 'draft',
-  published: 'published'
-};
-
 exports.Platform = exports.$Enums.Platform = {
   facebook: 'facebook',
   instagram: 'instagram',
   zalo: 'zalo'
+};
+
+exports.FlowStatus = exports.$Enums.FlowStatus = {
+  draft: 'draft',
+  published: 'published'
 };
 
 exports.UserFlowStatus = exports.$Enums.UserFlowStatus = {
@@ -385,6 +398,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
   PasswordResetToken: 'PasswordResetToken',
+  Folder: 'Folder',
   Flow: 'Flow',
   UserFlowState: 'UserFlowState',
   FlowShare: 'FlowShare',

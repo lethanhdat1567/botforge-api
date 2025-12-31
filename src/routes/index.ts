@@ -8,6 +8,7 @@ import flowLikeRouter from './flow-like.routes';
 import flowCommentRouter from './flow-comment.routes';
 import flowSaveRouter from './flow-save.routes';
 import notificationRouter from './notification.routes';
+import folderRouter from './folder.routes';
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.use('/flows/comment', flowCommentRouter);
 router.use('/flows/save', flowSaveRouter);
 router.use('/flows', flowRouter);
 router.use('/notifications', notificationRouter);
+router.use('/folders', folderRouter);
 
 // Health route
 router.get('/', (req, res) => {

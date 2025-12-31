@@ -29,6 +29,11 @@ export type RefreshToken = $Result.DefaultSelection<Prisma.$RefreshTokenPayload>
  */
 export type PasswordResetToken = $Result.DefaultSelection<Prisma.$PasswordResetTokenPayload>
 /**
+ * Model Folder
+ * 
+ */
+export type Folder = $Result.DefaultSelection<Prisma.$FolderPayload>
+/**
  * Model Flow
  * 
  */
@@ -308,6 +313,16 @@ export class PrismaClient<
     * ```
     */
   get passwordResetToken(): Prisma.PasswordResetTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Folders
+    * const folders = await prisma.folder.findMany()
+    * ```
+    */
+  get folder(): Prisma.FolderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.flow`: Exposes CRUD operations for the **Flow** model.
@@ -815,6 +830,7 @@ export namespace Prisma {
     User: 'User',
     RefreshToken: 'RefreshToken',
     PasswordResetToken: 'PasswordResetToken',
+    Folder: 'Folder',
     Flow: 'Flow',
     UserFlowState: 'UserFlowState',
     FlowShare: 'FlowShare',
@@ -837,7 +853,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "passwordResetToken" | "flow" | "userFlowState" | "flowShare" | "flowComment" | "flowLike" | "flowSave" | "notification"
+      modelProps: "user" | "refreshToken" | "passwordResetToken" | "folder" | "flow" | "userFlowState" | "flowShare" | "flowComment" | "flowLike" | "flowSave" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1036,6 +1052,72 @@ export namespace Prisma {
           count: {
             args: Prisma.PasswordResetTokenCountArgs<ExtArgs>
             result: $Utils.Optional<PasswordResetTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      Folder: {
+        payload: Prisma.$FolderPayload<ExtArgs>
+        fields: Prisma.FolderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FolderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FolderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          findFirst: {
+            args: Prisma.FolderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FolderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          findMany: {
+            args: Prisma.FolderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>[]
+          }
+          create: {
+            args: Prisma.FolderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          createMany: {
+            args: Prisma.FolderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.FolderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          update: {
+            args: Prisma.FolderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          deleteMany: {
+            args: Prisma.FolderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FolderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FolderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          aggregate: {
+            args: Prisma.FolderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFolder>
+          }
+          groupBy: {
+            args: Prisma.FolderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FolderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FolderCountArgs<ExtArgs>
+            result: $Utils.Optional<FolderCountAggregateOutputType> | number
           }
         }
       }
@@ -1612,6 +1694,7 @@ export namespace Prisma {
     user?: UserOmit
     refreshToken?: RefreshTokenOmit
     passwordResetToken?: PasswordResetTokenOmit
+    folder?: FolderOmit
     flow?: FlowOmit
     userFlowState?: UserFlowStateOmit
     flowShare?: FlowShareOmit
@@ -1699,6 +1782,7 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
+    folders: number
     flows: number
     flowShares: number
     flowLikes: number
@@ -1711,6 +1795,7 @@ export namespace Prisma {
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    folders?: boolean | UserCountOutputTypeCountFoldersArgs
     flows?: boolean | UserCountOutputTypeCountFlowsArgs
     flowShares?: boolean | UserCountOutputTypeCountFlowSharesArgs
     flowLikes?: boolean | UserCountOutputTypeCountFlowLikesArgs
@@ -1731,6 +1816,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
   }
 
   /**
@@ -1794,6 +1886,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPasswordResetTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasswordResetTokenWhereInput
+  }
+
+
+  /**
+   * Count Type FolderCountOutputType
+   */
+
+  export type FolderCountOutputType = {
+    flows: number
+  }
+
+  export type FolderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    flows?: boolean | FolderCountOutputTypeCountFlowsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FolderCountOutputType without action
+   */
+  export type FolderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FolderCountOutputType
+     */
+    select?: FolderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FolderCountOutputType without action
+   */
+  export type FolderCountOutputTypeCountFlowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowWhereInput
   }
 
 
@@ -2133,6 +2256,7 @@ export namespace Prisma {
     providerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    folders?: boolean | User$foldersArgs<ExtArgs>
     flows?: boolean | User$flowsArgs<ExtArgs>
     flowShares?: boolean | User$flowSharesArgs<ExtArgs>
     flowLikes?: boolean | User$flowLikesArgs<ExtArgs>
@@ -2163,6 +2287,7 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "displayName" | "email" | "avatar" | "password" | "role" | "provider" | "providerId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    folders?: boolean | User$foldersArgs<ExtArgs>
     flows?: boolean | User$flowsArgs<ExtArgs>
     flowShares?: boolean | User$flowSharesArgs<ExtArgs>
     flowLikes?: boolean | User$flowLikesArgs<ExtArgs>
@@ -2178,6 +2303,7 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      folders: Prisma.$FolderPayload<ExtArgs>[]
       flows: Prisma.$FlowPayload<ExtArgs>[]
       flowShares: Prisma.$FlowSharePayload<ExtArgs>[]
       flowLikes: Prisma.$FlowLikePayload<ExtArgs>[]
@@ -2540,6 +2666,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    folders<T extends User$foldersArgs<ExtArgs> = {}>(args?: Subset<T, User$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flows<T extends User$flowsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShares<T extends User$flowSharesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowSharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowLikes<T extends User$flowLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2929,6 +3056,30 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User.folders
+   */
+  export type User$foldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    cursor?: FolderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
   }
 
   /**
@@ -5025,6 +5176,976 @@ export namespace Prisma {
 
 
   /**
+   * Model Folder
+   */
+
+  export type AggregateFolder = {
+    _count: FolderCountAggregateOutputType | null
+    _min: FolderMinAggregateOutputType | null
+    _max: FolderMaxAggregateOutputType | null
+  }
+
+  export type FolderMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    platform: $Enums.Platform | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FolderMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    platform: $Enums.Platform | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FolderCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    platform: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FolderMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    platform?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FolderMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    platform?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FolderCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    platform?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FolderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Folder to aggregate.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Folders
+    **/
+    _count?: true | FolderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FolderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FolderMaxAggregateInputType
+  }
+
+  export type GetFolderAggregateType<T extends FolderAggregateArgs> = {
+        [P in keyof T & keyof AggregateFolder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFolder[P]>
+      : GetScalarType<T[P], AggregateFolder[P]>
+  }
+
+
+
+
+  export type FolderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithAggregationInput | FolderOrderByWithAggregationInput[]
+    by: FolderScalarFieldEnum[] | FolderScalarFieldEnum
+    having?: FolderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FolderCountAggregateInputType | true
+    _min?: FolderMinAggregateInputType
+    _max?: FolderMaxAggregateInputType
+  }
+
+  export type FolderGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    platform: $Enums.Platform
+    createdAt: Date
+    updatedAt: Date
+    _count: FolderCountAggregateOutputType | null
+    _min: FolderMinAggregateOutputType | null
+    _max: FolderMaxAggregateOutputType | null
+  }
+
+  type GetFolderGroupByPayload<T extends FolderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FolderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FolderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FolderGroupByOutputType[P]>
+            : GetScalarType<T[P], FolderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FolderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    platform?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    flows?: boolean | Folder$flowsArgs<ExtArgs>
+    _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["folder"]>
+
+
+
+  export type FolderSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    platform?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "platform" | "createdAt" | "updatedAt", ExtArgs["result"]["folder"]>
+  export type FolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    flows?: boolean | Folder$flowsArgs<ExtArgs>
+    _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $FolderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Folder"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      flows: Prisma.$FlowPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      platform: $Enums.Platform
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["folder"]>
+    composites: {}
+  }
+
+  type FolderGetPayload<S extends boolean | null | undefined | FolderDefaultArgs> = $Result.GetResult<Prisma.$FolderPayload, S>
+
+  type FolderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FolderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FolderCountAggregateInputType | true
+    }
+
+  export interface FolderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Folder'], meta: { name: 'Folder' } }
+    /**
+     * Find zero or one Folder that matches the filter.
+     * @param {FolderFindUniqueArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FolderFindUniqueArgs>(args: SelectSubset<T, FolderFindUniqueArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Folder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FolderFindUniqueOrThrowArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FolderFindUniqueOrThrowArgs>(args: SelectSubset<T, FolderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindFirstArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FolderFindFirstArgs>(args?: SelectSubset<T, FolderFindFirstArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindFirstOrThrowArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FolderFindFirstOrThrowArgs>(args?: SelectSubset<T, FolderFindFirstOrThrowArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Folders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Folders
+     * const folders = await prisma.folder.findMany()
+     * 
+     * // Get first 10 Folders
+     * const folders = await prisma.folder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const folderWithIdOnly = await prisma.folder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FolderFindManyArgs>(args?: SelectSubset<T, FolderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Folder.
+     * @param {FolderCreateArgs} args - Arguments to create a Folder.
+     * @example
+     * // Create one Folder
+     * const Folder = await prisma.folder.create({
+     *   data: {
+     *     // ... data to create a Folder
+     *   }
+     * })
+     * 
+     */
+    create<T extends FolderCreateArgs>(args: SelectSubset<T, FolderCreateArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Folders.
+     * @param {FolderCreateManyArgs} args - Arguments to create many Folders.
+     * @example
+     * // Create many Folders
+     * const folder = await prisma.folder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FolderCreateManyArgs>(args?: SelectSubset<T, FolderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Folder.
+     * @param {FolderDeleteArgs} args - Arguments to delete one Folder.
+     * @example
+     * // Delete one Folder
+     * const Folder = await prisma.folder.delete({
+     *   where: {
+     *     // ... filter to delete one Folder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FolderDeleteArgs>(args: SelectSubset<T, FolderDeleteArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Folder.
+     * @param {FolderUpdateArgs} args - Arguments to update one Folder.
+     * @example
+     * // Update one Folder
+     * const folder = await prisma.folder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FolderUpdateArgs>(args: SelectSubset<T, FolderUpdateArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Folders.
+     * @param {FolderDeleteManyArgs} args - Arguments to filter Folders to delete.
+     * @example
+     * // Delete a few Folders
+     * const { count } = await prisma.folder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FolderDeleteManyArgs>(args?: SelectSubset<T, FolderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Folders
+     * const folder = await prisma.folder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FolderUpdateManyArgs>(args: SelectSubset<T, FolderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Folder.
+     * @param {FolderUpsertArgs} args - Arguments to update or create a Folder.
+     * @example
+     * // Update or create a Folder
+     * const folder = await prisma.folder.upsert({
+     *   create: {
+     *     // ... data to create a Folder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Folder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FolderUpsertArgs>(args: SelectSubset<T, FolderUpsertArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderCountArgs} args - Arguments to filter Folders to count.
+     * @example
+     * // Count the number of Folders
+     * const count = await prisma.folder.count({
+     *   where: {
+     *     // ... the filter for the Folders we want to count
+     *   }
+     * })
+    **/
+    count<T extends FolderCountArgs>(
+      args?: Subset<T, FolderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FolderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Folder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FolderAggregateArgs>(args: Subset<T, FolderAggregateArgs>): Prisma.PrismaPromise<GetFolderAggregateType<T>>
+
+    /**
+     * Group by Folder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FolderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FolderGroupByArgs['orderBy'] }
+        : { orderBy?: FolderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FolderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFolderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Folder model
+   */
+  readonly fields: FolderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Folder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FolderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    flows<T extends Folder$flowsArgs<ExtArgs> = {}>(args?: Subset<T, Folder$flowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Folder model
+   */
+  interface FolderFieldRefs {
+    readonly id: FieldRef<"Folder", 'String'>
+    readonly userId: FieldRef<"Folder", 'String'>
+    readonly name: FieldRef<"Folder", 'String'>
+    readonly platform: FieldRef<"Folder", 'Platform'>
+    readonly createdAt: FieldRef<"Folder", 'DateTime'>
+    readonly updatedAt: FieldRef<"Folder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Folder findUnique
+   */
+  export type FolderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder findUniqueOrThrow
+   */
+  export type FolderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder findFirst
+   */
+  export type FolderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Folders.
+     */
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder findFirstOrThrow
+   */
+  export type FolderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Folders.
+     */
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder findMany
+   */
+  export type FolderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folders to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder create
+   */
+  export type FolderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Folder.
+     */
+    data: XOR<FolderCreateInput, FolderUncheckedCreateInput>
+  }
+
+  /**
+   * Folder createMany
+   */
+  export type FolderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Folders.
+     */
+    data: FolderCreateManyInput | FolderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Folder update
+   */
+  export type FolderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Folder.
+     */
+    data: XOR<FolderUpdateInput, FolderUncheckedUpdateInput>
+    /**
+     * Choose, which Folder to update.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder updateMany
+   */
+  export type FolderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Folders.
+     */
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyInput>
+    /**
+     * Filter which Folders to update
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Folder upsert
+   */
+  export type FolderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Folder to update in case it exists.
+     */
+    where: FolderWhereUniqueInput
+    /**
+     * In case the Folder found by the `where` argument doesn't exist, create a new Folder with this data.
+     */
+    create: XOR<FolderCreateInput, FolderUncheckedCreateInput>
+    /**
+     * In case the Folder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FolderUpdateInput, FolderUncheckedUpdateInput>
+  }
+
+  /**
+   * Folder delete
+   */
+  export type FolderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter which Folder to delete.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder deleteMany
+   */
+  export type FolderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Folders to delete
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Folder.flows
+   */
+  export type Folder$flowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flow
+     */
+    select?: FlowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flow
+     */
+    omit?: FlowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowInclude<ExtArgs> | null
+    where?: FlowWhereInput
+    orderBy?: FlowOrderByWithRelationInput | FlowOrderByWithRelationInput[]
+    cursor?: FlowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowScalarFieldEnum | FlowScalarFieldEnum[]
+  }
+
+  /**
+   * Folder without action
+   */
+  export type FolderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Flow
    */
 
@@ -5038,6 +6159,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     pageId: string | null
+    folderId: string | null
     pageAccessToken: string | null
     name: string | null
     description: string | null
@@ -5052,6 +6174,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     pageId: string | null
+    folderId: string | null
     pageAccessToken: string | null
     name: string | null
     description: string | null
@@ -5066,6 +6189,7 @@ export namespace Prisma {
     id: number
     userId: number
     pageId: number
+    folderId: number
     pageAccessToken: number
     name: number
     description: number
@@ -5085,6 +6209,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     pageId?: true
+    folderId?: true
     pageAccessToken?: true
     name?: true
     description?: true
@@ -5099,6 +6224,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     pageId?: true
+    folderId?: true
     pageAccessToken?: true
     name?: true
     description?: true
@@ -5113,6 +6239,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     pageId?: true
+    folderId?: true
     pageAccessToken?: true
     name?: true
     description?: true
@@ -5202,13 +6329,14 @@ export namespace Prisma {
   export type FlowGroupByOutputType = {
     id: string
     userId: string
-    pageId: string
-    pageAccessToken: string
+    pageId: string | null
+    folderId: string
+    pageAccessToken: string | null
     name: string
     description: string | null
     status: $Enums.FlowStatus
-    logicJson: JsonValue
-    layoutJson: JsonValue
+    logicJson: JsonValue | null
+    layoutJson: JsonValue | null
     platform: $Enums.Platform
     timeoutDuration: string | null
     timeoutJson: JsonValue | null
@@ -5237,6 +6365,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     pageId?: boolean
+    folderId?: boolean
     pageAccessToken?: boolean
     name?: boolean
     description?: boolean
@@ -5249,6 +6378,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | FolderDefaultArgs<ExtArgs>
     states?: boolean | Flow$statesArgs<ExtArgs>
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
@@ -5260,6 +6390,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     pageId?: boolean
+    folderId?: boolean
     pageAccessToken?: boolean
     name?: boolean
     description?: boolean
@@ -5273,9 +6404,10 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "pageAccessToken" | "name" | "description" | "status" | "logicJson" | "layoutJson" | "platform" | "timeoutDuration" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
+  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "folderId" | "pageAccessToken" | "name" | "description" | "status" | "logicJson" | "layoutJson" | "platform" | "timeoutDuration" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
   export type FlowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | FolderDefaultArgs<ExtArgs>
     states?: boolean | Flow$statesArgs<ExtArgs>
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
@@ -5285,19 +6417,21 @@ export namespace Prisma {
     name: "Flow"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      folder: Prisma.$FolderPayload<ExtArgs>
       states: Prisma.$UserFlowStatePayload<ExtArgs>[]
       shares: Prisma.$FlowSharePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      pageId: string
-      pageAccessToken: string
+      pageId: string | null
+      folderId: string
+      pageAccessToken: string | null
       name: string
       description: string | null
       status: $Enums.FlowStatus
-      logicJson: Prisma.JsonValue
-      layoutJson: Prisma.JsonValue
+      logicJson: Prisma.JsonValue | null
+      layoutJson: Prisma.JsonValue | null
       platform: $Enums.Platform
       timeoutDuration: string | null
       timeoutJson: Prisma.JsonValue | null
@@ -5644,6 +6778,7 @@ export namespace Prisma {
   export interface Prisma__FlowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    folder<T extends FolderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FolderDefaultArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     states<T extends Flow$statesArgs<ExtArgs> = {}>(args?: Subset<T, Flow$statesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserFlowStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shares<T extends Flow$sharesArgs<ExtArgs> = {}>(args?: Subset<T, Flow$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -5678,6 +6813,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Flow", 'String'>
     readonly userId: FieldRef<"Flow", 'String'>
     readonly pageId: FieldRef<"Flow", 'String'>
+    readonly folderId: FieldRef<"Flow", 'String'>
     readonly pageAccessToken: FieldRef<"Flow", 'String'>
     readonly name: FieldRef<"Flow", 'String'>
     readonly description: FieldRef<"Flow", 'String'>
@@ -12075,10 +13211,23 @@ export namespace Prisma {
   export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
+  export const FolderScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    platform: 'platform',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FolderScalarFieldEnum = (typeof FolderScalarFieldEnum)[keyof typeof FolderScalarFieldEnum]
+
+
   export const FlowScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
     pageId: 'pageId',
+    folderId: 'folderId',
     pageAccessToken: 'pageAccessToken',
     name: 'name',
     description: 'description',
@@ -12184,13 +13333,6 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
@@ -12238,6 +13380,15 @@ export namespace Prisma {
   export type PasswordResetTokenOrderByRelevanceFieldEnum = (typeof PasswordResetTokenOrderByRelevanceFieldEnum)[keyof typeof PasswordResetTokenOrderByRelevanceFieldEnum]
 
 
+  export const FolderOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name'
+  };
+
+  export type FolderOrderByRelevanceFieldEnum = (typeof FolderOrderByRelevanceFieldEnum)[keyof typeof FolderOrderByRelevanceFieldEnum]
+
+
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -12259,6 +13410,7 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     pageId: 'pageId',
+    folderId: 'folderId',
     pageAccessToken: 'pageAccessToken',
     name: 'name',
     description: 'description',
@@ -12366,6 +13518,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Platform'
+   */
+  export type EnumPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Platform'>
+    
+
+
+  /**
    * Reference to a field of type 'FlowStatus'
    */
   export type EnumFlowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FlowStatus'>
@@ -12383,13 +13542,6 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
-   * Reference to a field of type 'Platform'
-   */
-  export type EnumPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Platform'>
     
 
 
@@ -12453,6 +13605,7 @@ export namespace Prisma {
     providerId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    folders?: FolderListRelationFilter
     flows?: FlowListRelationFilter
     flowShares?: FlowShareListRelationFilter
     flowLikes?: FlowLikeListRelationFilter
@@ -12476,6 +13629,7 @@ export namespace Prisma {
     providerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    folders?: FolderOrderByRelationAggregateInput
     flows?: FlowOrderByRelationAggregateInput
     flowShares?: FlowShareOrderByRelationAggregateInput
     flowLikes?: FlowLikeOrderByRelationAggregateInput
@@ -12503,6 +13657,7 @@ export namespace Prisma {
     providerId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    folders?: FolderListRelationFilter
     flows?: FlowListRelationFilter
     flowShares?: FlowShareListRelationFilter
     flowLikes?: FlowLikeListRelationFilter
@@ -12660,25 +13815,92 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
   }
 
+  export type FolderWhereInput = {
+    AND?: FolderWhereInput | FolderWhereInput[]
+    OR?: FolderWhereInput[]
+    NOT?: FolderWhereInput | FolderWhereInput[]
+    id?: StringFilter<"Folder"> | string
+    userId?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    platform?: EnumPlatformFilter<"Folder"> | $Enums.Platform
+    createdAt?: DateTimeFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeFilter<"Folder"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    flows?: FlowListRelationFilter
+  }
+
+  export type FolderOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    flows?: FlowOrderByRelationAggregateInput
+    _relevance?: FolderOrderByRelevanceInput
+  }
+
+  export type FolderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_platform_name?: FolderUserId_platform_nameCompoundUniqueInput
+    AND?: FolderWhereInput | FolderWhereInput[]
+    OR?: FolderWhereInput[]
+    NOT?: FolderWhereInput | FolderWhereInput[]
+    userId?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    platform?: EnumPlatformFilter<"Folder"> | $Enums.Platform
+    createdAt?: DateTimeFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeFilter<"Folder"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    flows?: FlowListRelationFilter
+  }, "id" | "userId_platform_name">
+
+  export type FolderOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FolderCountOrderByAggregateInput
+    _max?: FolderMaxOrderByAggregateInput
+    _min?: FolderMinOrderByAggregateInput
+  }
+
+  export type FolderScalarWhereWithAggregatesInput = {
+    AND?: FolderScalarWhereWithAggregatesInput | FolderScalarWhereWithAggregatesInput[]
+    OR?: FolderScalarWhereWithAggregatesInput[]
+    NOT?: FolderScalarWhereWithAggregatesInput | FolderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Folder"> | string
+    userId?: StringWithAggregatesFilter<"Folder"> | string
+    name?: StringWithAggregatesFilter<"Folder"> | string
+    platform?: EnumPlatformWithAggregatesFilter<"Folder"> | $Enums.Platform
+    createdAt?: DateTimeWithAggregatesFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Folder"> | Date | string
+  }
+
   export type FlowWhereInput = {
     AND?: FlowWhereInput | FlowWhereInput[]
     OR?: FlowWhereInput[]
     NOT?: FlowWhereInput | FlowWhereInput[]
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
-    pageId?: StringFilter<"Flow"> | string
-    pageAccessToken?: StringFilter<"Flow"> | string
+    pageId?: StringNullableFilter<"Flow"> | string | null
+    folderId?: StringFilter<"Flow"> | string
+    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
     description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
-    logicJson?: JsonFilter<"Flow">
-    layoutJson?: JsonFilter<"Flow">
+    logicJson?: JsonNullableFilter<"Flow">
+    layoutJson?: JsonNullableFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    folder?: XOR<FolderScalarRelationFilter, FolderWhereInput>
     states?: UserFlowStateListRelationFilter
     shares?: FlowShareListRelationFilter
   }
@@ -12686,19 +13908,21 @@ export namespace Prisma {
   export type FlowOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    pageId?: SortOrder
-    pageAccessToken?: SortOrder
+    pageId?: SortOrderInput | SortOrder
+    folderId?: SortOrder
+    pageAccessToken?: SortOrderInput | SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
-    logicJson?: SortOrder
-    layoutJson?: SortOrder
+    logicJson?: SortOrderInput | SortOrder
+    layoutJson?: SortOrderInput | SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrderInput | SortOrder
     timeoutJson?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    folder?: FolderOrderByWithRelationInput
     states?: UserFlowStateOrderByRelationAggregateInput
     shares?: FlowShareOrderByRelationAggregateInput
     _relevance?: FlowOrderByRelevanceInput
@@ -12710,19 +13934,21 @@ export namespace Prisma {
     OR?: FlowWhereInput[]
     NOT?: FlowWhereInput | FlowWhereInput[]
     userId?: StringFilter<"Flow"> | string
-    pageId?: StringFilter<"Flow"> | string
-    pageAccessToken?: StringFilter<"Flow"> | string
+    pageId?: StringNullableFilter<"Flow"> | string | null
+    folderId?: StringFilter<"Flow"> | string
+    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
     description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
-    logicJson?: JsonFilter<"Flow">
-    layoutJson?: JsonFilter<"Flow">
+    logicJson?: JsonNullableFilter<"Flow">
+    layoutJson?: JsonNullableFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    folder?: XOR<FolderScalarRelationFilter, FolderWhereInput>
     states?: UserFlowStateListRelationFilter
     shares?: FlowShareListRelationFilter
   }, "id">
@@ -12730,13 +13956,14 @@ export namespace Prisma {
   export type FlowOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    pageId?: SortOrder
-    pageAccessToken?: SortOrder
+    pageId?: SortOrderInput | SortOrder
+    folderId?: SortOrder
+    pageAccessToken?: SortOrderInput | SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
-    logicJson?: SortOrder
-    layoutJson?: SortOrder
+    logicJson?: SortOrderInput | SortOrder
+    layoutJson?: SortOrderInput | SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrderInput | SortOrder
     timeoutJson?: SortOrderInput | SortOrder
@@ -12753,13 +13980,14 @@ export namespace Prisma {
     NOT?: FlowScalarWhereWithAggregatesInput | FlowScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Flow"> | string
     userId?: StringWithAggregatesFilter<"Flow"> | string
-    pageId?: StringWithAggregatesFilter<"Flow"> | string
-    pageAccessToken?: StringWithAggregatesFilter<"Flow"> | string
+    pageId?: StringNullableWithAggregatesFilter<"Flow"> | string | null
+    folderId?: StringWithAggregatesFilter<"Flow"> | string
+    pageAccessToken?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     name?: StringWithAggregatesFilter<"Flow"> | string
     description?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     status?: EnumFlowStatusWithAggregatesFilter<"Flow"> | $Enums.FlowStatus
-    logicJson?: JsonWithAggregatesFilter<"Flow">
-    layoutJson?: JsonWithAggregatesFilter<"Flow">
+    logicJson?: JsonNullableWithAggregatesFilter<"Flow">
+    layoutJson?: JsonNullableWithAggregatesFilter<"Flow">
     platform?: EnumPlatformWithAggregatesFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableWithAggregatesFilter<"Flow">
@@ -13224,6 +14452,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
@@ -13247,6 +14476,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
@@ -13270,6 +14500,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
@@ -13293,6 +14524,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -13456,21 +14688,88 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FolderCreateInput = {
+    id?: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFoldersInput
+    flows?: FlowCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFoldersNestedInput
+    flows?: FlowUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FolderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FolderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FlowCreateInput = {
     id?: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
+    folder: FolderCreateNestedOneWithoutFlowsInput
     states?: UserFlowStateCreateNestedManyWithoutFlowInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
   }
@@ -13478,13 +14777,14 @@ export namespace Prisma {
   export type FlowUncheckedCreateInput = {
     id?: string
     userId: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    folderId: string
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -13496,19 +14796,20 @@ export namespace Prisma {
 
   export type FlowUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
+    folder?: FolderUpdateOneRequiredWithoutFlowsNestedInput
     states?: UserFlowStateUpdateManyWithoutFlowNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
   }
@@ -13516,13 +14817,14 @@ export namespace Prisma {
   export type FlowUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -13535,13 +14837,14 @@ export namespace Prisma {
   export type FlowCreateManyInput = {
     id?: string
     userId: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    folderId: string
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -13551,13 +14854,13 @@ export namespace Prisma {
 
   export type FlowUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -13568,13 +14871,14 @@ export namespace Prisma {
   export type FlowUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -14082,6 +15386,12 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type FolderListRelationFilter = {
+    every?: FolderWhereInput
+    some?: FolderWhereInput
+    none?: FolderWhereInput
+  }
+
   export type FlowListRelationFilter = {
     every?: FlowWhereInput
     some?: FlowWhereInput
@@ -14139,6 +15449,10 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type FolderOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type FlowOrderByRelationAggregateInput = {
@@ -14360,41 +15674,67 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type EnumFlowStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.FlowStatus | EnumFlowStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.FlowStatus[]
-    notIn?: $Enums.FlowStatus[]
-    not?: NestedEnumFlowStatusFilter<$PrismaModel> | $Enums.FlowStatus
-  }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
   export type EnumPlatformFilter<$PrismaModel = never> = {
     equals?: $Enums.Platform | EnumPlatformFieldRefInput<$PrismaModel>
     in?: $Enums.Platform[]
     notIn?: $Enums.Platform[]
     not?: NestedEnumPlatformFilter<$PrismaModel> | $Enums.Platform
+  }
+
+  export type FolderOrderByRelevanceInput = {
+    fields: FolderOrderByRelevanceFieldEnum | FolderOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type FolderUserId_platform_nameCompoundUniqueInput = {
+    userId: string
+    platform: $Enums.Platform
+    name: string
+  }
+
+  export type FolderCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FolderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FolderMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumPlatformWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Platform | EnumPlatformFieldRefInput<$PrismaModel>
+    in?: $Enums.Platform[]
+    notIn?: $Enums.Platform[]
+    not?: NestedEnumPlatformWithAggregatesFilter<$PrismaModel> | $Enums.Platform
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPlatformFilter<$PrismaModel>
+    _max?: NestedEnumPlatformFilter<$PrismaModel>
+  }
+
+  export type EnumFlowStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlowStatus | EnumFlowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlowStatus[]
+    notIn?: $Enums.FlowStatus[]
+    not?: NestedEnumFlowStatusFilter<$PrismaModel> | $Enums.FlowStatus
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -14420,6 +15760,11 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type FolderScalarRelationFilter = {
+    is?: FolderWhereInput
+    isNot?: FolderWhereInput
+  }
+
   export type FlowOrderByRelevanceInput = {
     fields: FlowOrderByRelevanceFieldEnum | FlowOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -14430,6 +15775,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrder
+    folderId?: SortOrder
     pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrder
@@ -14447,6 +15793,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrder
+    folderId?: SortOrder
     pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrder
@@ -14461,6 +15808,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrder
+    folderId?: SortOrder
     pageAccessToken?: SortOrder
     name?: SortOrder
     description?: SortOrder
@@ -14479,42 +15827,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFlowStatusFilter<$PrismaModel>
     _max?: NestedEnumFlowStatusFilter<$PrismaModel>
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
-  }
-
-  export type EnumPlatformWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Platform | EnumPlatformFieldRefInput<$PrismaModel>
-    in?: $Enums.Platform[]
-    notIn?: $Enums.Platform[]
-    not?: NestedEnumPlatformWithAggregatesFilter<$PrismaModel> | $Enums.Platform
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPlatformFilter<$PrismaModel>
-    _max?: NestedEnumPlatformFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -14888,6 +16200,13 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type FolderCreateNestedManyWithoutUserInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+  }
+
   export type FlowCreateNestedManyWithoutUserInput = {
     create?: XOR<FlowCreateWithoutUserInput, FlowUncheckedCreateWithoutUserInput> | FlowCreateWithoutUserInput[] | FlowUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCreateOrConnectWithoutUserInput | FlowCreateOrConnectWithoutUserInput[]
@@ -14949,6 +16268,13 @@ export namespace Prisma {
     connectOrCreate?: PasswordResetTokenCreateOrConnectWithoutUserInput | PasswordResetTokenCreateOrConnectWithoutUserInput[]
     createMany?: PasswordResetTokenCreateManyUserInputEnvelope
     connect?: PasswordResetTokenWhereUniqueInput | PasswordResetTokenWhereUniqueInput[]
+  }
+
+  export type FolderUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
   }
 
   export type FlowUncheckedCreateNestedManyWithoutUserInput = {
@@ -15032,6 +16358,20 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type FolderUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
   }
 
   export type FlowUpdateManyWithoutUserNestedInput = {
@@ -15158,6 +16498,20 @@ export namespace Prisma {
     update?: PasswordResetTokenUpdateWithWhereUniqueWithoutUserInput | PasswordResetTokenUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: PasswordResetTokenUpdateManyWithWhereWithoutUserInput | PasswordResetTokenUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: PasswordResetTokenScalarWhereInput | PasswordResetTokenScalarWhereInput[]
+  }
+
+  export type FolderUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
   }
 
   export type FlowUncheckedUpdateManyWithoutUserNestedInput = {
@@ -15314,10 +16668,76 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordResetTokenInput, UserUpdateWithoutPasswordResetTokenInput>, UserUncheckedUpdateWithoutPasswordResetTokenInput>
   }
 
+  export type UserCreateNestedOneWithoutFoldersInput = {
+    create?: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFoldersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FlowCreateNestedManyWithoutFolderInput = {
+    create?: XOR<FlowCreateWithoutFolderInput, FlowUncheckedCreateWithoutFolderInput> | FlowCreateWithoutFolderInput[] | FlowUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: FlowCreateOrConnectWithoutFolderInput | FlowCreateOrConnectWithoutFolderInput[]
+    createMany?: FlowCreateManyFolderInputEnvelope
+    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+  }
+
+  export type FlowUncheckedCreateNestedManyWithoutFolderInput = {
+    create?: XOR<FlowCreateWithoutFolderInput, FlowUncheckedCreateWithoutFolderInput> | FlowCreateWithoutFolderInput[] | FlowUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: FlowCreateOrConnectWithoutFolderInput | FlowCreateOrConnectWithoutFolderInput[]
+    createMany?: FlowCreateManyFolderInputEnvelope
+    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+  }
+
+  export type EnumPlatformFieldUpdateOperationsInput = {
+    set?: $Enums.Platform
+  }
+
+  export type UserUpdateOneRequiredWithoutFoldersNestedInput = {
+    create?: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFoldersInput
+    upsert?: UserUpsertWithoutFoldersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFoldersInput, UserUpdateWithoutFoldersInput>, UserUncheckedUpdateWithoutFoldersInput>
+  }
+
+  export type FlowUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<FlowCreateWithoutFolderInput, FlowUncheckedCreateWithoutFolderInput> | FlowCreateWithoutFolderInput[] | FlowUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: FlowCreateOrConnectWithoutFolderInput | FlowCreateOrConnectWithoutFolderInput[]
+    upsert?: FlowUpsertWithWhereUniqueWithoutFolderInput | FlowUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: FlowCreateManyFolderInputEnvelope
+    set?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    disconnect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    delete?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    update?: FlowUpdateWithWhereUniqueWithoutFolderInput | FlowUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: FlowUpdateManyWithWhereWithoutFolderInput | FlowUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: FlowScalarWhereInput | FlowScalarWhereInput[]
+  }
+
+  export type FlowUncheckedUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<FlowCreateWithoutFolderInput, FlowUncheckedCreateWithoutFolderInput> | FlowCreateWithoutFolderInput[] | FlowUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: FlowCreateOrConnectWithoutFolderInput | FlowCreateOrConnectWithoutFolderInput[]
+    upsert?: FlowUpsertWithWhereUniqueWithoutFolderInput | FlowUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: FlowCreateManyFolderInputEnvelope
+    set?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    disconnect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    delete?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
+    update?: FlowUpdateWithWhereUniqueWithoutFolderInput | FlowUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: FlowUpdateManyWithWhereWithoutFolderInput | FlowUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: FlowScalarWhereInput | FlowScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutFlowsInput = {
     create?: XOR<UserCreateWithoutFlowsInput, UserUncheckedCreateWithoutFlowsInput>
     connectOrCreate?: UserCreateOrConnectWithoutFlowsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type FolderCreateNestedOneWithoutFlowsInput = {
+    create?: XOR<FolderCreateWithoutFlowsInput, FolderUncheckedCreateWithoutFlowsInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutFlowsInput
+    connect?: FolderWhereUniqueInput
   }
 
   export type UserFlowStateCreateNestedManyWithoutFlowInput = {
@@ -15352,16 +16772,20 @@ export namespace Prisma {
     set?: $Enums.FlowStatus
   }
 
-  export type EnumPlatformFieldUpdateOperationsInput = {
-    set?: $Enums.Platform
-  }
-
   export type UserUpdateOneRequiredWithoutFlowsNestedInput = {
     create?: XOR<UserCreateWithoutFlowsInput, UserUncheckedCreateWithoutFlowsInput>
     connectOrCreate?: UserCreateOrConnectWithoutFlowsInput
     upsert?: UserUpsertWithoutFlowsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFlowsInput, UserUpdateWithoutFlowsInput>, UserUncheckedUpdateWithoutFlowsInput>
+  }
+
+  export type FolderUpdateOneRequiredWithoutFlowsNestedInput = {
+    create?: XOR<FolderCreateWithoutFlowsInput, FolderUncheckedCreateWithoutFlowsInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutFlowsInput
+    upsert?: FolderUpsertWithoutFlowsInput
+    connect?: FolderWhereUniqueInput
+    update?: XOR<XOR<FolderUpdateToOneWithWhereWithoutFlowsInput, FolderUpdateWithoutFlowsInput>, FolderUncheckedUpdateWithoutFlowsInput>
   }
 
   export type UserFlowStateUpdateManyWithoutFlowNestedInput = {
@@ -15929,51 +17353,11 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumFlowStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.FlowStatus | EnumFlowStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.FlowStatus[]
-    notIn?: $Enums.FlowStatus[]
-    not?: NestedEnumFlowStatusFilter<$PrismaModel> | $Enums.FlowStatus
-  }
-
   export type NestedEnumPlatformFilter<$PrismaModel = never> = {
     equals?: $Enums.Platform | EnumPlatformFieldRefInput<$PrismaModel>
     in?: $Enums.Platform[]
     notIn?: $Enums.Platform[]
     not?: NestedEnumPlatformFilter<$PrismaModel> | $Enums.Platform
-  }
-
-  export type NestedEnumFlowStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FlowStatus | EnumFlowStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.FlowStatus[]
-    notIn?: $Enums.FlowStatus[]
-    not?: NestedEnumFlowStatusWithAggregatesFilter<$PrismaModel> | $Enums.FlowStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFlowStatusFilter<$PrismaModel>
-    _max?: NestedEnumFlowStatusFilter<$PrismaModel>
-  }
-  export type NestedJsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumPlatformWithAggregatesFilter<$PrismaModel = never> = {
@@ -15984,6 +17368,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPlatformFilter<$PrismaModel>
     _max?: NestedEnumPlatformFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFlowStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlowStatus | EnumFlowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlowStatus[]
+    notIn?: $Enums.FlowStatus[]
+    not?: NestedEnumFlowStatusFilter<$PrismaModel> | $Enums.FlowStatus
+  }
+
+  export type NestedEnumFlowStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlowStatus | EnumFlowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlowStatus[]
+    notIn?: $Enums.FlowStatus[]
+    not?: NestedEnumFlowStatusWithAggregatesFilter<$PrismaModel> | $Enums.FlowStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFlowStatusFilter<$PrismaModel>
+    _max?: NestedEnumFlowStatusFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -16100,33 +17501,63 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type FolderCreateWithoutUserInput = {
+    id?: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderCreateOrConnectWithoutUserInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput>
+  }
+
+  export type FolderCreateManyUserInputEnvelope = {
+    data: FolderCreateManyUserInput | FolderCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FlowCreateWithoutUserInput = {
     id?: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    folder: FolderCreateNestedOneWithoutFlowsInput
     states?: UserFlowStateCreateNestedManyWithoutFlowInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
   }
 
   export type FlowUncheckedCreateWithoutUserInput = {
     id?: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    folderId: string
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -16376,6 +17807,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FolderUpsertWithWhereUniqueWithoutUserInput = {
+    where: FolderWhereUniqueInput
+    update: XOR<FolderUpdateWithoutUserInput, FolderUncheckedUpdateWithoutUserInput>
+    create: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput>
+  }
+
+  export type FolderUpdateWithWhereUniqueWithoutUserInput = {
+    where: FolderWhereUniqueInput
+    data: XOR<FolderUpdateWithoutUserInput, FolderUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FolderUpdateManyWithWhereWithoutUserInput = {
+    where: FolderScalarWhereInput
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FolderScalarWhereInput = {
+    AND?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    OR?: FolderScalarWhereInput[]
+    NOT?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    id?: StringFilter<"Folder"> | string
+    userId?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    platform?: EnumPlatformFilter<"Folder"> | $Enums.Platform
+    createdAt?: DateTimeFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeFilter<"Folder"> | Date | string
+  }
+
   export type FlowUpsertWithWhereUniqueWithoutUserInput = {
     where: FlowWhereUniqueInput
     update: XOR<FlowUpdateWithoutUserInput, FlowUncheckedUpdateWithoutUserInput>
@@ -16398,13 +17857,14 @@ export namespace Prisma {
     NOT?: FlowScalarWhereInput | FlowScalarWhereInput[]
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
-    pageId?: StringFilter<"Flow"> | string
-    pageAccessToken?: StringFilter<"Flow"> | string
+    pageId?: StringNullableFilter<"Flow"> | string | null
+    folderId?: StringFilter<"Flow"> | string
+    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
     description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
-    logicJson?: JsonFilter<"Flow">
-    layoutJson?: JsonFilter<"Flow">
+    logicJson?: JsonNullableFilter<"Flow">
+    layoutJson?: JsonNullableFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableFilter<"Flow">
@@ -16655,6 +18115,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
@@ -16677,6 +18138,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
@@ -16715,6 +18177,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
@@ -16737,6 +18200,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -16759,6 +18223,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
@@ -16781,6 +18246,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
@@ -16819,6 +18285,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
@@ -16841,6 +18308,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -16849,6 +18317,178 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutFoldersInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFoldersInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFoldersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+  }
+
+  export type FlowCreateWithoutFolderInput = {
+    id?: string
+    pageId?: string | null
+    pageAccessToken?: string | null
+    name: string
+    description?: string | null
+    status?: $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    platform: $Enums.Platform
+    timeoutDuration?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFlowsInput
+    states?: UserFlowStateCreateNestedManyWithoutFlowInput
+    shares?: FlowShareCreateNestedManyWithoutFlowInput
+  }
+
+  export type FlowUncheckedCreateWithoutFolderInput = {
+    id?: string
+    userId: string
+    pageId?: string | null
+    pageAccessToken?: string | null
+    name: string
+    description?: string | null
+    status?: $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    platform: $Enums.Platform
+    timeoutDuration?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    states?: UserFlowStateUncheckedCreateNestedManyWithoutFlowInput
+    shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
+  }
+
+  export type FlowCreateOrConnectWithoutFolderInput = {
+    where: FlowWhereUniqueInput
+    create: XOR<FlowCreateWithoutFolderInput, FlowUncheckedCreateWithoutFolderInput>
+  }
+
+  export type FlowCreateManyFolderInputEnvelope = {
+    data: FlowCreateManyFolderInput | FlowCreateManyFolderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutFoldersInput = {
+    update: XOR<UserUpdateWithoutFoldersInput, UserUncheckedUpdateWithoutFoldersInput>
+    create: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFoldersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFoldersInput, UserUncheckedUpdateWithoutFoldersInput>
+  }
+
+  export type UserUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type FlowUpsertWithWhereUniqueWithoutFolderInput = {
+    where: FlowWhereUniqueInput
+    update: XOR<FlowUpdateWithoutFolderInput, FlowUncheckedUpdateWithoutFolderInput>
+    create: XOR<FlowCreateWithoutFolderInput, FlowUncheckedCreateWithoutFolderInput>
+  }
+
+  export type FlowUpdateWithWhereUniqueWithoutFolderInput = {
+    where: FlowWhereUniqueInput
+    data: XOR<FlowUpdateWithoutFolderInput, FlowUncheckedUpdateWithoutFolderInput>
+  }
+
+  export type FlowUpdateManyWithWhereWithoutFolderInput = {
+    where: FlowScalarWhereInput
+    data: XOR<FlowUpdateManyMutationInput, FlowUncheckedUpdateManyWithoutFolderInput>
   }
 
   export type UserCreateWithoutFlowsInput = {
@@ -16863,6 +18503,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
@@ -16885,6 +18526,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
@@ -16898,6 +18540,29 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutFlowsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutFlowsInput, UserUncheckedCreateWithoutFlowsInput>
+  }
+
+  export type FolderCreateWithoutFlowsInput = {
+    id?: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFoldersInput
+  }
+
+  export type FolderUncheckedCreateWithoutFlowsInput = {
+    id?: string
+    userId: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FolderCreateOrConnectWithoutFlowsInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutFlowsInput, FolderUncheckedCreateWithoutFlowsInput>
   }
 
   export type UserFlowStateCreateWithoutFlowInput = {
@@ -16999,6 +18664,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
@@ -17021,6 +18687,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
@@ -17029,6 +18696,35 @@ export namespace Prisma {
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type FolderUpsertWithoutFlowsInput = {
+    update: XOR<FolderUpdateWithoutFlowsInput, FolderUncheckedUpdateWithoutFlowsInput>
+    create: XOR<FolderCreateWithoutFlowsInput, FolderUncheckedCreateWithoutFlowsInput>
+    where?: FolderWhereInput
+  }
+
+  export type FolderUpdateToOneWithWhereWithoutFlowsInput = {
+    where?: FolderWhereInput
+    data: XOR<FolderUpdateWithoutFlowsInput, FolderUncheckedUpdateWithoutFlowsInput>
+  }
+
+  export type FolderUpdateWithoutFlowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFoldersNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutFlowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserFlowStateUpsertWithWhereUniqueWithoutFlowInput = {
@@ -17075,6 +18771,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
@@ -17097,6 +18794,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
@@ -17114,32 +18812,34 @@ export namespace Prisma {
 
   export type FlowCreateWithoutStatesInput = {
     id?: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
+    folder: FolderCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
   }
 
   export type FlowUncheckedCreateWithoutStatesInput = {
     id?: string
     userId: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    folderId: string
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -17176,6 +18876,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
@@ -17198,6 +18899,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -17221,32 +18923,34 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutStatesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
+    folder?: FolderUpdateOneRequiredWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutStatesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -17257,32 +18961,34 @@ export namespace Prisma {
 
   export type FlowCreateWithoutSharesInput = {
     id?: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
+    folder: FolderCreateNestedOneWithoutFlowsInput
     states?: UserFlowStateCreateNestedManyWithoutFlowInput
   }
 
   export type FlowUncheckedCreateWithoutSharesInput = {
     id?: string
     userId: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    folderId: string
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -17308,6 +19014,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
@@ -17330,6 +19037,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
@@ -17432,32 +19140,34 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
+    folder?: FolderUpdateOneRequiredWithoutFlowsNestedInput
     states?: UserFlowStateUpdateManyWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -17489,6 +19199,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
@@ -17511,6 +19222,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
@@ -17616,6 +19328,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
@@ -17638,6 +19351,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
@@ -17772,6 +19486,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
@@ -17794,6 +19509,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -17898,6 +19614,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
@@ -17920,6 +19637,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
@@ -17999,6 +19717,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
@@ -18021,6 +19740,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
@@ -18078,6 +19798,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
@@ -18100,6 +19821,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
@@ -18179,6 +19901,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
@@ -18201,6 +19924,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -18223,6 +19947,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
@@ -18245,6 +19970,7 @@ export namespace Prisma {
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
@@ -18283,6 +20009,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
@@ -18305,6 +20032,7 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -18315,15 +20043,24 @@ export namespace Prisma {
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type FolderCreateManyUserInput = {
+    id?: string
+    name: string
+    platform: $Enums.Platform
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type FlowCreateManyUserInput = {
     id?: string
-    pageId: string
-    pageAccessToken: string
+    pageId?: string | null
+    folderId: string
+    pageAccessToken?: string | null
     name: string
     description?: string | null
     status?: $Enums.FlowStatus
-    logicJson: JsonNullValueInput | InputJsonValue
-    layoutJson: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -18402,33 +20139,61 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type FolderUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FlowUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: FolderUpdateOneRequiredWithoutFlowsNestedInput
     states?: UserFlowStateUpdateManyWithoutFlowNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -18440,13 +20205,14 @@ export namespace Prisma {
 
   export type FlowUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: JsonNullValueInput | InputJsonValue
-    layoutJson?: JsonNullValueInput | InputJsonValue
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -18673,6 +20439,78 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowCreateManyFolderInput = {
+    id?: string
+    userId: string
+    pageId?: string | null
+    pageAccessToken?: string | null
+    name: string
+    description?: string | null
+    status?: $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    platform: $Enums.Platform
+    timeoutDuration?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFlowsNestedInput
+    states?: UserFlowStateUpdateManyWithoutFlowNestedInput
+    shares?: FlowShareUpdateManyWithoutFlowNestedInput
+  }
+
+  export type FlowUncheckedUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    states?: UserFlowStateUncheckedUpdateManyWithoutFlowNestedInput
+    shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
+  }
+
+  export type FlowUncheckedUpdateManyWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserFlowStateCreateManyFlowInput = {
