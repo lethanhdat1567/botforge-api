@@ -8,7 +8,8 @@ class FolderController {
     async getFolders(req: Request, res: any) {
         try {
             const userId = (req as any).user.userId;
-            const folders = await FolderModel.findByUser(userId);
+            const q = (req.query.q as string) || ''; // Lấy query search, mặc định là rỗng
+            const folders = await FolderModel.findByUser(userId, q);
 
             // Nhóm theo platform
             const grouped: Record<string, typeof folders> = {};

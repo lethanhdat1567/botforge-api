@@ -41,8 +41,16 @@ class FolderModel {
         await prisma.folder.delete({ where: { id: folderId } }); // cascade delete flows
     }
 
-    async findByUser(userId: string): Promise<IFolder[]> {
-        return prisma.folder.findMany({ where: { userId }, orderBy: { createdAt: 'desc' } });
+    async findByUser(userId: string, q: string = ''): Promise<IFolder[]> {
+        return prisma.folder.findMany({
+            where: {
+                userId,
+                name: {
+                    contains: q
+                }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
     }
 
     async findById(folderId: string): Promise<IFolder | null> {
