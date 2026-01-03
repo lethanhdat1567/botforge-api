@@ -9,6 +9,7 @@ import notFound from '~/middlewares/notFound.middleware';
 import errorHandler from '~/middlewares/errorHandler.middleware';
 
 import dotven from 'dotenv';
+import path from 'path';
 dotven.config();
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(response);
 app.use('/api', indexRouter);
 // Facebook Webhook
 app.use('/webhook', webhookRouter);
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(notFound);
 app.use(errorHandler);

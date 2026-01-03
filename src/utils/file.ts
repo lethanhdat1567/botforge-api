@@ -1,15 +1,36 @@
 import fs from 'fs';
 import path from 'path';
 
-export function deleteFile(filePath: string) {
+const UPLOAD_ROOT = path.join(process.cwd(), 'uploads');
+
+export function deleteFile(filePath?: string) {
     if (!filePath) return;
 
-    // filePath: /uploads/1-xxxx.jpg
-    // join với root project
-    const fullPath = path.join(process.cwd(), filePath.replace(/^\//, ''));
+    // chỉ cho phép path bắt đầu bằng /uploads/
+    if (!filePath.startsWith('/uploads/')) {
+        console.warn('Invalid upload path:', filePath);
+        return;
+    }
+
+    // bỏ /uploads/ ở đầu
+    const relativePath = filePath.replace(/^\/uploads\//, '');
+
+    // resolve path tuyệt đối
+    const fullPath = path.join(UPLOAD_ROOT, relativePath);
+
+    // extra safety: ensure vẫn nằm trong uploads
+    if (!fullPath.startsWith(UPLOAD_ROOT)) {
+        console.warn('Path traversal detected:', fullPath);
+        return;
+    }
 
     fs.unlink(fullPath, (err) => {
-        if (err) console.error('Failed to delete file:', fullPath, err);
-        else console.log('Deleted file:', fullPath);
+        if (err) {
+            if (err.code !== 'ENOENT') {
+                console.error('Failed to delete file:', fullPath, err);
+            }
+        } else {
+            console.log('Deleted file:', fullPath);
+        }
     });
 }

@@ -7,7 +7,7 @@ class UploadController {
             return res.error('File is required', 400);
         }
 
-        const filePath = buildUploadPath(req.file.filename);
+        const filePath = buildUploadPath(req.file);
 
         return res.success({
             filename: req.file.filename,
@@ -22,7 +22,7 @@ class UploadController {
 
         const files = req.files.map((file: any) => ({
             filename: file.filename,
-            path: buildUploadPath(file.filename)
+            path: buildUploadPath(file)
         }));
 
         return res.success(files);

@@ -27,7 +27,7 @@ class ProfileController {
                 deleteFile(oldUser.avatar); // xóa file avatar cũ
             }
 
-            data.avatar = buildUploadPath(req.file.filename);
+            data.avatar = buildUploadPath(req.file);
         }
 
         if (Object.keys(data).length === 0) {

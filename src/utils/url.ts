@@ -10,11 +10,11 @@ export function getStaticUrl(path?: string | null) {
     return `${baseUrl}/${cleanPath}`;
 }
 
-export function buildUploadPath(filename: string) {
+export function buildUploadPath(file: Express.Multer.File) {
     const basePath = '/uploads';
+    const cleanName = file.filename.replace(/^\/+/, '');
 
-    const cleanBase = basePath.replace(/\/+$/, '');
-    const cleanName = filename.replace(/^\/+/, '');
+    const type = file.mimetype.startsWith('audio/') ? 'audio' : 'images';
 
-    return `${cleanBase}/${cleanName}`;
+    return `${basePath}/${type}/${cleanName}`;
 }

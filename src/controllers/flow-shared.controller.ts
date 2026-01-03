@@ -33,7 +33,7 @@ class FlowSharedController {
 
             let thumbnail: string | undefined = undefined;
             if (req.file) {
-                thumbnail = buildUploadPath(req.file.filename);
+                thumbnail = buildUploadPath(req.file);
             }
 
             const flowShare = await FlowSharedModel.create({
@@ -89,7 +89,7 @@ class FlowSharedController {
                 // Xóa file cũ nếu có
                 if (oldRecord.thumbnail) deleteFile(oldRecord.thumbnail);
 
-                data.thumbnail = buildUploadPath(req.file.filename);
+                data.thumbnail = buildUploadPath(req.file);
             }
 
             const updated = await FlowSharedModel.update(id, data);
