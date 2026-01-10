@@ -6,10 +6,10 @@ import { upload } from '~/middlewares/upload.middleware';
 const router = express.Router();
 
 // Upload 1 ảnh
-router.post('/image', authMiddleware, upload.single('file'), uploadController.uploadImage);
+router.post('/file', authMiddleware, upload.single('file'), uploadController.uploadFile);
 
 // Upload nhiều ảnh
-router.post('/images', authMiddleware, upload.array('files', 10), uploadController.uploadImages);
+router.post('/files', authMiddleware, upload.array('files', 10), uploadController.uploadFiles);
 
 // Xóa file
 router.delete('/', authMiddleware, uploadController.deleteFile);

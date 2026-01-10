@@ -34,3 +34,15 @@ export function deleteFile(filePath?: string) {
         }
     });
 }
+
+export type MediaType = 'image' | 'video' | 'audio';
+
+export function filterMediaType(file: Express.Multer.File): MediaType {
+    const mime = file.mimetype;
+
+    if (mime.startsWith('image/')) return 'image';
+    if (mime.startsWith('video/')) return 'video';
+    if (mime.startsWith('audio/')) return 'audio';
+
+    return 'image';
+}

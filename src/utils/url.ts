@@ -14,7 +14,15 @@ export function buildUploadPath(file: Express.Multer.File) {
     const basePath = '/uploads';
     const cleanName = file.filename.replace(/^\/+/, '');
 
-    const type = file.mimetype.startsWith('audio/') ? 'audio' : 'images';
+    let type = 'images';
+
+    if (file.mimetype.startsWith('image/')) {
+        type = 'images';
+    } else if (file.mimetype.startsWith('video/')) {
+        type = 'videos';
+    } else if (file.mimetype.startsWith('audio/')) {
+        type = 'audio';
+    }
 
     return `${basePath}/${type}/${cleanName}`;
 }

@@ -12,6 +12,7 @@ const ensureDir = (dir: string) => {
 
 const getFolderByMime = (mimetype: string) => {
     if (mimetype.startsWith('image/')) return 'images';
+    if (mimetype.startsWith('video/')) return 'videos';
     if (mimetype.startsWith('audio/')) return 'audio';
     return 'others';
 };
@@ -35,13 +36,17 @@ const storage = multer.diskStorage({
 export const upload = multer({
     storage,
     limits: {
-        fileSize: 50 * 1024 * 1024 // max chung, audio thường lớn hơn
+        fileSize: 50 * 1024 * 1024
     },
     fileFilter: (_, file, cb) => {
-        if (file.mimetype.startsWith('image/') || file.mimetype.startsWith('audio/')) {
+        if (
+            file.mimetype.startsWith('image/') ||
+            file.mimetype.startsWith('audio/') ||
+            file.mimetype.startsWith('video/')
+        ) {
             cb(null, true);
         } else {
-            cb(new Error('Only image & audio files are allowed'));
+            cb(new Error('Only image, audio & video files are allowed'));
         }
     }
 });

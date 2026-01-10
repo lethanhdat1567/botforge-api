@@ -1,8 +1,8 @@
-import { deleteFile } from '~/utils/file';
+import { deleteFile, filterMediaType } from '~/utils/file';
 import { buildUploadPath } from '~/utils/url';
 
 class UploadController {
-    async uploadImage(req: any, res: any) {
+    async uploadFile(req: any, res: any) {
         if (!req.file) {
             return res.error('File is required', 400);
         }
@@ -11,11 +11,12 @@ class UploadController {
 
         return res.success({
             filename: req.file.filename,
-            path: filePath
+            path: filePath,
+            type: filterMediaType(req.file)
         });
     }
 
-    async uploadImages(req: any, res: any) {
+    async uploadFiles(req: any, res: any) {
         if (!req.files || req.files.length === 0) {
             return res.error('Files are required', 400);
         }
