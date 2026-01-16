@@ -1,3 +1,6 @@
+import dotven from 'dotenv';
+dotven.config();
+
 import express from 'express';
 import cors from 'cors';
 
@@ -8,9 +11,7 @@ import response from '~/middlewares/response.middlewares';
 import notFound from '~/middlewares/notFound.middleware';
 import errorHandler from '~/middlewares/errorHandler.middleware';
 
-import dotven from 'dotenv';
 import path from 'path';
-dotven.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;

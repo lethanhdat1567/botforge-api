@@ -111,6 +111,7 @@ model Flow {
   layoutJson      Json?      @map("layout_json")
   platform        Platform   @map("platform")
   timeoutDuration String?    @map("timeout_duration")
+  startNodeId     String?    @map("start_node_id")
   timeoutJson     Json?      @map("timeout_json")
   createdAt       DateTime   @default(now()) @map("created_at")
   updatedAt       DateTime   @default(now()) @map("updated_at")

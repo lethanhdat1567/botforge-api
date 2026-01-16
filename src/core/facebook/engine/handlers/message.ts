@@ -73,7 +73,7 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
         if (isButton) {
             const user = userStore.getUser(pageId, senderId);
             const pendingVariable = new PendingVariable({
-                type: 'postback' as any, // ! Đây là ngoại lệ, type này không có key, được dùng để next cho message
+                type: 'postback' as any,
                 key: null
             });
             user?.addPendingVariables(pendingVariable, node.id);

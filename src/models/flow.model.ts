@@ -8,6 +8,7 @@ export interface IFlow {
     userId: string;
     pageId?: string | null;
     folderId: string;
+    startNodeId?: string | null;
     pageAccessToken?: string | null;
     name: string;
     description?: string | null;
@@ -30,6 +31,7 @@ class FlowModel {
         pageAccessToken?: string | null;
         name: string;
         description?: string;
+        startNodeId?: string | null;
         logicJson?: any;
         layoutJson?: any;
         platform: Platform;
@@ -66,6 +68,13 @@ class FlowModel {
 
     async findById(id: string): Promise<IFlow | null> {
         return prisma.flow.findUnique({ where: { id } });
+    }
+
+    async findByPageId(pageId: string): Promise<IFlow | null> {
+        return prisma.flow.findFirst({
+            where: { pageId },
+            orderBy: { createdAt: 'desc' }
+        });
     }
 
     async findByFolder(folderId: string): Promise<{ id: string; name: string }[]> {

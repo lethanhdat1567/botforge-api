@@ -172,6 +172,7 @@ exports.Prisma.FlowScalarFieldEnum = {
   layoutJson: 'layoutJson',
   platform: 'platform',
   timeoutDuration: 'timeoutDuration',
+  startNodeId: 'startNodeId',
   timeoutJson: 'timeoutJson',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -302,7 +303,8 @@ exports.Prisma.FlowOrderByRelevanceFieldEnum = {
   pageAccessToken: 'pageAccessToken',
   name: 'name',
   description: 'description',
-  timeoutDuration: 'timeoutDuration'
+  timeoutDuration: 'timeoutDuration',
+  startNodeId: 'startNodeId'
 };
 
 exports.Prisma.UserFlowStateOrderByRelevanceFieldEnum = {

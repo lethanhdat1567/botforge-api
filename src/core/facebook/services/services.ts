@@ -6,6 +6,8 @@ import {
     ReceiptTemplateElement
 } from '~/core/facebook/engine/types/message';
 import { renderContent } from '~/core/facebook/helpers';
+import { mapButtonsToFacebook } from '~/core/facebook/services/helpers';
+import { getStaticUrl } from '~/utils/url';
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN!;
 if (!PAGE_ACCESS_TOKEN) throw new Error('PAGE_ACCESS_TOKEN is not set in .env');
@@ -39,19 +41,7 @@ export async function sendTextMessage(psid: string, pageId: string, text: string
 
 // Gửi button template (có thể dùng cho button node hoặc persistent menu)
 export async function sendButtonMessage(psid: string, pageId: string, text: string, buttons: ButtonNode[]) {
-    const formattedButtons = buttons
-        .map((btn) => {
-            if (btn.type === 'postback')
-                return {
-                    type: 'postback',
-                    title: renderContent(btn.title, pageId, psid),
-                    payload: JSON.stringify(btn.payload)
-                };
-            if (btn.type === 'url')
-                return { type: 'web_url', title: renderContent(btn.title, pageId, psid), url: btn.url };
-            return null;
-        })
-        .filter(Boolean);
+    const formattedButtons = mapButtonsToFacebook(buttons, pageId, psid);
 
     await callSendAPI({
         recipient: { id: psid },
@@ -116,19 +106,7 @@ export async function sendGenericTemplate(psid: string, pageId: string, elements
         subtitle: renderContent(el.subtitle || '', pageId, psid),
         image_url: el.image_url,
         default_action: el.default_action,
-        buttons: el.buttons
-            ?.map((btn) => {
-                if (btn.type === 'postback')
-                    return {
-                        type: 'postback',
-                        title: renderContent(btn.title, pageId, psid),
-                        payload: JSON.stringify(btn.payload)
-                    };
-                if (btn.type === 'url')
-                    return { type: 'web_url', title: renderContent(btn.title, pageId, psid), url: btn.url };
-                return null;
-            })
-            .filter(Boolean)
+        buttons: mapButtonsToFacebook(el.buttons, pageId, psid)
     }));
 
     await callSendAPI({
@@ -180,24 +158,8 @@ export async function sendCouponTemplate(psid: string, pageId: string, data: Cou
 export async function sendMediaTemplate(psid: string, pageId: string, data: MediaTemplateData['fields']) {
     const element = {
         media_type: data.media_type,
-        media_url: data.media_url,
-        buttons: data.buttons
-            ?.map((btn) => {
-                if (btn.type === 'postback')
-                    return {
-                        type: 'postback',
-                        title: renderContent(btn.title, pageId, psid),
-                        payload: JSON.stringify(btn.payload)
-                    };
-                if (btn.type === 'url')
-                    return {
-                        type: 'web_url',
-                        title: renderContent(btn.title, pageId, psid),
-                        url: btn.url
-                    };
-                return null;
-            })
-            .filter(Boolean)
+        media_url: getStaticUrl(data.media_url),
+        buttons: mapButtonsToFacebook(data.buttons, pageId, psid)
     };
 
     await callSendAPI({

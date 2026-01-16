@@ -11,6 +11,7 @@ import {
 } from '~/core/facebook/engine/handlers/flow';
 import userFlowStateModel from '~/models/userFlowState.model';
 import { mockFlow } from '~/core/facebook/flows/test.flow';
+import flowModel from '~/models/flow.model';
 
 class FacebookController {
     // Verify webhook
@@ -85,16 +86,24 @@ class FacebookController {
                     if (msg.text === 'init') {
                         userStore.add(pageId, senderId);
                         user?.updateFlowStatus('running');
+
+                        const currentFlow = await flowModel.findByPageId(pageId);
+                        if (!currentFlow) {
+                            throw new Error('Flow not found');
+                        } else if (!currentFlow.startNodeId) {
+                            throw new Error('Flow is not active');
+                        }
+
                         userFlowStateModel.create({
                             platformUserId: senderId,
-                            ownerUserId: '56e0aab0-545a-481d-a26e-1f8c572a6709',
-                            flowId: 'asdsadasd',
-                            currentStep: 'start',
+                            ownerUserId: '643556e9-6593-483c-ac00-b19a9f7a0333',
+                            flowId: currentFlow?.id,
+                            currentStep: currentFlow.startNodeId,
                             status: 'running',
                             pageId: pageId
                         });
 
-                        runFlow('start', senderId, pageId);
+                        runFlow(currentFlow.startNodeId, senderId, pageId);
                         return;
                     }
                     // ----- PENDING ----

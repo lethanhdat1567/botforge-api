@@ -8,10 +8,12 @@ import { handleActionNode } from '~/core/facebook/engine/handlers/action';
 import { MessageNode } from '~/core/facebook/engine/types/message';
 import userFlowStateModel from '~/models/userFlowState.model';
 import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
-import { mockFlow } from '~/core/facebook/flows/test.flow';
+import flowModel from '~/models/flow.model';
 
 export async function runFlow(nodeId: string, senderId: string, pageId: string) {
-    const node: Node = mockFlow[nodeId];
+    const currentFlow = await flowModel.findByPageId(pageId);
+    const node: Node = currentFlow?.logicJson[nodeId];
+
     if (!node) {
         console.warn('Node not found:', nodeId);
         endFlowHandller(pageId, senderId);

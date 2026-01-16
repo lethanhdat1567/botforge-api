@@ -6166,6 +6166,7 @@ export namespace Prisma {
     status: $Enums.FlowStatus | null
     platform: $Enums.Platform | null
     timeoutDuration: string | null
+    startNodeId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6181,6 +6182,7 @@ export namespace Prisma {
     status: $Enums.FlowStatus | null
     platform: $Enums.Platform | null
     timeoutDuration: string | null
+    startNodeId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6198,6 +6200,7 @@ export namespace Prisma {
     layoutJson: number
     platform: number
     timeoutDuration: number
+    startNodeId: number
     timeoutJson: number
     createdAt: number
     updatedAt: number
@@ -6216,6 +6219,7 @@ export namespace Prisma {
     status?: true
     platform?: true
     timeoutDuration?: true
+    startNodeId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6231,6 +6235,7 @@ export namespace Prisma {
     status?: true
     platform?: true
     timeoutDuration?: true
+    startNodeId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6248,6 +6253,7 @@ export namespace Prisma {
     layoutJson?: true
     platform?: true
     timeoutDuration?: true
+    startNodeId?: true
     timeoutJson?: true
     createdAt?: true
     updatedAt?: true
@@ -6339,6 +6345,7 @@ export namespace Prisma {
     layoutJson: JsonValue | null
     platform: $Enums.Platform
     timeoutDuration: string | null
+    startNodeId: string | null
     timeoutJson: JsonValue | null
     createdAt: Date
     updatedAt: Date
@@ -6374,6 +6381,7 @@ export namespace Prisma {
     layoutJson?: boolean
     platform?: boolean
     timeoutDuration?: boolean
+    startNodeId?: boolean
     timeoutJson?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6399,12 +6407,13 @@ export namespace Prisma {
     layoutJson?: boolean
     platform?: boolean
     timeoutDuration?: boolean
+    startNodeId?: boolean
     timeoutJson?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "folderId" | "pageAccessToken" | "name" | "description" | "status" | "logicJson" | "layoutJson" | "platform" | "timeoutDuration" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
+  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "folderId" | "pageAccessToken" | "name" | "description" | "status" | "logicJson" | "layoutJson" | "platform" | "timeoutDuration" | "startNodeId" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
   export type FlowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | FolderDefaultArgs<ExtArgs>
@@ -6434,6 +6443,7 @@ export namespace Prisma {
       layoutJson: Prisma.JsonValue | null
       platform: $Enums.Platform
       timeoutDuration: string | null
+      startNodeId: string | null
       timeoutJson: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
@@ -6822,6 +6832,7 @@ export namespace Prisma {
     readonly layoutJson: FieldRef<"Flow", 'Json'>
     readonly platform: FieldRef<"Flow", 'Platform'>
     readonly timeoutDuration: FieldRef<"Flow", 'String'>
+    readonly startNodeId: FieldRef<"Flow", 'String'>
     readonly timeoutJson: FieldRef<"Flow", 'Json'>
     readonly createdAt: FieldRef<"Flow", 'DateTime'>
     readonly updatedAt: FieldRef<"Flow", 'DateTime'>
@@ -13236,6 +13247,7 @@ export namespace Prisma {
     layoutJson: 'layoutJson',
     platform: 'platform',
     timeoutDuration: 'timeoutDuration',
+    startNodeId: 'startNodeId',
     timeoutJson: 'timeoutJson',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -13414,7 +13426,8 @@ export namespace Prisma {
     pageAccessToken: 'pageAccessToken',
     name: 'name',
     description: 'description',
-    timeoutDuration: 'timeoutDuration'
+    timeoutDuration: 'timeoutDuration',
+    startNodeId: 'startNodeId'
   };
 
   export type FlowOrderByRelevanceFieldEnum = (typeof FlowOrderByRelevanceFieldEnum)[keyof typeof FlowOrderByRelevanceFieldEnum]
@@ -13896,6 +13909,7 @@ export namespace Prisma {
     layoutJson?: JsonNullableFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
+    startNodeId?: StringNullableFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
@@ -13918,6 +13932,7 @@ export namespace Prisma {
     layoutJson?: SortOrderInput | SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrderInput | SortOrder
+    startNodeId?: SortOrderInput | SortOrder
     timeoutJson?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13944,6 +13959,7 @@ export namespace Prisma {
     layoutJson?: JsonNullableFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
+    startNodeId?: StringNullableFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
@@ -13966,6 +13982,7 @@ export namespace Prisma {
     layoutJson?: SortOrderInput | SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrderInput | SortOrder
+    startNodeId?: SortOrderInput | SortOrder
     timeoutJson?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13990,6 +14007,7 @@ export namespace Prisma {
     layoutJson?: JsonNullableWithAggregatesFilter<"Flow">
     platform?: EnumPlatformWithAggregatesFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableWithAggregatesFilter<"Flow"> | string | null
+    startNodeId?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableWithAggregatesFilter<"Flow">
     createdAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
@@ -14765,6 +14783,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14787,6 +14806,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14805,6 +14825,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14827,6 +14848,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14847,6 +14869,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14863,6 +14886,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14881,6 +14905,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15784,6 +15809,7 @@ export namespace Prisma {
     layoutJson?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrder
+    startNodeId?: SortOrder
     timeoutJson?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15800,6 +15826,7 @@ export namespace Prisma {
     status?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrder
+    startNodeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15815,6 +15842,7 @@ export namespace Prisma {
     status?: SortOrder
     platform?: SortOrder
     timeoutDuration?: SortOrder
+    startNodeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17540,6 +17568,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17560,6 +17589,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17867,6 +17897,7 @@ export namespace Prisma {
     layoutJson?: JsonNullableFilter<"Flow">
     platform?: EnumPlatformFilter<"Flow"> | $Enums.Platform
     timeoutDuration?: StringNullableFilter<"Flow"> | string | null
+    startNodeId?: StringNullableFilter<"Flow"> | string | null
     timeoutJson?: JsonNullableFilter<"Flow">
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
@@ -18381,6 +18412,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18401,6 +18433,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18821,6 +18854,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18842,6 +18876,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18932,6 +18967,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18953,6 +18989,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18970,6 +19007,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18991,6 +19029,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19149,6 +19188,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19170,6 +19210,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20063,6 +20104,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20176,6 +20218,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20196,6 +20239,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20215,6 +20259,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20453,6 +20498,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform: $Enums.Platform
     timeoutDuration?: string | null
+    startNodeId?: string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20469,6 +20515,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20489,6 +20536,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20508,6 +20556,7 @@ export namespace Prisma {
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     timeoutDuration?: NullableStringFieldUpdateOperationsInput | string | null
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

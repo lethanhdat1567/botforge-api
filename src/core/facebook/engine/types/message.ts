@@ -91,6 +91,7 @@ export interface PersistentMenuData {
 }
 
 export interface GenericTemplateElement {
+    id?: string;
     title: string;
     subtitle?: string;
     image_url?: string;

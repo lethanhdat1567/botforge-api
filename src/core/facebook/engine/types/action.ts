@@ -30,7 +30,7 @@ export interface ConditionActionData {
 export interface DelayActionData {
     type: 'delay';
     fields: {
-        duration: string; // ms
+        duration: string;
     };
 }
 
