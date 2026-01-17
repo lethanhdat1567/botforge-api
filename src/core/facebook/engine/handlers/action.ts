@@ -10,41 +10,39 @@ export async function handleActionNode(node: ActionNode, senderId: string, pageI
     for (const action of payload) {
         switch (action.type) {
             case 'condition': {
-                const items = action.fields.items;
+                const { items, next } = action.fields;
+                const user = userStore.getUser(pageId, senderId);
 
-                for (const item of items) {
-                    const user = userStore.getUser(pageId, senderId);
+                const isAllTrue = items.every((item) => {
+                    const valueToCheck = user?.getVariable(item.field);
 
-                    const isAllTrue = item.conditions.every((cond) => {
-                        const valueToCheck = user?.getVariable(cond.field);
-
-                        if (valueToCheck === undefined) {
-                            return false;
-                        }
-
-                        switch (cond.operator) {
-                            case 'equals':
-                                return valueToCheck === cond.value;
-
-                            case 'not_equals':
-                                return valueToCheck !== cond.value;
-
-                            case 'contains':
-                                return valueToCheck.includes(cond.value);
-
-                            case 'regex':
-                                return new RegExp(cond.value).test(valueToCheck);
-
-                            default:
-                                return false;
-                        }
-                    });
-
-                    if (isAllTrue) {
-                        runFlow(item.next, senderId, pageId);
-                        return;
+                    if (valueToCheck === undefined) {
+                        return false;
                     }
+
+                    switch (item.operator) {
+                        case 'equals':
+                            return valueToCheck === item.value;
+
+                        case 'not_equals':
+                            return valueToCheck !== item.value;
+
+                        case 'contains':
+                            return typeof valueToCheck === 'string' && valueToCheck.includes(item.value);
+
+                        case 'regex':
+                            return new RegExp(item.value).test(String(valueToCheck));
+
+                        default:
+                            return false;
+                    }
+                });
+
+                if (isAllTrue) {
+                    runFlow(next, senderId, pageId);
+                    return;
                 }
+
                 break;
             }
 

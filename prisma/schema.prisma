@@ -30,6 +30,7 @@ model User {
   flowSave		FlowSave[]
   flowComments       FlowComment[]
   notifications  Notification[]
+  fallback FlowFallback?
   userFlowStates UserFlowState[] @relation("Owner_UserFlowState")
 	refreshTokens RefreshToken[]
 	PasswordResetToken PasswordResetToken[]
@@ -275,4 +276,32 @@ enum NotificationType {
   flow_cancelled
   new_user
   chat_message
+}
+
+// =====================
+// Flow Fallback (Global per User)
+// =====================
+enum TimeoutUnit {
+  second
+  minute
+  hour
+  day
+}
+
+
+model FlowFallback {
+  id String @id @default(uuid()) @map("id")
+
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  timeoutDuration Int         @map("timeout_duration")
+  timeoutUnit     TimeoutUnit @map("timeout_unit")
+
+  fallbackMessage String @db.Text @map("fallback_message")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("flow_fallbacks")
 }

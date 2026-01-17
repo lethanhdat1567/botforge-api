@@ -10,6 +10,7 @@ import flowSaveRouter from './flow-save.routes';
 import notificationRouter from './notification.routes';
 import folderRouter from './folder.routes';
 import uploadRouter from './upload.routes';
+import fallbackRouter from './flow-fallback.route';
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.use('/flows/like', flowLikeRouter);
 router.use('/flows/comment', flowCommentRouter);
 router.use('/flows/save', flowSaveRouter);
 router.use('/flows', flowRouter);
+router.use('/fallback', fallbackRouter);
 router.use('/notifications', notificationRouter);
 router.use('/folders', folderRouter);
 router.use('/upload', uploadRouter);

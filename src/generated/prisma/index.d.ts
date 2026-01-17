@@ -68,6 +68,11 @@ export type FlowSave = $Result.DefaultSelection<Prisma.$FlowSavePayload>
  * 
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model FlowFallback
+ * 
+ */
+export type FlowFallback = $Result.DefaultSelection<Prisma.$FlowFallbackPayload>
 
 /**
  * Enums
@@ -137,6 +142,16 @@ export const NotificationType: {
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
 
+
+export const TimeoutUnit: {
+  second: 'second',
+  minute: 'minute',
+  hour: 'hour',
+  day: 'day'
+};
+
+export type TimeoutUnit = (typeof TimeoutUnit)[keyof typeof TimeoutUnit]
+
 }
 
 export type Role = $Enums.Role
@@ -166,6 +181,10 @@ export const FlowShareStatus: typeof $Enums.FlowShareStatus
 export type NotificationType = $Enums.NotificationType
 
 export const NotificationType: typeof $Enums.NotificationType
+
+export type TimeoutUnit = $Enums.TimeoutUnit
+
+export const TimeoutUnit: typeof $Enums.TimeoutUnit
 
 /**
  * ##  Prisma Client ʲˢ
@@ -393,6 +412,16 @@ export class PrismaClient<
     * ```
     */
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.flowFallback`: Exposes CRUD operations for the **FlowFallback** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FlowFallbacks
+    * const flowFallbacks = await prisma.flowFallback.findMany()
+    * ```
+    */
+  get flowFallback(): Prisma.FlowFallbackDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -837,7 +866,8 @@ export namespace Prisma {
     FlowComment: 'FlowComment',
     FlowLike: 'FlowLike',
     FlowSave: 'FlowSave',
-    Notification: 'Notification'
+    Notification: 'Notification',
+    FlowFallback: 'FlowFallback'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -853,7 +883,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "passwordResetToken" | "folder" | "flow" | "userFlowState" | "flowShare" | "flowComment" | "flowLike" | "flowSave" | "notification"
+      modelProps: "user" | "refreshToken" | "passwordResetToken" | "folder" | "flow" | "userFlowState" | "flowShare" | "flowComment" | "flowLike" | "flowSave" | "notification" | "flowFallback"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1583,6 +1613,72 @@ export namespace Prisma {
           }
         }
       }
+      FlowFallback: {
+        payload: Prisma.$FlowFallbackPayload<ExtArgs>
+        fields: Prisma.FlowFallbackFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FlowFallbackFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FlowFallbackFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload>
+          }
+          findFirst: {
+            args: Prisma.FlowFallbackFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FlowFallbackFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload>
+          }
+          findMany: {
+            args: Prisma.FlowFallbackFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload>[]
+          }
+          create: {
+            args: Prisma.FlowFallbackCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload>
+          }
+          createMany: {
+            args: Prisma.FlowFallbackCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.FlowFallbackDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload>
+          }
+          update: {
+            args: Prisma.FlowFallbackUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload>
+          }
+          deleteMany: {
+            args: Prisma.FlowFallbackDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FlowFallbackUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FlowFallbackUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowFallbackPayload>
+          }
+          aggregate: {
+            args: Prisma.FlowFallbackAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFlowFallback>
+          }
+          groupBy: {
+            args: Prisma.FlowFallbackGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FlowFallbackGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FlowFallbackCountArgs<ExtArgs>
+            result: $Utils.Optional<FlowFallbackCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1702,6 +1798,7 @@ export namespace Prisma {
     flowLike?: FlowLikeOmit
     flowSave?: FlowSaveOmit
     notification?: NotificationOmit
+    flowFallback?: FlowFallbackOmit
   }
 
   /* Types for Logging */
@@ -2263,6 +2360,7 @@ export namespace Prisma {
     flowSave?: boolean | User$flowSaveArgs<ExtArgs>
     flowComments?: boolean | User$flowCommentsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    fallback?: boolean | User$fallbackArgs<ExtArgs>
     userFlowStates?: boolean | User$userFlowStatesArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     PasswordResetToken?: boolean | User$PasswordResetTokenArgs<ExtArgs>
@@ -2294,6 +2392,7 @@ export namespace Prisma {
     flowSave?: boolean | User$flowSaveArgs<ExtArgs>
     flowComments?: boolean | User$flowCommentsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    fallback?: boolean | User$fallbackArgs<ExtArgs>
     userFlowStates?: boolean | User$userFlowStatesArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     PasswordResetToken?: boolean | User$PasswordResetTokenArgs<ExtArgs>
@@ -2310,6 +2409,7 @@ export namespace Prisma {
       flowSave: Prisma.$FlowSavePayload<ExtArgs>[]
       flowComments: Prisma.$FlowCommentPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      fallback: Prisma.$FlowFallbackPayload<ExtArgs> | null
       userFlowStates: Prisma.$UserFlowStatePayload<ExtArgs>[]
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
       PasswordResetToken: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
@@ -2673,6 +2773,7 @@ export namespace Prisma {
     flowSave<T extends User$flowSaveArgs<ExtArgs> = {}>(args?: Subset<T, User$flowSaveArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowComments<T extends User$flowCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallback<T extends User$fallbackArgs<ExtArgs> = {}>(args?: Subset<T, User$fallbackArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     userFlowStates<T extends User$userFlowStatesArgs<ExtArgs> = {}>(args?: Subset<T, User$userFlowStatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserFlowStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     PasswordResetToken<T extends User$PasswordResetTokenArgs<ExtArgs> = {}>(args?: Subset<T, User$PasswordResetTokenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3224,6 +3325,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallback
+   */
+  export type User$fallbackArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    where?: FlowFallbackWhereInput
   }
 
   /**
@@ -13170,6 +13290,991 @@ export namespace Prisma {
 
 
   /**
+   * Model FlowFallback
+   */
+
+  export type AggregateFlowFallback = {
+    _count: FlowFallbackCountAggregateOutputType | null
+    _avg: FlowFallbackAvgAggregateOutputType | null
+    _sum: FlowFallbackSumAggregateOutputType | null
+    _min: FlowFallbackMinAggregateOutputType | null
+    _max: FlowFallbackMaxAggregateOutputType | null
+  }
+
+  export type FlowFallbackAvgAggregateOutputType = {
+    timeoutDuration: number | null
+  }
+
+  export type FlowFallbackSumAggregateOutputType = {
+    timeoutDuration: number | null
+  }
+
+  export type FlowFallbackMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    timeoutDuration: number | null
+    timeoutUnit: $Enums.TimeoutUnit | null
+    fallbackMessage: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FlowFallbackMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    timeoutDuration: number | null
+    timeoutUnit: $Enums.TimeoutUnit | null
+    fallbackMessage: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FlowFallbackCountAggregateOutputType = {
+    id: number
+    userId: number
+    timeoutDuration: number
+    timeoutUnit: number
+    fallbackMessage: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FlowFallbackAvgAggregateInputType = {
+    timeoutDuration?: true
+  }
+
+  export type FlowFallbackSumAggregateInputType = {
+    timeoutDuration?: true
+  }
+
+  export type FlowFallbackMinAggregateInputType = {
+    id?: true
+    userId?: true
+    timeoutDuration?: true
+    timeoutUnit?: true
+    fallbackMessage?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FlowFallbackMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    timeoutDuration?: true
+    timeoutUnit?: true
+    fallbackMessage?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FlowFallbackCountAggregateInputType = {
+    id?: true
+    userId?: true
+    timeoutDuration?: true
+    timeoutUnit?: true
+    fallbackMessage?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FlowFallbackAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowFallback to aggregate.
+     */
+    where?: FlowFallbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowFallbacks to fetch.
+     */
+    orderBy?: FlowFallbackOrderByWithRelationInput | FlowFallbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FlowFallbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowFallbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowFallbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FlowFallbacks
+    **/
+    _count?: true | FlowFallbackCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FlowFallbackAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FlowFallbackSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FlowFallbackMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FlowFallbackMaxAggregateInputType
+  }
+
+  export type GetFlowFallbackAggregateType<T extends FlowFallbackAggregateArgs> = {
+        [P in keyof T & keyof AggregateFlowFallback]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFlowFallback[P]>
+      : GetScalarType<T[P], AggregateFlowFallback[P]>
+  }
+
+
+
+
+  export type FlowFallbackGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowFallbackWhereInput
+    orderBy?: FlowFallbackOrderByWithAggregationInput | FlowFallbackOrderByWithAggregationInput[]
+    by: FlowFallbackScalarFieldEnum[] | FlowFallbackScalarFieldEnum
+    having?: FlowFallbackScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FlowFallbackCountAggregateInputType | true
+    _avg?: FlowFallbackAvgAggregateInputType
+    _sum?: FlowFallbackSumAggregateInputType
+    _min?: FlowFallbackMinAggregateInputType
+    _max?: FlowFallbackMaxAggregateInputType
+  }
+
+  export type FlowFallbackGroupByOutputType = {
+    id: string
+    userId: string
+    timeoutDuration: number
+    timeoutUnit: $Enums.TimeoutUnit
+    fallbackMessage: string
+    createdAt: Date
+    updatedAt: Date
+    _count: FlowFallbackCountAggregateOutputType | null
+    _avg: FlowFallbackAvgAggregateOutputType | null
+    _sum: FlowFallbackSumAggregateOutputType | null
+    _min: FlowFallbackMinAggregateOutputType | null
+    _max: FlowFallbackMaxAggregateOutputType | null
+  }
+
+  type GetFlowFallbackGroupByPayload<T extends FlowFallbackGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FlowFallbackGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FlowFallbackGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FlowFallbackGroupByOutputType[P]>
+            : GetScalarType<T[P], FlowFallbackGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FlowFallbackSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    timeoutDuration?: boolean
+    timeoutUnit?: boolean
+    fallbackMessage?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["flowFallback"]>
+
+
+
+  export type FlowFallbackSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    timeoutDuration?: boolean
+    timeoutUnit?: boolean
+    fallbackMessage?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FlowFallbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "timeoutDuration" | "timeoutUnit" | "fallbackMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["flowFallback"]>
+  export type FlowFallbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FlowFallbackPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FlowFallback"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      timeoutDuration: number
+      timeoutUnit: $Enums.TimeoutUnit
+      fallbackMessage: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["flowFallback"]>
+    composites: {}
+  }
+
+  type FlowFallbackGetPayload<S extends boolean | null | undefined | FlowFallbackDefaultArgs> = $Result.GetResult<Prisma.$FlowFallbackPayload, S>
+
+  type FlowFallbackCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FlowFallbackFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FlowFallbackCountAggregateInputType | true
+    }
+
+  export interface FlowFallbackDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FlowFallback'], meta: { name: 'FlowFallback' } }
+    /**
+     * Find zero or one FlowFallback that matches the filter.
+     * @param {FlowFallbackFindUniqueArgs} args - Arguments to find a FlowFallback
+     * @example
+     * // Get one FlowFallback
+     * const flowFallback = await prisma.flowFallback.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FlowFallbackFindUniqueArgs>(args: SelectSubset<T, FlowFallbackFindUniqueArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FlowFallback that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FlowFallbackFindUniqueOrThrowArgs} args - Arguments to find a FlowFallback
+     * @example
+     * // Get one FlowFallback
+     * const flowFallback = await prisma.flowFallback.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FlowFallbackFindUniqueOrThrowArgs>(args: SelectSubset<T, FlowFallbackFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowFallback that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowFallbackFindFirstArgs} args - Arguments to find a FlowFallback
+     * @example
+     * // Get one FlowFallback
+     * const flowFallback = await prisma.flowFallback.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FlowFallbackFindFirstArgs>(args?: SelectSubset<T, FlowFallbackFindFirstArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowFallback that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowFallbackFindFirstOrThrowArgs} args - Arguments to find a FlowFallback
+     * @example
+     * // Get one FlowFallback
+     * const flowFallback = await prisma.flowFallback.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FlowFallbackFindFirstOrThrowArgs>(args?: SelectSubset<T, FlowFallbackFindFirstOrThrowArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FlowFallbacks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowFallbackFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FlowFallbacks
+     * const flowFallbacks = await prisma.flowFallback.findMany()
+     * 
+     * // Get first 10 FlowFallbacks
+     * const flowFallbacks = await prisma.flowFallback.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const flowFallbackWithIdOnly = await prisma.flowFallback.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FlowFallbackFindManyArgs>(args?: SelectSubset<T, FlowFallbackFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FlowFallback.
+     * @param {FlowFallbackCreateArgs} args - Arguments to create a FlowFallback.
+     * @example
+     * // Create one FlowFallback
+     * const FlowFallback = await prisma.flowFallback.create({
+     *   data: {
+     *     // ... data to create a FlowFallback
+     *   }
+     * })
+     * 
+     */
+    create<T extends FlowFallbackCreateArgs>(args: SelectSubset<T, FlowFallbackCreateArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FlowFallbacks.
+     * @param {FlowFallbackCreateManyArgs} args - Arguments to create many FlowFallbacks.
+     * @example
+     * // Create many FlowFallbacks
+     * const flowFallback = await prisma.flowFallback.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FlowFallbackCreateManyArgs>(args?: SelectSubset<T, FlowFallbackCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a FlowFallback.
+     * @param {FlowFallbackDeleteArgs} args - Arguments to delete one FlowFallback.
+     * @example
+     * // Delete one FlowFallback
+     * const FlowFallback = await prisma.flowFallback.delete({
+     *   where: {
+     *     // ... filter to delete one FlowFallback
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FlowFallbackDeleteArgs>(args: SelectSubset<T, FlowFallbackDeleteArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FlowFallback.
+     * @param {FlowFallbackUpdateArgs} args - Arguments to update one FlowFallback.
+     * @example
+     * // Update one FlowFallback
+     * const flowFallback = await prisma.flowFallback.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FlowFallbackUpdateArgs>(args: SelectSubset<T, FlowFallbackUpdateArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FlowFallbacks.
+     * @param {FlowFallbackDeleteManyArgs} args - Arguments to filter FlowFallbacks to delete.
+     * @example
+     * // Delete a few FlowFallbacks
+     * const { count } = await prisma.flowFallback.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FlowFallbackDeleteManyArgs>(args?: SelectSubset<T, FlowFallbackDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FlowFallbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowFallbackUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FlowFallbacks
+     * const flowFallback = await prisma.flowFallback.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FlowFallbackUpdateManyArgs>(args: SelectSubset<T, FlowFallbackUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FlowFallback.
+     * @param {FlowFallbackUpsertArgs} args - Arguments to update or create a FlowFallback.
+     * @example
+     * // Update or create a FlowFallback
+     * const flowFallback = await prisma.flowFallback.upsert({
+     *   create: {
+     *     // ... data to create a FlowFallback
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FlowFallback we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FlowFallbackUpsertArgs>(args: SelectSubset<T, FlowFallbackUpsertArgs<ExtArgs>>): Prisma__FlowFallbackClient<$Result.GetResult<Prisma.$FlowFallbackPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FlowFallbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowFallbackCountArgs} args - Arguments to filter FlowFallbacks to count.
+     * @example
+     * // Count the number of FlowFallbacks
+     * const count = await prisma.flowFallback.count({
+     *   where: {
+     *     // ... the filter for the FlowFallbacks we want to count
+     *   }
+     * })
+    **/
+    count<T extends FlowFallbackCountArgs>(
+      args?: Subset<T, FlowFallbackCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FlowFallbackCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FlowFallback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowFallbackAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FlowFallbackAggregateArgs>(args: Subset<T, FlowFallbackAggregateArgs>): Prisma.PrismaPromise<GetFlowFallbackAggregateType<T>>
+
+    /**
+     * Group by FlowFallback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowFallbackGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FlowFallbackGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FlowFallbackGroupByArgs['orderBy'] }
+        : { orderBy?: FlowFallbackGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FlowFallbackGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFlowFallbackGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FlowFallback model
+   */
+  readonly fields: FlowFallbackFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FlowFallback.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FlowFallbackClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FlowFallback model
+   */
+  interface FlowFallbackFieldRefs {
+    readonly id: FieldRef<"FlowFallback", 'String'>
+    readonly userId: FieldRef<"FlowFallback", 'String'>
+    readonly timeoutDuration: FieldRef<"FlowFallback", 'Int'>
+    readonly timeoutUnit: FieldRef<"FlowFallback", 'TimeoutUnit'>
+    readonly fallbackMessage: FieldRef<"FlowFallback", 'String'>
+    readonly createdAt: FieldRef<"FlowFallback", 'DateTime'>
+    readonly updatedAt: FieldRef<"FlowFallback", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FlowFallback findUnique
+   */
+  export type FlowFallbackFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowFallback to fetch.
+     */
+    where: FlowFallbackWhereUniqueInput
+  }
+
+  /**
+   * FlowFallback findUniqueOrThrow
+   */
+  export type FlowFallbackFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowFallback to fetch.
+     */
+    where: FlowFallbackWhereUniqueInput
+  }
+
+  /**
+   * FlowFallback findFirst
+   */
+  export type FlowFallbackFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowFallback to fetch.
+     */
+    where?: FlowFallbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowFallbacks to fetch.
+     */
+    orderBy?: FlowFallbackOrderByWithRelationInput | FlowFallbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowFallbacks.
+     */
+    cursor?: FlowFallbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowFallbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowFallbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowFallbacks.
+     */
+    distinct?: FlowFallbackScalarFieldEnum | FlowFallbackScalarFieldEnum[]
+  }
+
+  /**
+   * FlowFallback findFirstOrThrow
+   */
+  export type FlowFallbackFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowFallback to fetch.
+     */
+    where?: FlowFallbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowFallbacks to fetch.
+     */
+    orderBy?: FlowFallbackOrderByWithRelationInput | FlowFallbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowFallbacks.
+     */
+    cursor?: FlowFallbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowFallbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowFallbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowFallbacks.
+     */
+    distinct?: FlowFallbackScalarFieldEnum | FlowFallbackScalarFieldEnum[]
+  }
+
+  /**
+   * FlowFallback findMany
+   */
+  export type FlowFallbackFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowFallbacks to fetch.
+     */
+    where?: FlowFallbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowFallbacks to fetch.
+     */
+    orderBy?: FlowFallbackOrderByWithRelationInput | FlowFallbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FlowFallbacks.
+     */
+    cursor?: FlowFallbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowFallbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowFallbacks.
+     */
+    skip?: number
+    distinct?: FlowFallbackScalarFieldEnum | FlowFallbackScalarFieldEnum[]
+  }
+
+  /**
+   * FlowFallback create
+   */
+  export type FlowFallbackCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FlowFallback.
+     */
+    data: XOR<FlowFallbackCreateInput, FlowFallbackUncheckedCreateInput>
+  }
+
+  /**
+   * FlowFallback createMany
+   */
+  export type FlowFallbackCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FlowFallbacks.
+     */
+    data: FlowFallbackCreateManyInput | FlowFallbackCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FlowFallback update
+   */
+  export type FlowFallbackUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FlowFallback.
+     */
+    data: XOR<FlowFallbackUpdateInput, FlowFallbackUncheckedUpdateInput>
+    /**
+     * Choose, which FlowFallback to update.
+     */
+    where: FlowFallbackWhereUniqueInput
+  }
+
+  /**
+   * FlowFallback updateMany
+   */
+  export type FlowFallbackUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FlowFallbacks.
+     */
+    data: XOR<FlowFallbackUpdateManyMutationInput, FlowFallbackUncheckedUpdateManyInput>
+    /**
+     * Filter which FlowFallbacks to update
+     */
+    where?: FlowFallbackWhereInput
+    /**
+     * Limit how many FlowFallbacks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowFallback upsert
+   */
+  export type FlowFallbackUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FlowFallback to update in case it exists.
+     */
+    where: FlowFallbackWhereUniqueInput
+    /**
+     * In case the FlowFallback found by the `where` argument doesn't exist, create a new FlowFallback with this data.
+     */
+    create: XOR<FlowFallbackCreateInput, FlowFallbackUncheckedCreateInput>
+    /**
+     * In case the FlowFallback was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FlowFallbackUpdateInput, FlowFallbackUncheckedUpdateInput>
+  }
+
+  /**
+   * FlowFallback delete
+   */
+  export type FlowFallbackDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+    /**
+     * Filter which FlowFallback to delete.
+     */
+    where: FlowFallbackWhereUniqueInput
+  }
+
+  /**
+   * FlowFallback deleteMany
+   */
+  export type FlowFallbackDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowFallbacks to delete
+     */
+    where?: FlowFallbackWhereInput
+    /**
+     * Limit how many FlowFallbacks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowFallback without action
+   */
+  export type FlowFallbackDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowFallback
+     */
+    select?: FlowFallbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowFallback
+     */
+    omit?: FlowFallbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowFallbackInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13337,6 +14442,19 @@ export namespace Prisma {
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+  export const FlowFallbackScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    timeoutDuration: 'timeoutDuration',
+    timeoutUnit: 'timeoutUnit',
+    fallbackMessage: 'fallbackMessage',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FlowFallbackScalarFieldEnum = (typeof FlowFallbackScalarFieldEnum)[keyof typeof FlowFallbackScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -13497,6 +14615,15 @@ export namespace Prisma {
   export type NotificationOrderByRelevanceFieldEnum = (typeof NotificationOrderByRelevanceFieldEnum)[keyof typeof NotificationOrderByRelevanceFieldEnum]
 
 
+  export const FlowFallbackOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    fallbackMessage: 'fallbackMessage'
+  };
+
+  export type FlowFallbackOrderByRelevanceFieldEnum = (typeof FlowFallbackOrderByRelevanceFieldEnum)[keyof typeof FlowFallbackOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -13594,6 +14721,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'TimeoutUnit'
+   */
+  export type EnumTimeoutUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimeoutUnit'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -13625,6 +14759,7 @@ export namespace Prisma {
     flowSave?: FlowSaveListRelationFilter
     flowComments?: FlowCommentListRelationFilter
     notifications?: NotificationListRelationFilter
+    fallback?: XOR<FlowFallbackNullableScalarRelationFilter, FlowFallbackWhereInput> | null
     userFlowStates?: UserFlowStateListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     PasswordResetToken?: PasswordResetTokenListRelationFilter
@@ -13649,6 +14784,7 @@ export namespace Prisma {
     flowSave?: FlowSaveOrderByRelationAggregateInput
     flowComments?: FlowCommentOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    fallback?: FlowFallbackOrderByWithRelationInput
     userFlowStates?: UserFlowStateOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
     PasswordResetToken?: PasswordResetTokenOrderByRelationAggregateInput
@@ -13677,6 +14813,7 @@ export namespace Prisma {
     flowSave?: FlowSaveListRelationFilter
     flowComments?: FlowCommentListRelationFilter
     notifications?: NotificationListRelationFilter
+    fallback?: XOR<FlowFallbackNullableScalarRelationFilter, FlowFallbackWhereInput> | null
     userFlowStates?: UserFlowStateListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     PasswordResetToken?: PasswordResetTokenListRelationFilter
@@ -14458,6 +15595,74 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
+  export type FlowFallbackWhereInput = {
+    AND?: FlowFallbackWhereInput | FlowFallbackWhereInput[]
+    OR?: FlowFallbackWhereInput[]
+    NOT?: FlowFallbackWhereInput | FlowFallbackWhereInput[]
+    id?: StringFilter<"FlowFallback"> | string
+    userId?: StringFilter<"FlowFallback"> | string
+    timeoutDuration?: IntFilter<"FlowFallback"> | number
+    timeoutUnit?: EnumTimeoutUnitFilter<"FlowFallback"> | $Enums.TimeoutUnit
+    fallbackMessage?: StringFilter<"FlowFallback"> | string
+    createdAt?: DateTimeFilter<"FlowFallback"> | Date | string
+    updatedAt?: DateTimeFilter<"FlowFallback"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FlowFallbackOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    timeoutDuration?: SortOrder
+    timeoutUnit?: SortOrder
+    fallbackMessage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    _relevance?: FlowFallbackOrderByRelevanceInput
+  }
+
+  export type FlowFallbackWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: FlowFallbackWhereInput | FlowFallbackWhereInput[]
+    OR?: FlowFallbackWhereInput[]
+    NOT?: FlowFallbackWhereInput | FlowFallbackWhereInput[]
+    timeoutDuration?: IntFilter<"FlowFallback"> | number
+    timeoutUnit?: EnumTimeoutUnitFilter<"FlowFallback"> | $Enums.TimeoutUnit
+    fallbackMessage?: StringFilter<"FlowFallback"> | string
+    createdAt?: DateTimeFilter<"FlowFallback"> | Date | string
+    updatedAt?: DateTimeFilter<"FlowFallback"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type FlowFallbackOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    timeoutDuration?: SortOrder
+    timeoutUnit?: SortOrder
+    fallbackMessage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FlowFallbackCountOrderByAggregateInput
+    _avg?: FlowFallbackAvgOrderByAggregateInput
+    _max?: FlowFallbackMaxOrderByAggregateInput
+    _min?: FlowFallbackMinOrderByAggregateInput
+    _sum?: FlowFallbackSumOrderByAggregateInput
+  }
+
+  export type FlowFallbackScalarWhereWithAggregatesInput = {
+    AND?: FlowFallbackScalarWhereWithAggregatesInput | FlowFallbackScalarWhereWithAggregatesInput[]
+    OR?: FlowFallbackScalarWhereWithAggregatesInput[]
+    NOT?: FlowFallbackScalarWhereWithAggregatesInput | FlowFallbackScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FlowFallback"> | string
+    userId?: StringWithAggregatesFilter<"FlowFallback"> | string
+    timeoutDuration?: IntWithAggregatesFilter<"FlowFallback"> | number
+    timeoutUnit?: EnumTimeoutUnitWithAggregatesFilter<"FlowFallback"> | $Enums.TimeoutUnit
+    fallbackMessage?: StringWithAggregatesFilter<"FlowFallback"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"FlowFallback"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FlowFallback"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     username: string
@@ -14477,6 +15682,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -14501,6 +15707,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -14525,6 +15732,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -14549,6 +15757,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -15356,6 +16565,75 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FlowFallbackCreateInput = {
+    id?: string
+    timeoutDuration: number
+    timeoutUnit: $Enums.TimeoutUnit
+    fallbackMessage: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFallbackInput
+  }
+
+  export type FlowFallbackUncheckedCreateInput = {
+    id?: string
+    userId: string
+    timeoutDuration: number
+    timeoutUnit: $Enums.TimeoutUnit
+    fallbackMessage: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowFallbackUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeoutDuration?: IntFieldUpdateOperationsInput | number
+    timeoutUnit?: EnumTimeoutUnitFieldUpdateOperationsInput | $Enums.TimeoutUnit
+    fallbackMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFallbackNestedInput
+  }
+
+  export type FlowFallbackUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timeoutDuration?: IntFieldUpdateOperationsInput | number
+    timeoutUnit?: EnumTimeoutUnitFieldUpdateOperationsInput | $Enums.TimeoutUnit
+    fallbackMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowFallbackCreateManyInput = {
+    id?: string
+    userId: string
+    timeoutDuration: number
+    timeoutUnit: $Enums.TimeoutUnit
+    fallbackMessage: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowFallbackUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeoutDuration?: IntFieldUpdateOperationsInput | number
+    timeoutUnit?: EnumTimeoutUnitFieldUpdateOperationsInput | $Enums.TimeoutUnit
+    fallbackMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowFallbackUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timeoutDuration?: IntFieldUpdateOperationsInput | number
+    timeoutUnit?: EnumTimeoutUnitFieldUpdateOperationsInput | $Enums.TimeoutUnit
+    fallbackMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -15451,6 +16729,11 @@ export namespace Prisma {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
     none?: NotificationWhereInput
+  }
+
+  export type FlowFallbackNullableScalarRelationFilter = {
+    is?: FlowFallbackWhereInput | null
+    isNot?: FlowFallbackWhereInput | null
   }
 
   export type UserFlowStateListRelationFilter = {
@@ -16228,6 +17511,67 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumTimeoutUnitFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeoutUnit | EnumTimeoutUnitFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeoutUnit[]
+    notIn?: $Enums.TimeoutUnit[]
+    not?: NestedEnumTimeoutUnitFilter<$PrismaModel> | $Enums.TimeoutUnit
+  }
+
+  export type FlowFallbackOrderByRelevanceInput = {
+    fields: FlowFallbackOrderByRelevanceFieldEnum | FlowFallbackOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type FlowFallbackCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    timeoutDuration?: SortOrder
+    timeoutUnit?: SortOrder
+    fallbackMessage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FlowFallbackAvgOrderByAggregateInput = {
+    timeoutDuration?: SortOrder
+  }
+
+  export type FlowFallbackMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    timeoutDuration?: SortOrder
+    timeoutUnit?: SortOrder
+    fallbackMessage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FlowFallbackMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    timeoutDuration?: SortOrder
+    timeoutUnit?: SortOrder
+    fallbackMessage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FlowFallbackSumOrderByAggregateInput = {
+    timeoutDuration?: SortOrder
+  }
+
+  export type EnumTimeoutUnitWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeoutUnit | EnumTimeoutUnitFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeoutUnit[]
+    notIn?: $Enums.TimeoutUnit[]
+    not?: NestedEnumTimeoutUnitWithAggregatesFilter<$PrismaModel> | $Enums.TimeoutUnit
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTimeoutUnitFilter<$PrismaModel>
+    _max?: NestedEnumTimeoutUnitFilter<$PrismaModel>
+  }
+
   export type FolderCreateNestedManyWithoutUserInput = {
     create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
@@ -16275,6 +17619,12 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type FlowFallbackCreateNestedOneWithoutUserInput = {
+    create?: XOR<FlowFallbackCreateWithoutUserInput, FlowFallbackUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FlowFallbackCreateOrConnectWithoutUserInput
+    connect?: FlowFallbackWhereUniqueInput
   }
 
   export type UserFlowStateCreateNestedManyWithoutOwnerInput = {
@@ -16345,6 +17695,12 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type FlowFallbackUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<FlowFallbackCreateWithoutUserInput, FlowFallbackUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FlowFallbackCreateOrConnectWithoutUserInput
+    connect?: FlowFallbackWhereUniqueInput
   }
 
   export type UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput = {
@@ -16486,6 +17842,16 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type FlowFallbackUpdateOneWithoutUserNestedInput = {
+    create?: XOR<FlowFallbackCreateWithoutUserInput, FlowFallbackUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FlowFallbackCreateOrConnectWithoutUserInput
+    upsert?: FlowFallbackUpsertWithoutUserInput
+    disconnect?: FlowFallbackWhereInput | boolean
+    delete?: FlowFallbackWhereInput | boolean
+    connect?: FlowFallbackWhereUniqueInput
+    update?: XOR<XOR<FlowFallbackUpdateToOneWithWhereWithoutUserInput, FlowFallbackUpdateWithoutUserInput>, FlowFallbackUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserFlowStateUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<UserFlowStateCreateWithoutOwnerInput, UserFlowStateUncheckedCreateWithoutOwnerInput> | UserFlowStateCreateWithoutOwnerInput[] | UserFlowStateUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: UserFlowStateCreateOrConnectWithoutOwnerInput | UserFlowStateCreateOrConnectWithoutOwnerInput[]
@@ -16624,6 +17990,16 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type FlowFallbackUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<FlowFallbackCreateWithoutUserInput, FlowFallbackUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FlowFallbackCreateOrConnectWithoutUserInput
+    upsert?: FlowFallbackUpsertWithoutUserInput
+    disconnect?: FlowFallbackWhereInput | boolean
+    delete?: FlowFallbackWhereInput | boolean
+    connect?: FlowFallbackWhereUniqueInput
+    update?: XOR<XOR<FlowFallbackUpdateToOneWithWhereWithoutUserInput, FlowFallbackUpdateWithoutUserInput>, FlowFallbackUncheckedUpdateWithoutUserInput>
   }
 
   export type UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput = {
@@ -17234,6 +18610,24 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
+  export type UserCreateNestedOneWithoutFallbackInput = {
+    create?: XOR<UserCreateWithoutFallbackInput, UserUncheckedCreateWithoutFallbackInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallbackInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumTimeoutUnitFieldUpdateOperationsInput = {
+    set?: $Enums.TimeoutUnit
+  }
+
+  export type UserUpdateOneRequiredWithoutFallbackNestedInput = {
+    create?: XOR<UserCreateWithoutFallbackInput, UserUncheckedCreateWithoutFallbackInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallbackInput
+    upsert?: UserUpsertWithoutFallbackInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFallbackInput, UserUpdateWithoutFallbackInput>, UserUncheckedUpdateWithoutFallbackInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -17529,6 +18923,23 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumTimeoutUnitFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeoutUnit | EnumTimeoutUnitFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeoutUnit[]
+    notIn?: $Enums.TimeoutUnit[]
+    not?: NestedEnumTimeoutUnitFilter<$PrismaModel> | $Enums.TimeoutUnit
+  }
+
+  export type NestedEnumTimeoutUnitWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeoutUnit | EnumTimeoutUnitFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeoutUnit[]
+    notIn?: $Enums.TimeoutUnit[]
+    not?: NestedEnumTimeoutUnitWithAggregatesFilter<$PrismaModel> | $Enums.TimeoutUnit
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTimeoutUnitFilter<$PrismaModel>
+    _max?: NestedEnumTimeoutUnitFilter<$PrismaModel>
+  }
+
   export type FolderCreateWithoutUserInput = {
     id?: string
     name: string
@@ -17751,6 +19162,29 @@ export namespace Prisma {
   export type NotificationCreateManyUserInputEnvelope = {
     data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type FlowFallbackCreateWithoutUserInput = {
+    id?: string
+    timeoutDuration: number
+    timeoutUnit: $Enums.TimeoutUnit
+    fallbackMessage: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowFallbackUncheckedCreateWithoutUserInput = {
+    id?: string
+    timeoutDuration: number
+    timeoutUnit: $Enums.TimeoutUnit
+    fallbackMessage: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowFallbackCreateOrConnectWithoutUserInput = {
+    where: FlowFallbackWhereUniqueInput
+    create: XOR<FlowFallbackCreateWithoutUserInput, FlowFallbackUncheckedCreateWithoutUserInput>
   }
 
   export type UserFlowStateCreateWithoutOwnerInput = {
@@ -18047,6 +19481,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type FlowFallbackUpsertWithoutUserInput = {
+    update: XOR<FlowFallbackUpdateWithoutUserInput, FlowFallbackUncheckedUpdateWithoutUserInput>
+    create: XOR<FlowFallbackCreateWithoutUserInput, FlowFallbackUncheckedCreateWithoutUserInput>
+    where?: FlowFallbackWhereInput
+  }
+
+  export type FlowFallbackUpdateToOneWithWhereWithoutUserInput = {
+    where?: FlowFallbackWhereInput
+    data: XOR<FlowFallbackUpdateWithoutUserInput, FlowFallbackUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FlowFallbackUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeoutDuration?: IntFieldUpdateOperationsInput | number
+    timeoutUnit?: EnumTimeoutUnitFieldUpdateOperationsInput | $Enums.TimeoutUnit
+    fallbackMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowFallbackUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeoutDuration?: IntFieldUpdateOperationsInput | number
+    timeoutUnit?: EnumTimeoutUnitFieldUpdateOperationsInput | $Enums.TimeoutUnit
+    fallbackMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserFlowStateUpsertWithWhereUniqueWithoutOwnerInput = {
     where: UserFlowStateWhereUniqueInput
     update: XOR<UserFlowStateUpdateWithoutOwnerInput, UserFlowStateUncheckedUpdateWithoutOwnerInput>
@@ -18153,6 +19616,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -18176,6 +19640,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -18215,6 +19680,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -18238,6 +19704,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -18261,6 +19728,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
   }
@@ -18284,6 +19752,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -18323,6 +19792,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
   }
@@ -18346,6 +19816,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -18368,6 +19839,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -18391,6 +19863,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -18480,6 +19953,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -18503,6 +19977,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18542,6 +20017,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -18565,6 +20041,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -18703,6 +20180,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -18726,6 +20204,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18811,6 +20290,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -18834,6 +20314,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -18918,6 +20399,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -18941,6 +20423,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -19059,6 +20542,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -19082,6 +20566,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -19246,6 +20731,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -19269,6 +20755,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19375,6 +20862,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -19398,6 +20886,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -19533,6 +21022,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -19556,6 +21046,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19661,6 +21152,7 @@ export namespace Prisma {
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -19684,6 +21176,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -19764,6 +21257,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -19787,6 +21281,7 @@ export namespace Prisma {
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19845,6 +21340,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -19868,6 +21364,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -19948,6 +21445,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -19971,6 +21469,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19994,6 +21493,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -20017,6 +21517,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
     flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
     flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
     userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -20056,6 +21557,7 @@ export namespace Prisma {
     flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
     userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -20079,6 +21581,119 @@ export namespace Prisma {
     flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
     flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
     flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutFallbackInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    folders?: FolderCreateNestedManyWithoutUserInput
+    flows?: FlowCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFallbackInput = {
+    id?: string
+    username: string
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password: string
+    role?: $Enums.Role
+    provider?: $Enums.Provider
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
+    flowLikes?: FlowLikeUncheckedCreateNestedManyWithoutUserInput
+    flowSave?: FlowSaveUncheckedCreateNestedManyWithoutUserInput
+    flowComments?: FlowCommentUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFallbackInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFallbackInput, UserUncheckedCreateWithoutFallbackInput>
+  }
+
+  export type UserUpsertWithoutFallbackInput = {
+    update: XOR<UserUpdateWithoutFallbackInput, UserUncheckedUpdateWithoutFallbackInput>
+    create: XOR<UserCreateWithoutFallbackInput, UserUncheckedCreateWithoutFallbackInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFallbackInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFallbackInput, UserUncheckedUpdateWithoutFallbackInput>
+  }
+
+  export type UserUpdateWithoutFallbackInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    flows?: FlowUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    PasswordResetToken?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFallbackInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
+    flowLikes?: FlowLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowSave?: FlowSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowComments?: FlowCommentUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput

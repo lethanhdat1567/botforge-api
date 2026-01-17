@@ -241,6 +241,16 @@ exports.Prisma.NotificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FlowFallbackScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  timeoutDuration: 'timeoutDuration',
+  timeoutUnit: 'timeoutUnit',
+  fallbackMessage: 'fallbackMessage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -352,6 +362,12 @@ exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
   avatar: 'avatar',
   relatedId: 'relatedId'
 };
+
+exports.Prisma.FlowFallbackOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fallbackMessage: 'fallbackMessage'
+};
 exports.Role = exports.$Enums.Role = {
   admin: 'admin',
   user: 'user'
@@ -396,6 +412,13 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   chat_message: 'chat_message'
 };
 
+exports.TimeoutUnit = exports.$Enums.TimeoutUnit = {
+  second: 'second',
+  minute: 'minute',
+  hour: 'hour',
+  day: 'day'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
@@ -407,7 +430,8 @@ exports.Prisma.ModelName = {
   FlowComment: 'FlowComment',
   FlowLike: 'FlowLike',
   FlowSave: 'FlowSave',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  FlowFallback: 'FlowFallback'
 };
 
 /**

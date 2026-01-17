@@ -28,7 +28,7 @@ export const getExpiresAt = (duration: string): Date => {
     return new Date(Date.now() + parseDuration(duration));
 };
 
-export const durationWithUnitToMs = (duration: number, unit: 'second' | 'minute' | 'hour'): number => {
+export const durationWithUnitToMs = (duration: number, unit: 'second' | 'minute' | 'hour' | 'day'): number => {
     if (duration < 0) {
         throw new Error('Duration must be >= 0');
     }
@@ -40,6 +40,8 @@ export const durationWithUnitToMs = (duration: number, unit: 'second' | 'minute'
             return duration * 60 * 1000;
         case 'hour':
             return duration * 60 * 60 * 1000;
+        case 'day':
+            return duration * 24 * 60 * 60 * 1000;
         default:
             throw new Error(`Unknown duration unit: ${unit}`);
     }

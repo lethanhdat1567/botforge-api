@@ -17,6 +17,7 @@ import passwordResetTokenModel from '~/models/passwordResetToken.model';
 import { sendEmail } from '~/config/mailer';
 import { createNewUserNotification } from '~/helpers/notification-helper';
 import { formatZodErrors } from '~/helpers/auth-helper';
+import flowFallbackModel from '~/models/flow-fallback.model';
 
 class AuthController {
     async register(req: Request, res: any) {
@@ -64,6 +65,12 @@ class AuthController {
 
             await refreshTokenModel.create(refreshToken, user.id, refreshTokenExpiresAt);
             await createNewUserNotification(user.id, displayName as string, user.avatar);
+
+            await flowFallbackModel.upsert(user.id, {
+                timeoutDuration: 5,
+                timeoutUnit: 'minute',
+                fallbackMessage: 'Xin lỗi, mình chưa hiểu. Bạn có thể thử lại không?'
+            });
 
             return res.success(
                 {
@@ -324,6 +331,11 @@ class AuthController {
                 });
 
                 await createNewUserNotification(user.id, user.displayName || '', user.avatar);
+                await flowFallbackModel.upsert(user.id, {
+                    timeoutDuration: 5,
+                    timeoutUnit: 'minute',
+                    fallbackMessage: 'Xin lỗi, mình chưa hiểu. Bạn có thể thử lại không?'
+                });
             }
 
             // 4️⃣ Tạo token hệ thống
@@ -434,7 +446,6 @@ class AuthController {
                     );
                 }
             }
-            console.log(socialUser);
 
             // 4️⃣ Tạo user nếu chưa tồn tại
             if (!user) {
@@ -450,6 +461,11 @@ class AuthController {
                 });
 
                 await createNewUserNotification(user.id, user.displayName || '', user.avatar);
+                await flowFallbackModel.upsert(user.id, {
+                    timeoutDuration: 5,
+                    timeoutUnit: 'minute',
+                    fallbackMessage: 'Xin lỗi, mình chưa hiểu. Bạn có thể thử lại không?'
+                });
             }
 
             // 5️⃣ Tạo token hệ thống
