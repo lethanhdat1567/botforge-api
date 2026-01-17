@@ -31,6 +31,7 @@ export interface DelayActionData {
     type: 'delay';
     fields: {
         duration: string;
+        unit: 'second' | 'minute' | 'hour';
     };
 }
 

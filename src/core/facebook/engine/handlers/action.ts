@@ -2,7 +2,7 @@ import { runFlow } from '~/core/facebook/engine/engine';
 import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
 import { ActionNode } from '~/core/facebook/engine/types/action';
 import userStore from '~/core/facebook/store/userStore';
-import { parseDuration } from '~/utils/time';
+import { durationWithUnitToMs, parseDuration } from '~/utils/time';
 
 export async function handleActionNode(node: ActionNode, senderId: string, pageId: string) {
     const payload = node.payload;
@@ -49,7 +49,11 @@ export async function handleActionNode(node: ActionNode, senderId: string, pageI
             }
 
             case 'delay': {
-                await new Promise((res) => setTimeout(res, parseDuration(action.fields.duration)));
+                console.log(action);
+
+                await new Promise((res) =>
+                    setTimeout(res, durationWithUnitToMs(Number(action.fields.duration), action.fields.unit))
+                );
                 break;
             }
 

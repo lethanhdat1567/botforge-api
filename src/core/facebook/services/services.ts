@@ -85,6 +85,8 @@ export async function sendSenderAction(psid: string, action: 'typing_on' | 'typi
 
 // Gửi attachment
 export async function sendAttachment(psid: string, type: 'image' | 'video' | 'audio' | 'file', url: string) {
+    console.log(type, url);
+
     await callSendAPI({
         recipient: { id: psid },
         message: {
@@ -104,7 +106,7 @@ export async function sendGenericTemplate(psid: string, pageId: string, elements
     const formattedElements = elements.map((el) => ({
         title: renderContent(el.title, pageId, psid),
         subtitle: renderContent(el.subtitle || '', pageId, psid),
-        image_url: el.image_url,
+        image_url: encodeURI(getStaticUrl(el.image_url) || ''),
         default_action: el.default_action,
         buttons: mapButtonsToFacebook(el.buttons, pageId, psid)
     }));
@@ -155,13 +157,15 @@ export async function sendCouponTemplate(psid: string, pageId: string, data: Cou
     });
 }
 
-export async function sendMediaTemplate(psid: string, pageId: string, data: MediaTemplateData['fields']) {
-    const element = {
-        media_type: data.media_type,
-        media_url: getStaticUrl(data.media_url),
-        buttons: mapButtonsToFacebook(data.buttons, pageId, psid)
-    };
-
+export async function sendMediaTemplate(
+    psid: string,
+    pageId: string,
+    data: {
+        media_type: 'image' | 'video';
+        attachment_id: string;
+        buttons: ButtonNode[];
+    }
+) {
     await callSendAPI({
         recipient: { id: psid },
         message: {
@@ -169,11 +173,49 @@ export async function sendMediaTemplate(psid: string, pageId: string, data: Medi
                 type: 'template',
                 payload: {
                     template_type: 'media',
-                    elements: [element]
+                    elements: [
+                        {
+                            media_type: data.media_type,
+                            attachment_id: data.attachment_id,
+                            buttons: mapButtonsToFacebook(data.buttons, pageId, psid)
+                        }
+                    ]
                 }
             }
         }
     });
+}
+
+export async function uploadMediaFromUrl(type: 'image' | 'video', url: string): Promise<string> {
+    const safeUrl = encodeURI(url);
+
+    const res = await fetch(
+        `https://graph.facebook.com/v15.0/me/message_attachments?access_token=${PAGE_ACCESS_TOKEN}`,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: {
+                    attachment: {
+                        type,
+                        payload: {
+                            url: safeUrl,
+                            is_reusable: true
+                        }
+                    }
+                }
+            })
+        }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        console.error('Upload media error:', data);
+        throw new Error('Upload media failed');
+    }
+
+    return data.attachment_id;
 }
 
 export async function sendReceiptTemplate(psid: string, data: ReceiptTemplateElement) {

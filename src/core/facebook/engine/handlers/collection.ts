@@ -3,7 +3,7 @@ import { sendButtonMessage, sendTextMessage } from '~/core/facebook/services/ser
 import { PendingVariable } from '~/core/facebook/store/components/pendingVariables';
 import userStore from '~/core/facebook/store/userStore';
 import userFlowStateModel from '~/models/userFlowState.model';
-import { parseDuration } from '~/utils/time';
+import { durationWithUnitToMs, parseDuration } from '~/utils/time';
 
 export async function handleCollectionNode(node: CollectionNode, senderId: string, pageId: string) {
     if (node.payload.fields.buttons.length === 0) {
@@ -23,7 +23,7 @@ export async function handleCollectionNode(node: CollectionNode, senderId: strin
         key: variable.key,
         regex: variable.regex,
         fallback: variable.fallback,
-        timeout: parseDuration(variable.timeout)
+        timeout: durationWithUnitToMs(variable.timeout.duration, variable.timeout.unit)
     });
 
     user.addPendingVariables(pendingVariable, node.id);

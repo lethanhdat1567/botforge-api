@@ -15,7 +15,10 @@ export interface CollectionData {
             value?: any;
             regex?: string;
             fallback: string;
-            timeout: string;
+            timeout: {
+                duration: number;
+                unit: 'second' | 'minute' | 'hour';
+            };
         };
     };
 }

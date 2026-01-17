@@ -12,7 +12,9 @@ export function mapButtonsToFacebook(buttons: ButtonNode[] | undefined, pageId: 
                     return {
                         type: 'postback',
                         title: renderContent(btn.title, pageId, psid),
-                        payload: JSON.stringify({ next: btn.payload.next })
+                        payload: btn.payload?.next
+                            ? JSON.stringify({ next: btn.payload.next })
+                            : JSON.stringify({ next: '' })
                     };
 
                 case 'postback':

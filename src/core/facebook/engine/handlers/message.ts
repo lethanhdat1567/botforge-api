@@ -9,12 +9,14 @@ import {
     sendQuickReplies,
     sendReceiptTemplate,
     sendSenderAction,
-    sendTextMessage
+    sendTextMessage,
+    uploadMediaFromUrl
 } from '~/core/facebook/services/services';
 import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
 import userStore from '~/core/facebook/store/userStore';
 import userFlowStateModel from '~/models/userFlowState.model';
 import { PendingVariable } from '~/core/facebook/store/components/pendingVariables';
+import { getStaticUrl } from '~/utils/url';
 
 export async function handleMessageNode(node: MessageNode, senderId: string, pageId: string) {
     let isButton = null;
@@ -38,7 +40,11 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
                 break;
 
             case 'attachment':
-                await sendAttachment(senderId, data.fields.attachmentType, data.fields.url);
+                await sendAttachment(
+                    senderId,
+                    data.fields.attachmentType,
+                    encodeURI(getStaticUrl(data.fields.url) as string)
+                );
                 break;
 
             case 'sender_actions':
@@ -58,9 +64,20 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
             case 'coupon_template':
                 sendCouponTemplate(senderId, pageId, data.fields);
                 break;
-            case 'media_template':
-                sendMediaTemplate(senderId, pageId, data.fields);
+            case 'media_template': {
+                const { media_type, media_url } = data.fields;
+
+                const mediaAttachmentId = await uploadMediaFromUrl(media_type, getStaticUrl(media_url) || '');
+
+                await sendMediaTemplate(senderId, pageId, {
+                    media_type,
+                    attachment_id: mediaAttachmentId,
+                    buttons: data.fields.buttons || []
+                });
+
                 break;
+            }
+
             case 'receipt_template':
                 await sendReceiptTemplate(senderId, data.fields);
                 break;

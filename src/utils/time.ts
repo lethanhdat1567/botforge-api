@@ -27,3 +27,20 @@ export const parseDuration = (duration: string): number => {
 export const getExpiresAt = (duration: string): Date => {
     return new Date(Date.now() + parseDuration(duration));
 };
+
+export const durationWithUnitToMs = (duration: number, unit: 'second' | 'minute' | 'hour'): number => {
+    if (duration < 0) {
+        throw new Error('Duration must be >= 0');
+    }
+
+    switch (unit) {
+        case 'second':
+            return duration * 1000;
+        case 'minute':
+            return duration * 60 * 1000;
+        case 'hour':
+            return duration * 60 * 60 * 1000;
+        default:
+            throw new Error(`Unknown duration unit: ${unit}`);
+    }
+};
