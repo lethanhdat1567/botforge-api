@@ -2,7 +2,7 @@ import { runFlow } from '~/core/facebook/engine/engine';
 import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
 import { ActionNode } from '~/core/facebook/engine/types/action';
 import userStore from '~/core/facebook/store/userStore';
-import { durationWithUnitToMs, parseDuration } from '~/utils/time';
+import { durationWithUnitToMs } from '~/utils/time';
 
 export async function handleActionNode(node: ActionNode, senderId: string, pageId: string) {
     const payload = node.payload;

@@ -42,13 +42,14 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
             case 'attachment':
                 await sendAttachment(
                     senderId,
+                    pageId,
                     data.fields.attachmentType,
                     encodeURI(getStaticUrl(data.fields.url) as string)
                 );
                 break;
 
             case 'sender_actions':
-                await sendSenderAction(senderId, data.fields.action);
+                await sendSenderAction(senderId, pageId, data.fields.action);
                 break;
 
             case 'welcome_screen':
@@ -67,7 +68,7 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
             case 'media_template': {
                 const { media_type, media_url } = data.fields;
 
-                const mediaAttachmentId = await uploadMediaFromUrl(media_type, getStaticUrl(media_url) || '');
+                const mediaAttachmentId = await uploadMediaFromUrl(media_type, pageId, getStaticUrl(media_url) || '');
 
                 await sendMediaTemplate(senderId, pageId, {
                     media_type,
@@ -79,7 +80,7 @@ export async function handleMessageNode(node: MessageNode, senderId: string, pag
             }
 
             case 'receipt_template':
-                await sendReceiptTemplate(senderId, data.fields);
+                await sendReceiptTemplate(senderId, pageId, data.fields);
                 break;
         }
     }

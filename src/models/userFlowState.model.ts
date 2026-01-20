@@ -40,6 +40,12 @@ class UserFlowStateModel {
             where: { id }
         });
     }
+    async findByOwnerUser(ownerUserId: string): Promise<IUserFlowState[]> {
+        return prisma.userFlowState.findMany({
+            where: { ownerUserId },
+            orderBy: { createdAt: 'desc' }
+        });
+    }
 
     async update(id: string, data: Partial<IUserFlowState>): Promise<IUserFlowState> {
         return prisma.userFlowState.update({ where: { id }, data });

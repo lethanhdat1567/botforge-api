@@ -11,6 +11,7 @@ import notificationRouter from './notification.routes';
 import folderRouter from './folder.routes';
 import uploadRouter from './upload.routes';
 import fallbackRouter from './flow-fallback.route';
+import userFlowStateRouter from './user-flow-state.route';
 
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.use('/fallback', fallbackRouter);
 router.use('/notifications', notificationRouter);
 router.use('/folders', folderRouter);
 router.use('/upload', uploadRouter);
+router.use('/flow-states', userFlowStateRouter);
 
 // Health route
 router.get('/', (req, res) => {

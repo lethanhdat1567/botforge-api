@@ -43,6 +43,7 @@ export class PendingVariable {
 
     isExpired(): boolean {
         if (!this.expiresAt) return false;
+
         return Date.now() > this.expiresAt;
     }
 }

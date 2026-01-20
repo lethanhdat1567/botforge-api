@@ -10,7 +10,6 @@ import {
     setPostbackVariablePayload
 } from '~/core/facebook/engine/handlers/flow';
 import userFlowStateModel from '~/models/userFlowState.model';
-import { mockFlow } from '~/core/facebook/flows/test.flow';
 import flowModel from '~/models/flow.model';
 
 class FacebookController {
@@ -51,7 +50,7 @@ class FacebookController {
 
             // Check expired flow
             if (user?.pendingVariables?.isExpired()) {
-                sendTextMessage(senderId, pageId, 'Qua thời gian hành động, vui lồng tập trình lập lai.');
+                sendTextMessage(senderId, pageId, user.pendingVariables.fallback || 'Timeout');
                 endFlowHandller(pageId, senderId);
                 userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'cancelled' });
                 return;
@@ -88,6 +87,7 @@ class FacebookController {
                         user?.updateFlowStatus('running');
 
                         const currentFlow = await flowModel.findByPageId(pageId);
+
                         if (!currentFlow) {
                             throw new Error('Flow not found');
                         } else if (!currentFlow.startNodeId) {
@@ -96,7 +96,7 @@ class FacebookController {
 
                         userFlowStateModel.create({
                             platformUserId: senderId,
-                            ownerUserId: '643556e9-6593-483c-ac00-b19a9f7a0333',
+                            ownerUserId: currentFlow.userId,
                             flowId: currentFlow?.id,
                             currentStep: currentFlow.startNodeId,
                             status: 'running',
@@ -111,7 +111,8 @@ class FacebookController {
                         const pendingVariable = user?.getPendingVariable();
                         // Set pending variable
                         if (pendingVariable) {
-                            const currentNode = user?.flowId ? mockFlow[user.flowId] : null;
+                            const currentFlow = await flowModel.findByPageId(pageId);
+                            const currentNode = user?.flowId ? currentFlow?.logicJson[user.flowId] : null;
                             handleSavePendingVariable(pendingVariable, msg, currentNode, senderId, pageId, user);
                         }
                         // Fallback
@@ -128,7 +129,10 @@ class FacebookController {
             else if (event.type === 'postback') {
                 try {
                     const payload = JSON.parse(event.postback.payload);
+
                     setPostbackVariablePayload(payload, user);
+                    console.log(payload);
+
                     runNextOrEnd(payload.next, senderId, pageId);
                     return;
                 } catch (err) {

@@ -7,7 +7,7 @@ export function getStaticUrl(path?: string | null) {
     const baseUrl = (process.env.BASE_URL || '').replace(/\/+$/, '');
     const cleanPath = path.replace(/^\/+/, '');
 
-    return `https://8975c9f96441.ngrok-free.app/${cleanPath}`;
+    return `https://947106289777.ngrok-free.app/${cleanPath}`;
 }
 
 export function buildUploadPath(file: Express.Multer.File) {

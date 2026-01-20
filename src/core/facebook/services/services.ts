@@ -2,11 +2,11 @@ import { ButtonNode, QuickReply } from '~/core/facebook/engine/types/button';
 import {
     CouponTemplateElement,
     GenericTemplateElement,
-    MediaTemplateData,
     ReceiptTemplateElement
 } from '~/core/facebook/engine/types/message';
 import { renderContent } from '~/core/facebook/helpers';
 import { mapButtonsToFacebook } from '~/core/facebook/services/helpers';
+import flowModel from '~/models/flow.model';
 import { getStaticUrl } from '~/utils/url';
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN!;
@@ -16,9 +16,17 @@ if (!PAGE_ACCESS_TOKEN) throw new Error('PAGE_ACCESS_TOKEN is not set in .env');
 export type Button = ButtonNode;
 
 // Hàm gốc gọi Messenger Send API
-async function callSendAPI(body: any) {
+async function callSendAPI(pageId: string, body: any) {
+    const flowData = await flowModel.findByPageId(pageId);
+
+    const access_token = flowData?.pageAccessToken;
+
+    if (!access_token) {
+        throw new Error('Access token not found for pageId: ' + body.recipient.id);
+    }
+
     try {
-        const res = await fetch(`https://graph.facebook.com/v15.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, {
+        const res = await fetch(`https://graph.facebook.com/v15.0/me/messages?access_token=${access_token}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -33,7 +41,7 @@ async function callSendAPI(body: any) {
 
 // Gửi text message
 export async function sendTextMessage(psid: string, pageId: string, text: string) {
-    await callSendAPI({
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: { text: renderContent(text, pageId, psid) }
     });
@@ -43,7 +51,7 @@ export async function sendTextMessage(psid: string, pageId: string, text: string
 export async function sendButtonMessage(psid: string, pageId: string, text: string, buttons: ButtonNode[]) {
     const formattedButtons = mapButtonsToFacebook(buttons, pageId, psid);
 
-    await callSendAPI({
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: {
             attachment: {
@@ -66,7 +74,7 @@ export async function sendQuickReplies(psid: string, pageId: string, text: strin
         payload: JSON.stringify(qr.payload)
     }));
 
-    await callSendAPI({
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: {
             text: renderContent(text, pageId, psid),
@@ -76,18 +84,21 @@ export async function sendQuickReplies(psid: string, pageId: string, text: strin
 }
 
 // Gửi sender action (typing_on, typing_off, mark_seen)
-export async function sendSenderAction(psid: string, action: 'typing_on' | 'typing_off' | 'mark_seen') {
-    await callSendAPI({
+export async function sendSenderAction(psid: string, pageId: string, action: 'typing_on' | 'typing_off' | 'mark_seen') {
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         sender_action: action
     });
 }
 
 // Gửi attachment
-export async function sendAttachment(psid: string, type: 'image' | 'video' | 'audio' | 'file', url: string) {
-    console.log(type, url);
-
-    await callSendAPI({
+export async function sendAttachment(
+    psid: string,
+    pageId: string,
+    type: 'image' | 'video' | 'audio' | 'file',
+    url: string
+) {
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: {
             attachment: {
@@ -111,7 +122,7 @@ export async function sendGenericTemplate(psid: string, pageId: string, elements
         buttons: mapButtonsToFacebook(el.buttons, pageId, psid)
     }));
 
-    await callSendAPI({
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: {
             attachment: {
@@ -146,7 +157,7 @@ export async function sendCouponTemplate(psid: string, pageId: string, data: Cou
 
     if (data.payload) payload.payload = data.payload;
 
-    await callSendAPI({
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: {
             attachment: {
@@ -166,7 +177,7 @@ export async function sendMediaTemplate(
         buttons: ButtonNode[];
     }
 ) {
-    await callSendAPI({
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: {
             attachment: {
@@ -186,7 +197,7 @@ export async function sendMediaTemplate(
     });
 }
 
-export async function uploadMediaFromUrl(type: 'image' | 'video', url: string): Promise<string> {
+export async function uploadMediaFromUrl(type: 'image' | 'video', pageId: string, url: string): Promise<string> {
     const safeUrl = encodeURI(url);
 
     const res = await fetch(
@@ -218,7 +229,7 @@ export async function uploadMediaFromUrl(type: 'image' | 'video', url: string): 
     return data.attachment_id;
 }
 
-export async function sendReceiptTemplate(psid: string, data: ReceiptTemplateElement) {
+export async function sendReceiptTemplate(psid: string, pageId: string, data: ReceiptTemplateElement) {
     // Format các product elements
     const formattedElements = data.elements.map((el) => ({
         title: el.title,
@@ -266,7 +277,7 @@ export async function sendReceiptTemplate(psid: string, data: ReceiptTemplateEle
         adjustments: formattedAdjustments
     };
 
-    await callSendAPI({
+    await callSendAPI(pageId, {
         recipient: { id: psid },
         message: {
             attachment: {
