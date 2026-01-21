@@ -166,17 +166,23 @@ class UserFlowStateController {
     // DELETE /user-flow-states/:id
     async remove(req: Request, res: Response) {
         try {
-            const { id } = req.params;
+            const { ids } = req.body as { ids?: string[] };
 
-            const record = await userFlowStateModel.findById(id);
-            if (!record) {
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return (res as any).error({ message: 'ids must be a non-empty array' }, 400);
+            }
+
+            // (optional) check tồn tại
+            const existing = await userFlowStateModel.findManyByIds(ids);
+            if (existing.length === 0) {
                 return (res as any).error({ message: 'UserFlowState not found' }, 404);
             }
 
-            await userFlowStateModel.delete(id);
+            const result = await userFlowStateModel.deleteMany(ids);
 
             return (res as any).success({
-                message: 'UserFlowState deleted'
+                message: 'UserFlowState deleted',
+                deletedCount: result.count
             });
         } catch (error) {
             console.error('Error deleting UserFlowState:', error);

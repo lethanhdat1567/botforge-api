@@ -68,6 +68,25 @@ class UserFlowStateModel {
         return result.count;
     }
 
+    async findManyByIds(ids: string[]) {
+        return prisma.userFlowState.findMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
+        });
+    }
+    async deleteMany(ids: string[]) {
+        return prisma.userFlowState.deleteMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
+        });
+    }
+
     async delete(id: string): Promise<IUserFlowState> {
         return prisma.userFlowState.delete({
             where: { id }

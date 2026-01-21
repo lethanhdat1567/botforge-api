@@ -49,7 +49,10 @@ export async function handleSavePendingVariable(
             user.setVariableValue(pendingVariable.key, msg.text);
         }
         user.updateFlowStatus('running');
-        userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, { status: 'running' });
+        userFlowStateModel.updateByPlatformUserAndPage(senderId, pageId, {
+            status: 'running',
+            variables: user.variables
+        });
 
         runNextOrEnd(currentNode?.children?.next, senderId, pageId);
     } else {

@@ -15,6 +15,6 @@ router.patch('/:id', UserFlowStateController.update);
 router.patch('/platform/step', UserFlowStateController.appendStep);
 router.patch('/platform/status', UserFlowStateController.updateByPlatformAndPage);
 
-router.delete('/:id', UserFlowStateController.remove);
+router.delete('/', UserFlowStateController.remove);
 
 export default router;
