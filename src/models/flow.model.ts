@@ -82,21 +82,11 @@ class FlowModel {
     async findByUser(userId: string, platform?: Platform | 'unconnected'): Promise<IFlow[]> {
         const where: any = { userId };
 
-        // 🔹 chỉ lấy flow chưa kết nối
+        // 🔹 chỉ lọc theo platform khi có truyền vào
         if (platform === 'unconnected') {
             where.pageId = null;
-        }
-
-        // 🔹 lọc theo platform nhưng vẫn lấy flow chưa kết nối
-        else if (platform) {
-            where.OR = [
-                { pageId: null },
-                {
-                    page: {
-                        platform
-                    }
-                }
-            ];
+        } else if (platform) {
+            where.page = { platform };
         }
 
         const flows = await prisma.flow.findMany({
