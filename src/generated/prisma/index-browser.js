@@ -164,16 +164,27 @@ exports.Prisma.FlowScalarFieldEnum = {
   userId: 'userId',
   pageId: 'pageId',
   folderId: 'folderId',
-  pageAccessToken: 'pageAccessToken',
   name: 'name',
   description: 'description',
   status: 'status',
   logicJson: 'logicJson',
   layoutJson: 'layoutJson',
-  platform: 'platform',
   timeoutDuration: 'timeoutDuration',
   startNodeId: 'startNodeId',
   timeoutJson: 'timeoutJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PageScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  platform: 'platform',
+  pageUid: 'pageUid',
+  name: 'name',
+  avatar: 'avatar',
+  accessToken: 'accessToken',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -310,11 +321,19 @@ exports.Prisma.FlowOrderByRelevanceFieldEnum = {
   userId: 'userId',
   pageId: 'pageId',
   folderId: 'folderId',
-  pageAccessToken: 'pageAccessToken',
   name: 'name',
   description: 'description',
   timeoutDuration: 'timeoutDuration',
   startNodeId: 'startNodeId'
+};
+
+exports.Prisma.PageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  pageUid: 'pageUid',
+  name: 'name',
+  avatar: 'avatar',
+  accessToken: 'accessToken'
 };
 
 exports.Prisma.UserFlowStateOrderByRelevanceFieldEnum = {
@@ -390,6 +409,12 @@ exports.FlowStatus = exports.$Enums.FlowStatus = {
   published: 'published'
 };
 
+exports.PageStatus = exports.$Enums.PageStatus = {
+  active: 'active',
+  revoked: 'revoked',
+  expired: 'expired'
+};
+
 exports.UserFlowStatus = exports.$Enums.UserFlowStatus = {
   running: 'running',
   pending: 'pending',
@@ -425,6 +450,7 @@ exports.Prisma.ModelName = {
   PasswordResetToken: 'PasswordResetToken',
   Folder: 'Folder',
   Flow: 'Flow',
+  Page: 'Page',
   UserFlowState: 'UserFlowState',
   FlowShare: 'FlowShare',
   FlowComment: 'FlowComment',

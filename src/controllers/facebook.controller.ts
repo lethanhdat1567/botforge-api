@@ -86,7 +86,7 @@ class FacebookController {
                         userStore.add(pageId, senderId);
                         user?.updateFlowStatus('running');
 
-                        const currentFlow = await flowModel.findByPageId(pageId);
+                        const currentFlow = await flowModel.findFlowByPageUid(pageId, 'facebook');
 
                         if (!currentFlow) {
                             throw new Error('Flow not found');
@@ -111,7 +111,7 @@ class FacebookController {
                         const pendingVariable = user?.getPendingVariable();
                         // Set pending variable
                         if (pendingVariable) {
-                            const currentFlow = await flowModel.findByPageId(pageId);
+                            const currentFlow = await flowModel.findFlowByPageUid(pageId, 'facebook');
                             const currentNode = user?.flowId ? currentFlow?.logicJson[user.flowId] : null;
                             handleSavePendingVariable(pendingVariable, msg, currentNode, senderId, pageId, user);
                         }

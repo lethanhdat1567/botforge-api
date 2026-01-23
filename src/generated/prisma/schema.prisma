@@ -31,6 +31,7 @@ model User {
   flowComments       FlowComment[]
   notifications      Notification[]
   fallback           FlowFallback?
+  pages              Page[]
   userFlowStates     UserFlowState[]      @relation("Owner_UserFlowState")
   refreshTokens      RefreshToken[]
   PasswordResetToken PasswordResetToken[]
@@ -104,13 +105,11 @@ model Flow {
   userId          String     @map("user_id")
   pageId          String?    @map("page_id")
   folderId        String     @map("folder_id")
-  pageAccessToken String?    @map("page_access_token") @db.Text
   name            String     @map("name")
   description     String?    @map("description")
   status          FlowStatus @default(draft) @map("status")
   logicJson       Json?      @map("logic_json")
   layoutJson      Json?      @map("layout_json")
-  platform        Platform   @map("platform")
   timeoutDuration String?    @map("timeout_duration")
   startNodeId     String?    @map("start_node_id")
   timeoutJson     Json?      @map("timeout_json")
@@ -119,6 +118,7 @@ model Flow {
 
   user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   folder Folder          @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  page   Page?           @relation(fields: [pageId], references: [id], onDelete: SetNull)
   states UserFlowState[]
   shares FlowShare[]
 
@@ -128,6 +128,40 @@ model Flow {
 enum FlowStatus {
   draft
   published
+}
+
+// =====================
+// Page (Platform Page / OA / Bot)
+// =====================
+model Page {
+  id String @id @default(uuid()) @map("id")
+
+  userId   String   @map("user_id")
+  platform Platform @map("platform")
+
+  pageUid String @map("page_uid")
+
+  name   String  @map("name")
+  avatar String? @map("avatar")
+
+  accessToken String @map("access_token") @db.Text
+
+  status PageStatus @default(active) @map("status")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flows Flow[]
+
+  @@unique([platform, pageUid])
+  @@map("pages")
+}
+
+enum PageStatus {
+  active
+  revoked
+  expired
 }
 
 enum Platform {

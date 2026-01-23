@@ -25,7 +25,7 @@ export async function handleCollectionNode(node: CollectionNode, senderId: strin
     }
 
     // 3. Get fallback config
-    const currentFlow = await flowModel.findByPageId(pageId);
+    const currentFlow = await flowModel.findFlowByPageUid(pageId, 'facebook');
     const fallbackData = await flowFallbackModel.findByUser(currentFlow?.userId || '');
 
     const fallbackValue = resolveFallback(variable, fallbackData);

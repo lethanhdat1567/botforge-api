@@ -17,7 +17,7 @@ export type Button = ButtonNode;
 
 // Hàm gốc gọi Messenger Send API
 async function callSendAPI(pageId: string, body: any) {
-    const flowData = await flowModel.findByPageId(pageId);
+    const flowData = await flowModel.findFlowByPageUid(pageId, 'facebook');
 
     const access_token = flowData?.pageAccessToken;
 

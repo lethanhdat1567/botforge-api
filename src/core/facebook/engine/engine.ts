@@ -11,7 +11,7 @@ import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
 import flowModel from '~/models/flow.model';
 
 export async function runFlow(nodeId: string, senderId: string, pageId: string) {
-    const currentFlow = await flowModel.findByPageId(pageId);
+    const currentFlow = await flowModel.findFlowByPageUid(pageId, 'facebook');
     const node: Node = currentFlow?.logicJson[nodeId];
 
     if (!node) {
