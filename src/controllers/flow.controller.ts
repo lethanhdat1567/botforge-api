@@ -35,7 +35,11 @@ class FlowController {
     }
 
     async list(req: any, res: any) {
-        const flows = await FlowModel.findByUser(req.user.userId);
+        const userId = req.user.userId;
+        const { platform } = req.query;
+
+        const flows = await FlowModel.findByUser(userId, platform as any);
+
         return res.success(flows, 200);
     }
 
@@ -53,17 +57,25 @@ class FlowController {
     }
 
     async update(req: any, res: any) {
-        const flow = await FlowModel.findById(req.params.id);
-        if (!flow) {
-            return res.error({ message: 'Flow not found', code: flowCode.FLOW_NOT_FOUND }, 404);
-        }
+        try {
+            const flow = await FlowModel.findById(req.params.id);
+            if (!flow) {
+                return res.error({ message: 'Flow not found', code: flowCode.FLOW_NOT_FOUND }, 404);
+            }
 
-        if (flow.userId !== req.user.userId) {
-            return res.error({ message: 'Forbidden', code: flowCode.FORBIDDEN }, 403);
-        }
+            if (flow.userId !== req.user.userId) {
+                return res.error({ message: 'Forbidden', code: flowCode.FORBIDDEN }, 403);
+            }
 
-        const updated = await FlowModel.update(req.params.id, req.body);
-        return res.success(updated, 200);
+            const updated = await FlowModel.update(req.params.id, req.body);
+            return res.success(updated, 200);
+        } catch (error: any) {
+            if (error.message?.includes('already exists')) {
+                return res.error({ message: error.message, code: flowCode.NAME_ALREADY_EXISTS }, 400);
+            }
+
+            return res.error({ message: error.message || 'Server error', code: flowCode.SERVER_ERROR }, 500);
+        }
     }
 
     async remove(req: any, res: any) {

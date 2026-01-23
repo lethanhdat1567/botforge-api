@@ -8,7 +8,7 @@ class PageController {
             const { platform, pageUid, name, avatar, accessToken } = req.body;
 
             if (!platform || !pageUid || !name || !accessToken) {
-                return res.error({ message: 'Missing required fields' }, 400);
+                return res.error({ message: 'Missing required fields', code: 'VALIDATION' }, 400);
             }
 
             const page = await PageModel.create({
@@ -22,15 +22,34 @@ class PageController {
 
             return res.success(page, 201);
         } catch (error: any) {
-            return res.error({ message: error.message }, 400);
+            // 👇 bắt lỗi trùng page
+            if (error.code === 'EXIST') {
+                return res.error(
+                    {
+                        message: 'Page already connected',
+                        code: 'PAGE_EXIST'
+                    },
+                    409 // conflict
+                );
+            }
+
+            return res.error(
+                {
+                    message: error.message || 'Create page failed',
+                    code: 'UNKNOWN'
+                },
+                400
+            );
         }
     }
 
-    // GET /pages
+    // GET /pages?platform=facebook
     async list(req: any, res: any) {
         try {
             const userId = req.user.userId;
-            const pages = await PageModel.findByUser(userId);
+            const { platform } = req.query;
+
+            const pages = await PageModel.findByUser(userId, platform);
             return res.success(pages, 200);
         } catch (error: any) {
             return res.error({ message: error.message }, 500);
@@ -63,7 +82,7 @@ class PageController {
             if (!page) return res.error({ message: 'Page not found' }, 404);
             if (page.userId !== userId) return res.error({ message: 'Forbidden' }, 403);
 
-            const allowedFields = ['name', 'avatar', 'accessToken', 'status'];
+            const allowedFields = ['name', 'pageUid', 'avatar', 'accessToken', 'status'];
             const data: any = {};
 
             allowedFields.forEach((field) => {
@@ -73,7 +92,17 @@ class PageController {
             const updated = await PageModel.update(id, data);
             return res.success(updated, 200);
         } catch (error: any) {
-            return res.error({ message: error.message }, 500);
+            if (error.code === 'EXIST') {
+                return res.error(
+                    {
+                        message: 'Page UID already exists',
+                        code: 'PAGE_EXIST'
+                    },
+                    409
+                );
+            }
+
+            return res.error({ message: error.message || 'Update failed' }, 500);
         }
     }
 

@@ -79,11 +79,34 @@ class FlowModel {
      * LIST BY USER
      * =====================
      */
-    async findByUser(userId: string): Promise<IFlow[]> {
+    async findByUser(userId: string, platform?: Platform | 'unconnected'): Promise<IFlow[]> {
+        const where: any = { userId };
+
+        // 🔹 chỉ lấy flow chưa kết nối
+        if (platform === 'unconnected') {
+            where.pageId = null;
+        }
+
+        // 🔹 lọc theo platform nhưng vẫn lấy flow chưa kết nối
+        else if (platform) {
+            where.OR = [
+                { pageId: null },
+                {
+                    page: {
+                        platform
+                    }
+                }
+            ];
+        }
+
         const flows = await prisma.flow.findMany({
-            where: { userId },
-            include: { page: true },
-            orderBy: { createdAt: 'desc' }
+            where,
+            include: {
+                page: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
         });
 
         return flows.map(this.mapFlow);

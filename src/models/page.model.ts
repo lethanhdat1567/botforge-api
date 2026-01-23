@@ -23,7 +23,6 @@ class PageModel {
         avatar?: string;
         accessToken: string;
     }): Promise<IPage> {
-        // unique theo platform + pageUid
         const existing = await prisma.page.findFirst({
             where: {
                 platform: data.platform,
@@ -32,15 +31,20 @@ class PageModel {
         });
 
         if (existing) {
-            throw new Error('Page already connected');
+            const error: any = new Error('Page already connected');
+            error.code = 'EXIST';
+            throw error;
         }
 
         return prisma.page.create({ data });
     }
 
-    async findByUser(userId: string): Promise<IPage[]> {
+    async findByUser(userId: string, platform?: Platform): Promise<IPage[]> {
         return prisma.page.findMany({
-            where: { userId },
+            where: {
+                userId,
+                ...(platform ? { platform } : {})
+            },
             orderBy: { createdAt: 'desc' }
         });
     }
@@ -50,6 +54,31 @@ class PageModel {
     }
 
     async update(id: string, data: Partial<IPage>): Promise<IPage> {
+        // Nếu có update pageUid → check unique theo platform
+        if (data.pageUid) {
+            const current = await prisma.page.findUnique({
+                where: { id }
+            });
+
+            if (!current) {
+                throw new Error('Page not found');
+            }
+
+            const existing = await prisma.page.findFirst({
+                where: {
+                    platform: current.platform,
+                    pageUid: data.pageUid,
+                    NOT: { id }
+                }
+            });
+
+            if (existing) {
+                const error: any = new Error('Page UID already exists');
+                error.code = 'EXIST';
+                throw error;
+            }
+        }
+
         return prisma.page.update({
             where: { id },
             data
