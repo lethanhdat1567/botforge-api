@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { createDowloadNotification } from '~/helpers/notification-helper';
 import FlowSharedModel from '~/models/flow-shared.model';
+import flowModel from '~/models/flow.model';
+import folderModel from '~/models/folder.model';
 import { deleteFile } from '~/utils/file';
 import { buildUploadPath } from '~/utils/url';
 
@@ -153,23 +155,62 @@ class FlowSharedController {
     // POST /flows/shared/:id/download
     async download(req: Request, res: Response) {
         try {
+            const userId = (req as any).user.userId;
             const { id } = req.params;
+            const { flowId, folderId } = req.body;
 
+            if (!flowId || !folderId) {
+                return (res as any).error({ message: 'Missing flowId / folderId' }, 400);
+            }
+
+            // 1️⃣ check flowShare
             const flowShare = await FlowSharedModel.findById(id);
-            if (!flowShare) return (res as any).error({ message: 'FlowShare not found' }, 404);
+            if (!flowShare) {
+                return (res as any).error({ message: 'FlowShare not found' }, 404);
+            }
 
+            // ⚠️ bắt buộc flowId phải đúng flow được share
+            if (flowShare.flowId !== flowId) {
+                return (res as any).error({ message: 'Flow does not belong to this share' }, 400);
+            }
+
+            // 2️⃣ lấy flow gốc
+            const flow = await flowModel.findById(flowId);
+            if (!flow) {
+                return (res as any).error({ message: 'Flow not found' }, 404);
+            }
+
+            // 3️⃣ check folder thuộc user
+            const folder = await folderModel.findById(folderId);
+            if (!folder || folder.userId !== userId) {
+                return (res as any).error({ message: 'Folder not found or no permission' }, 403);
+            }
+
+            // 4️⃣ copy flow sang folder user
+            const newFlow = await flowModel.downloadFromShared({
+                flowId,
+                targetUserId: userId,
+                folderId,
+                pageId: null,
+                sharedName: flowShare.name
+            });
+
+            // 5️⃣ tăng download count
             const newCount = await FlowSharedModel.incrementDownloadCount(id);
 
-            // Save Notification
-            await createDowloadNotification(id, (req as any).user.userId);
+            // 6️⃣ notification
+            await createDowloadNotification(id, userId);
 
             return (res as any).success({
-                message: 'Download count updated',
-                data: { downloadCount: newCount }
+                message: 'Flow downloaded & copied',
+                data: {
+                    downloadCount: newCount,
+                    flowId: newFlow.id
+                }
             });
         } catch (error) {
-            console.error('Error incrementing download count:', error);
-            return (res as any).error({ message: 'Failed to update download count' }, 500);
+            console.error('Error downloading flow:', error);
+            return (res as any).error({ message: 'Failed to download flow' }, 500);
         }
     }
 }

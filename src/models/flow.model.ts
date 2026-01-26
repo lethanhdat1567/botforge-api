@@ -270,6 +270,65 @@ class FlowModel {
         return this.mapFlow(created);
     }
 
+    async downloadFromShared({
+        flowId,
+        targetUserId,
+        folderId,
+        pageId,
+        sharedName
+    }: {
+        flowId: string;
+        targetUserId: string;
+        folderId: string | null;
+        pageId: string | null;
+        sharedName: string;
+    }): Promise<IFlow> {
+        const flow = await prisma.flow.findUnique({
+            where: { id: flowId },
+            include: { page: true }
+        });
+
+        if (!flow) throw new Error('Flow not found');
+
+        // 1️⃣ xử lý trùng tên trong folder/page của user mới
+        let newName = sharedName;
+        let counter = 1;
+
+        while (
+            await prisma.flow.findFirst({
+                where: {
+                    userId: targetUserId,
+                    folderId: folderId as any,
+                    pageId: pageId,
+                    name: newName
+                }
+            })
+        ) {
+            newName = `${sharedName} (${counter})`;
+            counter++;
+        }
+
+        // 2️⃣ copy flow
+        const created = await prisma.flow.create({
+            data: {
+                userId: targetUserId,
+                folderId: folderId as any,
+                pageId: pageId,
+
+                name: newName,
+                description: flow.description,
+                status: 'draft',
+                logicJson: flow.logicJson as any,
+                layoutJson: flow.layoutJson as any,
+                timeoutDuration: flow.timeoutDuration,
+                timeoutJson: flow.timeoutJson ?? Prisma.JsonNull
+            },
+            include: { page: true }
+        });
+
+        return this.mapFlow(created);
+    }
+
     /**
      * =====================
      * PRIVATE MAPPER
