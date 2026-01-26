@@ -118,6 +118,38 @@ class FlowSharedController {
         }
     }
 
+    // DELETE /flows/shared
+    async removeMany(req: Request, res: Response) {
+        try {
+            const { ids } = req.body as { ids: string[] };
+
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return (res as any).error({ message: 'Ids is required' }, 400);
+            }
+
+            // Lấy danh sách record để xoá file
+            const records = await FlowSharedModel.findByIds(ids);
+
+            // Xoá thumbnail nếu có
+            for (const record of records) {
+                if (record.thumbnail) {
+                    deleteFile(record.thumbnail);
+                }
+            }
+
+            // Xoá DB
+            await FlowSharedModel.deleteMany(ids);
+
+            return (res as any).success({
+                message: 'FlowShares deleted',
+                data: { count: ids.length }
+            });
+        } catch (error) {
+            console.error('Error deleting FlowShares:', error);
+            return (res as any).error({ message: 'Failed to delete FlowShares' }, 500);
+        }
+    }
+
     // POST /flows/shared/:id/download
     async download(req: Request, res: Response) {
         try {

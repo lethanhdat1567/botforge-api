@@ -13,5 +13,6 @@ router.post('/', upload.single('thumbnail'), FlowSharedController.create);
 router.patch('/:id/dowload', FlowSharedController.download);
 router.patch('/:id', upload.single('thumbnail'), FlowSharedController.update);
 router.delete('/:id', FlowSharedController.remove);
+router.post('/delete-many', FlowSharedController.removeMany);
 
 export default router;

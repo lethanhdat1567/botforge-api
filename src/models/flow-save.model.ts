@@ -38,8 +38,24 @@ class FlowSaveModel {
         return prisma.flowSave.findMany({
             where: { userId },
             include: {
-                user: { select: { id: true, username: true, displayName: true, avatar: true, email: true } },
-                flowShare: { select: { id: true, name: true, description: true, thumbnail: true, downloadCount: true } }
+                flowShare: {
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        thumbnail: true,
+                        downloadCount: true,
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                displayName: true,
+                                avatar: true,
+                                email: true
+                            }
+                        }
+                    }
+                }
             },
             orderBy: { createdAt: 'desc' }
         });

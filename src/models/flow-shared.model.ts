@@ -64,13 +64,30 @@ class FlowSharedModel {
         });
     }
 
-    async update(
-        id: string,
-        data: Partial<Omit<IFlowShare, 'id' | 'userId' | 'flowId' | 'createdAt'>>
-    ): Promise<IFlowShare> {
+    async update(id: string, data: Partial<Omit<IFlowShare, 'id' | 'userId' | 'createdAt'>>): Promise<IFlowShare> {
         return prisma.flowShare.update({
             where: { id },
             data
+        });
+    }
+
+    async findByIds(ids: string[]): Promise<IFlowShare[]> {
+        return prisma.flowShare.findMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
+        });
+    }
+
+    async deleteMany(ids: string[]): Promise<{ count: number }> {
+        return prisma.flowShare.deleteMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
         });
     }
 
