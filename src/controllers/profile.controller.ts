@@ -12,31 +12,34 @@ class ProfileController {
     }
 
     async updateProfile(req: any, res: any) {
-        const userId = req.user.userId;
+        try {
+            const userId = req.user.userId;
+            const data: any = {};
 
-        const data: any = {};
-
-        if (req.body.displayName) {
-            data.displayName = req.body.displayName;
-        }
-
-        if (req.file) {
-            // Lấy user cũ để check avatar
-            const oldUser = await userModel.findById(userId);
-            if (oldUser && oldUser.avatar) {
-                deleteFile(oldUser.avatar); // xóa file avatar cũ
+            if (req.body.displayName) {
+                data.displayName = req.body.displayName.trim();
             }
 
-            data.avatar = buildUploadPath(req.file);
+            if (req.file) {
+                const oldUser = await userModel.findById(userId);
+                if (oldUser?.avatar) {
+                    deleteFile(oldUser.avatar);
+                }
+                data.avatar = buildUploadPath(req.file);
+            }
+
+            if (Object.keys(data).length === 0) {
+                return res.success({ message: 'Nothing to update' });
+            }
+
+            const updatedUser = await userModel.update(userId, data);
+            return res.success(updatedUser);
+        } catch (error: any) {
+            if (error.code === 'P2002') {
+                return res.conflict('Thông tin đã tồn tại');
+            }
+            throw error;
         }
-
-        if (Object.keys(data).length === 0) {
-            return res.success({ message: 'Nothing to update' });
-        }
-
-        const updatedUser = await userModel.update(userId, data);
-
-        return res.success(updatedUser);
     }
 
     async changePassword(req: any, res: any) {
@@ -45,28 +48,43 @@ class ProfileController {
             const { oldPassword, newPassword } = req.body;
 
             if (!oldPassword || !newPassword) {
-                return res.status(400).json({ message: 'Old password and new password are required' });
+                return res.status(400).json({
+                    message: 'Old password and new password are required',
+                    code: 'VALIDATION_ERROR'
+                });
             }
 
-            // 1. Lấy user hiện tại
             const user = await userModel.findById(userId);
-            if (!user) return res.error('User not found', 404);
+            if (!user) {
+                return res.status(404).json({
+                    message: 'User not found',
+                    code: 'USER_NOT_FOUND'
+                });
+            }
 
-            // 2. Kiểm tra oldPassword
             const isMatch = await bcrypt.compare(oldPassword, user.password);
-            if (!isMatch) return res.error('Old password is incorrect', 401);
+            if (!isMatch) {
+                return res.status(401).json({
+                    message: 'Old password is incorrect',
+                    code: 'INVALID_OLD_PASSWORD'
+                });
+            }
 
-            // 3. Hash newPassword
             const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-            // 4. Update database
-            await userModel.update(userId, { password: hashedPassword });
+            await userModel.update(userId, {
+                password: hashedPassword
+            });
 
-            // 5. Return success
-            return res.success('Password changed successfully');
+            return res.success({
+                message: 'Password changed successfully'
+            });
         } catch (error) {
             console.error(error);
-            return res.error(error);
+            return res.status(500).json({
+                message: 'Internal server error',
+                code: 'INTERNAL_SERVER_ERROR'
+            });
         }
     }
 }
