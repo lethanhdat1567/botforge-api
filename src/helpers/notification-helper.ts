@@ -3,6 +3,7 @@ import flowSharedModel from '~/models/flow-shared.model';
 import flowModel from '~/models/flow.model';
 import notificationModel from '~/models/notification.model';
 import userModel from '~/models/user.model';
+import { emitNewNotification } from '~/socket/socket.service';
 
 export const createCommentNotification = async (flowId: string, userCommentId: string) => {
     const userComment = await userModel.findById(userCommentId);
@@ -21,6 +22,7 @@ export const createCommentNotification = async (flowId: string, userCommentId: s
         avatar: avatar,
         read: false
     });
+    emitNewNotification(onwerUser);
 };
 
 export const createReplyNotification = async (parentCommentId: string, userReplyId: string, flowId: string) => {
@@ -40,6 +42,7 @@ export const createReplyNotification = async (parentCommentId: string, userReply
         avatar: avatar,
         read: false
     });
+    emitNewNotification(onwerUser);
 };
 
 export const createDowloadNotification = async (flowId: string, userId: string) => {
@@ -59,6 +62,7 @@ export const createDowloadNotification = async (flowId: string, userId: string) 
         avatar: avatar,
         read: false
     });
+    emitNewNotification(onwerUser);
 };
 
 export const createFlowNotification = async (flowId: string, senderId: string, status: 'completed' | 'cancelled') => {
@@ -83,21 +87,24 @@ export const createFlowNotification = async (flowId: string, senderId: string, s
             read: false
         });
     }
+    emitNewNotification(flow.userId);
 };
 
 export const createNewUserNotification = async (userId: string, displayName: string, avatar?: string | null) => {
     const admins = await userModel.findAdmins();
 
     await Promise.all(
-        admins.map((admin) =>
-            notificationModel.createNotification({
+        admins.map((admin) => {
+            emitNewNotification(admin.id);
+
+            return notificationModel.createNotification({
                 userId: admin.id,
                 type: 'new_user',
                 message: `${displayName} vừa tạo tài khoản`,
                 relatedId: userId,
                 avatar,
                 read: false
-            })
-        )
+            });
+        })
     );
 };

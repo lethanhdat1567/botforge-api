@@ -14,6 +14,8 @@ router.get('/', NotificationController.list);
 // Đánh dấu đã đọc
 router.put('/:id/read', NotificationController.markRead);
 
+router.put('/read-all', NotificationController.markReadAll);
+
 // Tạo notification mới (thường admin dùng)
 router.post('/', NotificationController.create);
 

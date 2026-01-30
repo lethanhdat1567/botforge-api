@@ -12,6 +12,8 @@ import notFound from '~/middlewares/notFound.middleware';
 import errorHandler from '~/middlewares/errorHandler.middleware';
 
 import path from 'path';
+import http from 'http';
+import { initSocket } from '~/socket';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -35,6 +37,9 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+const server = http.createServer(app);
+initSocket(server);
+
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

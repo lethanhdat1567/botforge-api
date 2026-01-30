@@ -1,5 +1,4 @@
 // models/notification.model.ts
-
 import { prisma } from '~/config/prisma';
 
 export type NotificationType =
@@ -24,10 +23,32 @@ export interface INotification {
 }
 
 class NotificationModel {
-    async findByUser(userId: string, limit = 20): Promise<INotification[]> {
+    // 🔍 list + search optional
+    async findByUser({
+        userId,
+        limit = 20,
+        search
+    }: {
+        userId: string;
+        limit?: number;
+        search?: string;
+    }): Promise<INotification[]> {
         return prisma.notification.findMany({
-            where: { userId },
-            orderBy: { createdAt: 'asc' },
+            where: {
+                userId,
+                ...(search
+                    ? {
+                          OR: [
+                              {
+                                  message: {
+                                      contains: search
+                                  }
+                              }
+                          ]
+                      }
+                    : {})
+            },
+            orderBy: { createdAt: 'desc' },
             take: limit
         });
     }
@@ -35,7 +56,24 @@ class NotificationModel {
     async markAsRead(id: string) {
         return prisma.notification.update({
             where: { id },
-            data: { read: true, updatedAt: new Date() }
+            data: {
+                read: true,
+                updatedAt: new Date()
+            }
+        });
+    }
+
+    // ✅ mark read all (Prisma)
+    async markAllAsRead(userId: string) {
+        return prisma.notification.updateMany({
+            where: {
+                userId,
+                read: false
+            },
+            data: {
+                read: true,
+                updatedAt: new Date()
+            }
         });
     }
 

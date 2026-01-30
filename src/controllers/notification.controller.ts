@@ -3,11 +3,18 @@ import NotificationModel from '../models/notification.model';
 
 class NotificationController {
     // GET /notifications
+    // GET /notifications
+    // controllers/notification.controller.ts
     async list(req: any, res: any) {
         const userId = req.user.userId;
-        const { limit = 20 } = req.query;
+        const limit = Number(req.query.limit) || 20;
+        const search = typeof req.query.search === 'string' ? req.query.search.trim() : undefined;
 
-        const notifications = await NotificationModel.findByUser(userId, Number(limit));
+        const notifications = await NotificationModel.findByUser({
+            userId,
+            limit,
+            search: search || undefined
+        });
 
         return res.success(notifications);
     }
@@ -22,6 +29,15 @@ class NotificationController {
         } catch (error) {
             return res.error('Notification not found', 404);
         }
+    }
+
+    // PUT /notifications/read-all
+    async markReadAll(req: any, res: any) {
+        const userId = req.user.userId;
+
+        await NotificationModel.markAllAsRead(userId);
+
+        return res.success({ message: 'All notifications marked as read' });
     }
 
     // POST /notifications
