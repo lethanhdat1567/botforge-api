@@ -22,12 +22,13 @@ class UserController {
     async detail(req: any, res: any) {
         const { id } = req.params;
 
-        const user = await UserModel.findById(id);
-        if (!user) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...userData }: any = await UserModel.findById(id);
+        if (!userData) {
             return res.error('User not found', 404);
         }
 
-        return res.success(user);
+        return res.success(userData);
     }
 
     // PATCH /users/:id

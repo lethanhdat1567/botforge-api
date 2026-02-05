@@ -32,6 +32,7 @@ model User {
   notifications      Notification[]
   fallback           FlowFallback?
   pages              Page[]
+  chatMessages       ChatMessage[]
   userFlowStates     UserFlowState[]      @relation("Owner_UserFlowState")
   refreshTokens      RefreshToken[]
   PasswordResetToken PasswordResetToken[]
@@ -334,4 +335,41 @@ model FlowFallback {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("flow_fallbacks")
+}
+
+model Guide {
+  id        String      @id @default(uuid()) @map("id")
+  slug      String      @unique @map("slug")
+  title     String      @map("title")
+  summary   String?     @map("summary")
+  content   String      @map("content") @db.Text
+  thumbnail String?     @map("thumbnail")
+  status    GuideStatus @default(published) @map("status")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+
+  @@map("guides")
+}
+
+enum GuideStatus {
+  draft
+  published
+  archived
+}
+
+model ChatMessage {
+  id      String @id @default(uuid())
+  userId  String
+  sender  String // 'user' | 'admin'
+  content String
+
+  readByUserAt  DateTime?
+  readByAdminAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([sender])
 }

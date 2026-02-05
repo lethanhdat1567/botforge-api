@@ -14,6 +14,10 @@ import fallbackRouter from './flow-fallback.route';
 import userFlowStateRouter from './user-flow-state.route';
 import pageRouter from './pages.routes';
 import dashboardRouter from './dashboard.routes';
+import adminDashboardRouter from './admin-dashboard.route';
+import adminFlowRouter from './admin-flow.route';
+import guideRouter from './guides.routes';
+import chatRouter from './chat.routes';
 
 const router = express.Router();
 
@@ -33,6 +37,10 @@ router.use('/upload', uploadRouter);
 router.use('/flow-states', userFlowStateRouter);
 router.use('/pages', pageRouter);
 router.use('/dashboard', dashboardRouter);
+router.use('/admin-dashboard', adminDashboardRouter);
+router.use('/admin-flows', adminFlowRouter);
+router.use('/guides', guideRouter);
+router.use('/chat', chatRouter);
 
 // Health route
 router.get('/', (req, res) => {
