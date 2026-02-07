@@ -274,13 +274,23 @@ exports.Prisma.GuideScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ChatMessageScalarFieldEnum = {
+exports.Prisma.ChatConversationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  lastMessage: 'lastMessage',
+  lastMessageAt: 'lastMessageAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ChatLiveMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
   sender: 'sender',
+  type: 'type',
   content: 'content',
-  readByUserAt: 'readByUserAt',
-  readByAdminAt: 'readByAdminAt',
+  revokedAt: 'revokedAt',
+  readAt: 'readAt',
   createdAt: 'createdAt'
 };
 
@@ -419,10 +429,15 @@ exports.Prisma.GuideOrderByRelevanceFieldEnum = {
   thumbnail: 'thumbnail'
 };
 
-exports.Prisma.ChatMessageOrderByRelevanceFieldEnum = {
+exports.Prisma.ChatConversationOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
-  sender: 'sender',
+  lastMessage: 'lastMessage'
+};
+
+exports.Prisma.ChatLiveMessageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
   content: 'content'
 };
 exports.Role = exports.$Enums.Role = {
@@ -488,6 +503,17 @@ exports.GuideStatus = exports.$Enums.GuideStatus = {
   archived: 'archived'
 };
 
+exports.ChatSender = exports.$Enums.ChatSender = {
+  user: 'user',
+  admin: 'admin'
+};
+
+exports.ChatMessageType = exports.$Enums.ChatMessageType = {
+  text: 'text',
+  image: 'image',
+  video: 'video'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
@@ -503,7 +529,8 @@ exports.Prisma.ModelName = {
   Notification: 'Notification',
   FlowFallback: 'FlowFallback',
   Guide: 'Guide',
-  ChatMessage: 'ChatMessage'
+  ChatConversation: 'ChatConversation',
+  ChatLiveMessage: 'ChatLiveMessage'
 };
 
 /**

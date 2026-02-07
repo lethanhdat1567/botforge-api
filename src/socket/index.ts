@@ -13,6 +13,8 @@ export function initSocket(httpServer: any) {
         const userId = socket.handshake.query.userId as string;
 
         if (userId) {
+            console.log('Join: ', userId);
+
             socket.join(`user:${userId}`);
         }
 

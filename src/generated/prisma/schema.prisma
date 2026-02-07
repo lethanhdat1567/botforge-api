@@ -23,16 +23,17 @@ model User {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @map("updated_at")
 
-  folders            Folder[]
-  flows              Flow[]
-  flowShares         FlowShare[]
-  flowLikes          FlowLike[]
-  flowSave           FlowSave[]
-  flowComments       FlowComment[]
-  notifications      Notification[]
-  fallback           FlowFallback?
-  pages              Page[]
-  chatMessages       ChatMessage[]
+  folders           Folder[]
+  flows             Flow[]
+  flowShares        FlowShare[]
+  flowLikes         FlowLike[]
+  flowSave          FlowSave[]
+  flowComments      FlowComment[]
+  notifications     Notification[]
+  fallback          FlowFallback?
+  pages             Page[]
+  chatConversations ChatConversation[]
+
   userFlowStates     UserFlowState[]      @relation("Owner_UserFlowState")
   refreshTokens      RefreshToken[]
   PasswordResetToken PasswordResetToken[]
@@ -357,19 +358,50 @@ enum GuideStatus {
   archived
 }
 
-model ChatMessage {
-  id      String @id @default(uuid())
-  userId  String
-  sender  String // 'user' | 'admin'
-  content String
+model ChatConversation {
+  id     String @id @default(uuid()) @map("id")
+  userId String @unique @map("user_id")
 
-  readByUserAt  DateTime?
-  readByAdminAt DateTime?
+  lastMessage   String?   @map("last_message")
+  lastMessageAt DateTime? @map("last_message_at")
 
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id])
+  user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages ChatLiveMessage[]
 
   @@index([userId])
+  @@map("chat_conversations")
+}
+
+model ChatLiveMessage {
+  id             String @id @default(uuid()) @map("id")
+  conversationId String @map("conversation_id")
+
+  sender  ChatSender      @map("sender")
+  type    ChatMessageType @map("type")
+  content String          @map("content") @db.Text
+
+  revokedAt DateTime? @map("revoked_at")
+  readAt    DateTime? @map("read_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
   @@index([sender])
+  @@map("chat_live_messages")
+}
+
+enum ChatSender {
+  user
+  admin
+}
+
+enum ChatMessageType {
+  text
+  image
+  video
 }
