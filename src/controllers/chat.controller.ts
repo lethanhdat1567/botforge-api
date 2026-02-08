@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import ChatModel from '~/models/chat.model';
-import { emitNewChatMessage, emitRevokeChatMessage } from '~/socket/socket.service';
+import { emitAdminSidebarRefresh, emitNewChatMessage, emitRevokeChatMessage } from '~/socket/socket.service';
 
 class ChatController {
     async list(req: Request, res: Response) {
@@ -77,6 +77,8 @@ class ChatController {
                 content: message.content,
                 createdAt: message.createdAt
             });
+
+            emitAdminSidebarRefresh();
 
             return (res as any).success({
                 message: 'Message sent',

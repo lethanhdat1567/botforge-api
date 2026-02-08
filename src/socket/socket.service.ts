@@ -35,3 +35,10 @@ export function emitRevokeChatMessage(
 
     io.to(`user:${userId}`).emit(SocketEvent.CHAT_MESSAGE_REVOKED, payload);
 }
+
+export function emitAdminSidebarRefresh() {
+    const io = getIO();
+
+    // chỉ là tín hiệu, không payload
+    io.to('admin:sidebar').emit(SocketEvent.ADMIN_SIDEBAR_NEW_CHAT);
+}
