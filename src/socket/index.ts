@@ -29,12 +29,12 @@ export function initSocket(httpServer: any) {
         }
 
         // 3️⃣ Debug (nên giữ khi dev)
-        console.log('socket connected', {
-            socketId: socket.id,
-            userId,
-            role,
-            rooms: [...socket.rooms]
-        });
+        // console.log('socket connected', {
+        //     socketId: socket.id,
+        //     userId,
+        //     role,
+        //     rooms: [...socket.rooms]
+        // });
 
         socket.on('disconnect', () => {
             console.log('socket disconnected', socket.id);

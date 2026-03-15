@@ -5,179 +5,108 @@ import { generateAccessToken, generateRefreshToken } from '~/utils/jwt';
 import { getExpiresAt, parseDuration } from '~/utils/time';
 import bcrypt from 'bcrypt';
 import { authCode } from '~/constants/auth';
-import {
-    forgotPasswordSchema,
-    loginSchema,
-    refreshTokenSchema,
-    registerSchema,
-    resetPasswordSchema
-} from '~/schema/auth.schema';
+import { forgotPasswordSchema, loginSchema, refreshTokenSchema, resetPasswordSchema } from '~/schema/auth.schema';
 import { AuthRequest } from '~/middlewares/auth.middleware';
 import passwordResetTokenModel from '~/models/passwordResetToken.model';
 import { sendEmail } from '~/config/mailer';
 import { createNewUserNotification } from '~/helpers/notification-helper';
 import { formatZodErrors } from '~/helpers/auth-helper';
 import flowFallbackModel from '~/models/flow-fallback.model';
+import authService from '~/services/auth.service';
+import { envConfig } from '~/config/envConfig';
+import { httpCode } from '~/constants/httpsCode';
+import { User } from '~/generated/prisma';
 
 class AuthController {
     async register(req: Request, res: any) {
-        try {
-            const parseResult = registerSchema.safeParse(req.body);
+        const { email, password } = req.body;
 
-            if (!parseResult.success) {
-                const errors = formatZodErrors(parseResult.error.issues);
-                return res.error({ errors }, 400);
-            }
+        const user = await authService.register(email, password);
+        const userEmailToken = await authService.createVerifyToken(user.id, user.email, 'verify_email');
 
-            const { username, email, password, displayName } = parseResult.data;
+        await sendEmail(
+            user.email,
+            'Verify Your Email',
+            `<p>Click <a href="${envConfig.frontendUrl}/verify-email?token=${userEmailToken.token}">here</a> to verify your email.</p>`
+        );
 
-            // Kiểm tra user tồn tại
-            const existingUser = await UserModel.findByEmailOrUsername(email, username);
-            if (existingUser) {
-                const errors = [];
-                if (existingUser.username === username) {
-                    errors.push({
-                        field: 'username',
-                        message: 'Username already exists',
-                        code: authCode.FIELD_ALREADY_EXISTS
-                    });
-                }
-                if (existingUser.email === email) {
-                    errors.push({
-                        field: 'email',
-                        message: 'Email already exists',
-                        code: authCode.FIELD_ALREADY_EXISTS
-                    });
-                }
-                return res.error({ errors, code: authCode.FIELD_ALREADY_EXISTS }, 409);
-            }
+        return res.success({
+            message: 'Register successfully, please check your email to verify'
+        });
+    }
 
-            // Tạo user
-            const user = await UserModel.createUser({ username, email, password, displayName });
-            const { password: _, ...userWithoutPassword } = user;
-            // Tạo tokens
-            const tokenPayload = { userId: user.id, role: user.role };
-            const accessToken = generateAccessToken(tokenPayload);
-            const refreshToken = generateRefreshToken(tokenPayload);
+    async verifyEmail(req: Request, res: any) {
+        const { token } = req.body;
 
-            const accessTokenExpiresIn = parseDuration(process.env.ACCESS_EXPIRES || '1h');
-            const refreshTokenExpiresAt = getExpiresAt(process.env.REFRESH_EXPIRES || '7d');
+        const [error, result] = await authService.verifyToken(token, 'verify_email');
 
-            await refreshTokenModel.create(refreshToken, user.id, refreshTokenExpiresAt);
-            await createNewUserNotification(user.id, displayName as string, user.avatar);
-
-            await flowFallbackModel.upsert(user.id, {
-                timeoutDuration: 5,
-                timeoutUnit: 'minute',
-                fallbackMessage: 'Xin lỗi, mình chưa hiểu. Bạn có thể thử lại không?'
-            });
-
-            return res.success(
-                {
-                    user: userWithoutPassword,
-                    token: {
-                        access_token: accessToken,
-                        expired_in: accessTokenExpiresIn,
-                        refresh_token: refreshToken
-                    }
-                },
-                201
-            );
-        } catch (error) {
-            console.error('Register error:', error);
-            return res.error(
-                {
-                    errors: [{ field: 'server', message: 'Internal server error', code: authCode.SERVER_ERROR }]
-                },
-                500
-            );
+        if (error) {
+            return res.error({ message: 'Invalid or expired verification token.' }, httpCode.clientError.unauthorized);
         }
+
+        return res.success(result);
     }
 
     async login(req: Request, res: any) {
-        try {
-            // 1️⃣ Validate request
-            const parseResult = loginSchema.safeParse(req.body);
+        const { email, password } = req.body;
 
-            if (!parseResult.success) {
-                const errors = formatZodErrors(parseResult.error.issues);
-                return res.error({ errors }, 400);
-            }
+        const [error, data] = await authService.login(email, password);
 
-            const { emailOrUsername, password } = parseResult.data;
-
-            // 2️⃣ Tìm user theo email hoặc username
-            const user = await UserModel.findByEmailOrUsername(emailOrUsername, emailOrUsername);
-            if (!user) {
+        if (error) {
+            if (error === authCode.loginConfig) {
                 return res.error(
-                    {
-                        errors: [
-                            {
-                                field: 'emailOrUsername',
-                                message: 'Email hoặc tên đăng nhập không tồn tại',
-                                code: authCode.USER_NOT_FOUND
-                            }
-                        ]
-                    },
-                    401
+                    "This email is already linked with Google. To set a password, please use the 'Forgot Password' feature.",
+                    httpCode.clientError.conflict
                 );
             }
 
-            // 3️⃣ Kiểm tra password
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) {
-                return res.error(
-                    {
-                        errors: [
-                            {
-                                field: 'password',
-                                message: 'Mật khẩu không chính xác',
-                                code: authCode.INVALID_PASSWORD
-                            }
-                        ]
-                    },
-                    401
-                );
-            }
-
-            // 4️⃣ Tạo token
-            const tokenPayload = { userId: user.id, role: user.role };
-            const accessToken = generateAccessToken(tokenPayload);
-            const refreshToken = generateRefreshToken(tokenPayload);
-
-            const accessTokenExpiresIn = parseDuration(process.env.ACCESS_EXPIRES || '1h');
-            const refreshTokenExpiresAt = getExpiresAt(process.env.REFRESH_EXPIRES || '7d');
-
-            // Lưu refresh token
-            await refreshTokenModel.create(refreshToken, user.id, refreshTokenExpiresAt);
-            const { password: _, ...userWithoutPassword } = user;
-            // 5️⃣ Trả về response
-            return res.success(
-                {
-                    user: userWithoutPassword,
-                    token: {
-                        access_token: accessToken,
-                        expired_in: accessTokenExpiresIn,
-                        refresh_token: refreshToken
-                    }
-                },
-                200
-            );
-        } catch (error) {
-            console.error('Login error:', error);
-            return res.error(
-                {
-                    errors: [
-                        {
-                            field: 'server',
-                            message: 'Internal server error',
-                            code: authCode.SERVER_ERROR
-                        }
-                    ]
-                },
-                500
-            );
+            return res.error({ message: error }, httpCode.clientError.unauthorized);
         }
+
+        return res.success(data);
+    }
+
+    async forgotPassword(req: Request, res: any) {
+        const { email } = req.body;
+
+        const [error, token] = await authService.forgotPassword(email);
+
+        if (error || !token) return;
+
+        await sendEmail(
+            email,
+            'Reset Your Password',
+            `<p>You requested a password reset. Click <a href="${envConfig.frontendUrl}/reset-password?token=${token}">here</a> to set a new password.</p>
+         `
+        );
+
+        return res.success({
+            message: 'Please check your email to reset your password'
+        });
+    }
+
+    async verifyResetPassword(req: Request, res: any) {
+        const { token } = req.body;
+
+        const [error, result] = await authService.verifyToken(token, 'reset_password');
+
+        if (error) {
+            return res.error({ message: 'Invalid or expired verification token.' }, httpCode.clientError.unauthorized);
+        }
+
+        return res.success({
+            userId: (result as any).user.id
+        });
+    }
+
+    async resetPassword(req: Request, res: any) {
+        const { userId, newPassword } = req.body;
+
+        await authService.resetPassword(userId, newPassword);
+
+        return res.success({
+            message: 'Password reset successfully'
+        });
     }
 
     async refreshToken(req: Request, res: any) {
@@ -489,40 +418,6 @@ class AuthController {
         }
     }
 
-    async forgotPassword(req: Request, res: any) {
-        try {
-            const parseResult = forgotPasswordSchema.safeParse(req.body);
-            if (!parseResult.success) {
-                const errors = formatZodErrors(parseResult.error.issues);
-                return res.error({ errors }, 400);
-            }
-
-            const { email } = parseResult.data;
-            const user = await UserModel.findByEmail(email);
-
-            if (!user) {
-                // Không reveal user tồn tại hay không
-                return res.success({ message: 'If your email exists, you will receive a reset link.' });
-            }
-
-            const expiresAt = new Date(Date.now() + parseDuration('1h')); // token 1h
-            const tokenRecord = await passwordResetTokenModel.create(user.id, expiresAt);
-
-            const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${tokenRecord.token}`;
-
-            await sendEmail(
-                user.email,
-                'Reset Your Password',
-                `<p>Click <a href="${resetLink}">here</a> to reset your password. The link expires in 1 hour.</p>`
-            );
-
-            return res.success({ message: 'If your email exists, you will receive a reset	 link.' });
-        } catch (error) {
-            console.error('Forgot password error:', error);
-            return res.error(error);
-        }
-    }
-
     async checkResetToken(req: Request, res: any) {
         try {
             const { token } = req.query;
@@ -553,34 +448,6 @@ class AuthController {
             );
         } catch (error) {
             console.error('Check reset token error:', error);
-            return res.error(error);
-        }
-    }
-
-    async resetPassword(req: Request, res: any) {
-        try {
-            // Validate input
-            const parseResult = resetPasswordSchema.safeParse(req.body);
-            if (!parseResult.success) {
-                const errors = formatZodErrors(parseResult.error.issues);
-                return res.error({ errors }, 400);
-            }
-
-            const { newPassword } = parseResult.data;
-
-            // Hash new password
-            const hashedPassword = await bcrypt.hash(newPassword, 10);
-            const tokenRecord = await passwordResetTokenModel.findByToken(req.query.token as string);
-            if (!tokenRecord) {
-                return res.error({ message: 'Token not found', code: authCode.INVALID_TOKEN }, 404);
-            }
-
-            // Update user password
-            await UserModel.update(tokenRecord.userId, { password: hashedPassword });
-
-            return res.success({ message: 'Password successfully reset' }, 200);
-        } catch (error) {
-            console.error('Reset password error:', error);
             return res.error(error);
         }
     }

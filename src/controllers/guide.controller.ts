@@ -106,6 +106,8 @@ class GuideController {
 
     // PUBLIC
     async publicDetail(req: Request, res: Response) {
+        console.log(req.params);
+
         const guide = await GuideModel.findBySlug(req.params.slug);
 
         if (!guide) {

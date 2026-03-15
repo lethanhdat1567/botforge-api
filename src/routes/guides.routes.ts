@@ -5,7 +5,7 @@ import { upload } from '~/middlewares/upload.middleware';
 
 const router = Router();
 
-router.get('/', authMiddleware, guideController.list);
+router.get('/', guideController.list);
 router.get('/:slug', guideController.publicDetail);
 router.get('/detail/:id', authMiddleware, guideController.detail);
 router.post('/', authMiddleware, upload.single('thumbnail'), guideController.create);

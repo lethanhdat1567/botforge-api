@@ -1,412 +1,416 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+    provider = "prisma-client-js"
+    output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "mysql"
+    provider = "mysql"
 }
 
-// =====================
 // User
-// =====================
 model User {
-  id           String   @id @default(uuid()) @map("id")
-  username     String   @unique @map("username")
-  displayName  String?  @map("display_name")
-  email        String   @unique @map("email")
-  avatar String? @db.Text @map("avatar")
-  password     String   @map("password")
-  role         Role     @default(user) @map("role")
-  provider     Provider @default(local) @map("provider")
-  providerId   String?  @map("provider_id")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @default(now()) @map("updated_at")
+    id               String    @id @default(uuid())
+    username         String?   @unique
+    displayName      String?   @map("display_name")
+    email            String    @unique
+    avatar           String?   @db.Text
+    password         String?
+    role             Role      @default(user)
+    googleProviderId String?   @map("google_provider_id")
+    verifyAt         DateTime? @map("verify_at")
+    createdAt        DateTime  @default(now()) @map("created_at")
+    updatedAt        DateTime  @default(now()) @map("updated_at")
 
-  folders Folder[]
-  flows          Flow[]
-  flowShares     FlowShare[]
-  flowLikes   FlowLike[]
-  flowSave		FlowSave[]
-  flowComments       FlowComment[]
-  notifications  Notification[]
-  fallback FlowFallback?
-  pages Page[]
-  chatConversations ChatConversation[]
+    folders           Folder[]
+    flows             Flow[]
+    flowShares        FlowShare[]
+    flowLikes         FlowLike[]
+    flowSave          FlowSave[]
+    flowComments      FlowComment[]
+    notifications     Notification[]
+    fallback          FlowFallback?
+    pages             Page[]
+    chatConversations ChatConversation[]
 
-  userFlowStates UserFlowState[] @relation("Owner_UserFlowState")
-	refreshTokens RefreshToken[]
-	PasswordResetToken PasswordResetToken[]
+    userFlowStates     UserFlowState[]      @relation("Owner_UserFlowState")
+    refreshTokens      RefreshToken[]
+    PasswordResetToken PasswordResetToken[]
+    verificationTokens VerificationToken[]
 
-  @@map("users")
+    @@map("users")
 }
 
 enum Role {
-  admin
-  user
+    admin
+    user
 }
 
-enum Provider {
-  local
-  facebook
-  google
+// Email Verify Token
+model VerificationToken {
+    id        String    @id @default(uuid())
+    type      TokenType
+    token     String    @unique
+    email     String
+    expiresAt DateTime  @map("expires_at")
+    userId    String    @map("user_id")
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("verification_tokens")
 }
 
-// =====================
+enum TokenType {
+    verify_email
+    reset_password
+}
+
 // Refresh Token
-// =====================
 model RefreshToken {
-  id        String   @id @default(uuid()) @map("id")
-  token     String   @unique @db.VarChar(512) @map("token")
-  userId    String   @map("user_id")
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime @map("expires_at")
-  createdAt DateTime @default(now()) @map("created_at")
+    id        String   @id @default(uuid()) @map("id")
+    token     String   @unique @map("token") @db.VarChar(512)
+    userId    String   @map("user_id")
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    expiresAt DateTime @map("expires_at")
+    createdAt DateTime @default(now()) @map("created_at")
 
-  @@map("refresh_tokens")
+    @@map("refresh_tokens")
 }
-
 
 // =====================
 // Password Reset Token
 // =====================
 model PasswordResetToken {
-  id        String   @id @default(uuid()) @map("id")
-  token     String   @unique @db.VarChar(512) @map("token") // token reset password
-  userId    String   @map("user_id")
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime @map("expires_at") // thời điểm hết hạn token
-  createdAt DateTime @default(now()) @map("created_at")
+    id        String   @id @default(uuid()) @map("id")
+    token     String   @unique @map("token") @db.VarChar(512) // token reset password
+    userId    String   @map("user_id")
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    expiresAt DateTime @map("expires_at") // thời điểm hết hạn token
+    createdAt DateTime @default(now()) @map("created_at")
 
-  @@map("password_reset_tokens")
+    @@map("password_reset_tokens")
 }
-
 
 // =====================
 // Folder
 // =====================
 
 model Folder {
-  id        String   @id @default(uuid()) @map("id")
-  userId    String   @map("user_id")
-  name      String   @map("name")
-  platform  Platform @map("platform")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+    id        String   @id @default(uuid()) @map("id")
+    userId    String   @map("user_id")
+    name      String   @map("name")
+    platform  Platform @map("platform")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  flows Flow[] 
-  @@unique([userId, platform, name], name: "userId_platform_name")
+    user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    flows Flow[]
 
-  @@map("folders")
+    @@unique([userId, platform, name], name: "userId_platform_name")
+    @@map("folders")
 }
 
 // =====================
 // Flow
 // =====================
 model Flow {
-  id               String   @id @default(uuid()) @map("id")
-  userId           String   @map("user_id")
-  pageId          String?  @map("page_id")
-  folderId         String  @map("folder_id")
-  name             String   @map("name")
-  description      String?  @map("description")
-  status           FlowStatus @default(draft) @map("status")
-  logicJson        Json?     @map("logic_json")
-  layoutJson       Json?     @map("layout_json")
-  timeoutDuration  String?  @map("timeout_duration")
-  startNodeId      String?   @map("start_node_id")
-  timeoutJson      Json?  @map("timeout_json")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @default(now()) @map("updated_at")
+    id              String     @id @default(uuid()) @map("id")
+    userId          String     @map("user_id")
+    pageId          String?    @map("page_id")
+    folderId        String     @map("folder_id")
+    name            String     @map("name")
+    description     String?    @map("description")
+    status          FlowStatus @default(draft) @map("status")
+    logicJson       Json?      @map("logic_json")
+    layoutJson      Json?      @map("layout_json")
+    timeoutDuration String?    @map("timeout_duration")
+    startNodeId     String?    @map("start_node_id")
+    timeoutJson     Json?      @map("timeout_json")
+    createdAt       DateTime   @default(now()) @map("created_at")
+    updatedAt       DateTime   @default(now()) @map("updated_at")
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  page   Page?  @relation(fields: [pageId], references: [id], onDelete: SetNull)
-  states  UserFlowState[]
-  shares  FlowShare[]
+    user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    folder Folder          @relation(fields: [folderId], references: [id], onDelete: Cascade)
+    page   Page?           @relation(fields: [pageId], references: [id], onDelete: SetNull)
+    states UserFlowState[]
+    shares FlowShare[]
 
-  @@map("flows")
+    @@map("flows")
 }
 
 enum FlowStatus {
-  draft
-  published
+    draft
+    published
 }
 
 // =====================
 // Page (Platform Page / OA / Bot)
 // =====================
 model Page {
-  id        String   @id @default(uuid()) @map("id")
+    id String @id @default(uuid()) @map("id")
 
-  userId    String   @map("user_id")
-  platform  Platform @map("platform")
+    userId   String   @map("user_id")
+    platform Platform @map("platform")
 
-  pageUid   String   @map("page_uid")
+    pageUid String @map("page_uid")
 
-  name      String   @map("name")
-  avatar    String?  @map("avatar")
+    name   String  @map("name")
+    avatar String? @map("avatar")
 
-  accessToken String @db.Text @map("access_token")
+    accessToken String @map("access_token") @db.Text
 
-  status    PageStatus @default(active) @map("status")
+    status PageStatus @default(active) @map("status")
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
-  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  flows Flow[]
+    user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    flows Flow[]
 
-  @@unique([platform, pageUid])
-  @@map("pages")
+    @@unique([platform, pageUid])
+    @@map("pages")
 }
 
 enum PageStatus {
-  active
-  revoked
-  expired
+    active
+    revoked
+    expired
 }
 
 enum Platform {
-  facebook
-  instagram
-  zalo
+    facebook
+    instagram
+    zalo
 }
-
 
 // =====================
 // UserFlowState
 // =====================
 enum UserFlowStatus {
-  running
-  pending
-  cancelled
-  completed
+    running
+    pending
+    cancelled
+    completed
 }
 
 model UserFlowState {
-  id             String         @id @default(uuid()) @map("id")
-  platformUserId String         @map("platform_user_id")
-  ownerUserId    String         @map("owner_user_id")
-  flowId         String         @map("flow_id")
-  pageId         String         @map("page_id")
-  currentStep    String         @map("current_step")
-  stepHistory Json? @map("step_history")
-  variables      Json?          @map("variables")
-  status         UserFlowStatus @default(running) @map("status")
-  createdAt      DateTime       @default(now()) @map("created_at")
-  updatedAt      DateTime       @updatedAt @map("updated_at")
+    id             String         @id @default(uuid()) @map("id")
+    platformUserId String         @map("platform_user_id")
+    ownerUserId    String         @map("owner_user_id")
+    flowId         String         @map("flow_id")
+    pageId         String         @map("page_id")
+    currentStep    String         @map("current_step")
+    stepHistory    Json?          @map("step_history")
+    variables      Json?          @map("variables")
+    status         UserFlowStatus @default(running) @map("status")
+    createdAt      DateTime       @default(now()) @map("created_at")
+    updatedAt      DateTime       @updatedAt @map("updated_at")
 
-  owner User @relation(fields: [ownerUserId], references: [id], name: "Owner_UserFlowState", onDelete: Cascade)
-  flow  Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
+    owner User @relation(fields: [ownerUserId], references: [id], name: "Owner_UserFlowState", onDelete: Cascade)
+    flow  Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
 
-  @@map("user_flow_states")
+    @@map("user_flow_states")
 }
 
 // =====================
 // FlowShare
 // =====================
 model FlowShare {
-  id            String       @id @default(uuid()) @map("id")
-  flowId        String       @map("flow_id")
-  userId        String       @map("user_id")
-  name          String       @map("name")
-  description   String?      @map("description")
-  thumbnail     String?       @map("thumbnail")
-  status        FlowShareStatus @default(active) @map("status") 
-  downloadCount Int          @default(0) @map("download_count")
-  createdAt     DateTime     @default(now()) @map("created_at")
-  updatedAt     DateTime     @default(now()) @updatedAt @map("updated_at")
+    id            String          @id @default(uuid()) @map("id")
+    flowId        String          @map("flow_id")
+    userId        String          @map("user_id")
+    name          String          @map("name")
+    description   String?         @map("description")
+    thumbnail     String?         @map("thumbnail")
+    status        FlowShareStatus @default(active) @map("status")
+    downloadCount Int             @default(0) @map("download_count")
+    createdAt     DateTime        @default(now()) @map("created_at")
+    updatedAt     DateTime        @default(now()) @updatedAt @map("updated_at")
 
-  flow    Flow         @relation(fields: [flowId], references: [id])
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments FlowComment[] 
-  likes    FlowLike[]    
-  saves    FlowSave[]    
+    flow     Flow          @relation(fields: [flowId], references: [id])
+    user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    comments FlowComment[]
+    likes    FlowLike[]
+    saves    FlowSave[]
 
-  @@map("flow_shares")
+    @@map("flow_shares")
 }
 
 enum FlowShareStatus {
-  active
-  inactive
+    active
+    inactive
 }
 
 // =====================
 // FlowComment
 // =====================
 model FlowComment {
-  id          String       @id @default(uuid()) @map("id")
-  flowShareId String       @map("flow_share_id")
-  userId      String       @map("user_id")
-  comment     String       @map("comment")
-  parentId    String?      @map("parent_id")
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at")
+    id          String   @id @default(uuid()) @map("id")
+    flowShareId String   @map("flow_share_id")
+    userId      String   @map("user_id")
+    comment     String   @map("comment")
+    parentId    String?  @map("parent_id")
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  flowShare FlowShare    @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  parent    FlowComment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   FlowComment[] @relation("CommentReplies")
+    flowShare FlowShare     @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+    user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    parent    FlowComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+    replies   FlowComment[] @relation("CommentReplies")
 
-  @@map("flow_comments")
+    @@map("flow_comments")
 }
 
 // =====================
 // FlowLike
 // =====================
 model FlowLike {
-  id          String     @id @default(uuid())
-  flowShareId String
-  userId      String
-  createdAt   DateTime   @default(now())
+    id          String   @id @default(uuid())
+    flowShareId String
+    userId      String
+    createdAt   DateTime @default(now())
 
-  flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([flowShareId, userId]) // mỗi user chỉ like 1 lần
-  @@map("flow_likes")
+    @@unique([flowShareId, userId]) // mỗi user chỉ like 1 lần
+    @@map("flow_likes")
 }
 
 // =====================
 // FlowSave
 // =====================
 model FlowSave {
-  id          String     @id @default(uuid())
-  flowShareId String
-  userId      String
-  createdAt   DateTime   @default(now())
+    id          String   @id @default(uuid())
+    flowShareId String
+    userId      String
+    createdAt   DateTime @default(now())
 
-  flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([flowShareId, userId]) // mỗi user chỉ save 1 lần
-  @@map("flow_saves")
+    @@unique([flowShareId, userId]) // mỗi user chỉ save 1 lần
+    @@map("flow_saves")
 }
-
 
 // =====================
 // Notification
 // =====================
 model Notification {
-  id        String @id @default(uuid()) @map("id")
-  userId    String @map("user_id")
-  type      NotificationType @map("type")
-  message   String @map("message")
-  avatar       String?  @map("avatar")
-  relatedId  String @map("related_id") 
-  read      Boolean @default(false) @map("read")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+    id        String           @id @default(uuid()) @map("id")
+    userId    String           @map("user_id")
+    type      NotificationType @map("type")
+    message   String           @map("message")
+    avatar    String?          @map("avatar")
+    relatedId String           @map("related_id")
+    read      Boolean          @default(false) @map("read")
+    createdAt DateTime         @default(now()) @map("created_at")
+    updatedAt DateTime         @default(now()) @map("updated_at")
 
-   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("notifications")
+    @@map("notifications")
 }
 
 enum NotificationType {
-  comment
-  reply
-  download
-  flow_done
-  flow_cancelled
-  new_user
-  chat_message
+    comment
+    reply
+    download
+    flow_done
+    flow_cancelled
+    new_user
+    chat_message
 }
 
 // =====================
 // Flow Fallback (Global per User)
 // =====================
 enum TimeoutUnit {
-  second
-  minute
-  hour
-  day
+    second
+    minute
+    hour
+    day
 }
 
-
 model FlowFallback {
-  id String @id @default(uuid()) @map("id")
+    id String @id @default(uuid()) @map("id")
 
-  userId String @unique @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @unique @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  timeoutDuration Int         @map("timeout_duration")
-  timeoutUnit     TimeoutUnit @map("timeout_unit")
+    timeoutDuration Int         @map("timeout_duration")
+    timeoutUnit     TimeoutUnit @map("timeout_unit")
 
-  fallbackMessage String @db.Text @map("fallback_message")
+    fallbackMessage String @map("fallback_message") @db.Text
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("flow_fallbacks")
+    @@map("flow_fallbacks")
 }
 
 model Guide {
-  id        String   @id @default(uuid()) @map("id")
-  slug      String   @unique @map("slug")
-  title     String   @map("title")
-  summary   String?  @map("summary")
-  content   String   @db.Text @map("content")
-  thumbnail String?  @map("thumbnail")
-  status    GuideStatus @default(published) @map("status")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+    id        String      @id @default(uuid()) @map("id")
+    slug      String      @unique @map("slug")
+    title     String      @map("title")
+    summary   String?     @map("summary")
+    content   String      @map("content") @db.Text
+    thumbnail String?     @map("thumbnail")
+    status    GuideStatus @default(published) @map("status")
+    createdAt DateTime    @default(now()) @map("created_at")
+    updatedAt DateTime    @updatedAt @map("updated_at")
 
-  @@map("guides")
+    @@map("guides")
 }
 
 enum GuideStatus {
-  draft
-  published
-  archived
+    draft
+    published
+    archived
 }
 
 model ChatConversation {
-  id                String   @id @default(uuid()) @map("id")
-  userId            String   @unique @map("user_id")
+    id     String @id @default(uuid()) @map("id")
+    userId String @unique @map("user_id")
 
-  lastMessage       String?  @map("last_message")
-  lastMessageAt     DateTime? @map("last_message_at")
+    lastMessage   String?   @map("last_message")
+    lastMessageAt DateTime? @map("last_message_at")
 
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  messages          ChatLiveMessage[]
+    user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    messages ChatLiveMessage[]
 
-  @@index([userId])
-  @@map("chat_conversations")
+    @@index([userId])
+    @@map("chat_conversations")
 }
 
 model ChatLiveMessage {
-  id              String   @id @default(uuid()) @map("id")
-  conversationId  String   @map("conversation_id")
+    id             String @id @default(uuid()) @map("id")
+    conversationId String @map("conversation_id")
 
-  sender          ChatSender @map("sender")
-  type            ChatMessageType @map("type")
-  content         String   @db.Text @map("content")
+    sender  ChatSender      @map("sender")
+    type    ChatMessageType @map("type")
+    content String          @map("content") @db.Text
 
-  revokedAt       DateTime? @map("revoked_at")
-  readAt          DateTime? @map("read_at")
+    revokedAt DateTime? @map("revoked_at")
+    readAt    DateTime? @map("read_at")
 
-  createdAt       DateTime @default(now()) @map("created_at")
+    createdAt DateTime @default(now()) @map("created_at")
 
-  conversation    ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
-  @@index([conversationId])
-  @@index([sender])
-  @@map("chat_live_messages")
+    @@index([conversationId])
+    @@index([sender])
+    @@map("chat_live_messages")
 }
 
 enum ChatSender {
-  user
-  admin
+    user
+    admin
 }
 
 enum ChatMessageType {
-  text
-  image
-  video
+    text
+    image
+    video
 }

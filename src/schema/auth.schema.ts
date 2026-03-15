@@ -11,7 +11,7 @@ export const registerSchema = z.object({
         .string()
         .min(6, 'Password must be at least 6 characters')
         .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$/, 'Password must include uppercase, lowercase, and number'),
-    displayName: z.string().min(1, 'Full Name is required') // bắt buộc, ít nhất 1 ký tự
+    displayName: z.string().min(1, 'Full Name is required')
 });
 
 // Login schema

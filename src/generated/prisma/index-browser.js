@@ -128,10 +128,19 @@ exports.Prisma.UserScalarFieldEnum = {
   avatar: 'avatar',
   password: 'password',
   role: 'role',
-  provider: 'provider',
-  providerId: 'providerId',
+  googleProviderId: 'googleProviderId',
+  verifyAt: 'verifyAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VerificationTokenScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  token: 'token',
+  email: 'email',
+  expiresAt: 'expiresAt',
+  userId: 'userId'
 };
 
 exports.Prisma.RefreshTokenScalarFieldEnum = {
@@ -316,7 +325,14 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   email: 'email',
   avatar: 'avatar',
   password: 'password',
-  providerId: 'providerId'
+  googleProviderId: 'googleProviderId'
+};
+
+exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
+  id: 'id',
+  token: 'token',
+  email: 'email',
+  userId: 'userId'
 };
 
 exports.Prisma.RefreshTokenOrderByRelevanceFieldEnum = {
@@ -445,10 +461,9 @@ exports.Role = exports.$Enums.Role = {
   user: 'user'
 };
 
-exports.Provider = exports.$Enums.Provider = {
-  local: 'local',
-  facebook: 'facebook',
-  google: 'google'
+exports.TokenType = exports.$Enums.TokenType = {
+  verify_email: 'verify_email',
+  reset_password: 'reset_password'
 };
 
 exports.Platform = exports.$Enums.Platform = {
@@ -516,6 +531,7 @@ exports.ChatMessageType = exports.$Enums.ChatMessageType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  VerificationToken: 'VerificationToken',
   RefreshToken: 'RefreshToken',
   PasswordResetToken: 'PasswordResetToken',
   Folder: 'Folder',

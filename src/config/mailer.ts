@@ -1,27 +1,23 @@
 import nodemailer from 'nodemailer';
+import { envConfig } from '~/config/envConfig';
 
 const transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: Number(process.env.MAIL_PORT),
-    secure: Number(process.env.MAIL_PORT) === 465,
+    host: envConfig.mail.host,
+    port: Number(envConfig.mail.port),
+    secure: Number(envConfig.mail.port) === 465,
     auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD
+        user: envConfig.mail.user,
+        pass: envConfig.mail.password
     }
 });
 
 export const sendEmail = async (to: string, subject: string, html: string) => {
-    try {
-        const info = await transporter.sendMail({
-            from: process.env.MAIL_FROM,
-            to,
-            subject,
-            html
-        });
+    const info = await transporter.sendMail({
+        from: process.env.MAIL_FROM,
+        to,
+        subject,
+        html
+    });
 
-        console.log('Email sent: %s', info.messageId);
-    } catch (error) {
-        console.error('Error sending email:', error);
-        throw error;
-    }
+    console.log(`Mail send: ${info.messageId}`);
 };
