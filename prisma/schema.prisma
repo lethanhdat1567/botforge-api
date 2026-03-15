@@ -21,7 +21,6 @@ model User {
     createdAt        DateTime  @default(now()) @map("created_at")
     updatedAt        DateTime  @default(now()) @map("updated_at")
 
-    folders           Folder[]
     flows             Flow[]
     flowShares        FlowShare[]
     flowLikes         FlowLike[]
@@ -32,9 +31,7 @@ model User {
     pages             Page[]
     chatConversations ChatConversation[]
 
-    userFlowStates     UserFlowState[]      @relation("Owner_UserFlowState")
-    refreshTokens      RefreshToken[]
-    PasswordResetToken PasswordResetToken[]
+    userFlowStates     UserFlowState[]     @relation("Owner_UserFlowState")
     verificationTokens VerificationToken[]
 
     @@map("users")
@@ -45,12 +42,11 @@ enum Role {
     user
 }
 
-// Email Verify Token
 model VerificationToken {
     id        String    @id @default(uuid())
     type      TokenType
-    token     String    @unique
-    email     String
+    token     String    @unique @db.VarChar(255)
+    email     String?
     expiresAt DateTime  @map("expires_at")
     userId    String    @map("user_id")
     user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -61,74 +57,32 @@ model VerificationToken {
 enum TokenType {
     verify_email
     reset_password
-}
-
-// Refresh Token
-model RefreshToken {
-    id        String   @id @default(uuid()) @map("id")
-    token     String   @unique @map("token") @db.VarChar(512)
-    userId    String   @map("user_id")
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    expiresAt DateTime @map("expires_at")
-    createdAt DateTime @default(now()) @map("created_at")
-
-    @@map("refresh_tokens")
-}
-
-// =====================
-// Password Reset Token
-// =====================
-model PasswordResetToken {
-    id        String   @id @default(uuid()) @map("id")
-    token     String   @unique @map("token") @db.VarChar(512) // token reset password
-    userId    String   @map("user_id")
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    expiresAt DateTime @map("expires_at") // thời điểm hết hạn token
-    createdAt DateTime @default(now()) @map("created_at")
-
-    @@map("password_reset_tokens")
+    refresh_token
 }
 
 // =====================
 // Folder
 // =====================
 
-model Folder {
-    id        String   @id @default(uuid()) @map("id")
-    userId    String   @map("user_id")
-    name      String   @map("name")
-    platform  Platform @map("platform")
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-
-    user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-    flows Flow[]
-
-    @@unique([userId, platform, name], name: "userId_platform_name")
-    @@map("folders")
-}
-
 // =====================
 // Flow
 // =====================
 model Flow {
-    id              String     @id @default(uuid()) @map("id")
+    id              String     @id @default(uuid())
     userId          String     @map("user_id")
     pageId          String?    @map("page_id")
-    folderId        String     @map("folder_id")
     name            String     @map("name")
-    description     String?    @map("description")
-    status          FlowStatus @default(draft) @map("status")
+    description     String?
+    status          FlowStatus @default(active)
     logicJson       Json?      @map("logic_json")
     layoutJson      Json?      @map("layout_json")
-    timeoutDuration String?    @map("timeout_duration")
+    timeoutDuration String     @default("10s") @map("timeout_duration")
     startNodeId     String?    @map("start_node_id")
     timeoutJson     Json?      @map("timeout_json")
     createdAt       DateTime   @default(now()) @map("created_at")
     updatedAt       DateTime   @default(now()) @map("updated_at")
 
     user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-    folder Folder          @relation(fields: [folderId], references: [id], onDelete: Cascade)
     page   Page?           @relation(fields: [pageId], references: [id], onDelete: SetNull)
     states UserFlowState[]
     shares FlowShare[]
@@ -137,8 +91,8 @@ model Flow {
 }
 
 enum FlowStatus {
-    draft
-    published
+    active
+    inactive
 }
 
 // =====================
@@ -147,17 +101,16 @@ enum FlowStatus {
 model Page {
     id String @id @default(uuid()) @map("id")
 
-    userId   String   @map("user_id")
-    platform Platform @map("platform")
+    userId String @map("user_id")
 
-    pageUid String @map("page_uid")
+    pageUid String @unique @map("page_uid")
 
     name   String  @map("name")
     avatar String? @map("avatar")
 
-    accessToken String @map("access_token") @db.Text
+    pageAccessToken String @map("page_access_token") @db.Text
 
-    status PageStatus @default(active) @map("status")
+    status PageStatus @default(active)
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
@@ -165,14 +118,13 @@ model Page {
     user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     flows Flow[]
 
-    @@unique([platform, pageUid])
     @@map("pages")
 }
 
 enum PageStatus {
     active
-    revoked
-    expired
+    inactive
+    isExpired
 }
 
 enum Platform {

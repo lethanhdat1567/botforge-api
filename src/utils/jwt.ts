@@ -1,7 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 
 export interface TokenPayload {
-    userId: string;
+    id: string;
     role: 'admin' | 'user';
 }
 

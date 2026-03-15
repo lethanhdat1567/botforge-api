@@ -1,91 +1,48 @@
 import { flowCode } from '~/constants/flow';
-import FlowModel from '~/models/flow.model';
+import { httpCode } from '~/constants/httpsCode';
+import flowService from '~/services/flow.service';
 
 class FlowController {
     async create(req: any, res: any) {
-        try {
-            const userId = req.user.userId;
-            const { pageId, folderId, name, description, logicJson, layoutJson, timeoutDuration, timeoutJson } =
-                req.body;
-
-            if (!name || !folderId) {
-                return res.error({ message: 'Missing required fields', code: flowCode.MISSING_FIELDS }, 400);
-            }
-
-            const flow = await FlowModel.create({
-                userId,
-                pageId,
-                folderId,
-                name,
-                description,
-                logicJson,
-                layoutJson,
-                timeoutDuration,
-                timeoutJson
-            });
-
-            return res.success(flow, 201);
-        } catch (error: any) {
-            if (error.message?.includes('already exists')) {
-                return res.error({ message: error.message, code: flowCode.NAME_ALREADY_EXISTS }, 400);
-            }
-
-            return res.error({ message: error.message || 'Server error', code: flowCode.SERVER_ERROR }, 500);
-        }
+        const flow = await flowService.create({ ...req.body, userId: req.user.id });
+        return res.success(flow, httpCode.success.created);
     }
 
     async list(req: any, res: any) {
-        const userId = req.user.userId;
-        const { platform } = req.query;
+        const result = await flowService.list(req.user.id, req.query);
 
-        const flows = await FlowModel.findByUser(userId, platform as any);
-
-        return res.success(flows, 200);
+        return res.success(result);
     }
 
     async detail(req: any, res: any) {
-        const flow = await FlowModel.findById(req.params.id);
-        if (!flow) {
-            return res.error({ message: 'Flow not found', code: flowCode.FLOW_NOT_FOUND }, 404);
-        }
+        const flow = await flowService.detail(req.params.id);
 
-        if (flow.userId !== req.user.userId) {
-            return res.error({ message: 'Forbidden', code: flowCode.FORBIDDEN }, 403);
-        }
-
-        return res.success(flow, 200);
+        return res.success(flow);
     }
 
     async update(req: any, res: any) {
-        try {
-            const flow = await FlowModel.findById(req.params.id);
-            if (!flow) {
-                return res.error({ message: 'Flow not found', code: flowCode.FLOW_NOT_FOUND }, 404);
-            }
-
-            if (flow.userId !== req.user.userId) {
-                return res.error({ message: 'Forbidden', code: flowCode.FORBIDDEN }, 403);
-            }
-
-            const updated = await FlowModel.update(req.params.id, req.body);
-            return res.success(updated, 200);
-        } catch (error: any) {
-            if (error.message?.includes('already exists')) {
-                return res.error({ message: error.message, code: flowCode.NAME_ALREADY_EXISTS }, 400);
-            }
-
-            return res.error({ message: error.message || 'Server error', code: flowCode.SERVER_ERROR }, 500);
-        }
+        const flow = await flowService.update(req.params.id, req.user.id, req.body);
+        return res.success(flow);
     }
 
     async remove(req: any, res: any) {
-        await FlowModel.delete(req.params.id);
-        return res.success({ message: 'Flow deleted' }, 200);
+        const flow = await flowService.remove(req.params.id, req.user.id);
+        return res.success(flow);
+    }
+
+    async removeMany(req: any, res: any) {
+        const flow = await flowService.removeMany(req.body.ids, req.user.id);
+        return res.success(flow);
     }
 
     async duplicate(req: any, res: any) {
-        const newFlow = await FlowModel.duplicate(req.params.id);
-        return res.success(newFlow, 201);
+        const [error, flow] = await flowService.duplicate(req.params.id, req.user.id);
+
+        if (error) {
+            return res.error(error, httpCode.clientError.notFound);
+        }
+
+        return res.success(flow, httpCode.success.created);
     }
 }
 

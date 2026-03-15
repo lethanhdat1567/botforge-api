@@ -1,126 +1,65 @@
-import PageModel from '~/models/page.model';
+import { httpCode } from '~/constants/httpsCode';
+import { pageService } from '~/services/page.service';
 
 class PageController {
-    // POST /pages
-    async create(req: any, res: any) {
-        try {
-            const userId = req.user.userId;
-            const { platform, pageUid, name, avatar, accessToken } = req.body;
-
-            if (!platform || !pageUid || !name || !accessToken) {
-                return res.error({ message: 'Missing required fields', code: 'VALIDATION' }, 400);
-            }
-
-            const page = await PageModel.create({
-                userId,
-                platform,
-                pageUid,
-                name,
-                avatar,
-                accessToken
-            });
-
-            return res.success(page, 201);
-        } catch (error: any) {
-            // 👇 bắt lỗi trùng page
-            if (error.code === 'EXIST') {
-                return res.error(
-                    {
-                        message: 'Page already connected',
-                        code: 'PAGE_EXIST'
-                    },
-                    409 // conflict
-                );
-            }
-
-            return res.error(
-                {
-                    message: error.message || 'Create page failed',
-                    code: 'UNKNOWN'
-                },
-                400
-            );
-        }
-    }
-
-    // GET /pages?platform=facebook
     async list(req: any, res: any) {
-        try {
-            const userId = req.user.userId;
-            const { platform } = req.query;
+        const pages = await pageService.list(req.user.id, req.query);
 
-            const pages = await PageModel.findByUser(userId, platform);
-            return res.success(pages, 200);
-        } catch (error: any) {
-            return res.error({ message: error.message }, 500);
-        }
+        return res.success(pages);
     }
 
-    // GET /pages/:id
+    async listForAdmin(req: any, res: any) {
+        const pages = await pageService.listForAdmin(req.query);
+        return res.success(pages);
+    }
+
     async detail(req: any, res: any) {
-        try {
-            const userId = req.user.userId;
-            const { id } = req.params;
+        const { id } = req.params;
+        const page = await pageService.detail(id, req.user.id);
 
-            const page = await PageModel.findById(id);
-            if (!page) return res.error({ message: 'Page not found' }, 404);
-            if (page.userId !== userId) return res.error({ message: 'Forbidden' }, 403);
+        if (!page) return res.error('Page không tồn tại hoặc bạn không có quyền truy cập', 404);
 
-            return res.success(page, 200);
-        } catch (error: any) {
-            return res.error({ message: error.message }, 500);
-        }
+        return res.success(page);
     }
 
-    // PATCH /pages/:id
+    async create(req: any, res: any) {
+        const { name, pageUid, pageAccessToken } = req.body;
+        const { userId } = req.user.id;
+
+        if (!pageUid || !pageAccessToken) {
+            return res.error('Thiếu thông tin Facebook Page', httpCode.clientError.notFound);
+        }
+
+        const page = await pageService.create({
+            name,
+            pageUid,
+            pageAccessToken,
+            userId
+        });
+
+        return res.success(page);
+    }
+
     async update(req: any, res: any) {
-        try {
-            const userId = req.user.userId;
-            const { id } = req.params;
+        const { id } = req.params;
 
-            const page = await PageModel.findById(id);
-            if (!page) return res.error({ message: 'Page not found' }, 404);
-            if (page.userId !== userId) return res.error({ message: 'Forbidden' }, 403);
-
-            const allowedFields = ['name', 'pageUid', 'avatar', 'accessToken', 'status'];
-            const data: any = {};
-
-            allowedFields.forEach((field) => {
-                if (req.body[field] !== undefined) data[field] = req.body[field];
-            });
-
-            const updated = await PageModel.update(id, data);
-            return res.success(updated, 200);
-        } catch (error: any) {
-            if (error.code === 'EXIST') {
-                return res.error(
-                    {
-                        message: 'Page UID already exists',
-                        code: 'PAGE_EXIST'
-                    },
-                    409
-                );
-            }
-
-            return res.error({ message: error.message || 'Update failed' }, 500);
-        }
+        const page = await pageService.update(id, req.user.id, req.body);
+        return res.success(page);
     }
 
-    // DELETE /pages/:id
     async remove(req: any, res: any) {
-        try {
-            const userId = req.user.userId;
-            const { id } = req.params;
+        const { id } = req.params;
+        await pageService.remove(id, req.user.id);
+        return res.success('Remove page success');
+    }
 
-            const page = await PageModel.findById(id);
-            if (!page) return res.error({ message: 'Page not found' }, 404);
-            if (page.userId !== userId) return res.error({ message: 'Forbidden' }, 403);
+    async removeMany(req: any, res: any) {
+        const { ids } = req.body;
+        if (!Array.isArray(ids)) return res.error('Ids must be an array', httpCode.clientError.badRequest);
 
-            await PageModel.delete(id);
-            return res.success({ message: 'Page deleted' }, 200);
-        } catch (error: any) {
-            return res.error({ message: error.message }, 500);
-        }
+        await pageService.removeMany(ids, req.user.id);
+
+        return res.success('Remove pages success');
     }
 }
 

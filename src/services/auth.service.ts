@@ -65,7 +65,7 @@ class AuthService {
 
     async createVerifyToken(userId: string, email: string, type: TokenType) {
         const token = crypto.randomBytes(32).toString('hex');
-        const expiresIn = 2 * 60 * 60; // 2 hours
+        const expiresIn = 2 * 60 * 60;
         const expiresAt = new Date(Date.now() + expiresIn * 1000);
 
         const result = await prisma.verificationToken.create({
@@ -129,12 +129,73 @@ class AuthService {
         });
     }
 
+    async logout(refreshToken: string) {
+        await prisma.verificationToken.deleteMany({
+            where: {
+                token: refreshToken,
+                type: 'refresh_token'
+            }
+        });
+
+        return;
+    }
+
+    async refreshToken(refreshToken: string) {
+        const payload = await prisma.verificationToken.findFirst({
+            where: {
+                token: refreshToken,
+                type: 'refresh_token'
+            }
+        });
+
+        if (!payload) return ['Token not found', null];
+
+        if (payload.expiresAt < new Date()) {
+            await prisma.verificationToken.delete({
+                where: {
+                    id: payload.id
+                }
+            });
+
+            return ['Token expired', null];
+        }
+
+        const user = await prisma.user.findFirst({ where: { id: payload.userId } });
+        if (!user) return ['User not found', null];
+
+        const tokenPayload = {
+            id: user.id,
+            role: user.role
+        };
+
+        const accessToken = await generateAccessToken(tokenPayload);
+        const accessTokenExpiresIn = ms(envConfig.jwt.accessExpires as StringValue) / 1000;
+
+        return [
+            null,
+            {
+                accessToken,
+                accessTokenExpiresIn
+            }
+        ];
+    }
+
     async generateToken(userId: string, role: 'admin' | 'user') {
-        const payload = { userId, role };
+        const payload = { id: userId, role };
 
         const accessToken = generateAccessToken(payload);
-        const refreshToken = generateRefreshToken(payload);
+        const refreshToken = crypto.randomBytes(32).toString('hex');
         const accessTokenExpiresIn = ms(envConfig.jwt.accessExpires as StringValue) / 1000;
+        const refreshTokenExpiresIn = ms(envConfig.jwt.refreshExpires as StringValue) / 1000;
+
+        await prisma.verificationToken.create({
+            data: {
+                userId,
+                token: refreshToken,
+                type: 'refresh_token',
+                expiresAt: new Date(Date.now() + refreshTokenExpiresIn * 1000)
+            }
+        });
 
         return {
             accessToken,

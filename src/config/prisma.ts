@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { PrismaClient } from '~/generated/prisma';
+import { pagination } from 'prisma-extension-pagination';
 
 const adapter = new PrismaMariaDb({
     host: process.env.DATABASE_HOST,
@@ -10,6 +11,13 @@ const adapter = new PrismaMariaDb({
     connectionLimit: 5
 });
 
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient({ adapter }).$extends(
+    pagination({
+        pages: {
+            limit: 10,
+            includePageCount: true
+        }
+    })
+);
 
 export { prisma };

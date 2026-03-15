@@ -27,6 +27,15 @@ const errorHandler = (error: any, req: any, res: any, next: any) => {
                 httpCode.clientError.conflict
             );
         }
+        if (error.code === 'P2025') {
+            return res.error(
+                {
+                    message: 'Resource not found',
+                    error: error.message
+                },
+                httpCode.clientError.notFound
+            );
+        }
     }
 
     return res.error(

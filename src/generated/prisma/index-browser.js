@@ -143,36 +143,10 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.RefreshTokenScalarFieldEnum = {
-  id: 'id',
-  token: 'token',
-  userId: 'userId',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.PasswordResetTokenScalarFieldEnum = {
-  id: 'id',
-  token: 'token',
-  userId: 'userId',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.FolderScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  name: 'name',
-  platform: 'platform',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.FlowScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   pageId: 'pageId',
-  folderId: 'folderId',
   name: 'name',
   description: 'description',
   status: 'status',
@@ -188,11 +162,10 @@ exports.Prisma.FlowScalarFieldEnum = {
 exports.Prisma.PageScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  platform: 'platform',
   pageUid: 'pageUid',
   name: 'name',
   avatar: 'avatar',
-  accessToken: 'accessToken',
+  pageAccessToken: 'pageAccessToken',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -335,24 +308,6 @@ exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.RefreshTokenOrderByRelevanceFieldEnum = {
-  id: 'id',
-  token: 'token',
-  userId: 'userId'
-};
-
-exports.Prisma.PasswordResetTokenOrderByRelevanceFieldEnum = {
-  id: 'id',
-  token: 'token',
-  userId: 'userId'
-};
-
-exports.Prisma.FolderOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  name: 'name'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
@@ -368,7 +323,6 @@ exports.Prisma.FlowOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
   pageId: 'pageId',
-  folderId: 'folderId',
   name: 'name',
   description: 'description',
   timeoutDuration: 'timeoutDuration',
@@ -381,7 +335,7 @@ exports.Prisma.PageOrderByRelevanceFieldEnum = {
   pageUid: 'pageUid',
   name: 'name',
   avatar: 'avatar',
-  accessToken: 'accessToken'
+  pageAccessToken: 'pageAccessToken'
 };
 
 exports.Prisma.UserFlowStateOrderByRelevanceFieldEnum = {
@@ -463,24 +417,19 @@ exports.Role = exports.$Enums.Role = {
 
 exports.TokenType = exports.$Enums.TokenType = {
   verify_email: 'verify_email',
-  reset_password: 'reset_password'
-};
-
-exports.Platform = exports.$Enums.Platform = {
-  facebook: 'facebook',
-  instagram: 'instagram',
-  zalo: 'zalo'
+  reset_password: 'reset_password',
+  refresh_token: 'refresh_token'
 };
 
 exports.FlowStatus = exports.$Enums.FlowStatus = {
-  draft: 'draft',
-  published: 'published'
+  active: 'active',
+  inactive: 'inactive'
 };
 
 exports.PageStatus = exports.$Enums.PageStatus = {
   active: 'active',
-  revoked: 'revoked',
-  expired: 'expired'
+  inactive: 'inactive',
+  isExpired: 'isExpired'
 };
 
 exports.UserFlowStatus = exports.$Enums.UserFlowStatus = {
@@ -532,9 +481,6 @@ exports.ChatMessageType = exports.$Enums.ChatMessageType = {
 exports.Prisma.ModelName = {
   User: 'User',
   VerificationToken: 'VerificationToken',
-  RefreshToken: 'RefreshToken',
-  PasswordResetToken: 'PasswordResetToken',
-  Folder: 'Folder',
   Flow: 'Flow',
   Page: 'Page',
   UserFlowState: 'UserFlowState',
