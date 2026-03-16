@@ -1,6 +1,6 @@
+import { prisma } from '~/config/prisma';
 import flowCommentModel from '~/models/flow-comment.model';
 import flowSharedModel from '~/models/flow-shared.model';
-import flowModel from '~/models/flow.model';
 import notificationModel from '~/models/notification.model';
 import userModel from '~/models/user.model';
 import { emitNewNotification } from '~/socket/socket.service';
@@ -66,7 +66,7 @@ export const createDowloadNotification = async (flowId: string, userId: string) 
 };
 
 export const createFlowNotification = async (flowId: string, senderId: string, status: 'completed' | 'cancelled') => {
-    const flow = await flowModel.findById(flowId);
+    const flow = await prisma.flow.findFirst({ where: { id: flowId } });
 
     if (!flow) return;
 

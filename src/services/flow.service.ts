@@ -53,6 +53,33 @@ class FlowService {
         };
     }
 
+    async listForAdmin(query: ListQuery) {
+        const [flows, meta] = await prisma.flow
+            .paginate({
+                select: {
+                    id: true,
+                    name: true,
+                    description: true,
+                    pageId: true,
+                    status: true,
+                    createdAt: true,
+                    updatedAt: true
+                },
+                where: {
+                    status: query?.status || undefined,
+                    name: {
+                        contains: query?.q
+                    }
+                }
+            })
+            .withPages(getPaginationOptions(query));
+
+        return {
+            flows,
+            meta
+        };
+    }
+
     async create(data: CreateFlow) {
         const flow = await prisma.flow.create({ data });
 

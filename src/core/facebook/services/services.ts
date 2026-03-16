@@ -6,7 +6,7 @@ import {
 } from '~/core/facebook/engine/types/message';
 import { renderContent } from '~/core/facebook/helpers';
 import { mapButtonsToFacebook } from '~/core/facebook/services/helpers';
-import flowModel from '~/models/flow.model';
+// import flowModel from '~/models/flow.model';
 import { getStaticUrl } from '~/utils/url';
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN!;

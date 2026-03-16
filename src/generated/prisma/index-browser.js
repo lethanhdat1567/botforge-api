@@ -192,13 +192,20 @@ exports.Prisma.FlowShareScalarFieldEnum = {
   name: 'name',
   description: 'description',
   thumbnail: 'thumbnail',
+  content: 'content',
   status: 'status',
-  downloadCount: 'downloadCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.FlowCommentScalarFieldEnum = {
+exports.Prisma.FlowShareDowloadScalarFieldEnum = {
+  id: 'id',
+  flowShareId: 'flowShareId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FlowShareCommentScalarFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
   userId: 'userId',
@@ -208,14 +215,14 @@ exports.Prisma.FlowCommentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.FlowLikeScalarFieldEnum = {
+exports.Prisma.FlowShareLikeScalarFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
   userId: 'userId',
   createdAt: 'createdAt'
 };
 
-exports.Prisma.FlowSaveScalarFieldEnum = {
+exports.Prisma.FlowShareSaveScalarFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
   userId: 'userId',
@@ -353,10 +360,17 @@ exports.Prisma.FlowShareOrderByRelevanceFieldEnum = {
   userId: 'userId',
   name: 'name',
   description: 'description',
-  thumbnail: 'thumbnail'
+  thumbnail: 'thumbnail',
+  content: 'content'
 };
 
-exports.Prisma.FlowCommentOrderByRelevanceFieldEnum = {
+exports.Prisma.FlowShareDowloadOrderByRelevanceFieldEnum = {
+  id: 'id',
+  flowShareId: 'flowShareId',
+  userId: 'userId'
+};
+
+exports.Prisma.FlowShareCommentOrderByRelevanceFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
   userId: 'userId',
@@ -364,13 +378,13 @@ exports.Prisma.FlowCommentOrderByRelevanceFieldEnum = {
   parentId: 'parentId'
 };
 
-exports.Prisma.FlowLikeOrderByRelevanceFieldEnum = {
+exports.Prisma.FlowShareLikeOrderByRelevanceFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
   userId: 'userId'
 };
 
-exports.Prisma.FlowSaveOrderByRelevanceFieldEnum = {
+exports.Prisma.FlowShareSaveOrderByRelevanceFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
   userId: 'userId'
@@ -485,9 +499,10 @@ exports.Prisma.ModelName = {
   Page: 'Page',
   UserFlowState: 'UserFlowState',
   FlowShare: 'FlowShare',
-  FlowComment: 'FlowComment',
-  FlowLike: 'FlowLike',
-  FlowSave: 'FlowSave',
+  FlowShareDowload: 'FlowShareDowload',
+  FlowShareComment: 'FlowShareComment',
+  FlowShareLike: 'FlowShareLike',
+  FlowShareSave: 'FlowShareSave',
   Notification: 'Notification',
   FlowFallback: 'FlowFallback',
   Guide: 'Guide',

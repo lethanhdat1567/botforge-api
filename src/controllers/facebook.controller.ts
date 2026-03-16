@@ -10,7 +10,7 @@ import {
     setPostbackVariablePayload
 } from '~/core/facebook/engine/handlers/flow';
 import userFlowStateModel from '~/models/userFlowState.model';
-import flowModel from '~/models/flow.model';
+// // import flowModel from '~/models/flow.model';
 
 class FacebookController {
     // Verify webhook

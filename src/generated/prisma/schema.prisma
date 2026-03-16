@@ -23,9 +23,6 @@ model User {
 
   flows             Flow[]
   flowShares        FlowShare[]
-  flowLikes         FlowLike[]
-  flowSave          FlowSave[]
-  flowComments      FlowComment[]
   notifications     Notification[]
   fallback          FlowFallback?
   pages             Page[]
@@ -33,6 +30,10 @@ model User {
 
   userFlowStates     UserFlowState[]     @relation("Owner_UserFlowState")
   verificationTokens VerificationToken[]
+  flowShareDowloads  FlowShareDowload[]
+  flowShareLikes     FlowShareLike[]
+  flowShareSaves     FlowShareSave[]
+  flowShareComments  FlowShareComment[]
 
   @@map("users")
 }
@@ -60,13 +61,6 @@ enum TokenType {
   refresh_token
 }
 
-// =====================
-// Folder
-// =====================
-
-// =====================
-// Flow
-// =====================
 model Flow {
   id              String     @id @default(uuid())
   userId          String     @map("user_id")
@@ -95,9 +89,6 @@ enum FlowStatus {
   inactive
 }
 
-// =====================
-// Page (Platform Page / OA / Bot)
-// =====================
 model Page {
   id String @id @default(uuid()) @map("id")
 
@@ -127,15 +118,6 @@ enum PageStatus {
   isExpired
 }
 
-enum Platform {
-  facebook
-  instagram
-  zalo
-}
-
-// =====================
-// UserFlowState
-// =====================
 enum UserFlowStatus {
   running
   pending
@@ -162,26 +144,24 @@ model UserFlowState {
   @@map("user_flow_states")
 }
 
-// =====================
-// FlowShare
-// =====================
 model FlowShare {
-  id            String          @id @default(uuid()) @map("id")
-  flowId        String          @map("flow_id")
-  userId        String          @map("user_id")
-  name          String          @map("name")
-  description   String?         @map("description")
-  thumbnail     String?         @map("thumbnail")
-  status        FlowShareStatus @default(active) @map("status")
-  downloadCount Int             @default(0) @map("download_count")
-  createdAt     DateTime        @default(now()) @map("created_at")
-  updatedAt     DateTime        @default(now()) @updatedAt @map("updated_at")
+  id          String          @id @default(uuid()) @map("id")
+  flowId      String          @map("flow_id")
+  userId      String          @map("user_id")
+  name        String
+  description String?
+  thumbnail   String?
+  content     String?         @db.Text
+  status      FlowShareStatus @default(active)
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @default(now()) @updatedAt @map("updated_at")
 
-  flow     Flow          @relation(fields: [flowId], references: [id])
-  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments FlowComment[]
-  likes    FlowLike[]
-  saves    FlowSave[]
+  flow              Flow               @relation(fields: [flowId], references: [id])
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flowShareDowloads FlowShareDowload[]
+  flowShareLikes    FlowShareLike[]
+  flowShareSaves    FlowShareSave[]
+  flowShareComments FlowShareComment[]
 
   @@map("flow_shares")
 }
@@ -191,11 +171,21 @@ enum FlowShareStatus {
   inactive
 }
 
-// =====================
-// FlowComment
-// =====================
-model FlowComment {
-  id          String   @id @default(uuid()) @map("id")
+model FlowShareDowload {
+  id          String   @id @default(uuid())
+  flowShareId String   @map("flow_share_id")
+  userId      String   @map("user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([flowShareId])
+  @@map("flow_share_dowloads")
+}
+
+model FlowShareComment {
+  id          String   @id @default(uuid())
   flowShareId String   @map("flow_share_id")
   userId      String   @map("user_id")
   comment     String   @map("comment")
@@ -203,18 +193,17 @@ model FlowComment {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  flowShare FlowShare     @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  parent    FlowComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   FlowComment[] @relation("CommentReplies")
+  flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("flow_comments")
+  parent FlowShareComment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+
+  replies FlowShareComment[] @relation("CommentReplies")
+
+  @@map("flow_share_comments")
 }
 
-// =====================
-// FlowLike
-// =====================
-model FlowLike {
+model FlowShareLike {
   id          String   @id @default(uuid())
   flowShareId String
   userId      String
@@ -223,14 +212,11 @@ model FlowLike {
   flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([flowShareId, userId]) // mỗi user chỉ like 1 lần
-  @@map("flow_likes")
+  @@unique([flowShareId, userId])
+  @@map("flow_share_likes")
 }
 
-// =====================
-// FlowSave
-// =====================
-model FlowSave {
+model FlowShareSave {
   id          String   @id @default(uuid())
   flowShareId String
   userId      String
@@ -239,13 +225,10 @@ model FlowSave {
   flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([flowShareId, userId]) // mỗi user chỉ save 1 lần
-  @@map("flow_saves")
+  @@unique([flowShareId, userId])
+  @@map("flow_share_saves")
 }
 
-// =====================
-// Notification
-// =====================
 model Notification {
   id        String           @id @default(uuid()) @map("id")
   userId    String           @map("user_id")
@@ -272,9 +255,6 @@ enum NotificationType {
   chat_message
 }
 
-// =====================
-// Flow Fallback (Global per User)
-// =====================
 enum TimeoutUnit {
   second
   minute

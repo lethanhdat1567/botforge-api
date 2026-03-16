@@ -27,6 +27,17 @@ const errorHandler = (error: any, req: any, res: any, next: any) => {
                 httpCode.clientError.conflict
             );
         }
+
+        if (error.code === 'P2003') {
+            return res.error(
+                {
+                    message: 'Related record not found',
+                    error: error.message
+                },
+                httpCode.clientError.badRequest
+            );
+        }
+
         if (error.code === 'P2025') {
             return res.error(
                 {

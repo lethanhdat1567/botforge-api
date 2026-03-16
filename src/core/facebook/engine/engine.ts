@@ -8,7 +8,7 @@ import { handleActionNode } from '~/core/facebook/engine/handlers/action';
 import { MessageNode } from '~/core/facebook/engine/types/message';
 import userFlowStateModel from '~/models/userFlowState.model';
 import { endFlowHandller } from '~/core/facebook/engine/handlers/flow';
-import flowModel from '~/models/flow.model';
+// import flowModel from '~/models/flow.model';
 
 export async function runFlow(nodeId: string, senderId: string, pageId: string) {
     const currentFlow = await flowModel.findFlowByPageUid(pageId, 'facebook');

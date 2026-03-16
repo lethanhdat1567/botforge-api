@@ -14,6 +14,12 @@ class FlowController {
         return res.success(result);
     }
 
+    async listForAdmin(req: any, res: any) {
+        const result = await flowService.listForAdmin(req.query);
+
+        return res.success(result);
+    }
+
     async detail(req: any, res: any) {
         const flow = await flowService.detail(req.params.id);
 

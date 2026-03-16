@@ -4,7 +4,7 @@ import { sendButtonMessage, sendTextMessage } from '~/core/facebook/services/ser
 import { PendingVariable } from '~/core/facebook/store/components/pendingVariables';
 import userStore from '~/core/facebook/store/userStore';
 import flowFallbackModel from '~/models/flow-fallback.model';
-import flowModel from '~/models/flow.model';
+// import flowModel from '~/models/flow.model';
 import userFlowStateModel from '~/models/userFlowState.model';
 import { durationWithUnitToMs } from '~/utils/time';
 
