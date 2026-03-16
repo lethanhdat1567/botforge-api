@@ -1,73 +1,53 @@
-import { deleteFile } from '~/utils/file';
-import UserModel from '../models/user.model';
-import { Role } from '@prisma/client';
+import { httpCode } from '~/constants/httpsCode';
+import userService from '~/services/user.service';
 
 class UserController {
-    // GET /users
     async list(req: any, res: any) {
-        const { page = 1, limit = 20, q } = req.query;
+        const result = await userService.list(req.query);
 
-        const skip = (Number(page) - 1) * Number(limit);
-
-        const users = await UserModel.findMany({
-            skip,
-            take: Number(limit),
-            q: q as string | undefined
-        });
-
-        return res.success(users);
+        return res.success(result);
     }
-
-    // GET /users/:id
     async detail(req: any, res: any) {
-        const { id } = req.params;
+        const result = await userService.detail(req.params.id);
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...userData }: any = await UserModel.findById(id);
-        if (!userData) {
-            return res.error('User not found', 404);
+        return res.success(result);
+    }
+    async create(req: any, res: any) {
+        const [error, result] = await userService.create(req.body);
+
+        if (error) {
+            return res.error(error, httpCode.clientError.badRequest);
         }
 
-        return res.success(userData);
+        return res.success(result, httpCode.success.created);
     }
-
-    // PATCH /users/:id
     async update(req: any, res: any) {
-        const { id } = req.params;
-        const { role, displayName } = req.body;
+        const [error, result] = await userService.update(req.params.id, req.body);
 
-        const data: any = {};
-
-        if (displayName) data.displayName = displayName;
-        if (role && Object.values(Role).includes(role)) {
-            data.role = role;
+        if (error) {
+            return res.error(error, httpCode.clientError.conflict);
         }
 
-        if (Object.keys(data).length === 0) {
-            return res.error('Nothing to update', 400);
-        }
-
-        const user = await UserModel.update(id, data);
-        return res.success(user);
+        return res.success(result);
     }
+    async updatePassword(req: any, res: any) {
+        const [error, result] = await userService.updatePassword(req.params.id, req.body);
 
-    // DELETE /users/:id
-    async remove(req: any, res: any) {
-        const { id } = req.params;
-
-        // Lấy user cũ để kiểm tra avatar
-        const oldUser = await UserModel.findById(id);
-        if (!oldUser) return res.error({ message: 'User not found' }, 404);
-
-        // Xóa avatar nếu tồn tại
-        if (oldUser.avatar) {
-            deleteFile(oldUser.avatar);
+        if (error) {
+            return res.error(error, httpCode.clientError.conflict);
         }
 
-        // Xóa record user
-        await UserModel.delete(id);
+        return res.success(result);
+    }
+    async delete(req: any, res: any) {
+        await userService.delete(req.params.id);
 
         return res.success({ message: 'User deleted' });
+    }
+    async deleteBulk(req: any, res: any) {
+        await userService.deleteBulk(req.body.ids);
+
+        return res.success({ message: 'Users deleted' });
     }
 }
 

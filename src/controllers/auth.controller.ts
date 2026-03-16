@@ -7,6 +7,14 @@ import { envConfig } from '~/config/envConfig';
 import { httpCode } from '~/constants/httpsCode';
 
 class AuthController {
+    async me(req: AuthRequest, res: any) {
+        const userId = (req.user as any).id;
+
+        const user = await authService.getMe(userId);
+
+        return res.success(user);
+    }
+
     async register(req: Request, res: any) {
         const { email, password } = req.body;
 

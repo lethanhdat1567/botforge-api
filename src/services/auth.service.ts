@@ -8,6 +8,25 @@ import { authCode } from '~/constants/auth';
 import { TokenType, User } from '~/generated/prisma';
 
 class AuthService {
+    async getMe(userId: string) {
+        const user = await prisma.user.findFirst({
+            where: {
+                id: userId
+            },
+            select: {
+                id: true,
+                username: true,
+                displayName: true,
+                avatar: true,
+                email: true,
+                createdAt: true,
+                updatedAt: true
+            }
+        });
+
+        return user;
+    }
+
     async register(email: string, password: string) {
         const hashPassword = await bcrypt.hash(password, 10);
 

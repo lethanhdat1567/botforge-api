@@ -251,14 +251,24 @@ exports.Prisma.FlowFallbackScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.GuideScalarFieldEnum = {
+exports.Prisma.PostsScalarFieldEnum = {
   id: 'id',
+  authorId: 'authorId',
+  categoryId: 'categoryId',
   slug: 'slug',
   title: 'title',
-  summary: 'summary',
+  description: 'description',
   content: 'content',
   thumbnail: 'thumbnail',
   status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PostCategoriesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -404,13 +414,21 @@ exports.Prisma.FlowFallbackOrderByRelevanceFieldEnum = {
   fallbackMessage: 'fallbackMessage'
 };
 
-exports.Prisma.GuideOrderByRelevanceFieldEnum = {
+exports.Prisma.PostsOrderByRelevanceFieldEnum = {
   id: 'id',
+  authorId: 'authorId',
+  categoryId: 'categoryId',
   slug: 'slug',
   title: 'title',
-  summary: 'summary',
+  description: 'description',
   content: 'content',
   thumbnail: 'thumbnail'
+};
+
+exports.Prisma.PostCategoriesOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug'
 };
 
 exports.Prisma.ChatConversationOrderByRelevanceFieldEnum = {
@@ -475,10 +493,9 @@ exports.TimeoutUnit = exports.$Enums.TimeoutUnit = {
   day: 'day'
 };
 
-exports.GuideStatus = exports.$Enums.GuideStatus = {
-  draft: 'draft',
-  published: 'published',
-  archived: 'archived'
+exports.PostsStatus = exports.$Enums.PostsStatus = {
+  active: 'active',
+  inactive: 'inactive'
 };
 
 exports.ChatSender = exports.$Enums.ChatSender = {
@@ -505,7 +522,8 @@ exports.Prisma.ModelName = {
   FlowShareSave: 'FlowShareSave',
   Notification: 'Notification',
   FlowFallback: 'FlowFallback',
-  Guide: 'Guide',
+  Posts: 'Posts',
+  PostCategories: 'PostCategories',
   ChatConversation: 'ChatConversation',
   ChatLiveMessage: 'ChatLiveMessage'
 };

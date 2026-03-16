@@ -74,10 +74,15 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
  */
 export type FlowFallback = $Result.DefaultSelection<Prisma.$FlowFallbackPayload>
 /**
- * Model Guide
+ * Model Posts
  * 
  */
-export type Guide = $Result.DefaultSelection<Prisma.$GuidePayload>
+export type Posts = $Result.DefaultSelection<Prisma.$PostsPayload>
+/**
+ * Model PostCategories
+ * 
+ */
+export type PostCategories = $Result.DefaultSelection<Prisma.$PostCategoriesPayload>
 /**
  * Model ChatConversation
  * 
@@ -168,13 +173,12 @@ export const TimeoutUnit: {
 export type TimeoutUnit = (typeof TimeoutUnit)[keyof typeof TimeoutUnit]
 
 
-export const GuideStatus: {
-  draft: 'draft',
-  published: 'published',
-  archived: 'archived'
+export const PostsStatus: {
+  active: 'active',
+  inactive: 'inactive'
 };
 
-export type GuideStatus = (typeof GuideStatus)[keyof typeof GuideStatus]
+export type PostsStatus = (typeof PostsStatus)[keyof typeof PostsStatus]
 
 
 export const ChatSender: {
@@ -227,9 +231,9 @@ export type TimeoutUnit = $Enums.TimeoutUnit
 
 export const TimeoutUnit: typeof $Enums.TimeoutUnit
 
-export type GuideStatus = $Enums.GuideStatus
+export type PostsStatus = $Enums.PostsStatus
 
-export const GuideStatus: typeof $Enums.GuideStatus
+export const PostsStatus: typeof $Enums.PostsStatus
 
 export type ChatSender = $Enums.ChatSender
 
@@ -477,14 +481,24 @@ export class PrismaClient<
   get flowFallback(): Prisma.FlowFallbackDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.guide`: Exposes CRUD operations for the **Guide** model.
+   * `prisma.posts`: Exposes CRUD operations for the **Posts** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Guides
-    * const guides = await prisma.guide.findMany()
+    * // Fetch zero or more Posts
+    * const posts = await prisma.posts.findMany()
     * ```
     */
-  get guide(): Prisma.GuideDelegate<ExtArgs, ClientOptions>;
+  get posts(): Prisma.PostsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.postCategories`: Exposes CRUD operations for the **PostCategories** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PostCategories
+    * const postCategories = await prisma.postCategories.findMany()
+    * ```
+    */
+  get postCategories(): Prisma.PostCategoriesDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.chatConversation`: Exposes CRUD operations for the **ChatConversation** model.
@@ -951,7 +965,8 @@ export namespace Prisma {
     FlowShareSave: 'FlowShareSave',
     Notification: 'Notification',
     FlowFallback: 'FlowFallback',
-    Guide: 'Guide',
+    Posts: 'Posts',
+    PostCategories: 'PostCategories',
     ChatConversation: 'ChatConversation',
     ChatLiveMessage: 'ChatLiveMessage'
   };
@@ -969,7 +984,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "verificationToken" | "flow" | "page" | "userFlowState" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "flowFallback" | "guide" | "chatConversation" | "chatLiveMessage"
+      modelProps: "user" | "verificationToken" | "flow" | "page" | "userFlowState" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "flowFallback" | "posts" | "postCategories" | "chatConversation" | "chatLiveMessage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1765,69 +1780,135 @@ export namespace Prisma {
           }
         }
       }
-      Guide: {
-        payload: Prisma.$GuidePayload<ExtArgs>
-        fields: Prisma.GuideFieldRefs
+      Posts: {
+        payload: Prisma.$PostsPayload<ExtArgs>
+        fields: Prisma.PostsFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.GuideFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload> | null
+            args: Prisma.PostsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.GuideFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload>
+            args: Prisma.PostsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
           }
           findFirst: {
-            args: Prisma.GuideFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload> | null
+            args: Prisma.PostsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.GuideFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload>
+            args: Prisma.PostsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
           }
           findMany: {
-            args: Prisma.GuideFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload>[]
+            args: Prisma.PostsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>[]
           }
           create: {
-            args: Prisma.GuideCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload>
+            args: Prisma.PostsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
           }
           createMany: {
-            args: Prisma.GuideCreateManyArgs<ExtArgs>
+            args: Prisma.PostsCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           delete: {
-            args: Prisma.GuideDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload>
+            args: Prisma.PostsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
           }
           update: {
-            args: Prisma.GuideUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload>
+            args: Prisma.PostsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
           }
           deleteMany: {
-            args: Prisma.GuideDeleteManyArgs<ExtArgs>
+            args: Prisma.PostsDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.GuideUpdateManyArgs<ExtArgs>
+            args: Prisma.PostsUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.GuideUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuidePayload>
+            args: Prisma.PostsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostsPayload>
           }
           aggregate: {
-            args: Prisma.GuideAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateGuide>
+            args: Prisma.PostsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePosts>
           }
           groupBy: {
-            args: Prisma.GuideGroupByArgs<ExtArgs>
-            result: $Utils.Optional<GuideGroupByOutputType>[]
+            args: Prisma.PostsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostsGroupByOutputType>[]
           }
           count: {
-            args: Prisma.GuideCountArgs<ExtArgs>
-            result: $Utils.Optional<GuideCountAggregateOutputType> | number
+            args: Prisma.PostsCountArgs<ExtArgs>
+            result: $Utils.Optional<PostsCountAggregateOutputType> | number
+          }
+        }
+      }
+      PostCategories: {
+        payload: Prisma.$PostCategoriesPayload<ExtArgs>
+        fields: Prisma.PostCategoriesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostCategoriesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostCategoriesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload>
+          }
+          findFirst: {
+            args: Prisma.PostCategoriesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostCategoriesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload>
+          }
+          findMany: {
+            args: Prisma.PostCategoriesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload>[]
+          }
+          create: {
+            args: Prisma.PostCategoriesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload>
+          }
+          createMany: {
+            args: Prisma.PostCategoriesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PostCategoriesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload>
+          }
+          update: {
+            args: Prisma.PostCategoriesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostCategoriesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostCategoriesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PostCategoriesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostCategoriesPayload>
+          }
+          aggregate: {
+            args: Prisma.PostCategoriesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePostCategories>
+          }
+          groupBy: {
+            args: Prisma.PostCategoriesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostCategoriesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PostCategoriesCountArgs<ExtArgs>
+            result: $Utils.Optional<PostCategoriesCountAggregateOutputType> | number
           }
         }
       }
@@ -2083,7 +2164,8 @@ export namespace Prisma {
     flowShareSave?: FlowShareSaveOmit
     notification?: NotificationOmit
     flowFallback?: FlowFallbackOmit
-    guide?: GuideOmit
+    posts?: PostsOmit
+    postCategories?: PostCategoriesOmit
     chatConversation?: ChatConversationOmit
     chatLiveMessage?: ChatLiveMessageOmit
   }
@@ -2177,6 +2259,7 @@ export namespace Prisma {
     flowShareLikes: number
     flowShareSaves: number
     flowShareComments: number
+    posts: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2191,6 +2274,7 @@ export namespace Prisma {
     flowShareLikes?: boolean | UserCountOutputTypeCountFlowShareLikesArgs
     flowShareSaves?: boolean | UserCountOutputTypeCountFlowShareSavesArgs
     flowShareComments?: boolean | UserCountOutputTypeCountFlowShareCommentsArgs
+    posts?: boolean | UserCountOutputTypeCountPostsArgs
   }
 
   // Custom InputTypes
@@ -2279,6 +2363,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFlowShareCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlowShareCommentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostsWhereInput
   }
 
 
@@ -2439,6 +2530,37 @@ export namespace Prisma {
    */
   export type FlowShareCommentCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlowShareCommentWhereInput
+  }
+
+
+  /**
+   * Count Type PostCategoriesCountOutputType
+   */
+
+  export type PostCategoriesCountOutputType = {
+    posts: number
+  }
+
+  export type PostCategoriesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    posts?: boolean | PostCategoriesCountOutputTypeCountPostsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PostCategoriesCountOutputType without action
+   */
+  export type PostCategoriesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategoriesCountOutputType
+     */
+    select?: PostCategoriesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PostCategoriesCountOutputType without action
+   */
+  export type PostCategoriesCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostsWhereInput
   }
 
 
@@ -2701,6 +2823,7 @@ export namespace Prisma {
     flowShareLikes?: boolean | User$flowShareLikesArgs<ExtArgs>
     flowShareSaves?: boolean | User$flowShareSavesArgs<ExtArgs>
     flowShareComments?: boolean | User$flowShareCommentsArgs<ExtArgs>
+    posts?: boolean | User$postsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2734,6 +2857,7 @@ export namespace Prisma {
     flowShareLikes?: boolean | User$flowShareLikesArgs<ExtArgs>
     flowShareSaves?: boolean | User$flowShareSavesArgs<ExtArgs>
     flowShareComments?: boolean | User$flowShareCommentsArgs<ExtArgs>
+    posts?: boolean | User$postsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2752,6 +2876,7 @@ export namespace Prisma {
       flowShareLikes: Prisma.$FlowShareLikePayload<ExtArgs>[]
       flowShareSaves: Prisma.$FlowShareSavePayload<ExtArgs>[]
       flowShareComments: Prisma.$FlowShareCommentPayload<ExtArgs>[]
+      posts: Prisma.$PostsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3117,6 +3242,7 @@ export namespace Prisma {
     flowShareLikes<T extends User$flowShareLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowShareLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShareSaves<T extends User$flowShareSavesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowShareSavesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareSavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShareComments<T extends User$flowShareCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowShareCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3780,6 +3906,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FlowShareCommentScalarFieldEnum | FlowShareCommentScalarFieldEnum[]
+  }
+
+  /**
+   * User.posts
+   */
+  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    where?: PostsWhereInput
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    cursor?: PostsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
   }
 
   /**
@@ -14656,44 +14806,50 @@ export namespace Prisma {
 
 
   /**
-   * Model Guide
+   * Model Posts
    */
 
-  export type AggregateGuide = {
-    _count: GuideCountAggregateOutputType | null
-    _min: GuideMinAggregateOutputType | null
-    _max: GuideMaxAggregateOutputType | null
+  export type AggregatePosts = {
+    _count: PostsCountAggregateOutputType | null
+    _min: PostsMinAggregateOutputType | null
+    _max: PostsMaxAggregateOutputType | null
   }
 
-  export type GuideMinAggregateOutputType = {
+  export type PostsMinAggregateOutputType = {
     id: string | null
+    authorId: string | null
+    categoryId: string | null
     slug: string | null
     title: string | null
-    summary: string | null
+    description: string | null
     content: string | null
     thumbnail: string | null
-    status: $Enums.GuideStatus | null
+    status: $Enums.PostsStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type GuideMaxAggregateOutputType = {
+  export type PostsMaxAggregateOutputType = {
     id: string | null
+    authorId: string | null
+    categoryId: string | null
     slug: string | null
     title: string | null
-    summary: string | null
+    description: string | null
     content: string | null
     thumbnail: string | null
-    status: $Enums.GuideStatus | null
+    status: $Enums.PostsStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type GuideCountAggregateOutputType = {
+  export type PostsCountAggregateOutputType = {
     id: number
+    authorId: number
+    categoryId: number
     slug: number
     title: number
-    summary: number
+    description: number
     content: number
     thumbnail: number
     status: number
@@ -14703,11 +14859,13 @@ export namespace Prisma {
   }
 
 
-  export type GuideMinAggregateInputType = {
+  export type PostsMinAggregateInputType = {
     id?: true
+    authorId?: true
+    categoryId?: true
     slug?: true
     title?: true
-    summary?: true
+    description?: true
     content?: true
     thumbnail?: true
     status?: true
@@ -14715,11 +14873,13 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type GuideMaxAggregateInputType = {
+  export type PostsMaxAggregateInputType = {
     id?: true
+    authorId?: true
+    categoryId?: true
     slug?: true
     title?: true
-    summary?: true
+    description?: true
     content?: true
     thumbnail?: true
     status?: true
@@ -14727,11 +14887,13 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type GuideCountAggregateInputType = {
+  export type PostsCountAggregateInputType = {
     id?: true
+    authorId?: true
+    categoryId?: true
     slug?: true
     title?: true
-    summary?: true
+    description?: true
     content?: true
     thumbnail?: true
     status?: true
@@ -14740,126 +14902,134 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type GuideAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Guide to aggregate.
+     * Filter which Posts to aggregate.
      */
-    where?: GuideWhereInput
+    where?: PostsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Guides to fetch.
+     * Determine the order of Posts to fetch.
      */
-    orderBy?: GuideOrderByWithRelationInput | GuideOrderByWithRelationInput[]
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: GuideWhereUniqueInput
+    cursor?: PostsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Guides from the position of the cursor.
+     * Take `±n` Posts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Guides.
+     * Skip the first `n` Posts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Guides
+     * Count returned Posts
     **/
-    _count?: true | GuideCountAggregateInputType
+    _count?: true | PostsCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: GuideMinAggregateInputType
+    _min?: PostsMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: GuideMaxAggregateInputType
+    _max?: PostsMaxAggregateInputType
   }
 
-  export type GetGuideAggregateType<T extends GuideAggregateArgs> = {
-        [P in keyof T & keyof AggregateGuide]: P extends '_count' | 'count'
+  export type GetPostsAggregateType<T extends PostsAggregateArgs> = {
+        [P in keyof T & keyof AggregatePosts]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateGuide[P]>
-      : GetScalarType<T[P], AggregateGuide[P]>
+        : GetScalarType<T[P], AggregatePosts[P]>
+      : GetScalarType<T[P], AggregatePosts[P]>
   }
 
 
 
 
-  export type GuideGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GuideWhereInput
-    orderBy?: GuideOrderByWithAggregationInput | GuideOrderByWithAggregationInput[]
-    by: GuideScalarFieldEnum[] | GuideScalarFieldEnum
-    having?: GuideScalarWhereWithAggregatesInput
+  export type PostsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostsWhereInput
+    orderBy?: PostsOrderByWithAggregationInput | PostsOrderByWithAggregationInput[]
+    by: PostsScalarFieldEnum[] | PostsScalarFieldEnum
+    having?: PostsScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: GuideCountAggregateInputType | true
-    _min?: GuideMinAggregateInputType
-    _max?: GuideMaxAggregateInputType
+    _count?: PostsCountAggregateInputType | true
+    _min?: PostsMinAggregateInputType
+    _max?: PostsMaxAggregateInputType
   }
 
-  export type GuideGroupByOutputType = {
+  export type PostsGroupByOutputType = {
     id: string
+    authorId: string
+    categoryId: string
     slug: string
     title: string
-    summary: string | null
+    description: string
     content: string
-    thumbnail: string | null
-    status: $Enums.GuideStatus
+    thumbnail: string
+    status: $Enums.PostsStatus
     createdAt: Date
     updatedAt: Date
-    _count: GuideCountAggregateOutputType | null
-    _min: GuideMinAggregateOutputType | null
-    _max: GuideMaxAggregateOutputType | null
+    _count: PostsCountAggregateOutputType | null
+    _min: PostsMinAggregateOutputType | null
+    _max: PostsMaxAggregateOutputType | null
   }
 
-  type GetGuideGroupByPayload<T extends GuideGroupByArgs> = Prisma.PrismaPromise<
+  type GetPostsGroupByPayload<T extends PostsGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<GuideGroupByOutputType, T['by']> &
+      PickEnumerable<PostsGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof GuideGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof PostsGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], GuideGroupByOutputType[P]>
-            : GetScalarType<T[P], GuideGroupByOutputType[P]>
+              : GetScalarType<T[P], PostsGroupByOutputType[P]>
+            : GetScalarType<T[P], PostsGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type GuideSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type PostsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    authorId?: boolean
+    categoryId?: boolean
     slug?: boolean
     title?: boolean
-    summary?: boolean
+    description?: boolean
     content?: boolean
     thumbnail?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-  }, ExtArgs["result"]["guide"]>
+    category?: boolean | PostCategoriesDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["posts"]>
 
 
 
-  export type GuideSelectScalar = {
+  export type PostsSelectScalar = {
     id?: boolean
+    authorId?: boolean
+    categoryId?: boolean
     slug?: boolean
     title?: boolean
-    summary?: boolean
+    description?: boolean
     content?: boolean
     thumbnail?: boolean
     status?: boolean
@@ -14867,158 +15037,167 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type GuideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "summary" | "content" | "thumbnail" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["guide"]>
+  export type PostsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authorId" | "categoryId" | "slug" | "title" | "description" | "content" | "thumbnail" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["posts"]>
+  export type PostsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | PostCategoriesDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
-  export type $GuidePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Guide"
-    objects: {}
+  export type $PostsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Posts"
+    objects: {
+      category: Prisma.$PostCategoriesPayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      authorId: string
+      categoryId: string
       slug: string
       title: string
-      summary: string | null
+      description: string
       content: string
-      thumbnail: string | null
-      status: $Enums.GuideStatus
+      thumbnail: string
+      status: $Enums.PostsStatus
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["guide"]>
+    }, ExtArgs["result"]["posts"]>
     composites: {}
   }
 
-  type GuideGetPayload<S extends boolean | null | undefined | GuideDefaultArgs> = $Result.GetResult<Prisma.$GuidePayload, S>
+  type PostsGetPayload<S extends boolean | null | undefined | PostsDefaultArgs> = $Result.GetResult<Prisma.$PostsPayload, S>
 
-  type GuideCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<GuideFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: GuideCountAggregateInputType | true
+  type PostsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostsCountAggregateInputType | true
     }
 
-  export interface GuideDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Guide'], meta: { name: 'Guide' } }
+  export interface PostsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Posts'], meta: { name: 'Posts' } }
     /**
-     * Find zero or one Guide that matches the filter.
-     * @param {GuideFindUniqueArgs} args - Arguments to find a Guide
+     * Find zero or one Posts that matches the filter.
+     * @param {PostsFindUniqueArgs} args - Arguments to find a Posts
      * @example
-     * // Get one Guide
-     * const guide = await prisma.guide.findUnique({
+     * // Get one Posts
+     * const posts = await prisma.posts.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends GuideFindUniqueArgs>(args: SelectSubset<T, GuideFindUniqueArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends PostsFindUniqueArgs>(args: SelectSubset<T, PostsFindUniqueArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Guide that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Posts that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {GuideFindUniqueOrThrowArgs} args - Arguments to find a Guide
+     * @param {PostsFindUniqueOrThrowArgs} args - Arguments to find a Posts
      * @example
-     * // Get one Guide
-     * const guide = await prisma.guide.findUniqueOrThrow({
+     * // Get one Posts
+     * const posts = await prisma.posts.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends GuideFindUniqueOrThrowArgs>(args: SelectSubset<T, GuideFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends PostsFindUniqueOrThrowArgs>(args: SelectSubset<T, PostsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Guide that matches the filter.
+     * Find the first Posts that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuideFindFirstArgs} args - Arguments to find a Guide
+     * @param {PostsFindFirstArgs} args - Arguments to find a Posts
      * @example
-     * // Get one Guide
-     * const guide = await prisma.guide.findFirst({
+     * // Get one Posts
+     * const posts = await prisma.posts.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends GuideFindFirstArgs>(args?: SelectSubset<T, GuideFindFirstArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends PostsFindFirstArgs>(args?: SelectSubset<T, PostsFindFirstArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Guide that matches the filter or
+     * Find the first Posts that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuideFindFirstOrThrowArgs} args - Arguments to find a Guide
+     * @param {PostsFindFirstOrThrowArgs} args - Arguments to find a Posts
      * @example
-     * // Get one Guide
-     * const guide = await prisma.guide.findFirstOrThrow({
+     * // Get one Posts
+     * const posts = await prisma.posts.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends GuideFindFirstOrThrowArgs>(args?: SelectSubset<T, GuideFindFirstOrThrowArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends PostsFindFirstOrThrowArgs>(args?: SelectSubset<T, PostsFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Guides that matches the filter.
+     * Find zero or more Posts that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuideFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {PostsFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Guides
-     * const guides = await prisma.guide.findMany()
+     * // Get all Posts
+     * const posts = await prisma.posts.findMany()
      * 
-     * // Get first 10 Guides
-     * const guides = await prisma.guide.findMany({ take: 10 })
+     * // Get first 10 Posts
+     * const posts = await prisma.posts.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const guideWithIdOnly = await prisma.guide.findMany({ select: { id: true } })
+     * const postsWithIdOnly = await prisma.posts.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends GuideFindManyArgs>(args?: SelectSubset<T, GuideFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends PostsFindManyArgs>(args?: SelectSubset<T, PostsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Guide.
-     * @param {GuideCreateArgs} args - Arguments to create a Guide.
+     * Create a Posts.
+     * @param {PostsCreateArgs} args - Arguments to create a Posts.
      * @example
-     * // Create one Guide
-     * const Guide = await prisma.guide.create({
+     * // Create one Posts
+     * const Posts = await prisma.posts.create({
      *   data: {
-     *     // ... data to create a Guide
+     *     // ... data to create a Posts
      *   }
      * })
      * 
      */
-    create<T extends GuideCreateArgs>(args: SelectSubset<T, GuideCreateArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends PostsCreateArgs>(args: SelectSubset<T, PostsCreateArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Guides.
-     * @param {GuideCreateManyArgs} args - Arguments to create many Guides.
+     * Create many Posts.
+     * @param {PostsCreateManyArgs} args - Arguments to create many Posts.
      * @example
-     * // Create many Guides
-     * const guide = await prisma.guide.createMany({
+     * // Create many Posts
+     * const posts = await prisma.posts.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends GuideCreateManyArgs>(args?: SelectSubset<T, GuideCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends PostsCreateManyArgs>(args?: SelectSubset<T, PostsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a Guide.
-     * @param {GuideDeleteArgs} args - Arguments to delete one Guide.
+     * Delete a Posts.
+     * @param {PostsDeleteArgs} args - Arguments to delete one Posts.
      * @example
-     * // Delete one Guide
-     * const Guide = await prisma.guide.delete({
+     * // Delete one Posts
+     * const Posts = await prisma.posts.delete({
      *   where: {
-     *     // ... filter to delete one Guide
+     *     // ... filter to delete one Posts
      *   }
      * })
      * 
      */
-    delete<T extends GuideDeleteArgs>(args: SelectSubset<T, GuideDeleteArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends PostsDeleteArgs>(args: SelectSubset<T, PostsDeleteArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Guide.
-     * @param {GuideUpdateArgs} args - Arguments to update one Guide.
+     * Update one Posts.
+     * @param {PostsUpdateArgs} args - Arguments to update one Posts.
      * @example
-     * // Update one Guide
-     * const guide = await prisma.guide.update({
+     * // Update one Posts
+     * const posts = await prisma.posts.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -15028,30 +15207,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends GuideUpdateArgs>(args: SelectSubset<T, GuideUpdateArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends PostsUpdateArgs>(args: SelectSubset<T, PostsUpdateArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Guides.
-     * @param {GuideDeleteManyArgs} args - Arguments to filter Guides to delete.
+     * Delete zero or more Posts.
+     * @param {PostsDeleteManyArgs} args - Arguments to filter Posts to delete.
      * @example
-     * // Delete a few Guides
-     * const { count } = await prisma.guide.deleteMany({
+     * // Delete a few Posts
+     * const { count } = await prisma.posts.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends GuideDeleteManyArgs>(args?: SelectSubset<T, GuideDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends PostsDeleteManyArgs>(args?: SelectSubset<T, PostsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Guides.
+     * Update zero or more Posts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuideUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {PostsUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Guides
-     * const guide = await prisma.guide.updateMany({
+     * // Update many Posts
+     * const posts = await prisma.posts.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -15061,56 +15240,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends GuideUpdateManyArgs>(args: SelectSubset<T, GuideUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends PostsUpdateManyArgs>(args: SelectSubset<T, PostsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one Guide.
-     * @param {GuideUpsertArgs} args - Arguments to update or create a Guide.
+     * Create or update one Posts.
+     * @param {PostsUpsertArgs} args - Arguments to update or create a Posts.
      * @example
-     * // Update or create a Guide
-     * const guide = await prisma.guide.upsert({
+     * // Update or create a Posts
+     * const posts = await prisma.posts.upsert({
      *   create: {
-     *     // ... data to create a Guide
+     *     // ... data to create a Posts
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Guide we want to update
+     *     // ... the filter for the Posts we want to update
      *   }
      * })
      */
-    upsert<T extends GuideUpsertArgs>(args: SelectSubset<T, GuideUpsertArgs<ExtArgs>>): Prisma__GuideClient<$Result.GetResult<Prisma.$GuidePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends PostsUpsertArgs>(args: SelectSubset<T, PostsUpsertArgs<ExtArgs>>): Prisma__PostsClient<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Guides.
+     * Count the number of Posts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuideCountArgs} args - Arguments to filter Guides to count.
+     * @param {PostsCountArgs} args - Arguments to filter Posts to count.
      * @example
-     * // Count the number of Guides
-     * const count = await prisma.guide.count({
+     * // Count the number of Posts
+     * const count = await prisma.posts.count({
      *   where: {
-     *     // ... the filter for the Guides we want to count
+     *     // ... the filter for the Posts we want to count
      *   }
      * })
     **/
-    count<T extends GuideCountArgs>(
-      args?: Subset<T, GuideCountArgs>,
+    count<T extends PostsCountArgs>(
+      args?: Subset<T, PostsCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], GuideCountAggregateOutputType>
+          : GetScalarType<T['select'], PostsCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Guide.
+     * Allows you to perform aggregations operations on a Posts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuideAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {PostsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -15130,13 +15309,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends GuideAggregateArgs>(args: Subset<T, GuideAggregateArgs>): Prisma.PrismaPromise<GetGuideAggregateType<T>>
+    aggregate<T extends PostsAggregateArgs>(args: Subset<T, PostsAggregateArgs>): Prisma.PrismaPromise<GetPostsAggregateType<T>>
 
     /**
-     * Group by Guide.
+     * Group by Posts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuideGroupByArgs} args - Group by arguments.
+     * @param {PostsGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -15151,14 +15330,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends GuideGroupByArgs,
+      T extends PostsGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: GuideGroupByArgs['orderBy'] }
-        : { orderBy?: GuideGroupByArgs['orderBy'] },
+        ? { orderBy: PostsGroupByArgs['orderBy'] }
+        : { orderBy?: PostsGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -15207,21 +15386,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, GuideGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGuideGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, PostsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Guide model
+   * Fields of the Posts model
    */
-  readonly fields: GuideFieldRefs;
+  readonly fields: PostsFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Guide.
+   * The delegate class that acts as a "Promise-like" for Posts.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__GuideClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__PostsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends PostCategoriesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostCategoriesDefaultArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15248,336 +15429,1333 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Guide model
+   * Fields of the Posts model
    */
-  interface GuideFieldRefs {
-    readonly id: FieldRef<"Guide", 'String'>
-    readonly slug: FieldRef<"Guide", 'String'>
-    readonly title: FieldRef<"Guide", 'String'>
-    readonly summary: FieldRef<"Guide", 'String'>
-    readonly content: FieldRef<"Guide", 'String'>
-    readonly thumbnail: FieldRef<"Guide", 'String'>
-    readonly status: FieldRef<"Guide", 'GuideStatus'>
-    readonly createdAt: FieldRef<"Guide", 'DateTime'>
-    readonly updatedAt: FieldRef<"Guide", 'DateTime'>
+  interface PostsFieldRefs {
+    readonly id: FieldRef<"Posts", 'String'>
+    readonly authorId: FieldRef<"Posts", 'String'>
+    readonly categoryId: FieldRef<"Posts", 'String'>
+    readonly slug: FieldRef<"Posts", 'String'>
+    readonly title: FieldRef<"Posts", 'String'>
+    readonly description: FieldRef<"Posts", 'String'>
+    readonly content: FieldRef<"Posts", 'String'>
+    readonly thumbnail: FieldRef<"Posts", 'String'>
+    readonly status: FieldRef<"Posts", 'PostsStatus'>
+    readonly createdAt: FieldRef<"Posts", 'DateTime'>
+    readonly updatedAt: FieldRef<"Posts", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Guide findUnique
+   * Posts findUnique
    */
-  export type GuideFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * Filter, which Guide to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: GuideWhereUniqueInput
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where: PostsWhereUniqueInput
   }
 
   /**
-   * Guide findUniqueOrThrow
+   * Posts findUniqueOrThrow
    */
-  export type GuideFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * Filter, which Guide to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: GuideWhereUniqueInput
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where: PostsWhereUniqueInput
   }
 
   /**
-   * Guide findFirst
+   * Posts findFirst
    */
-  export type GuideFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * Filter, which Guide to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: GuideWhereInput
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where?: PostsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Guides to fetch.
+     * Determine the order of Posts to fetch.
      */
-    orderBy?: GuideOrderByWithRelationInput | GuideOrderByWithRelationInput[]
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Guides.
+     * Sets the position for searching for Posts.
      */
-    cursor?: GuideWhereUniqueInput
+    cursor?: PostsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Guides from the position of the cursor.
+     * Take `±n` Posts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Guides.
+     * Skip the first `n` Posts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Guides.
+     * Filter by unique combinations of Posts.
      */
-    distinct?: GuideScalarFieldEnum | GuideScalarFieldEnum[]
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
   }
 
   /**
-   * Guide findFirstOrThrow
+   * Posts findFirstOrThrow
    */
-  export type GuideFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * Filter, which Guide to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: GuideWhereInput
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where?: PostsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Guides to fetch.
+     * Determine the order of Posts to fetch.
      */
-    orderBy?: GuideOrderByWithRelationInput | GuideOrderByWithRelationInput[]
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Guides.
+     * Sets the position for searching for Posts.
      */
-    cursor?: GuideWhereUniqueInput
+    cursor?: PostsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Guides from the position of the cursor.
+     * Take `±n` Posts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Guides.
+     * Skip the first `n` Posts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Guides.
+     * Filter by unique combinations of Posts.
      */
-    distinct?: GuideScalarFieldEnum | GuideScalarFieldEnum[]
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
   }
 
   /**
-   * Guide findMany
+   * Posts findMany
    */
-  export type GuideFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * Filter, which Guides to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: GuideWhereInput
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where?: PostsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Guides to fetch.
+     * Determine the order of Posts to fetch.
      */
-    orderBy?: GuideOrderByWithRelationInput | GuideOrderByWithRelationInput[]
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Guides.
+     * Sets the position for listing Posts.
      */
-    cursor?: GuideWhereUniqueInput
+    cursor?: PostsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Guides from the position of the cursor.
+     * Take `±n` Posts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Guides.
+     * Skip the first `n` Posts.
      */
     skip?: number
-    distinct?: GuideScalarFieldEnum | GuideScalarFieldEnum[]
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
   }
 
   /**
-   * Guide create
+   * Posts create
    */
-  export type GuideCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * The data needed to create a Guide.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<GuideCreateInput, GuideUncheckedCreateInput>
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Posts.
+     */
+    data: XOR<PostsCreateInput, PostsUncheckedCreateInput>
   }
 
   /**
-   * Guide createMany
+   * Posts createMany
    */
-  export type GuideCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Guides.
+     * The data used to create many Posts.
      */
-    data: GuideCreateManyInput | GuideCreateManyInput[]
+    data: PostsCreateManyInput | PostsCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Guide update
+   * Posts update
    */
-  export type GuideUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * The data needed to update a Guide.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<GuideUpdateInput, GuideUncheckedUpdateInput>
+    include?: PostsInclude<ExtArgs> | null
     /**
-     * Choose, which Guide to update.
+     * The data needed to update a Posts.
      */
-    where: GuideWhereUniqueInput
+    data: XOR<PostsUpdateInput, PostsUncheckedUpdateInput>
+    /**
+     * Choose, which Posts to update.
+     */
+    where: PostsWhereUniqueInput
   }
 
   /**
-   * Guide updateMany
+   * Posts updateMany
    */
-  export type GuideUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Guides.
+     * The data used to update Posts.
      */
-    data: XOR<GuideUpdateManyMutationInput, GuideUncheckedUpdateManyInput>
+    data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyInput>
     /**
-     * Filter which Guides to update
+     * Filter which Posts to update
      */
-    where?: GuideWhereInput
+    where?: PostsWhereInput
     /**
-     * Limit how many Guides to update.
+     * Limit how many Posts to update.
      */
     limit?: number
   }
 
   /**
-   * Guide upsert
+   * Posts upsert
    */
-  export type GuideUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * The filter to search for the Guide to update in case it exists.
+     * Choose, which related nodes to fetch as well
      */
-    where: GuideWhereUniqueInput
+    include?: PostsInclude<ExtArgs> | null
     /**
-     * In case the Guide found by the `where` argument doesn't exist, create a new Guide with this data.
+     * The filter to search for the Posts to update in case it exists.
      */
-    create: XOR<GuideCreateInput, GuideUncheckedCreateInput>
+    where: PostsWhereUniqueInput
     /**
-     * In case the Guide was found with the provided `where` argument, update it with this data.
+     * In case the Posts found by the `where` argument doesn't exist, create a new Posts with this data.
      */
-    update: XOR<GuideUpdateInput, GuideUncheckedUpdateInput>
+    create: XOR<PostsCreateInput, PostsUncheckedCreateInput>
+    /**
+     * In case the Posts was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostsUpdateInput, PostsUncheckedUpdateInput>
   }
 
   /**
-   * Guide delete
+   * Posts delete
    */
-  export type GuideDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
     /**
-     * Filter which Guide to delete.
+     * Choose, which related nodes to fetch as well
      */
-    where: GuideWhereUniqueInput
+    include?: PostsInclude<ExtArgs> | null
+    /**
+     * Filter which Posts to delete.
+     */
+    where: PostsWhereUniqueInput
   }
 
   /**
-   * Guide deleteMany
+   * Posts deleteMany
    */
-  export type GuideDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Guides to delete
+     * Filter which Posts to delete
      */
-    where?: GuideWhereInput
+    where?: PostsWhereInput
     /**
-     * Limit how many Guides to delete.
+     * Limit how many Posts to delete.
      */
     limit?: number
   }
 
   /**
-   * Guide without action
+   * Posts without action
    */
-  export type GuideDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Guide
+     * Select specific fields to fetch from the Posts
      */
-    select?: GuideSelect<ExtArgs> | null
+    select?: PostsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Guide
+     * Omit specific fields from the Posts
      */
-    omit?: GuideOmit<ExtArgs> | null
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PostCategories
+   */
+
+  export type AggregatePostCategories = {
+    _count: PostCategoriesCountAggregateOutputType | null
+    _min: PostCategoriesMinAggregateOutputType | null
+    _max: PostCategoriesMaxAggregateOutputType | null
+  }
+
+  export type PostCategoriesMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PostCategoriesMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PostCategoriesCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PostCategoriesMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PostCategoriesMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PostCategoriesCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PostCategoriesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostCategories to aggregate.
+     */
+    where?: PostCategoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostCategories to fetch.
+     */
+    orderBy?: PostCategoriesOrderByWithRelationInput | PostCategoriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostCategoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PostCategories
+    **/
+    _count?: true | PostCategoriesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostCategoriesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostCategoriesMaxAggregateInputType
+  }
+
+  export type GetPostCategoriesAggregateType<T extends PostCategoriesAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostCategories]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePostCategories[P]>
+      : GetScalarType<T[P], AggregatePostCategories[P]>
+  }
+
+
+
+
+  export type PostCategoriesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostCategoriesWhereInput
+    orderBy?: PostCategoriesOrderByWithAggregationInput | PostCategoriesOrderByWithAggregationInput[]
+    by: PostCategoriesScalarFieldEnum[] | PostCategoriesScalarFieldEnum
+    having?: PostCategoriesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostCategoriesCountAggregateInputType | true
+    _min?: PostCategoriesMinAggregateInputType
+    _max?: PostCategoriesMaxAggregateInputType
+  }
+
+  export type PostCategoriesGroupByOutputType = {
+    id: string
+    name: string
+    slug: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PostCategoriesCountAggregateOutputType | null
+    _min: PostCategoriesMinAggregateOutputType | null
+    _max: PostCategoriesMaxAggregateOutputType | null
+  }
+
+  type GetPostCategoriesGroupByPayload<T extends PostCategoriesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostCategoriesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostCategoriesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostCategoriesGroupByOutputType[P]>
+            : GetScalarType<T[P], PostCategoriesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostCategoriesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    posts?: boolean | PostCategories$postsArgs<ExtArgs>
+    _count?: boolean | PostCategoriesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postCategories"]>
+
+
+
+  export type PostCategoriesSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PostCategoriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "createdAt" | "updatedAt", ExtArgs["result"]["postCategories"]>
+  export type PostCategoriesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    posts?: boolean | PostCategories$postsArgs<ExtArgs>
+    _count?: boolean | PostCategoriesCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $PostCategoriesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostCategories"
+    objects: {
+      posts: Prisma.$PostsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      slug: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["postCategories"]>
+    composites: {}
+  }
+
+  type PostCategoriesGetPayload<S extends boolean | null | undefined | PostCategoriesDefaultArgs> = $Result.GetResult<Prisma.$PostCategoriesPayload, S>
+
+  type PostCategoriesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostCategoriesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostCategoriesCountAggregateInputType | true
+    }
+
+  export interface PostCategoriesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostCategories'], meta: { name: 'PostCategories' } }
+    /**
+     * Find zero or one PostCategories that matches the filter.
+     * @param {PostCategoriesFindUniqueArgs} args - Arguments to find a PostCategories
+     * @example
+     * // Get one PostCategories
+     * const postCategories = await prisma.postCategories.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PostCategoriesFindUniqueArgs>(args: SelectSubset<T, PostCategoriesFindUniqueArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PostCategories that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PostCategoriesFindUniqueOrThrowArgs} args - Arguments to find a PostCategories
+     * @example
+     * // Get one PostCategories
+     * const postCategories = await prisma.postCategories.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PostCategoriesFindUniqueOrThrowArgs>(args: SelectSubset<T, PostCategoriesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCategoriesFindFirstArgs} args - Arguments to find a PostCategories
+     * @example
+     * // Get one PostCategories
+     * const postCategories = await prisma.postCategories.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PostCategoriesFindFirstArgs>(args?: SelectSubset<T, PostCategoriesFindFirstArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostCategories that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCategoriesFindFirstOrThrowArgs} args - Arguments to find a PostCategories
+     * @example
+     * // Get one PostCategories
+     * const postCategories = await prisma.postCategories.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PostCategoriesFindFirstOrThrowArgs>(args?: SelectSubset<T, PostCategoriesFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PostCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCategoriesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PostCategories
+     * const postCategories = await prisma.postCategories.findMany()
+     * 
+     * // Get first 10 PostCategories
+     * const postCategories = await prisma.postCategories.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postCategoriesWithIdOnly = await prisma.postCategories.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PostCategoriesFindManyArgs>(args?: SelectSubset<T, PostCategoriesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PostCategories.
+     * @param {PostCategoriesCreateArgs} args - Arguments to create a PostCategories.
+     * @example
+     * // Create one PostCategories
+     * const PostCategories = await prisma.postCategories.create({
+     *   data: {
+     *     // ... data to create a PostCategories
+     *   }
+     * })
+     * 
+     */
+    create<T extends PostCategoriesCreateArgs>(args: SelectSubset<T, PostCategoriesCreateArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PostCategories.
+     * @param {PostCategoriesCreateManyArgs} args - Arguments to create many PostCategories.
+     * @example
+     * // Create many PostCategories
+     * const postCategories = await prisma.postCategories.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PostCategoriesCreateManyArgs>(args?: SelectSubset<T, PostCategoriesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PostCategories.
+     * @param {PostCategoriesDeleteArgs} args - Arguments to delete one PostCategories.
+     * @example
+     * // Delete one PostCategories
+     * const PostCategories = await prisma.postCategories.delete({
+     *   where: {
+     *     // ... filter to delete one PostCategories
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PostCategoriesDeleteArgs>(args: SelectSubset<T, PostCategoriesDeleteArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PostCategories.
+     * @param {PostCategoriesUpdateArgs} args - Arguments to update one PostCategories.
+     * @example
+     * // Update one PostCategories
+     * const postCategories = await prisma.postCategories.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PostCategoriesUpdateArgs>(args: SelectSubset<T, PostCategoriesUpdateArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PostCategories.
+     * @param {PostCategoriesDeleteManyArgs} args - Arguments to filter PostCategories to delete.
+     * @example
+     * // Delete a few PostCategories
+     * const { count } = await prisma.postCategories.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PostCategoriesDeleteManyArgs>(args?: SelectSubset<T, PostCategoriesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCategoriesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PostCategories
+     * const postCategories = await prisma.postCategories.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PostCategoriesUpdateManyArgs>(args: SelectSubset<T, PostCategoriesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PostCategories.
+     * @param {PostCategoriesUpsertArgs} args - Arguments to update or create a PostCategories.
+     * @example
+     * // Update or create a PostCategories
+     * const postCategories = await prisma.postCategories.upsert({
+     *   create: {
+     *     // ... data to create a PostCategories
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PostCategories we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PostCategoriesUpsertArgs>(args: SelectSubset<T, PostCategoriesUpsertArgs<ExtArgs>>): Prisma__PostCategoriesClient<$Result.GetResult<Prisma.$PostCategoriesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PostCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCategoriesCountArgs} args - Arguments to filter PostCategories to count.
+     * @example
+     * // Count the number of PostCategories
+     * const count = await prisma.postCategories.count({
+     *   where: {
+     *     // ... the filter for the PostCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostCategoriesCountArgs>(
+      args?: Subset<T, PostCategoriesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostCategoriesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PostCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCategoriesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostCategoriesAggregateArgs>(args: Subset<T, PostCategoriesAggregateArgs>): Prisma.PrismaPromise<GetPostCategoriesAggregateType<T>>
+
+    /**
+     * Group by PostCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCategoriesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostCategoriesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostCategoriesGroupByArgs['orderBy'] }
+        : { orderBy?: PostCategoriesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostCategoriesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostCategoriesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PostCategories model
+   */
+  readonly fields: PostCategoriesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PostCategories.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostCategoriesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    posts<T extends PostCategories$postsArgs<ExtArgs> = {}>(args?: Subset<T, PostCategories$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PostCategories model
+   */
+  interface PostCategoriesFieldRefs {
+    readonly id: FieldRef<"PostCategories", 'String'>
+    readonly name: FieldRef<"PostCategories", 'String'>
+    readonly slug: FieldRef<"PostCategories", 'String'>
+    readonly createdAt: FieldRef<"PostCategories", 'DateTime'>
+    readonly updatedAt: FieldRef<"PostCategories", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PostCategories findUnique
+   */
+  export type PostCategoriesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostCategories to fetch.
+     */
+    where: PostCategoriesWhereUniqueInput
+  }
+
+  /**
+   * PostCategories findUniqueOrThrow
+   */
+  export type PostCategoriesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostCategories to fetch.
+     */
+    where: PostCategoriesWhereUniqueInput
+  }
+
+  /**
+   * PostCategories findFirst
+   */
+  export type PostCategoriesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostCategories to fetch.
+     */
+    where?: PostCategoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostCategories to fetch.
+     */
+    orderBy?: PostCategoriesOrderByWithRelationInput | PostCategoriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostCategories.
+     */
+    cursor?: PostCategoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostCategories.
+     */
+    distinct?: PostCategoriesScalarFieldEnum | PostCategoriesScalarFieldEnum[]
+  }
+
+  /**
+   * PostCategories findFirstOrThrow
+   */
+  export type PostCategoriesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostCategories to fetch.
+     */
+    where?: PostCategoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostCategories to fetch.
+     */
+    orderBy?: PostCategoriesOrderByWithRelationInput | PostCategoriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostCategories.
+     */
+    cursor?: PostCategoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostCategories.
+     */
+    distinct?: PostCategoriesScalarFieldEnum | PostCategoriesScalarFieldEnum[]
+  }
+
+  /**
+   * PostCategories findMany
+   */
+  export type PostCategoriesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostCategories to fetch.
+     */
+    where?: PostCategoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostCategories to fetch.
+     */
+    orderBy?: PostCategoriesOrderByWithRelationInput | PostCategoriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PostCategories.
+     */
+    cursor?: PostCategoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostCategories.
+     */
+    skip?: number
+    distinct?: PostCategoriesScalarFieldEnum | PostCategoriesScalarFieldEnum[]
+  }
+
+  /**
+   * PostCategories create
+   */
+  export type PostCategoriesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PostCategories.
+     */
+    data: XOR<PostCategoriesCreateInput, PostCategoriesUncheckedCreateInput>
+  }
+
+  /**
+   * PostCategories createMany
+   */
+  export type PostCategoriesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PostCategories.
+     */
+    data: PostCategoriesCreateManyInput | PostCategoriesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PostCategories update
+   */
+  export type PostCategoriesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PostCategories.
+     */
+    data: XOR<PostCategoriesUpdateInput, PostCategoriesUncheckedUpdateInput>
+    /**
+     * Choose, which PostCategories to update.
+     */
+    where: PostCategoriesWhereUniqueInput
+  }
+
+  /**
+   * PostCategories updateMany
+   */
+  export type PostCategoriesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PostCategories.
+     */
+    data: XOR<PostCategoriesUpdateManyMutationInput, PostCategoriesUncheckedUpdateManyInput>
+    /**
+     * Filter which PostCategories to update
+     */
+    where?: PostCategoriesWhereInput
+    /**
+     * Limit how many PostCategories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostCategories upsert
+   */
+  export type PostCategoriesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PostCategories to update in case it exists.
+     */
+    where: PostCategoriesWhereUniqueInput
+    /**
+     * In case the PostCategories found by the `where` argument doesn't exist, create a new PostCategories with this data.
+     */
+    create: XOR<PostCategoriesCreateInput, PostCategoriesUncheckedCreateInput>
+    /**
+     * In case the PostCategories was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostCategoriesUpdateInput, PostCategoriesUncheckedUpdateInput>
+  }
+
+  /**
+   * PostCategories delete
+   */
+  export type PostCategoriesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
+    /**
+     * Filter which PostCategories to delete.
+     */
+    where: PostCategoriesWhereUniqueInput
+  }
+
+  /**
+   * PostCategories deleteMany
+   */
+  export type PostCategoriesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostCategories to delete
+     */
+    where?: PostCategoriesWhereInput
+    /**
+     * Limit how many PostCategories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostCategories.posts
+   */
+  export type PostCategories$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Posts
+     */
+    select?: PostsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Posts
+     */
+    omit?: PostsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostsInclude<ExtArgs> | null
+    where?: PostsWhereInput
+    orderBy?: PostsOrderByWithRelationInput | PostsOrderByWithRelationInput[]
+    cursor?: PostsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostsScalarFieldEnum | PostsScalarFieldEnum[]
+  }
+
+  /**
+   * PostCategories without action
+   */
+  export type PostCategoriesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCategories
+     */
+    select?: PostCategoriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostCategories
+     */
+    omit?: PostCategoriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostCategoriesInclude<ExtArgs> | null
   }
 
 
@@ -17694,11 +18872,13 @@ export namespace Prisma {
   export type FlowFallbackScalarFieldEnum = (typeof FlowFallbackScalarFieldEnum)[keyof typeof FlowFallbackScalarFieldEnum]
 
 
-  export const GuideScalarFieldEnum: {
+  export const PostsScalarFieldEnum: {
     id: 'id',
+    authorId: 'authorId',
+    categoryId: 'categoryId',
     slug: 'slug',
     title: 'title',
-    summary: 'summary',
+    description: 'description',
     content: 'content',
     thumbnail: 'thumbnail',
     status: 'status',
@@ -17706,7 +18886,18 @@ export namespace Prisma {
     updatedAt: 'updatedAt'
   };
 
-  export type GuideScalarFieldEnum = (typeof GuideScalarFieldEnum)[keyof typeof GuideScalarFieldEnum]
+  export type PostsScalarFieldEnum = (typeof PostsScalarFieldEnum)[keyof typeof PostsScalarFieldEnum]
+
+
+  export const PostCategoriesScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PostCategoriesScalarFieldEnum = (typeof PostCategoriesScalarFieldEnum)[keyof typeof PostCategoriesScalarFieldEnum]
 
 
   export const ChatConversationScalarFieldEnum: {
@@ -17907,16 +19098,27 @@ export namespace Prisma {
   export type FlowFallbackOrderByRelevanceFieldEnum = (typeof FlowFallbackOrderByRelevanceFieldEnum)[keyof typeof FlowFallbackOrderByRelevanceFieldEnum]
 
 
-  export const GuideOrderByRelevanceFieldEnum: {
+  export const PostsOrderByRelevanceFieldEnum: {
     id: 'id',
+    authorId: 'authorId',
+    categoryId: 'categoryId',
     slug: 'slug',
     title: 'title',
-    summary: 'summary',
+    description: 'description',
     content: 'content',
     thumbnail: 'thumbnail'
   };
 
-  export type GuideOrderByRelevanceFieldEnum = (typeof GuideOrderByRelevanceFieldEnum)[keyof typeof GuideOrderByRelevanceFieldEnum]
+  export type PostsOrderByRelevanceFieldEnum = (typeof PostsOrderByRelevanceFieldEnum)[keyof typeof PostsOrderByRelevanceFieldEnum]
+
+
+  export const PostCategoriesOrderByRelevanceFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug'
+  };
+
+  export type PostCategoriesOrderByRelevanceFieldEnum = (typeof PostCategoriesOrderByRelevanceFieldEnum)[keyof typeof PostCategoriesOrderByRelevanceFieldEnum]
 
 
   export const ChatConversationOrderByRelevanceFieldEnum: {
@@ -18041,9 +19243,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'GuideStatus'
+   * Reference to a field of type 'PostsStatus'
    */
-  export type EnumGuideStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GuideStatus'>
+  export type EnumPostsStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostsStatus'>
     
 
 
@@ -18098,6 +19300,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeListRelationFilter
     flowShareSaves?: FlowShareSaveListRelationFilter
     flowShareComments?: FlowShareCommentListRelationFilter
+    posts?: PostsListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -18124,6 +19327,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeOrderByRelationAggregateInput
     flowShareSaves?: FlowShareSaveOrderByRelationAggregateInput
     flowShareComments?: FlowShareCommentOrderByRelationAggregateInput
+    posts?: PostsOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -18154,6 +19358,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeListRelationFilter
     flowShareSaves?: FlowShareSaveListRelationFilter
     flowShareComments?: FlowShareCommentListRelationFilter
+    posts?: PostsListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -19003,77 +20208,149 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"FlowFallback"> | Date | string
   }
 
-  export type GuideWhereInput = {
-    AND?: GuideWhereInput | GuideWhereInput[]
-    OR?: GuideWhereInput[]
-    NOT?: GuideWhereInput | GuideWhereInput[]
-    id?: StringFilter<"Guide"> | string
-    slug?: StringFilter<"Guide"> | string
-    title?: StringFilter<"Guide"> | string
-    summary?: StringNullableFilter<"Guide"> | string | null
-    content?: StringFilter<"Guide"> | string
-    thumbnail?: StringNullableFilter<"Guide"> | string | null
-    status?: EnumGuideStatusFilter<"Guide"> | $Enums.GuideStatus
-    createdAt?: DateTimeFilter<"Guide"> | Date | string
-    updatedAt?: DateTimeFilter<"Guide"> | Date | string
+  export type PostsWhereInput = {
+    AND?: PostsWhereInput | PostsWhereInput[]
+    OR?: PostsWhereInput[]
+    NOT?: PostsWhereInput | PostsWhereInput[]
+    id?: StringFilter<"Posts"> | string
+    authorId?: StringFilter<"Posts"> | string
+    categoryId?: StringFilter<"Posts"> | string
+    slug?: StringFilter<"Posts"> | string
+    title?: StringFilter<"Posts"> | string
+    description?: StringFilter<"Posts"> | string
+    content?: StringFilter<"Posts"> | string
+    thumbnail?: StringFilter<"Posts"> | string
+    status?: EnumPostsStatusFilter<"Posts"> | $Enums.PostsStatus
+    createdAt?: DateTimeFilter<"Posts"> | Date | string
+    updatedAt?: DateTimeFilter<"Posts"> | Date | string
+    category?: XOR<PostCategoriesScalarRelationFilter, PostCategoriesWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
-  export type GuideOrderByWithRelationInput = {
+  export type PostsOrderByWithRelationInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    categoryId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
-    summary?: SortOrderInput | SortOrder
+    description?: SortOrder
     content?: SortOrder
-    thumbnail?: SortOrderInput | SortOrder
+    thumbnail?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _relevance?: GuideOrderByRelevanceInput
+    category?: PostCategoriesOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
+    _relevance?: PostsOrderByRelevanceInput
   }
 
-  export type GuideWhereUniqueInput = Prisma.AtLeast<{
+  export type PostsWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     slug?: string
-    AND?: GuideWhereInput | GuideWhereInput[]
-    OR?: GuideWhereInput[]
-    NOT?: GuideWhereInput | GuideWhereInput[]
-    title?: StringFilter<"Guide"> | string
-    summary?: StringNullableFilter<"Guide"> | string | null
-    content?: StringFilter<"Guide"> | string
-    thumbnail?: StringNullableFilter<"Guide"> | string | null
-    status?: EnumGuideStatusFilter<"Guide"> | $Enums.GuideStatus
-    createdAt?: DateTimeFilter<"Guide"> | Date | string
-    updatedAt?: DateTimeFilter<"Guide"> | Date | string
+    AND?: PostsWhereInput | PostsWhereInput[]
+    OR?: PostsWhereInput[]
+    NOT?: PostsWhereInput | PostsWhereInput[]
+    authorId?: StringFilter<"Posts"> | string
+    categoryId?: StringFilter<"Posts"> | string
+    title?: StringFilter<"Posts"> | string
+    description?: StringFilter<"Posts"> | string
+    content?: StringFilter<"Posts"> | string
+    thumbnail?: StringFilter<"Posts"> | string
+    status?: EnumPostsStatusFilter<"Posts"> | $Enums.PostsStatus
+    createdAt?: DateTimeFilter<"Posts"> | Date | string
+    updatedAt?: DateTimeFilter<"Posts"> | Date | string
+    category?: XOR<PostCategoriesScalarRelationFilter, PostCategoriesWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "slug">
 
-  export type GuideOrderByWithAggregationInput = {
+  export type PostsOrderByWithAggregationInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    categoryId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
-    summary?: SortOrderInput | SortOrder
+    description?: SortOrder
     content?: SortOrder
-    thumbnail?: SortOrderInput | SortOrder
+    thumbnail?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: GuideCountOrderByAggregateInput
-    _max?: GuideMaxOrderByAggregateInput
-    _min?: GuideMinOrderByAggregateInput
+    _count?: PostsCountOrderByAggregateInput
+    _max?: PostsMaxOrderByAggregateInput
+    _min?: PostsMinOrderByAggregateInput
   }
 
-  export type GuideScalarWhereWithAggregatesInput = {
-    AND?: GuideScalarWhereWithAggregatesInput | GuideScalarWhereWithAggregatesInput[]
-    OR?: GuideScalarWhereWithAggregatesInput[]
-    NOT?: GuideScalarWhereWithAggregatesInput | GuideScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Guide"> | string
-    slug?: StringWithAggregatesFilter<"Guide"> | string
-    title?: StringWithAggregatesFilter<"Guide"> | string
-    summary?: StringNullableWithAggregatesFilter<"Guide"> | string | null
-    content?: StringWithAggregatesFilter<"Guide"> | string
-    thumbnail?: StringNullableWithAggregatesFilter<"Guide"> | string | null
-    status?: EnumGuideStatusWithAggregatesFilter<"Guide"> | $Enums.GuideStatus
-    createdAt?: DateTimeWithAggregatesFilter<"Guide"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Guide"> | Date | string
+  export type PostsScalarWhereWithAggregatesInput = {
+    AND?: PostsScalarWhereWithAggregatesInput | PostsScalarWhereWithAggregatesInput[]
+    OR?: PostsScalarWhereWithAggregatesInput[]
+    NOT?: PostsScalarWhereWithAggregatesInput | PostsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Posts"> | string
+    authorId?: StringWithAggregatesFilter<"Posts"> | string
+    categoryId?: StringWithAggregatesFilter<"Posts"> | string
+    slug?: StringWithAggregatesFilter<"Posts"> | string
+    title?: StringWithAggregatesFilter<"Posts"> | string
+    description?: StringWithAggregatesFilter<"Posts"> | string
+    content?: StringWithAggregatesFilter<"Posts"> | string
+    thumbnail?: StringWithAggregatesFilter<"Posts"> | string
+    status?: EnumPostsStatusWithAggregatesFilter<"Posts"> | $Enums.PostsStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Posts"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Posts"> | Date | string
+  }
+
+  export type PostCategoriesWhereInput = {
+    AND?: PostCategoriesWhereInput | PostCategoriesWhereInput[]
+    OR?: PostCategoriesWhereInput[]
+    NOT?: PostCategoriesWhereInput | PostCategoriesWhereInput[]
+    id?: StringFilter<"PostCategories"> | string
+    name?: StringFilter<"PostCategories"> | string
+    slug?: StringFilter<"PostCategories"> | string
+    createdAt?: DateTimeFilter<"PostCategories"> | Date | string
+    updatedAt?: DateTimeFilter<"PostCategories"> | Date | string
+    posts?: PostsListRelationFilter
+  }
+
+  export type PostCategoriesOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    posts?: PostsOrderByRelationAggregateInput
+    _relevance?: PostCategoriesOrderByRelevanceInput
+  }
+
+  export type PostCategoriesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    slug?: string
+    AND?: PostCategoriesWhereInput | PostCategoriesWhereInput[]
+    OR?: PostCategoriesWhereInput[]
+    NOT?: PostCategoriesWhereInput | PostCategoriesWhereInput[]
+    createdAt?: DateTimeFilter<"PostCategories"> | Date | string
+    updatedAt?: DateTimeFilter<"PostCategories"> | Date | string
+    posts?: PostsListRelationFilter
+  }, "id" | "name" | "slug">
+
+  export type PostCategoriesOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PostCategoriesCountOrderByAggregateInput
+    _max?: PostCategoriesMaxOrderByAggregateInput
+    _min?: PostCategoriesMinOrderByAggregateInput
+  }
+
+  export type PostCategoriesScalarWhereWithAggregatesInput = {
+    AND?: PostCategoriesScalarWhereWithAggregatesInput | PostCategoriesScalarWhereWithAggregatesInput[]
+    OR?: PostCategoriesScalarWhereWithAggregatesInput[]
+    NOT?: PostCategoriesScalarWhereWithAggregatesInput | PostCategoriesScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PostCategories"> | string
+    name?: StringWithAggregatesFilter<"PostCategories"> | string
+    slug?: StringWithAggregatesFilter<"PostCategories"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PostCategories"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PostCategories"> | Date | string
   }
 
   export type ChatConversationWhereInput = {
@@ -19235,6 +20512,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -19261,6 +20539,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
@@ -19287,6 +20566,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -19313,6 +20593,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -20189,86 +21470,158 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GuideCreateInput = {
+  export type PostsCreateInput = {
     id?: string
     slug: string
     title: string
-    summary?: string | null
+    description: string
     content: string
-    thumbnail?: string | null
-    status?: $Enums.GuideStatus
+    thumbnail: string
+    status?: $Enums.PostsStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: PostCategoriesCreateNestedOneWithoutPostsInput
+    author: UserCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostsUncheckedCreateInput = {
+    id?: string
+    authorId: string
+    categoryId: string
+    slug: string
+    title: string
+    description: string
+    content: string
+    thumbnail: string
+    status?: $Enums.PostsStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type GuideUncheckedCreateInput = {
+  export type PostsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: PostCategoriesUpdateOneRequiredWithoutPostsNestedInput
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsCreateManyInput = {
     id?: string
+    authorId: string
+    categoryId: string
     slug: string
     title: string
-    summary?: string | null
+    description: string
     content: string
-    thumbnail?: string | null
-    status?: $Enums.GuideStatus
+    thumbnail: string
+    status?: $Enums.PostsStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type GuideUpdateInput = {
+  export type PostsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumGuideStatusFieldUpdateOperationsInput | $Enums.GuideStatus
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GuideUncheckedUpdateInput = {
+  export type PostsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumGuideStatusFieldUpdateOperationsInput | $Enums.GuideStatus
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GuideCreateManyInput = {
+  export type PostCategoriesCreateInput = {
     id?: string
+    name: string
     slug: string
-    title: string
-    summary?: string | null
-    content: string
-    thumbnail?: string | null
-    status?: $Enums.GuideStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    posts?: PostsCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PostCategoriesUncheckedCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    posts?: PostsUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PostCategoriesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostsUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PostCategoriesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostsUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PostCategoriesCreateManyInput = {
+    id?: string
+    name: string
+    slug: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type GuideUpdateManyMutationInput = {
+  export type PostCategoriesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumGuideStatusFieldUpdateOperationsInput | $Enums.GuideStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GuideUncheckedUpdateManyInput = {
+  export type PostCategoriesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumGuideStatusFieldUpdateOperationsInput | $Enums.GuideStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20545,6 +21898,12 @@ export namespace Prisma {
     none?: FlowShareCommentWhereInput
   }
 
+  export type PostsListRelationFilter = {
+    every?: PostsWhereInput
+    some?: PostsWhereInput
+    none?: PostsWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -20591,6 +21950,10 @@ export namespace Prisma {
   }
 
   export type FlowShareCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21374,24 +22737,31 @@ export namespace Prisma {
     _max?: NestedEnumTimeoutUnitFilter<$PrismaModel>
   }
 
-  export type EnumGuideStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.GuideStatus | EnumGuideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GuideStatus[]
-    notIn?: $Enums.GuideStatus[]
-    not?: NestedEnumGuideStatusFilter<$PrismaModel> | $Enums.GuideStatus
+  export type EnumPostsStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostsStatus | EnumPostsStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostsStatus[]
+    notIn?: $Enums.PostsStatus[]
+    not?: NestedEnumPostsStatusFilter<$PrismaModel> | $Enums.PostsStatus
   }
 
-  export type GuideOrderByRelevanceInput = {
-    fields: GuideOrderByRelevanceFieldEnum | GuideOrderByRelevanceFieldEnum[]
+  export type PostCategoriesScalarRelationFilter = {
+    is?: PostCategoriesWhereInput
+    isNot?: PostCategoriesWhereInput
+  }
+
+  export type PostsOrderByRelevanceInput = {
+    fields: PostsOrderByRelevanceFieldEnum | PostsOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
   }
 
-  export type GuideCountOrderByAggregateInput = {
+  export type PostsCountOrderByAggregateInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    categoryId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
-    summary?: SortOrder
+    description?: SortOrder
     content?: SortOrder
     thumbnail?: SortOrder
     status?: SortOrder
@@ -21399,11 +22769,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type GuideMaxOrderByAggregateInput = {
+  export type PostsMaxOrderByAggregateInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    categoryId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
-    summary?: SortOrder
+    description?: SortOrder
     content?: SortOrder
     thumbnail?: SortOrder
     status?: SortOrder
@@ -21411,11 +22783,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type GuideMinOrderByAggregateInput = {
+  export type PostsMinOrderByAggregateInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    categoryId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
-    summary?: SortOrder
+    description?: SortOrder
     content?: SortOrder
     thumbnail?: SortOrder
     status?: SortOrder
@@ -21423,14 +22797,44 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type EnumGuideStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.GuideStatus | EnumGuideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GuideStatus[]
-    notIn?: $Enums.GuideStatus[]
-    not?: NestedEnumGuideStatusWithAggregatesFilter<$PrismaModel> | $Enums.GuideStatus
+  export type EnumPostsStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostsStatus | EnumPostsStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostsStatus[]
+    notIn?: $Enums.PostsStatus[]
+    not?: NestedEnumPostsStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostsStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumGuideStatusFilter<$PrismaModel>
-    _max?: NestedEnumGuideStatusFilter<$PrismaModel>
+    _min?: NestedEnumPostsStatusFilter<$PrismaModel>
+    _max?: NestedEnumPostsStatusFilter<$PrismaModel>
+  }
+
+  export type PostCategoriesOrderByRelevanceInput = {
+    fields: PostCategoriesOrderByRelevanceFieldEnum | PostCategoriesOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PostCategoriesCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PostCategoriesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PostCategoriesMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ChatLiveMessageListRelationFilter = {
@@ -21637,6 +23041,13 @@ export namespace Prisma {
     connect?: FlowShareCommentWhereUniqueInput | FlowShareCommentWhereUniqueInput[]
   }
 
+  export type PostsCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<PostsCreateWithoutAuthorInput, PostsUncheckedCreateWithoutAuthorInput> | PostsCreateWithoutAuthorInput[] | PostsUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutAuthorInput | PostsCreateOrConnectWithoutAuthorInput[]
+    createMany?: PostsCreateManyAuthorInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+  }
+
   export type FlowUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<FlowCreateWithoutUserInput, FlowUncheckedCreateWithoutUserInput> | FlowCreateWithoutUserInput[] | FlowUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCreateOrConnectWithoutUserInput | FlowCreateOrConnectWithoutUserInput[]
@@ -21718,6 +23129,13 @@ export namespace Prisma {
     connectOrCreate?: FlowShareCommentCreateOrConnectWithoutUserInput | FlowShareCommentCreateOrConnectWithoutUserInput[]
     createMany?: FlowShareCommentCreateManyUserInputEnvelope
     connect?: FlowShareCommentWhereUniqueInput | FlowShareCommentWhereUniqueInput[]
+  }
+
+  export type PostsUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<PostsCreateWithoutAuthorInput, PostsUncheckedCreateWithoutAuthorInput> | PostsCreateWithoutAuthorInput[] | PostsUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutAuthorInput | PostsCreateOrConnectWithoutAuthorInput[]
+    createMany?: PostsCreateManyAuthorInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -21904,6 +23322,20 @@ export namespace Prisma {
     deleteMany?: FlowShareCommentScalarWhereInput | FlowShareCommentScalarWhereInput[]
   }
 
+  export type PostsUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<PostsCreateWithoutAuthorInput, PostsUncheckedCreateWithoutAuthorInput> | PostsCreateWithoutAuthorInput[] | PostsUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutAuthorInput | PostsCreateOrConnectWithoutAuthorInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutAuthorInput | PostsUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: PostsCreateManyAuthorInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutAuthorInput | PostsUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutAuthorInput | PostsUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
+  }
+
   export type FlowUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<FlowCreateWithoutUserInput, FlowUncheckedCreateWithoutUserInput> | FlowCreateWithoutUserInput[] | FlowUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCreateOrConnectWithoutUserInput | FlowCreateOrConnectWithoutUserInput[]
@@ -22066,6 +23498,20 @@ export namespace Prisma {
     update?: FlowShareCommentUpdateWithWhereUniqueWithoutUserInput | FlowShareCommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: FlowShareCommentUpdateManyWithWhereWithoutUserInput | FlowShareCommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: FlowShareCommentScalarWhereInput | FlowShareCommentScalarWhereInput[]
+  }
+
+  export type PostsUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<PostsCreateWithoutAuthorInput, PostsUncheckedCreateWithoutAuthorInput> | PostsCreateWithoutAuthorInput[] | PostsUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutAuthorInput | PostsCreateOrConnectWithoutAuthorInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutAuthorInput | PostsUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: PostsCreateManyAuthorInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutAuthorInput | PostsUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutAuthorInput | PostsUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutVerificationTokensInput = {
@@ -22714,8 +24160,78 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFallbackInput, UserUpdateWithoutFallbackInput>, UserUncheckedUpdateWithoutFallbackInput>
   }
 
-  export type EnumGuideStatusFieldUpdateOperationsInput = {
-    set?: $Enums.GuideStatus
+  export type PostCategoriesCreateNestedOneWithoutPostsInput = {
+    create?: XOR<PostCategoriesCreateWithoutPostsInput, PostCategoriesUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: PostCategoriesCreateOrConnectWithoutPostsInput
+    connect?: PostCategoriesWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPostsInput = {
+    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumPostsStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PostsStatus
+  }
+
+  export type PostCategoriesUpdateOneRequiredWithoutPostsNestedInput = {
+    create?: XOR<PostCategoriesCreateWithoutPostsInput, PostCategoriesUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: PostCategoriesCreateOrConnectWithoutPostsInput
+    upsert?: PostCategoriesUpsertWithoutPostsInput
+    connect?: PostCategoriesWhereUniqueInput
+    update?: XOR<XOR<PostCategoriesUpdateToOneWithWhereWithoutPostsInput, PostCategoriesUpdateWithoutPostsInput>, PostCategoriesUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPostsNestedInput = {
+    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostsInput
+    upsert?: UserUpsertWithoutPostsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostsInput, UserUpdateWithoutPostsInput>, UserUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type PostsCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<PostsCreateWithoutCategoryInput, PostsUncheckedCreateWithoutCategoryInput> | PostsCreateWithoutCategoryInput[] | PostsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCategoryInput | PostsCreateOrConnectWithoutCategoryInput[]
+    createMany?: PostsCreateManyCategoryInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+  }
+
+  export type PostsUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<PostsCreateWithoutCategoryInput, PostsUncheckedCreateWithoutCategoryInput> | PostsCreateWithoutCategoryInput[] | PostsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCategoryInput | PostsCreateOrConnectWithoutCategoryInput[]
+    createMany?: PostsCreateManyCategoryInputEnvelope
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+  }
+
+  export type PostsUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<PostsCreateWithoutCategoryInput, PostsUncheckedCreateWithoutCategoryInput> | PostsCreateWithoutCategoryInput[] | PostsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCategoryInput | PostsCreateOrConnectWithoutCategoryInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutCategoryInput | PostsUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: PostsCreateManyCategoryInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutCategoryInput | PostsUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutCategoryInput | PostsUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
+  }
+
+  export type PostsUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<PostsCreateWithoutCategoryInput, PostsUncheckedCreateWithoutCategoryInput> | PostsCreateWithoutCategoryInput[] | PostsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PostsCreateOrConnectWithoutCategoryInput | PostsCreateOrConnectWithoutCategoryInput[]
+    upsert?: PostsUpsertWithWhereUniqueWithoutCategoryInput | PostsUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: PostsCreateManyCategoryInputEnvelope
+    set?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    disconnect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    delete?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    connect?: PostsWhereUniqueInput | PostsWhereUniqueInput[]
+    update?: PostsUpdateWithWhereUniqueWithoutCategoryInput | PostsUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: PostsUpdateManyWithWhereWithoutCategoryInput | PostsUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutChatConversationsInput = {
@@ -23133,21 +24649,21 @@ export namespace Prisma {
     _max?: NestedEnumTimeoutUnitFilter<$PrismaModel>
   }
 
-  export type NestedEnumGuideStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.GuideStatus | EnumGuideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GuideStatus[]
-    notIn?: $Enums.GuideStatus[]
-    not?: NestedEnumGuideStatusFilter<$PrismaModel> | $Enums.GuideStatus
+  export type NestedEnumPostsStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostsStatus | EnumPostsStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostsStatus[]
+    notIn?: $Enums.PostsStatus[]
+    not?: NestedEnumPostsStatusFilter<$PrismaModel> | $Enums.PostsStatus
   }
 
-  export type NestedEnumGuideStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.GuideStatus | EnumGuideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GuideStatus[]
-    notIn?: $Enums.GuideStatus[]
-    not?: NestedEnumGuideStatusWithAggregatesFilter<$PrismaModel> | $Enums.GuideStatus
+  export type NestedEnumPostsStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostsStatus | EnumPostsStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostsStatus[]
+    notIn?: $Enums.PostsStatus[]
+    not?: NestedEnumPostsStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostsStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumGuideStatusFilter<$PrismaModel>
-    _max?: NestedEnumGuideStatusFilter<$PrismaModel>
+    _min?: NestedEnumPostsStatusFilter<$PrismaModel>
+    _max?: NestedEnumPostsStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumChatSenderFilter<$PrismaModel = never> = {
@@ -23545,6 +25061,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PostsCreateWithoutAuthorInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    content: string
+    thumbnail: string
+    status?: $Enums.PostsStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: PostCategoriesCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostsUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    categoryId: string
+    slug: string
+    title: string
+    description: string
+    content: string
+    thumbnail: string
+    status?: $Enums.PostsStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostsCreateOrConnectWithoutAuthorInput = {
+    where: PostsWhereUniqueInput
+    create: XOR<PostsCreateWithoutAuthorInput, PostsUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type PostsCreateManyAuthorInputEnvelope = {
+    data: PostsCreateManyAuthorInput | PostsCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FlowUpsertWithWhereUniqueWithoutUserInput = {
     where: FlowWhereUniqueInput
     update: XOR<FlowUpdateWithoutUserInput, FlowUncheckedUpdateWithoutUserInput>
@@ -23899,6 +25451,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"FlowShareComment"> | Date | string
   }
 
+  export type PostsUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: PostsWhereUniqueInput
+    update: XOR<PostsUpdateWithoutAuthorInput, PostsUncheckedUpdateWithoutAuthorInput>
+    create: XOR<PostsCreateWithoutAuthorInput, PostsUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type PostsUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: PostsWhereUniqueInput
+    data: XOR<PostsUpdateWithoutAuthorInput, PostsUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type PostsUpdateManyWithWhereWithoutAuthorInput = {
+    where: PostsScalarWhereInput
+    data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type PostsScalarWhereInput = {
+    AND?: PostsScalarWhereInput | PostsScalarWhereInput[]
+    OR?: PostsScalarWhereInput[]
+    NOT?: PostsScalarWhereInput | PostsScalarWhereInput[]
+    id?: StringFilter<"Posts"> | string
+    authorId?: StringFilter<"Posts"> | string
+    categoryId?: StringFilter<"Posts"> | string
+    slug?: StringFilter<"Posts"> | string
+    title?: StringFilter<"Posts"> | string
+    description?: StringFilter<"Posts"> | string
+    content?: StringFilter<"Posts"> | string
+    thumbnail?: StringFilter<"Posts"> | string
+    status?: EnumPostsStatusFilter<"Posts"> | $Enums.PostsStatus
+    createdAt?: DateTimeFilter<"Posts"> | Date | string
+    updatedAt?: DateTimeFilter<"Posts"> | Date | string
+  }
+
   export type UserCreateWithoutVerificationTokensInput = {
     id?: string
     username?: string | null
@@ -23922,6 +25507,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutVerificationTokensInput = {
@@ -23947,6 +25533,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutVerificationTokensInput = {
@@ -23988,6 +25575,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVerificationTokensInput = {
@@ -24013,6 +25601,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutFlowsInput = {
@@ -24038,6 +25627,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFlowsInput = {
@@ -24063,6 +25653,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFlowsInput = {
@@ -24211,6 +25802,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowsInput = {
@@ -24236,6 +25828,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type PageUpsertWithoutFlowsInput = {
@@ -24328,6 +25921,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutPagesInput = {
@@ -24353,6 +25947,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutPagesInput = {
@@ -24438,6 +26033,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPagesInput = {
@@ -24463,6 +26059,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type FlowUpsertWithWhereUniqueWithoutPageInput = {
@@ -24504,6 +26101,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutUserFlowStatesInput = {
@@ -24529,6 +26127,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutUserFlowStatesInput = {
@@ -24609,6 +26208,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserFlowStatesInput = {
@@ -24634,6 +26234,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type FlowUpsertWithoutStatesInput = {
@@ -24743,6 +26344,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFlowSharesInput = {
@@ -24768,6 +26370,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFlowSharesInput = {
@@ -24950,6 +26553,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowSharesInput = {
@@ -24975,6 +26579,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type FlowShareDowloadUpsertWithWhereUniqueWithoutFlowShareInput = {
@@ -25101,6 +26706,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareDowloadsInput = {
@@ -25126,6 +26732,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareDowloadsInput = {
@@ -25210,6 +26817,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareDowloadsInput = {
@@ -25235,6 +26843,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type FlowShareCreateWithoutFlowShareCommentsInput = {
@@ -25297,6 +26906,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareCommentsInput = {
@@ -25322,6 +26932,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareCommentsInput = {
@@ -25461,6 +27072,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareCommentsInput = {
@@ -25486,6 +27098,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type FlowShareCommentUpsertWithoutRepliesInput = {
@@ -25595,6 +27208,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareLikesInput = {
@@ -25620,6 +27234,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareLikesInput = {
@@ -25704,6 +27319,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareLikesInput = {
@@ -25729,6 +27345,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type FlowShareCreateWithoutFlowShareSavesInput = {
@@ -25791,6 +27408,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareSavesInput = {
@@ -25816,6 +27434,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareSavesInput = {
@@ -25900,6 +27519,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareSavesInput = {
@@ -25925,6 +27545,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -25950,6 +27571,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -25975,6 +27597,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -26016,6 +27639,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -26041,6 +27665,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutFallbackInput = {
@@ -26066,6 +27691,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFallbackInput = {
@@ -26091,6 +27717,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFallbackInput = {
@@ -26132,6 +27759,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFallbackInput = {
@@ -26157,6 +27785,227 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type PostCategoriesCreateWithoutPostsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostCategoriesUncheckedCreateWithoutPostsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostCategoriesCreateOrConnectWithoutPostsInput = {
+    where: PostCategoriesWhereUniqueInput
+    create: XOR<PostCategoriesCreateWithoutPostsInput, PostCategoriesUncheckedCreateWithoutPostsInput>
+  }
+
+  export type UserCreateWithoutPostsInput = {
+    id?: string
+    username?: string | null
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    googleProviderId?: string | null
+    verifyAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackCreateNestedOneWithoutUserInput
+    pages?: PageCreateNestedManyWithoutUserInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateCreateNestedManyWithoutOwnerInput
+    verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
+    flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
+    flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
+    flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
+    flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPostsInput = {
+    id?: string
+    username?: string | null
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    googleProviderId?: string | null
+    verifyAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    fallback?: FlowFallbackUncheckedCreateNestedOneWithoutUserInput
+    pages?: PageUncheckedCreateNestedManyWithoutUserInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutUserInput
+    userFlowStates?: UserFlowStateUncheckedCreateNestedManyWithoutOwnerInput
+    verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
+    flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
+    flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
+    flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPostsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+  }
+
+  export type PostCategoriesUpsertWithoutPostsInput = {
+    update: XOR<PostCategoriesUpdateWithoutPostsInput, PostCategoriesUncheckedUpdateWithoutPostsInput>
+    create: XOR<PostCategoriesCreateWithoutPostsInput, PostCategoriesUncheckedCreateWithoutPostsInput>
+    where?: PostCategoriesWhereInput
+  }
+
+  export type PostCategoriesUpdateToOneWithWhereWithoutPostsInput = {
+    where?: PostCategoriesWhereInput
+    data: XOR<PostCategoriesUpdateWithoutPostsInput, PostCategoriesUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type PostCategoriesUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostCategoriesUncheckedUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutPostsInput = {
+    update: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
+    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPostsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type UserUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUpdateOneWithoutUserNestedInput
+    pages?: PageUpdateManyWithoutUserNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUpdateManyWithoutOwnerNestedInput
+    verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
+    flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
+    flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
+    flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
+    flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    fallback?: FlowFallbackUncheckedUpdateOneWithoutUserNestedInput
+    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutUserNestedInput
+    userFlowStates?: UserFlowStateUncheckedUpdateManyWithoutOwnerNestedInput
+    verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
+    flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PostsCreateWithoutCategoryInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    content: string
+    thumbnail: string
+    status?: $Enums.PostsStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostsUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    authorId: string
+    slug: string
+    title: string
+    description: string
+    content: string
+    thumbnail: string
+    status?: $Enums.PostsStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostsCreateOrConnectWithoutCategoryInput = {
+    where: PostsWhereUniqueInput
+    create: XOR<PostsCreateWithoutCategoryInput, PostsUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type PostsCreateManyCategoryInputEnvelope = {
+    data: PostsCreateManyCategoryInput | PostsCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostsUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: PostsWhereUniqueInput
+    update: XOR<PostsUpdateWithoutCategoryInput, PostsUncheckedUpdateWithoutCategoryInput>
+    create: XOR<PostsCreateWithoutCategoryInput, PostsUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type PostsUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: PostsWhereUniqueInput
+    data: XOR<PostsUpdateWithoutCategoryInput, PostsUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type PostsUpdateManyWithWhereWithoutCategoryInput = {
+    where: PostsScalarWhereInput
+    data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyWithoutCategoryInput>
   }
 
   export type UserCreateWithoutChatConversationsInput = {
@@ -26182,6 +28031,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutChatConversationsInput = {
@@ -26207,6 +28057,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutChatConversationsInput = {
@@ -26278,6 +28129,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatConversationsInput = {
@@ -26303,6 +28155,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type ChatLiveMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -26488,6 +28341,19 @@ export namespace Prisma {
     flowShareId: string
     comment: string
     parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostsCreateManyAuthorInput = {
+    id?: string
+    categoryId: string
+    slug: string
+    title: string
+    description: string
+    content: string
+    thumbnail: string
+    status?: $Enums.PostsStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -26825,6 +28691,45 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PostsUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: PostCategoriesUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostsUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserFlowStateCreateManyFlowInput = {
     id?: string
     platformUserId: string
@@ -27141,6 +29046,58 @@ export namespace Prisma {
     flowShareId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     comment?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsCreateManyCategoryInput = {
+    id?: string
+    authorId: string
+    slug: string
+    title: string
+    description: string
+    content: string
+    thumbnail: string
+    status?: $Enums.PostsStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostsUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostsUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostsUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostsStatusFieldUpdateOperationsInput | $Enums.PostsStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

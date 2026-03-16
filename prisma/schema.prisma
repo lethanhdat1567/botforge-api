@@ -34,6 +34,7 @@ model User {
     flowShareLikes     FlowShareLike[]
     flowShareSaves     FlowShareSave[]
     flowShareComments  FlowShareComment[]
+    posts              Posts[]
 
     @@map("users")
 }
@@ -279,24 +280,43 @@ model FlowFallback {
     @@map("flow_fallbacks")
 }
 
-model Guide {
-    id        String      @id @default(uuid()) @map("id")
-    slug      String      @unique @map("slug")
-    title     String      @map("title")
-    summary   String?     @map("summary")
-    content   String      @map("content") @db.Text
-    thumbnail String?     @map("thumbnail")
-    status    GuideStatus @default(published) @map("status")
-    createdAt DateTime    @default(now()) @map("created_at")
-    updatedAt DateTime    @updatedAt @map("updated_at")
+model Posts {
+    id         String @id @default(uuid())
+    authorId   String @map("author_id")
+    categoryId String @map("category_id")
 
-    @@map("guides")
+    slug        String      @unique
+    title       String
+    description String
+    content     String      @map("content") @db.Text
+    thumbnail   String      @map("thumbnail")
+    status      PostsStatus @default(active) @map("status")
+
+    category PostCategories @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+    author   User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("posts")
 }
 
-enum GuideStatus {
-    draft
-    published
-    archived
+model PostCategories {
+    id   String @id @default(uuid())
+    name String @unique
+    slug String @unique
+
+    posts Posts[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("post_categories")
+}
+
+enum PostsStatus {
+    active
+    inactive
 }
 
 model ChatConversation {
