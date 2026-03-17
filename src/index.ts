@@ -5,7 +5,6 @@ import express from 'express';
 import cors from 'cors';
 
 import indexRouter from './routes';
-import webhookRouter from './routes/webhook.routes';
 
 import response from '~/middlewares/response.middlewares';
 import notFound from '~/middlewares/notFound.middleware';
@@ -25,8 +24,6 @@ app.use(response);
 
 // Routes
 app.use('/api', indexRouter);
-// Facebook Webhook
-// app.use('/webhook', webhookRouter);
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(notFound);
