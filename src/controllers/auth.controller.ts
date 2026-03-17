@@ -16,9 +16,9 @@ class AuthController {
     }
 
     async register(req: Request, res: any) {
-        const { email, password } = req.body;
+        const { email, password, displayName } = req.body;
 
-        const user = await authService.register(email, password);
+        const user = await authService.register(displayName, email, password);
         const userEmailToken = await authService.createVerifyToken(user.id, user.email, 'verify_email');
 
         await sendEmail(

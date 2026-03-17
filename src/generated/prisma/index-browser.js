@@ -234,7 +234,7 @@ exports.Prisma.NotificationScalarFieldEnum = {
   userId: 'userId',
   type: 'type',
   message: 'message',
-  avatar: 'avatar',
+  thumbnail: 'thumbnail',
   relatedId: 'relatedId',
   read: 'read',
   createdAt: 'createdAt',
@@ -273,23 +273,24 @@ exports.Prisma.PostCategoriesScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ChatConversationScalarFieldEnum = {
+exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  lastMessage: 'lastMessage',
-  lastMessageAt: 'lastMessageAt',
+  guestName: 'guestName',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ChatLiveMessageScalarFieldEnum = {
+exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
   conversationId: 'conversationId',
-  sender: 'sender',
-  type: 'type',
-  content: 'content',
+  role: 'role',
+  readByAdmin: 'readByAdmin',
+  readByUser: 'readByUser',
   revokedAt: 'revokedAt',
-  readAt: 'readAt',
+  content: 'content',
+  fileUrl: 'fileUrl',
   createdAt: 'createdAt'
 };
 
@@ -404,7 +405,7 @@ exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
   message: 'message',
-  avatar: 'avatar',
+  thumbnail: 'thumbnail',
   relatedId: 'relatedId'
 };
 
@@ -431,16 +432,17 @@ exports.Prisma.PostCategoriesOrderByRelevanceFieldEnum = {
   slug: 'slug'
 };
 
-exports.Prisma.ChatConversationOrderByRelevanceFieldEnum = {
+exports.Prisma.ConversationOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
-  lastMessage: 'lastMessage'
+  guestName: 'guestName'
 };
 
-exports.Prisma.ChatLiveMessageOrderByRelevanceFieldEnum = {
+exports.Prisma.MessageOrderByRelevanceFieldEnum = {
   id: 'id',
   conversationId: 'conversationId',
-  content: 'content'
+  content: 'content',
+  fileUrl: 'fileUrl'
 };
 exports.Role = exports.$Enums.Role = {
   admin: 'admin',
@@ -498,15 +500,9 @@ exports.PostsStatus = exports.$Enums.PostsStatus = {
   inactive: 'inactive'
 };
 
-exports.ChatSender = exports.$Enums.ChatSender = {
-  user: 'user',
-  admin: 'admin'
-};
-
-exports.ChatMessageType = exports.$Enums.ChatMessageType = {
-  text: 'text',
-  image: 'image',
-  video: 'video'
+exports.ConversationStatus = exports.$Enums.ConversationStatus = {
+  open: 'open',
+  closed: 'closed'
 };
 
 exports.Prisma.ModelName = {
@@ -524,8 +520,8 @@ exports.Prisma.ModelName = {
   FlowFallback: 'FlowFallback',
   Posts: 'Posts',
   PostCategories: 'PostCategories',
-  ChatConversation: 'ChatConversation',
-  ChatLiveMessage: 'ChatLiveMessage'
+  Conversation: 'Conversation',
+  Message: 'Message'
 };
 
 /**

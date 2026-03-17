@@ -1,59 +1,29 @@
-// controllers/notification.controller.ts
-import NotificationModel from '../models/notification.model';
+import notificationService from '~/services/notification.service';
 
 class NotificationController {
-    // GET /notifications
-    // GET /notifications
-    // controllers/notification.controller.ts
     async list(req: any, res: any) {
-        const userId = req.user.userId;
-        const limit = Number(req.query.limit) || 20;
-        const search = typeof req.query.search === 'string' ? req.query.search.trim() : undefined;
+        const userId = req.user.id;
 
-        const notifications = await NotificationModel.findByUser({
-            userId,
-            limit,
-            search: search || undefined
-        });
+        const notifications = await notificationService.getNotificationsForUser(userId);
 
-        return res.success(notifications);
+        res.success(notifications);
     }
 
-    // PUT /notifications/:id/read
     async markRead(req: any, res: any) {
-        const { id } = req.params;
+        const userId = req.user.id;
+        const notificationId = req.params.id;
 
-        try {
-            const notification = await NotificationModel.markAsRead(id);
-            return res.success(notification);
-        } catch (error) {
-            return res.error('Notification not found', 404);
-        }
+        await notificationService.markRead(userId, notificationId);
+
+        res.success('Marked as read');
     }
 
-    // PUT /notifications/read-all
     async markReadAll(req: any, res: any) {
-        const userId = req.user.userId;
+        const userId = req.user.id;
 
-        await NotificationModel.markAllAsRead(userId);
+        await notificationService.markReadAll(userId);
 
-        return res.success({ message: 'All notifications marked as read' });
-    }
-
-    // POST /notifications
-    async create(req: any, res: any) {
-        const { userId, type, message, relatedId, avatar } = req.body;
-
-        const notification = await NotificationModel.createNotification({
-            userId,
-            type,
-            message,
-            relatedId,
-            avatar,
-            read: false
-        });
-
-        return res.success(notification);
+        res.success('Marked all as read');
     }
 }
 

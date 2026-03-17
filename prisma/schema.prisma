@@ -7,7 +7,6 @@ datasource db {
     provider = "mysql"
 }
 
-// User
 model User {
     id               String    @id @default(uuid())
     username         String?   @unique
@@ -21,12 +20,11 @@ model User {
     createdAt        DateTime  @default(now()) @map("created_at")
     updatedAt        DateTime  @default(now()) @map("updated_at")
 
-    flows             Flow[]
-    flowShares        FlowShare[]
-    notifications     Notification[]
-    fallback          FlowFallback?
-    pages             Page[]
-    chatConversations ChatConversation[]
+    flows         Flow[]
+    flowShares    FlowShare[]
+    notifications Notification[]
+    fallback      FlowFallback?
+    pages         Page[]
 
     userFlowStates     UserFlowState[]     @relation("Owner_UserFlowState")
     verificationTokens VerificationToken[]
@@ -35,6 +33,7 @@ model User {
     flowShareSaves     FlowShareSave[]
     flowShareComments  FlowShareComment[]
     posts              Posts[]
+    conversations      Conversation[]
 
     @@map("users")
 }
@@ -231,13 +230,13 @@ model FlowShareSave {
 }
 
 model Notification {
-    id        String           @id @default(uuid()) @map("id")
+    id        String           @id @default(uuid())
     userId    String           @map("user_id")
-    type      NotificationType @map("type")
-    message   String           @map("message")
-    avatar    String?          @map("avatar")
+    type      NotificationType
+    message   String
+    thumbnail String?
     relatedId String           @map("related_id")
-    read      Boolean          @default(false) @map("read")
+    read      Boolean          @default(false)
     createdAt DateTime         @default(now()) @map("created_at")
     updatedAt DateTime         @default(now()) @map("updated_at")
 
@@ -319,50 +318,41 @@ enum PostsStatus {
     inactive
 }
 
-model ChatConversation {
-    id     String @id @default(uuid()) @map("id")
-    userId String @unique @map("user_id")
+model Conversation {
+    id        String             @id @default(uuid())
+    userId    String?
+    guestName String?
+    status    ConversationStatus @default(open)
+    messages  Message[]
+    createdAt DateTime           @default(now())
+    updatedAt DateTime           @updatedAt
 
-    lastMessage   String?   @map("last_message")
-    lastMessageAt DateTime? @map("last_message_at")
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-
-    user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-    messages ChatLiveMessage[]
+    user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
     @@index([userId])
-    @@map("chat_conversations")
 }
 
-model ChatLiveMessage {
-    id             String @id @default(uuid()) @map("id")
-    conversationId String @map("conversation_id")
+enum ConversationStatus {
+    open
+    closed
+}
 
-    sender  ChatSender      @map("sender")
-    type    ChatMessageType @map("type")
-    content String          @map("content") @db.Text
+model Message {
+    id             String @id @default(uuid())
+    conversationId String
 
-    revokedAt DateTime? @map("revoked_at")
-    readAt    DateTime? @map("read_at")
+    role        Role      @default(user)
+    readByAdmin Boolean   @default(false)
+    readByUser  Boolean   @default(false)
+    revokedAt   DateTime?
 
-    createdAt DateTime @default(now()) @map("created_at")
+    content String? @db.Text
 
-    conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    fileUrl String?
+
+    conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
 
     @@index([conversationId])
-    @@index([sender])
-    @@map("chat_live_messages")
-}
-
-enum ChatSender {
-    user
-    admin
-}
-
-enum ChatMessageType {
-    text
-    image
-    video
 }

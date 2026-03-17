@@ -1,4 +1,5 @@
 import { prisma } from '~/config/prisma';
+import notificationService from '~/services/notification.service';
 import { getPaginationOptions } from '~/utils/pagination';
 
 type CommentSortOrder = 'asc' | 'desc';
@@ -59,6 +60,12 @@ class FlowShareCommentService {
     }
 
     async create(data: CreateComment) {
+        if (data.parentId) {
+            notificationService.notifyReplyComment(data.parentId, data.flowShareId, data.userId);
+        } else {
+            notificationService.notifyNewComment(data.flowShareId, data.userId);
+        }
+
         return await prisma.flowShareComment.create({ data });
     }
 

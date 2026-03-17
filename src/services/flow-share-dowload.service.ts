@@ -1,4 +1,5 @@
 import { prisma } from '~/config/prisma';
+import notificationService from '~/services/notification.service';
 import { ListQuery } from '~/types/query.type';
 import { getPaginationOptions } from '~/utils/pagination';
 
@@ -65,6 +66,7 @@ class FlowShareDowloadController {
 
         if (exitDowload) return { message: 'Download already recorded' };
 
+        notificationService.notifyDowloadFlow(flowShareId, userId);
         const flowShareDowload = await prisma.flowShareDowload.create({
             data: {
                 flowShareId: flowShareId,

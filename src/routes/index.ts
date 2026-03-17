@@ -9,14 +9,11 @@ import flowShareSaveRouter from './flow-share-saves.route';
 import flowShareDowloadRouter from './flow-share-dowloads.routes';
 import notificationRouter from './notification.routes';
 import uploadRouter from './upload.routes';
-import userFlowStateRouter from './user-flow-state.route';
 import pageRouter from './pages.routes';
-import dashboardRouter from './dashboard.routes';
-import adminDashboardRouter from './admin-dashboard.route';
-import adminFlowRouter from './admin-flow.route';
 import postRouter from './post.routes';
-import chatRouter from './chat.routes';
-import postCategoyRoute from './post-category.route';
+import postCategoyRouter from './post-category.route';
+import conversationRouter from './conversation.route';
+import messageRouter from './message.route';
 
 const router = express.Router();
 
@@ -31,14 +28,11 @@ router.use('/flow-share-comments', flowShareCommentRouter);
 router.use('/flows', flowRouter);
 router.use('/notifications', notificationRouter);
 router.use('/upload', uploadRouter);
-router.use('/flow-states', userFlowStateRouter);
 router.use('/pages', pageRouter);
-router.use('/dashboard', dashboardRouter);
-router.use('/admin-dashboard', adminDashboardRouter);
-router.use('/admin-flows', adminFlowRouter);
 router.use('/posts', postRouter);
-router.use('/chat', chatRouter);
-router.use('/post-categories', postCategoyRoute);
+router.use('/post-categories', postCategoyRouter);
+router.use('/conversations', conversationRouter);
+router.use('/messages', messageRouter);
 
 // Health route
 router.get('/', (req, res) => {

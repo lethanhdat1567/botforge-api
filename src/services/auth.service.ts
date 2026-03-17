@@ -6,6 +6,7 @@ import { envConfig } from '~/config/envConfig';
 import ms, { StringValue } from 'ms';
 import { authCode } from '~/constants/auth';
 import { TokenType, User } from '~/generated/prisma';
+import notificationService from '~/services/notification.service';
 
 class AuthService {
     async getMe(userId: string) {
@@ -27,7 +28,7 @@ class AuthService {
         return user;
     }
 
-    async register(email: string, password: string) {
+    async register(displayName: string, email: string, password: string) {
         const hashPassword = await bcrypt.hash(password, 10);
 
         // Check user login with google
@@ -48,9 +49,12 @@ class AuthService {
         const user = await prisma.user.create({
             data: {
                 email,
-                password: hashPassword
+                password: hashPassword,
+                displayName
             }
         });
+
+        notificationService.notifyNewUser(user.email, user.id);
 
         return user;
     }
