@@ -23,10 +23,8 @@ model User {
   flows         Flow[]
   flowShares    FlowShare[]
   notifications Notification[]
-  fallback      FlowFallback?
   pages         Page[]
 
-  userFlowStates     UserFlowState[]     @relation("Owner_UserFlowState")
   verificationTokens VerificationToken[]
   flowShareDowloads  FlowShareDowload[]
   flowShareLikes     FlowShareLike[]
@@ -76,10 +74,10 @@ model Flow {
   createdAt       DateTime   @default(now()) @map("created_at")
   updatedAt       DateTime   @default(now()) @map("updated_at")
 
-  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  page   Page?           @relation(fields: [pageId], references: [id], onDelete: SetNull)
-  states UserFlowState[]
-  shares FlowShare[]
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  page        Page?        @relation(fields: [pageId], references: [id], onDelete: SetNull)
+  shares      FlowShare[]
+  flowRecords FlowRecord[]
 
   @@map("flows")
 }
@@ -106,8 +104,9 @@ model Page {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  flows Flow[]
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flows       Flow[]
+  flowRecords FlowRecord[]
 
   @@map("pages")
 }
@@ -116,32 +115,6 @@ enum PageStatus {
   active
   inactive
   isExpired
-}
-
-enum UserFlowStatus {
-  running
-  pending
-  cancelled
-  completed
-}
-
-model UserFlowState {
-  id             String         @id @default(uuid()) @map("id")
-  platformUserId String         @map("platform_user_id")
-  ownerUserId    String         @map("owner_user_id")
-  flowId         String         @map("flow_id")
-  pageId         String         @map("page_id")
-  currentStep    String         @map("current_step")
-  stepHistory    Json?          @map("step_history")
-  variables      Json?          @map("variables")
-  status         UserFlowStatus @default(running) @map("status")
-  createdAt      DateTime       @default(now()) @map("created_at")
-  updatedAt      DateTime       @updatedAt @map("updated_at")
-
-  owner User @relation(fields: [ownerUserId], references: [id], name: "Owner_UserFlowState", onDelete: Cascade)
-  flow  Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
-
-  @@map("user_flow_states")
 }
 
 model FlowShare {
@@ -255,30 +228,6 @@ enum NotificationType {
   chat_message
 }
 
-enum TimeoutUnit {
-  second
-  minute
-  hour
-  day
-}
-
-model FlowFallback {
-  id String @id @default(uuid()) @map("id")
-
-  userId String @unique @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  timeoutDuration Int         @map("timeout_duration")
-  timeoutUnit     TimeoutUnit @map("timeout_unit")
-
-  fallbackMessage String @map("fallback_message") @db.Text
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("flow_fallbacks")
-}
-
 model Posts {
   id         String @id @default(uuid())
   authorId   String @map("author_id")
@@ -355,4 +304,36 @@ model Message {
   createdAt DateTime @default(now())
 
   @@index([conversationId])
+}
+
+model FlowRecord {
+  id String @id @default(uuid())
+
+  senderId String @map("sender_id")
+  pageId   String @map("page_id")
+  flowId   String @map("flow_id")
+
+  currentNodeId String @map("current_node_id")
+
+  variables Json             @default("{}") @map("variables")
+  status    FlowRecordStatus @default(running)
+
+  lastInteraction    DateTime @default(now()) @updatedAt @map("last_interaction")
+  errorLog           String?  @map("error_log") @db.Text
+  waitingForVariable String?  @map("waiting_for_variable")
+
+  flow Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, pageId])
+  @@index([status])
+  @@map("flow_records")
+}
+
+enum FlowRecordStatus {
+  running
+  pending
+  completed
+  cancelled
+  error
 }

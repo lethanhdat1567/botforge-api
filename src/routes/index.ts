@@ -14,6 +14,7 @@ import postRouter from './post.routes';
 import postCategoyRouter from './post-category.route';
 import conversationRouter from './conversation.route';
 import messageRouter from './message.route';
+import webhookRouter from './webhook.routes';
 
 const router = express.Router();
 
@@ -33,6 +34,7 @@ router.use('/posts', postRouter);
 router.use('/post-categories', postCategoyRouter);
 router.use('/conversations', conversationRouter);
 router.use('/messages', messageRouter);
+router.use('/webhook', webhookRouter);
 
 // Health route
 router.get('/', (req, res) => {

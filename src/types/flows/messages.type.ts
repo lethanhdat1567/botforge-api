@@ -31,3 +31,11 @@ export interface GenericTemplateField {
     image_aspect_ratio?: 'square' | 'horizontal';
     elements: GenericElement[];
 }
+
+export type MessagePayloadItem =
+    | { category: 'message'; type: 'text'; field: MessageTextField }
+    | { category: 'message'; type: 'image' | 'video' | 'audio'; field: MediaField }
+    | { category: 'message'; type: 'media_template'; field: MediaTemplateField }
+    | { category: 'message'; type: 'generic_template'; field: GenericTemplateField };
+
+export type MessageField = MessageTextField | MediaField | MediaTemplateField | GenericTemplateField;

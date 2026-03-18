@@ -14,3 +14,9 @@ export interface CollectionField {
     };
     buttons?: AnyButton[];
 }
+
+export type CollectionPayloadItem = {
+    category: 'collection';
+    type: 'text';
+    fields: CollectionField;
+};

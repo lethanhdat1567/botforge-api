@@ -129,6 +129,15 @@ class FlowService {
 
         return [null, dupPayload];
     }
+
+    async findActiveByPageId(pageId: string) {
+        return await prisma.flow.findFirst({
+            where: {
+                pageId,
+                status: 'active'
+            }
+        });
+    }
 }
 
 export default new FlowService();

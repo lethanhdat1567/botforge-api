@@ -171,20 +171,6 @@ exports.Prisma.PageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.UserFlowStateScalarFieldEnum = {
-  id: 'id',
-  platformUserId: 'platformUserId',
-  ownerUserId: 'ownerUserId',
-  flowId: 'flowId',
-  pageId: 'pageId',
-  currentStep: 'currentStep',
-  stepHistory: 'stepHistory',
-  variables: 'variables',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.FlowShareScalarFieldEnum = {
   id: 'id',
   flowId: 'flowId',
@@ -241,16 +227,6 @@ exports.Prisma.NotificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.FlowFallbackScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  timeoutDuration: 'timeoutDuration',
-  timeoutUnit: 'timeoutUnit',
-  fallbackMessage: 'fallbackMessage',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.PostsScalarFieldEnum = {
   id: 'id',
   authorId: 'authorId',
@@ -294,6 +270,19 @@ exports.Prisma.MessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FlowRecordScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  pageId: 'pageId',
+  flowId: 'flowId',
+  currentNodeId: 'currentNodeId',
+  variables: 'variables',
+  status: 'status',
+  lastInteraction: 'lastInteraction',
+  errorLog: 'errorLog',
+  waitingForVariable: 'waitingForVariable'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -301,6 +290,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -356,15 +349,6 @@ exports.Prisma.PageOrderByRelevanceFieldEnum = {
   pageAccessToken: 'pageAccessToken'
 };
 
-exports.Prisma.UserFlowStateOrderByRelevanceFieldEnum = {
-  id: 'id',
-  platformUserId: 'platformUserId',
-  ownerUserId: 'ownerUserId',
-  flowId: 'flowId',
-  pageId: 'pageId',
-  currentStep: 'currentStep'
-};
-
 exports.Prisma.FlowShareOrderByRelevanceFieldEnum = {
   id: 'id',
   flowId: 'flowId',
@@ -409,12 +393,6 @@ exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
   relatedId: 'relatedId'
 };
 
-exports.Prisma.FlowFallbackOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  fallbackMessage: 'fallbackMessage'
-};
-
 exports.Prisma.PostsOrderByRelevanceFieldEnum = {
   id: 'id',
   authorId: 'authorId',
@@ -444,6 +422,16 @@ exports.Prisma.MessageOrderByRelevanceFieldEnum = {
   content: 'content',
   fileUrl: 'fileUrl'
 };
+
+exports.Prisma.FlowRecordOrderByRelevanceFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  pageId: 'pageId',
+  flowId: 'flowId',
+  currentNodeId: 'currentNodeId',
+  errorLog: 'errorLog',
+  waitingForVariable: 'waitingForVariable'
+};
 exports.Role = exports.$Enums.Role = {
   admin: 'admin',
   user: 'user'
@@ -466,13 +454,6 @@ exports.PageStatus = exports.$Enums.PageStatus = {
   isExpired: 'isExpired'
 };
 
-exports.UserFlowStatus = exports.$Enums.UserFlowStatus = {
-  running: 'running',
-  pending: 'pending',
-  cancelled: 'cancelled',
-  completed: 'completed'
-};
-
 exports.FlowShareStatus = exports.$Enums.FlowShareStatus = {
   active: 'active',
   inactive: 'inactive'
@@ -488,13 +469,6 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   chat_message: 'chat_message'
 };
 
-exports.TimeoutUnit = exports.$Enums.TimeoutUnit = {
-  second: 'second',
-  minute: 'minute',
-  hour: 'hour',
-  day: 'day'
-};
-
 exports.PostsStatus = exports.$Enums.PostsStatus = {
   active: 'active',
   inactive: 'inactive'
@@ -505,23 +479,30 @@ exports.ConversationStatus = exports.$Enums.ConversationStatus = {
   closed: 'closed'
 };
 
+exports.FlowRecordStatus = exports.$Enums.FlowRecordStatus = {
+  running: 'running',
+  pending: 'pending',
+  completed: 'completed',
+  cancelled: 'cancelled',
+  error: 'error'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   VerificationToken: 'VerificationToken',
   Flow: 'Flow',
   Page: 'Page',
-  UserFlowState: 'UserFlowState',
   FlowShare: 'FlowShare',
   FlowShareDowload: 'FlowShareDowload',
   FlowShareComment: 'FlowShareComment',
   FlowShareLike: 'FlowShareLike',
   FlowShareSave: 'FlowShareSave',
   Notification: 'Notification',
-  FlowFallback: 'FlowFallback',
   Posts: 'Posts',
   PostCategories: 'PostCategories',
   Conversation: 'Conversation',
-  Message: 'Message'
+  Message: 'Message',
+  FlowRecord: 'FlowRecord'
 };
 
 /**

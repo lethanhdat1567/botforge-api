@@ -1,28 +1,13 @@
-import { NodeCategory, MessagePayloadType, ActionPayloadType } from './base.type';
-import * as Messages from './messages.type';
-import * as Action from './actions.type';
-import * as Collection from './collection.type';
+import { ActionField, ActionPayloadItem } from '~/types/flows/actions.type';
+import { CollectionField, CollectionPayloadItem } from '~/types/flows/collection.type';
+import { MessageField, MessagePayloadItem } from '~/types/flows/messages.type';
 
-export type NodeField =
-    | Messages.MessageTextField
-    | Messages.MediaField
-    | Messages.MediaTemplateField
-    | Messages.GenericTemplateField
-    | Action.DelayField
-    | Action.SetVariableField
-    | Action.ConditionField
-    | Collection.CollectionField;
-
-export interface NodePayloadItem {
-    category: NodeCategory;
-    type: MessagePayloadType | ActionPayloadType | 'collection';
-    fields: NodeField;
-}
+export type NodeField = MessageField | ActionField | CollectionField;
 
 export interface Node {
     id: string;
     payload: NodePayloadItem[];
-    children: {
-        next: string;
-    };
+    next?: string;
 }
+
+export type NodePayloadItem = MessagePayloadItem | ActionPayloadItem | CollectionPayloadItem;
