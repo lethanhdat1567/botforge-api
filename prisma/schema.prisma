@@ -315,12 +315,12 @@ model FlowRecord {
 
     currentNodeId String @map("current_node_id")
 
-    variables Json             @default("{}") @map("variables")
+    variables Json?            @map("variables")
     status    FlowRecordStatus @default(running)
 
     lastInteraction    DateTime @default(now()) @updatedAt @map("last_interaction")
     errorLog           String?  @map("error_log") @db.Text
-    waitingForVariable String?  @map("waiting_for_variable")
+    waitingForVariable Json?    @map("waiting_for_variable")
 
     flow Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
     page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)

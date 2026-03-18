@@ -16632,7 +16632,6 @@ export namespace Prisma {
     status: $Enums.FlowRecordStatus | null
     lastInteraction: Date | null
     errorLog: string | null
-    waitingForVariable: string | null
   }
 
   export type FlowRecordMaxAggregateOutputType = {
@@ -16644,7 +16643,6 @@ export namespace Prisma {
     status: $Enums.FlowRecordStatus | null
     lastInteraction: Date | null
     errorLog: string | null
-    waitingForVariable: string | null
   }
 
   export type FlowRecordCountAggregateOutputType = {
@@ -16671,7 +16669,6 @@ export namespace Prisma {
     status?: true
     lastInteraction?: true
     errorLog?: true
-    waitingForVariable?: true
   }
 
   export type FlowRecordMaxAggregateInputType = {
@@ -16683,7 +16680,6 @@ export namespace Prisma {
     status?: true
     lastInteraction?: true
     errorLog?: true
-    waitingForVariable?: true
   }
 
   export type FlowRecordCountAggregateInputType = {
@@ -16778,11 +16774,11 @@ export namespace Prisma {
     pageId: string
     flowId: string
     currentNodeId: string
-    variables: JsonValue
+    variables: JsonValue | null
     status: $Enums.FlowRecordStatus
     lastInteraction: Date
     errorLog: string | null
-    waitingForVariable: string | null
+    waitingForVariable: JsonValue | null
     _count: FlowRecordCountAggregateOutputType | null
     _min: FlowRecordMinAggregateOutputType | null
     _max: FlowRecordMaxAggregateOutputType | null
@@ -16850,11 +16846,11 @@ export namespace Prisma {
       pageId: string
       flowId: string
       currentNodeId: string
-      variables: Prisma.JsonValue
+      variables: Prisma.JsonValue | null
       status: $Enums.FlowRecordStatus
       lastInteraction: Date
       errorLog: string | null
-      waitingForVariable: string | null
+      waitingForVariable: Prisma.JsonValue | null
     }, ExtArgs["result"]["flowRecord"]>
     composites: {}
   }
@@ -17235,7 +17231,7 @@ export namespace Prisma {
     readonly status: FieldRef<"FlowRecord", 'FlowRecordStatus'>
     readonly lastInteraction: FieldRef<"FlowRecord", 'DateTime'>
     readonly errorLog: FieldRef<"FlowRecord", 'String'>
-    readonly waitingForVariable: FieldRef<"FlowRecord", 'String'>
+    readonly waitingForVariable: FieldRef<"FlowRecord", 'Json'>
   }
     
 
@@ -17835,13 +17831,6 @@ export namespace Prisma {
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
   export const NullsOrder: {
     first: 'first',
     last: 'last'
@@ -18025,8 +18014,7 @@ export namespace Prisma {
     pageId: 'pageId',
     flowId: 'flowId',
     currentNodeId: 'currentNodeId',
-    errorLog: 'errorLog',
-    waitingForVariable: 'waitingForVariable'
+    errorLog: 'errorLog'
   };
 
   export type FlowRecordOrderByRelevanceFieldEnum = (typeof FlowRecordOrderByRelevanceFieldEnum)[keyof typeof FlowRecordOrderByRelevanceFieldEnum]
@@ -19214,11 +19202,11 @@ export namespace Prisma {
     pageId?: StringFilter<"FlowRecord"> | string
     flowId?: StringFilter<"FlowRecord"> | string
     currentNodeId?: StringFilter<"FlowRecord"> | string
-    variables?: JsonFilter<"FlowRecord">
+    variables?: JsonNullableFilter<"FlowRecord">
     status?: EnumFlowRecordStatusFilter<"FlowRecord"> | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableFilter<"FlowRecord"> | string | null
-    waitingForVariable?: StringNullableFilter<"FlowRecord"> | string | null
+    waitingForVariable?: JsonNullableFilter<"FlowRecord">
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }
@@ -19229,7 +19217,7 @@ export namespace Prisma {
     pageId?: SortOrder
     flowId?: SortOrder
     currentNodeId?: SortOrder
-    variables?: SortOrder
+    variables?: SortOrderInput | SortOrder
     status?: SortOrder
     lastInteraction?: SortOrder
     errorLog?: SortOrderInput | SortOrder
@@ -19248,11 +19236,11 @@ export namespace Prisma {
     pageId?: StringFilter<"FlowRecord"> | string
     flowId?: StringFilter<"FlowRecord"> | string
     currentNodeId?: StringFilter<"FlowRecord"> | string
-    variables?: JsonFilter<"FlowRecord">
+    variables?: JsonNullableFilter<"FlowRecord">
     status?: EnumFlowRecordStatusFilter<"FlowRecord"> | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableFilter<"FlowRecord"> | string | null
-    waitingForVariable?: StringNullableFilter<"FlowRecord"> | string | null
+    waitingForVariable?: JsonNullableFilter<"FlowRecord">
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }, "id">
@@ -19263,7 +19251,7 @@ export namespace Prisma {
     pageId?: SortOrder
     flowId?: SortOrder
     currentNodeId?: SortOrder
-    variables?: SortOrder
+    variables?: SortOrderInput | SortOrder
     status?: SortOrder
     lastInteraction?: SortOrder
     errorLog?: SortOrderInput | SortOrder
@@ -19282,11 +19270,11 @@ export namespace Prisma {
     pageId?: StringWithAggregatesFilter<"FlowRecord"> | string
     flowId?: StringWithAggregatesFilter<"FlowRecord"> | string
     currentNodeId?: StringWithAggregatesFilter<"FlowRecord"> | string
-    variables?: JsonWithAggregatesFilter<"FlowRecord">
+    variables?: JsonNullableWithAggregatesFilter<"FlowRecord">
     status?: EnumFlowRecordStatusWithAggregatesFilter<"FlowRecord"> | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeWithAggregatesFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableWithAggregatesFilter<"FlowRecord"> | string | null
-    waitingForVariable?: StringNullableWithAggregatesFilter<"FlowRecord"> | string | null
+    waitingForVariable?: JsonNullableWithAggregatesFilter<"FlowRecord">
   }
 
   export type UserCreateInput = {
@@ -20411,11 +20399,11 @@ export namespace Prisma {
     id?: string
     senderId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     flow: FlowCreateNestedOneWithoutFlowRecordsInput
     page: PageCreateNestedOneWithoutFlowRecordsInput
   }
@@ -20426,22 +20414,22 @@ export namespace Prisma {
     pageId: string
     flowId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
     page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
@@ -20452,11 +20440,11 @@ export namespace Prisma {
     pageId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordCreateManyInput = {
@@ -20465,22 +20453,22 @@ export namespace Prisma {
     pageId: string
     flowId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordUncheckedUpdateManyInput = {
@@ -20489,11 +20477,11 @@ export namespace Prisma {
     pageId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -21522,29 +21510,6 @@ export namespace Prisma {
     fileUrl?: SortOrder
     createdAt?: SortOrder
   }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type EnumFlowRecordStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FlowRecordStatus | EnumFlowRecordStatusFieldRefInput<$PrismaModel>
@@ -21586,7 +21551,6 @@ export namespace Prisma {
     status?: SortOrder
     lastInteraction?: SortOrder
     errorLog?: SortOrder
-    waitingForVariable?: SortOrder
   }
 
   export type FlowRecordMinOrderByAggregateInput = {
@@ -21598,33 +21562,6 @@ export namespace Prisma {
     status?: SortOrder
     lastInteraction?: SortOrder
     errorLog?: SortOrder
-    waitingForVariable?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type EnumFlowRecordStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -23247,29 +23184,6 @@ export namespace Prisma {
     notIn?: $Enums.FlowRecordStatus[]
     not?: NestedEnumFlowRecordStatusFilter<$PrismaModel> | $Enums.FlowRecordStatus
   }
-  export type NestedJsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type NestedEnumFlowRecordStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.FlowRecordStatus | EnumFlowRecordStatusFieldRefInput<$PrismaModel>
@@ -24188,11 +24102,11 @@ export namespace Prisma {
     id?: string
     senderId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     page: PageCreateNestedOneWithoutFlowRecordsInput
   }
 
@@ -24201,11 +24115,11 @@ export namespace Prisma {
     senderId: string
     pageId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordCreateOrConnectWithoutFlowInput = {
@@ -24355,11 +24269,11 @@ export namespace Prisma {
     pageId?: StringFilter<"FlowRecord"> | string
     flowId?: StringFilter<"FlowRecord"> | string
     currentNodeId?: StringFilter<"FlowRecord"> | string
-    variables?: JsonFilter<"FlowRecord">
+    variables?: JsonNullableFilter<"FlowRecord">
     status?: EnumFlowRecordStatusFilter<"FlowRecord"> | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableFilter<"FlowRecord"> | string | null
-    waitingForVariable?: StringNullableFilter<"FlowRecord"> | string | null
+    waitingForVariable?: JsonNullableFilter<"FlowRecord">
   }
 
   export type UserCreateWithoutPagesInput = {
@@ -24463,11 +24377,11 @@ export namespace Prisma {
     id?: string
     senderId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     flow: FlowCreateNestedOneWithoutFlowRecordsInput
   }
 
@@ -24476,11 +24390,11 @@ export namespace Prisma {
     senderId: string
     flowId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordCreateOrConnectWithoutPageInput = {
@@ -26970,11 +26884,11 @@ export namespace Prisma {
     senderId: string
     pageId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowShareUpdateWithoutFlowInput = {
@@ -27025,11 +26939,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
@@ -27038,11 +26952,11 @@ export namespace Prisma {
     senderId?: StringFieldUpdateOperationsInput | string
     pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordUncheckedUpdateManyWithoutFlowInput = {
@@ -27050,11 +26964,11 @@ export namespace Prisma {
     senderId?: StringFieldUpdateOperationsInput | string
     pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowCreateManyPageInput = {
@@ -27077,11 +26991,11 @@ export namespace Prisma {
     senderId: string
     flowId: string
     currentNodeId: string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
     lastInteraction?: Date | string
     errorLog?: string | null
-    waitingForVariable?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowUpdateWithoutPageInput = {
@@ -27137,11 +27051,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
@@ -27150,11 +27064,11 @@ export namespace Prisma {
     senderId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowRecordUncheckedUpdateManyWithoutPageInput = {
@@ -27162,11 +27076,11 @@ export namespace Prisma {
     senderId?: StringFieldUpdateOperationsInput | string
     flowId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: JsonNullValueInput | InputJsonValue
+    variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type FlowShareDowloadCreateManyFlowShareInput = {

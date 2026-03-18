@@ -6,7 +6,6 @@ class FacebookWebhookService {
     async execute(body: any) {
         if (body.object !== 'page') return;
         const tasks: Promise<any>[] = [];
-        console.log(tasks);
 
         for (const entry of body.entry) {
             const pageUid = entry.id;

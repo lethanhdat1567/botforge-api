@@ -20,25 +20,17 @@ class FlowRecordService {
         });
     }
 
-    async create(data: CreateFlowRecord) {
-        return await prisma.flowRecord.create({ data });
-    }
-
-    async setWaitingVariable(flowRecordId: string, value: string) {
+    async getVariables(flowRecordId: string) {
         const flowRecord = await prisma.flowRecord.findFirst({
             where: { id: flowRecordId },
-            select: {
-                waitingForVariable: true
-            }
+            select: { variables: true }
         });
 
-        if (!flowRecord?.waitingForVariable) return;
+        return flowRecord?.variables;
+    }
 
-        await this.setVariable(flowRecordId, flowRecord.waitingForVariable, value);
-        await prisma.flowRecord.update({
-            where: { id: flowRecordId },
-            data: { status: 'running' }
-        });
+    async create(data: CreateFlowRecord) {
+        return await prisma.flowRecord.create({ data });
     }
 
     async setVariable(flowRecordId: string, key: string, value: string) {
@@ -60,10 +52,17 @@ class FlowRecordService {
         });
     }
 
-    async complete(flowRecordId: string) {
+    async setComplete(flowRecordId: string) {
         await prisma.flowRecord.update({
             where: { id: flowRecordId },
             data: { status: 'completed' }
+        });
+    }
+
+    async setError(flowRecordId: string, message: string) {
+        await prisma.flowRecord.update({
+            where: { id: flowRecordId },
+            data: { status: 'error', errorLog: message }
         });
     }
 }

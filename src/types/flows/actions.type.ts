@@ -10,7 +10,6 @@ export interface SetVariableField {
 
 export interface ConditionItem {
     field: string;
-    operator: 'equals' | 'contains' | 'exists';
     value: string;
 }
 

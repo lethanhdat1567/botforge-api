@@ -1,14 +1,21 @@
-export function getStaticUrl(path?: string | null) {
-    if (!path) return null;
+import { envConfig } from '~/config/envConfig';
 
-    // nếu đã là full url thì trả luôn
-    if (/^https?:\/\//i.test(path)) return path;
+export const formatMediaUrl = (url: string): string => {
+    if (!url) return '';
 
-    const baseUrl = (process.env.BASE_URL || '').replace(/\/+$/, '');
-    const cleanPath = path.replace(/^\/+/, '');
+    const isAbsolute = /^(https?:\/\/)/i.test(url);
 
-    return `https://947106289777.ngrok-free.app/${cleanPath}`;
-}
+    if (isAbsolute) {
+        return url;
+    }
+
+    const baseUrl = envConfig.ngrokUrl || 'https://your-domain.com';
+
+    const cleanBase = baseUrl.replace(/\/$/, '');
+    const cleanPath = url.startsWith('/') ? url : `/${url}`;
+
+    return `${cleanBase}${cleanPath}`;
+};
 
 export function buildUploadPath(file: Express.Multer.File) {
     const basePath = '/uploads';

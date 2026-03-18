@@ -293,10 +293,6 @@ exports.Prisma.NullableJsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.JsonNullValueInput = {
-  JsonNull: Prisma.JsonNull
-};
-
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -429,8 +425,7 @@ exports.Prisma.FlowRecordOrderByRelevanceFieldEnum = {
   pageId: 'pageId',
   flowId: 'flowId',
   currentNodeId: 'currentNodeId',
-  errorLog: 'errorLog',
-  waitingForVariable: 'waitingForVariable'
+  errorLog: 'errorLog'
 };
 exports.Role = exports.$Enums.Role = {
   admin: 'admin',

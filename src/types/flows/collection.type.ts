@@ -1,5 +1,5 @@
 import { DelayField } from '~/types/flows/actions.type';
-import { AnyButton } from '~/types/flows/base.type';
+import { PostbackButton } from '~/types/flows/base.type';
 
 export interface CollectionField {
     text: string;
@@ -12,8 +12,20 @@ export interface CollectionField {
         timeout: DelayField;
         message: string;
     };
-    buttons?: AnyButton[];
+    buttons?: PostbackButton[];
 }
+
+export type WaitingVariable = {
+    variable: {
+        key: string;
+        regex?: string;
+        regexMessage?: string;
+    };
+    fallback: {
+        timeout: DelayField;
+        message: string;
+    };
+};
 
 export type CollectionPayloadItem = {
     category: 'collection';
