@@ -19241,7 +19241,6 @@ export namespace Prisma {
 
   export type FlowRecordWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    senderId_pageId?: FlowRecordSenderIdPageIdCompoundUniqueInput
     AND?: FlowRecordWhereInput | FlowRecordWhereInput[]
     OR?: FlowRecordWhereInput[]
     NOT?: FlowRecordWhereInput | FlowRecordWhereInput[]
@@ -19256,7 +19255,7 @@ export namespace Prisma {
     waitingForVariable?: StringNullableFilter<"FlowRecord"> | string | null
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     page?: XOR<PageScalarRelationFilter, PageWhereInput>
-  }, "id" | "senderId_pageId">
+  }, "id">
 
   export type FlowRecordOrderByWithAggregationInput = {
     id?: SortOrder
@@ -21563,11 +21562,6 @@ export namespace Prisma {
     fields: FlowRecordOrderByRelevanceFieldEnum | FlowRecordOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
-  }
-
-  export type FlowRecordSenderIdPageIdCompoundUniqueInput = {
-    senderId: string
-    pageId: string
   }
 
   export type FlowRecordCountOrderByAggregateInput = {

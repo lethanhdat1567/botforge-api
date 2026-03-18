@@ -1,24 +1,30 @@
+import { flowExecutorService } from '~/services/flow-executor.service';
 import flowRecordService from '~/services/flow-record.service';
 import flowService from '~/services/flow.service';
 
 class FacebookWebhookService {
     async execute(body: any) {
         if (body.object !== 'page') return;
+        const tasks: Promise<any>[] = [];
+        console.log(tasks);
 
         for (const entry of body.entry) {
             const pageUid = entry.id;
-
             for (const event of entry.messaging) {
                 const senderId = event.sender.id;
 
-                await this.classifyEvent(pageUid, senderId, event);
+                tasks.push(this.classifyEvent(pageUid, senderId, event));
             }
         }
+
+        await Promise.all(tasks);
     }
 
     private async classifyEvent(pageUid: string, senderId: string, event: any) {
         if (event.message) {
-            return await this.handleMessage(pageUid, senderId, event.message);
+            const text = await event.message.text;
+
+            return await this.handleMessage(pageUid, senderId, text);
         }
 
         // 2. Nếu là bấm nút (Postback)
@@ -32,22 +38,55 @@ class FacebookWebhookService {
     }
 
     private async handleMessage(pageUid: string, senderId: string, message: any) {
-        // Kiem tra xem record ton tai chua
-        const flowRecord = await flowRecordService.findByPageIdAndSenderId(pageUid, senderId);
+        const exitFlowRecord = await flowRecordService.findByPageUidAndSenderId(pageUid, senderId);
 
-        if (flowRecord) {
-        } else {
-            const flow = await flowService.findActiveByPageId(pageUid);
-            const startNodeId = flow?.startNodeId;
+        // * Exit flow: pending | running
+        if (exitFlowRecord) {
+            if (exitFlowRecord.status === 'running') return;
 
-            if (!flow || !startNodeId) return;
+            if (exitFlowRecord.status === 'pending') {
+                await flowRecordService.setWaitingVariable(exitFlowRecord.id, message);
+                const flow = await flowService.detail(exitFlowRecord.flowId);
 
-            await flowRecordService.create({
-                pageId: pageUid,
-                senderId,
-                flowId: flow?.id,
-                currentNodeId: startNodeId
+                if (!flow?.logicJson) return;
+                await flowExecutorService.runFlow(
+                    exitFlowRecord.id,
+                    exitFlowRecord.pageId,
+                    senderId,
+                    exitFlowRecord.currentNodeId,
+                    flow.logicJson as any
+                );
+            }
+
+            return;
+        }
+        // * New flow
+        else {
+            const flow = await flowService.findActiveByPageUid(pageUid);
+            if (!flow) {
+                console.log('Flow not found with pageId: ', pageUid);
+                return;
+            }
+
+            if (!flow.startNodeId) {
+                console.log("Flow didn't have startNodeId yet: ", pageUid);
+                return;
+            }
+
+            const newFlowRecord = await flowRecordService.create({
+                currentNodeId: flow.startNodeId,
+                flowId: flow.id,
+                pageId: flow.pageId as string,
+                senderId: senderId
             });
+
+            return await flowExecutorService.runFlow(
+                newFlowRecord.id,
+                newFlowRecord.pageId,
+                senderId,
+                newFlowRecord.currentNodeId,
+                flow.logicJson as any
+            );
         }
     }
 }

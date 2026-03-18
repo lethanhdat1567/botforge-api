@@ -325,7 +325,6 @@ model FlowRecord {
   flow Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
   page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
-  @@unique([senderId, pageId])
   @@index([status])
   @@map("flow_records")
 }

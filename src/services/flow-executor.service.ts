@@ -1,37 +1,36 @@
 import { flowText } from '~/data/flow';
+import facebookSenderService from '~/services/facebook-sender.service';
+import flowRecordService from '~/services/flow-record.service';
 import { ActionPayloadItem } from '~/types/flows/actions.type';
 import { CollectionPayloadItem } from '~/types/flows/collection.type';
 import { MessagePayloadItem } from '~/types/flows/messages.type';
 import { Node, NodePayloadItem } from '~/types/flows/node.type';
 
 class FlowExecutorService {
-    async triggerFlow() {
-        const flowTest = flowText;
-        const startNodeId = 'welcome_node';
-
-        this.runFlow(startNodeId, flowTest);
-    }
-    async runFlow(startNodeId: string, nodes: Record<string, Node>) {
+    async runFlow(
+        flowRecordId: string,
+        pageId: string,
+        senderId: string,
+        startNodeId: string,
+        nodes: Record<string, Node>
+    ) {
         let currentNodeId: string | null = startNodeId;
         if (!currentNodeId) {
-            console.log('startNodeId not found');
+            console.log('Node not found: ', currentNodeId);
         }
-        console.log('[running] at: ', currentNodeId);
 
         while (currentNodeId) {
             // *Run Node: running
             const currentNode: Node = nodes[currentNodeId];
 
             if (!currentNode) {
-                // *Error Node: error
-                console.log('Current Node not found: ', currentNodeId);
-                break;
+                console.log('Node not found: ', currentNodeId);
             }
 
             let branchedNextId = null;
             // *Loop payload, when break in here, node didn't complete yet
             for (const payload of currentNode.payload) {
-                branchedNextId = this.handleNodePayload(payload) as any;
+                branchedNextId = (await this.handleNodePayload(pageId, senderId, payload)) as any;
 
                 if (branchedNextId) break;
             }
@@ -41,18 +40,17 @@ class FlowExecutorService {
             } else if (currentNode.next) {
                 currentNodeId = currentNode.next;
             } else {
+                // ! Done flow
                 currentNodeId = null;
-                break;
+                return await flowRecordService.complete(flowRecordId);
             }
         }
-
-        console.log('[completed] at: ', currentNodeId);
     }
 
-    private handleNodePayload(payload: NodePayloadItem) {
+    private async handleNodePayload(pageId: string, senderId: string, payload: NodePayloadItem) {
         switch (payload.category) {
             case 'message': {
-                this.handleMessagePayload(payload as MessagePayloadItem);
+                await this.handleMessagePayload(pageId, senderId, payload as MessagePayloadItem);
                 break;
             }
             case 'action': {
@@ -70,12 +68,12 @@ class FlowExecutorService {
         }
     }
 
-    private handleMessagePayload(payload: MessagePayloadItem) {
+    private async handleMessagePayload(pageId: string, senderId: string, payload: MessagePayloadItem) {
         const { type, field } = payload;
 
         switch (type) {
             case 'text': {
-                console.log('[text]: ', field.text);
+                await facebookSenderService.sendTextMessage(pageId, senderId, field.text);
 
                 break;
             }

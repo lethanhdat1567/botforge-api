@@ -24,7 +24,7 @@ class PageController {
 
     async create(req: any, res: any) {
         const { name, pageUid, pageAccessToken } = req.body;
-        const { userId } = req.user.id;
+        const userId = req.user.id;
 
         if (!pageUid || !pageAccessToken) {
             return res.error('Thiếu thông tin Facebook Page', httpCode.clientError.notFound);
