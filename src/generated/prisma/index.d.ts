@@ -88,6 +88,11 @@ export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
  * 
  */
 export type FlowRecord = $Result.DefaultSelection<Prisma.$FlowRecordPayload>
+/**
+ * Model Queue
+ * 
+ */
+export type Queue = $Result.DefaultSelection<Prisma.$QueuePayload>
 
 /**
  * Enums
@@ -175,6 +180,16 @@ export const FlowRecordStatus: {
 
 export type FlowRecordStatus = (typeof FlowRecordStatus)[keyof typeof FlowRecordStatus]
 
+
+export const QueueStatus: {
+  pending: 'pending',
+  processing: 'processing',
+  completed: 'completed',
+  error: 'error'
+};
+
+export type QueueStatus = (typeof QueueStatus)[keyof typeof QueueStatus]
+
 }
 
 export type Role = $Enums.Role
@@ -212,6 +227,10 @@ export const ConversationStatus: typeof $Enums.ConversationStatus
 export type FlowRecordStatus = $Enums.FlowRecordStatus
 
 export const FlowRecordStatus: typeof $Enums.FlowRecordStatus
+
+export type QueueStatus = $Enums.QueueStatus
+
+export const QueueStatus: typeof $Enums.QueueStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -479,6 +498,16 @@ export class PrismaClient<
     * ```
     */
   get flowRecord(): Prisma.FlowRecordDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.queue`: Exposes CRUD operations for the **Queue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Queues
+    * const queues = await prisma.queue.findMany()
+    * ```
+    */
+  get queue(): Prisma.QueueDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -927,7 +956,8 @@ export namespace Prisma {
     PostCategories: 'PostCategories',
     Conversation: 'Conversation',
     Message: 'Message',
-    FlowRecord: 'FlowRecord'
+    FlowRecord: 'FlowRecord',
+    Queue: 'Queue'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -943,7 +973,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord"
+      modelProps: "user" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1937,6 +1967,72 @@ export namespace Prisma {
           }
         }
       }
+      Queue: {
+        payload: Prisma.$QueuePayload<ExtArgs>
+        fields: Prisma.QueueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QueueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QueueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>
+          }
+          findFirst: {
+            args: Prisma.QueueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QueueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>
+          }
+          findMany: {
+            args: Prisma.QueueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>[]
+          }
+          create: {
+            args: Prisma.QueueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>
+          }
+          createMany: {
+            args: Prisma.QueueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.QueueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>
+          }
+          update: {
+            args: Prisma.QueueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>
+          }
+          deleteMany: {
+            args: Prisma.QueueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QueueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.QueueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>
+          }
+          aggregate: {
+            args: Prisma.QueueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQueue>
+          }
+          groupBy: {
+            args: Prisma.QueueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QueueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QueueCountArgs<ExtArgs>
+            result: $Utils.Optional<QueueCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2060,6 +2156,7 @@ export namespace Prisma {
     conversation?: ConversationOmit
     message?: MessageOmit
     flowRecord?: FlowRecordOmit
+    queue?: QueueOmit
   }
 
   /* Types for Logging */
@@ -17606,6 +17703,895 @@ export namespace Prisma {
 
 
   /**
+   * Model Queue
+   */
+
+  export type AggregateQueue = {
+    _count: QueueCountAggregateOutputType | null
+    _min: QueueMinAggregateOutputType | null
+    _max: QueueMaxAggregateOutputType | null
+  }
+
+  export type QueueMinAggregateOutputType = {
+    id: string | null
+    type: string | null
+    status: $Enums.QueueStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QueueMaxAggregateOutputType = {
+    id: string | null
+    type: string | null
+    status: $Enums.QueueStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QueueCountAggregateOutputType = {
+    id: number
+    type: number
+    payload: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QueueMinAggregateInputType = {
+    id?: true
+    type?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QueueMaxAggregateInputType = {
+    id?: true
+    type?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QueueCountAggregateInputType = {
+    id?: true
+    type?: true
+    payload?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QueueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Queue to aggregate.
+     */
+    where?: QueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Queues to fetch.
+     */
+    orderBy?: QueueOrderByWithRelationInput | QueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Queues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Queues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Queues
+    **/
+    _count?: true | QueueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QueueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QueueMaxAggregateInputType
+  }
+
+  export type GetQueueAggregateType<T extends QueueAggregateArgs> = {
+        [P in keyof T & keyof AggregateQueue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQueue[P]>
+      : GetScalarType<T[P], AggregateQueue[P]>
+  }
+
+
+
+
+  export type QueueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QueueWhereInput
+    orderBy?: QueueOrderByWithAggregationInput | QueueOrderByWithAggregationInput[]
+    by: QueueScalarFieldEnum[] | QueueScalarFieldEnum
+    having?: QueueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QueueCountAggregateInputType | true
+    _min?: QueueMinAggregateInputType
+    _max?: QueueMaxAggregateInputType
+  }
+
+  export type QueueGroupByOutputType = {
+    id: string
+    type: string
+    payload: JsonValue
+    status: $Enums.QueueStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: QueueCountAggregateOutputType | null
+    _min: QueueMinAggregateOutputType | null
+    _max: QueueMaxAggregateOutputType | null
+  }
+
+  type GetQueueGroupByPayload<T extends QueueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QueueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QueueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QueueGroupByOutputType[P]>
+            : GetScalarType<T[P], QueueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QueueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    payload?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["queue"]>
+
+
+
+  export type QueueSelectScalar = {
+    id?: boolean
+    type?: boolean
+    payload?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QueueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "payload" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["queue"]>
+
+  export type $QueuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Queue"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: string
+      payload: Prisma.JsonValue
+      status: $Enums.QueueStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["queue"]>
+    composites: {}
+  }
+
+  type QueueGetPayload<S extends boolean | null | undefined | QueueDefaultArgs> = $Result.GetResult<Prisma.$QueuePayload, S>
+
+  type QueueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QueueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QueueCountAggregateInputType | true
+    }
+
+  export interface QueueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Queue'], meta: { name: 'Queue' } }
+    /**
+     * Find zero or one Queue that matches the filter.
+     * @param {QueueFindUniqueArgs} args - Arguments to find a Queue
+     * @example
+     * // Get one Queue
+     * const queue = await prisma.queue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QueueFindUniqueArgs>(args: SelectSubset<T, QueueFindUniqueArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Queue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QueueFindUniqueOrThrowArgs} args - Arguments to find a Queue
+     * @example
+     * // Get one Queue
+     * const queue = await prisma.queue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QueueFindUniqueOrThrowArgs>(args: SelectSubset<T, QueueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Queue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QueueFindFirstArgs} args - Arguments to find a Queue
+     * @example
+     * // Get one Queue
+     * const queue = await prisma.queue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QueueFindFirstArgs>(args?: SelectSubset<T, QueueFindFirstArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Queue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QueueFindFirstOrThrowArgs} args - Arguments to find a Queue
+     * @example
+     * // Get one Queue
+     * const queue = await prisma.queue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QueueFindFirstOrThrowArgs>(args?: SelectSubset<T, QueueFindFirstOrThrowArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Queues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QueueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Queues
+     * const queues = await prisma.queue.findMany()
+     * 
+     * // Get first 10 Queues
+     * const queues = await prisma.queue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const queueWithIdOnly = await prisma.queue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QueueFindManyArgs>(args?: SelectSubset<T, QueueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Queue.
+     * @param {QueueCreateArgs} args - Arguments to create a Queue.
+     * @example
+     * // Create one Queue
+     * const Queue = await prisma.queue.create({
+     *   data: {
+     *     // ... data to create a Queue
+     *   }
+     * })
+     * 
+     */
+    create<T extends QueueCreateArgs>(args: SelectSubset<T, QueueCreateArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Queues.
+     * @param {QueueCreateManyArgs} args - Arguments to create many Queues.
+     * @example
+     * // Create many Queues
+     * const queue = await prisma.queue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QueueCreateManyArgs>(args?: SelectSubset<T, QueueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Queue.
+     * @param {QueueDeleteArgs} args - Arguments to delete one Queue.
+     * @example
+     * // Delete one Queue
+     * const Queue = await prisma.queue.delete({
+     *   where: {
+     *     // ... filter to delete one Queue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QueueDeleteArgs>(args: SelectSubset<T, QueueDeleteArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Queue.
+     * @param {QueueUpdateArgs} args - Arguments to update one Queue.
+     * @example
+     * // Update one Queue
+     * const queue = await prisma.queue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QueueUpdateArgs>(args: SelectSubset<T, QueueUpdateArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Queues.
+     * @param {QueueDeleteManyArgs} args - Arguments to filter Queues to delete.
+     * @example
+     * // Delete a few Queues
+     * const { count } = await prisma.queue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QueueDeleteManyArgs>(args?: SelectSubset<T, QueueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Queues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QueueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Queues
+     * const queue = await prisma.queue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QueueUpdateManyArgs>(args: SelectSubset<T, QueueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Queue.
+     * @param {QueueUpsertArgs} args - Arguments to update or create a Queue.
+     * @example
+     * // Update or create a Queue
+     * const queue = await prisma.queue.upsert({
+     *   create: {
+     *     // ... data to create a Queue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Queue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QueueUpsertArgs>(args: SelectSubset<T, QueueUpsertArgs<ExtArgs>>): Prisma__QueueClient<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Queues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QueueCountArgs} args - Arguments to filter Queues to count.
+     * @example
+     * // Count the number of Queues
+     * const count = await prisma.queue.count({
+     *   where: {
+     *     // ... the filter for the Queues we want to count
+     *   }
+     * })
+    **/
+    count<T extends QueueCountArgs>(
+      args?: Subset<T, QueueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QueueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Queue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QueueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QueueAggregateArgs>(args: Subset<T, QueueAggregateArgs>): Prisma.PrismaPromise<GetQueueAggregateType<T>>
+
+    /**
+     * Group by Queue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QueueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QueueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QueueGroupByArgs['orderBy'] }
+        : { orderBy?: QueueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QueueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQueueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Queue model
+   */
+  readonly fields: QueueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Queue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QueueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Queue model
+   */
+  interface QueueFieldRefs {
+    readonly id: FieldRef<"Queue", 'String'>
+    readonly type: FieldRef<"Queue", 'String'>
+    readonly payload: FieldRef<"Queue", 'Json'>
+    readonly status: FieldRef<"Queue", 'QueueStatus'>
+    readonly createdAt: FieldRef<"Queue", 'DateTime'>
+    readonly updatedAt: FieldRef<"Queue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Queue findUnique
+   */
+  export type QueueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * Filter, which Queue to fetch.
+     */
+    where: QueueWhereUniqueInput
+  }
+
+  /**
+   * Queue findUniqueOrThrow
+   */
+  export type QueueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * Filter, which Queue to fetch.
+     */
+    where: QueueWhereUniqueInput
+  }
+
+  /**
+   * Queue findFirst
+   */
+  export type QueueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * Filter, which Queue to fetch.
+     */
+    where?: QueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Queues to fetch.
+     */
+    orderBy?: QueueOrderByWithRelationInput | QueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Queues.
+     */
+    cursor?: QueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Queues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Queues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Queues.
+     */
+    distinct?: QueueScalarFieldEnum | QueueScalarFieldEnum[]
+  }
+
+  /**
+   * Queue findFirstOrThrow
+   */
+  export type QueueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * Filter, which Queue to fetch.
+     */
+    where?: QueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Queues to fetch.
+     */
+    orderBy?: QueueOrderByWithRelationInput | QueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Queues.
+     */
+    cursor?: QueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Queues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Queues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Queues.
+     */
+    distinct?: QueueScalarFieldEnum | QueueScalarFieldEnum[]
+  }
+
+  /**
+   * Queue findMany
+   */
+  export type QueueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * Filter, which Queues to fetch.
+     */
+    where?: QueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Queues to fetch.
+     */
+    orderBy?: QueueOrderByWithRelationInput | QueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Queues.
+     */
+    cursor?: QueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Queues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Queues.
+     */
+    skip?: number
+    distinct?: QueueScalarFieldEnum | QueueScalarFieldEnum[]
+  }
+
+  /**
+   * Queue create
+   */
+  export type QueueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Queue.
+     */
+    data: XOR<QueueCreateInput, QueueUncheckedCreateInput>
+  }
+
+  /**
+   * Queue createMany
+   */
+  export type QueueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Queues.
+     */
+    data: QueueCreateManyInput | QueueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Queue update
+   */
+  export type QueueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Queue.
+     */
+    data: XOR<QueueUpdateInput, QueueUncheckedUpdateInput>
+    /**
+     * Choose, which Queue to update.
+     */
+    where: QueueWhereUniqueInput
+  }
+
+  /**
+   * Queue updateMany
+   */
+  export type QueueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Queues.
+     */
+    data: XOR<QueueUpdateManyMutationInput, QueueUncheckedUpdateManyInput>
+    /**
+     * Filter which Queues to update
+     */
+    where?: QueueWhereInput
+    /**
+     * Limit how many Queues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Queue upsert
+   */
+  export type QueueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Queue to update in case it exists.
+     */
+    where: QueueWhereUniqueInput
+    /**
+     * In case the Queue found by the `where` argument doesn't exist, create a new Queue with this data.
+     */
+    create: XOR<QueueCreateInput, QueueUncheckedCreateInput>
+    /**
+     * In case the Queue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QueueUpdateInput, QueueUncheckedUpdateInput>
+  }
+
+  /**
+   * Queue delete
+   */
+  export type QueueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * Filter which Queue to delete.
+     */
+    where: QueueWhereUniqueInput
+  }
+
+  /**
+   * Queue deleteMany
+   */
+  export type QueueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Queues to delete
+     */
+    where?: QueueWhereInput
+    /**
+     * Limit how many Queues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Queue without action
+   */
+  export type QueueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -17828,6 +18814,18 @@ export namespace Prisma {
   export type FlowRecordScalarFieldEnum = (typeof FlowRecordScalarFieldEnum)[keyof typeof FlowRecordScalarFieldEnum]
 
 
+  export const QueueScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    payload: 'payload',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QueueScalarFieldEnum = (typeof QueueScalarFieldEnum)[keyof typeof QueueScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -17842,6 +18840,13 @@ export namespace Prisma {
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const NullsOrder: {
@@ -18033,6 +19038,14 @@ export namespace Prisma {
   export type FlowRecordOrderByRelevanceFieldEnum = (typeof FlowRecordOrderByRelevanceFieldEnum)[keyof typeof FlowRecordOrderByRelevanceFieldEnum]
 
 
+  export const QueueOrderByRelevanceFieldEnum: {
+    id: 'id',
+    type: 'type'
+  };
+
+  export type QueueOrderByRelevanceFieldEnum = (typeof QueueOrderByRelevanceFieldEnum)[keyof typeof QueueOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -18133,6 +19146,13 @@ export namespace Prisma {
    * Reference to a field of type 'FlowRecordStatus'
    */
   export type EnumFlowRecordStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FlowRecordStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueueStatus'
+   */
+  export type EnumQueueStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueueStatus'>
     
 
 
@@ -19293,6 +20313,64 @@ export namespace Prisma {
     errorLog?: StringNullableWithAggregatesFilter<"FlowRecord"> | string | null
     waitingForVariable?: JsonNullableWithAggregatesFilter<"FlowRecord">
     expiresAt?: DateTimeNullableWithAggregatesFilter<"FlowRecord"> | Date | string | null
+  }
+
+  export type QueueWhereInput = {
+    AND?: QueueWhereInput | QueueWhereInput[]
+    OR?: QueueWhereInput[]
+    NOT?: QueueWhereInput | QueueWhereInput[]
+    id?: StringFilter<"Queue"> | string
+    type?: StringFilter<"Queue"> | string
+    payload?: JsonFilter<"Queue">
+    status?: EnumQueueStatusFilter<"Queue"> | $Enums.QueueStatus
+    createdAt?: DateTimeFilter<"Queue"> | Date | string
+    updatedAt?: DateTimeFilter<"Queue"> | Date | string
+  }
+
+  export type QueueOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    payload?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _relevance?: QueueOrderByRelevanceInput
+  }
+
+  export type QueueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QueueWhereInput | QueueWhereInput[]
+    OR?: QueueWhereInput[]
+    NOT?: QueueWhereInput | QueueWhereInput[]
+    type?: StringFilter<"Queue"> | string
+    payload?: JsonFilter<"Queue">
+    status?: EnumQueueStatusFilter<"Queue"> | $Enums.QueueStatus
+    createdAt?: DateTimeFilter<"Queue"> | Date | string
+    updatedAt?: DateTimeFilter<"Queue"> | Date | string
+  }, "id">
+
+  export type QueueOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    payload?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QueueCountOrderByAggregateInput
+    _max?: QueueMaxOrderByAggregateInput
+    _min?: QueueMinOrderByAggregateInput
+  }
+
+  export type QueueScalarWhereWithAggregatesInput = {
+    AND?: QueueScalarWhereWithAggregatesInput | QueueScalarWhereWithAggregatesInput[]
+    OR?: QueueScalarWhereWithAggregatesInput[]
+    NOT?: QueueScalarWhereWithAggregatesInput | QueueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Queue"> | string
+    type?: StringWithAggregatesFilter<"Queue"> | string
+    payload?: JsonWithAggregatesFilter<"Queue">
+    status?: EnumQueueStatusWithAggregatesFilter<"Queue"> | $Enums.QueueStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Queue"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Queue"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -20509,6 +21587,69 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type QueueCreateInput = {
+    id?: string
+    type: string
+    payload: JsonNullValueInput | InputJsonValue
+    status: $Enums.QueueStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QueueUncheckedCreateInput = {
+    id?: string
+    type: string
+    payload: JsonNullValueInput | InputJsonValue
+    status: $Enums.QueueStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QueueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QueueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QueueCreateManyInput = {
+    id?: string
+    type: string
+    payload: JsonNullValueInput | InputJsonValue
+    status: $Enums.QueueStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QueueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QueueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -21600,6 +22741,103 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFlowRecordStatusFilter<$PrismaModel>
     _max?: NestedEnumFlowRecordStatusFilter<$PrismaModel>
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type EnumQueueStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[]
+    notIn?: $Enums.QueueStatus[]
+    not?: NestedEnumQueueStatusFilter<$PrismaModel> | $Enums.QueueStatus
+  }
+
+  export type QueueOrderByRelevanceInput = {
+    fields: QueueOrderByRelevanceFieldEnum | QueueOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type QueueCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    payload?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QueueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QueueMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type EnumQueueStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[]
+    notIn?: $Enums.QueueStatus[]
+    not?: NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel> | $Enums.QueueStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQueueStatusFilter<$PrismaModel>
+    _max?: NestedEnumQueueStatusFilter<$PrismaModel>
   }
 
   export type FlowCreateNestedManyWithoutUserInput = {
@@ -22896,6 +24134,10 @@ export namespace Prisma {
     update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowRecordsInput, PageUpdateWithoutFlowRecordsInput>, PageUncheckedUpdateWithoutFlowRecordsInput>
   }
 
+  export type EnumQueueStatusFieldUpdateOperationsInput = {
+    set?: $Enums.QueueStatus
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -23221,6 +24463,46 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFlowRecordStatusFilter<$PrismaModel>
     _max?: NestedEnumFlowRecordStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQueueStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[]
+    notIn?: $Enums.QueueStatus[]
+    not?: NestedEnumQueueStatusFilter<$PrismaModel> | $Enums.QueueStatus
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[]
+    notIn?: $Enums.QueueStatus[]
+    not?: NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel> | $Enums.QueueStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQueueStatusFilter<$PrismaModel>
+    _max?: NestedEnumQueueStatusFilter<$PrismaModel>
   }
 
   export type FlowCreateWithoutUserInput = {

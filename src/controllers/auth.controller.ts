@@ -5,6 +5,8 @@ import { sendEmail } from '~/config/mailer';
 import authService from '~/services/auth.service';
 import { envConfig } from '~/config/envConfig';
 import { httpCode } from '~/constants/httpsCode';
+import { queueService } from '~/services/queue.service';
+import { queue } from '~/constants/queue';
 
 class AuthController {
     async me(req: AuthRequest, res: any) {
@@ -21,11 +23,10 @@ class AuthController {
         const user = await authService.register(displayName, email, password);
         const userEmailToken = await authService.createVerifyToken(user.id, user.email, 'verify_email');
 
-        await sendEmail(
-            user.email,
-            'Verify Your Email',
-            `<p>Click <a href="${envConfig.frontendUrl}/verify-email?token=${userEmailToken.token}">here</a> to verify your email.</p>`
-        );
+        await queueService.push(queue.verifyEmail, {
+            user: user,
+            token: userEmailToken
+        });
 
         return res.success({
             message: 'Register successfully, please check your email to verify'

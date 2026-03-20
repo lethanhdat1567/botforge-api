@@ -4,6 +4,8 @@
     "main": "index.js",
     "scripts": {
         "dev": "npx nodemon",
+        "queue": "tsx ./src/queue.ts",
+        "schedule": "tsx ./src/schedule.ts",
         "build": "rimraf ./dist && tsc && tsc-alias",
         "start": "node dist/index.js",
         "lint": "eslint .",
@@ -49,6 +51,7 @@
         "axios": "^1.13.6",
         "bcrypt": "^6.0.0",
         "cors": "^2.8.5",
+        "cron": "^4.4.0",
         "dayjs": "^1.11.19",
         "dotenv": "^17.2.3",
         "express": "^5.2.1",

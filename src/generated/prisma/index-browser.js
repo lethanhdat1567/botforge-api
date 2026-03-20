@@ -284,6 +284,15 @@ exports.Prisma.FlowRecordScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
+exports.Prisma.QueueScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  payload: 'payload',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -291,6 +300,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -428,6 +441,11 @@ exports.Prisma.FlowRecordOrderByRelevanceFieldEnum = {
   currentNodeId: 'currentNodeId',
   errorLog: 'errorLog'
 };
+
+exports.Prisma.QueueOrderByRelevanceFieldEnum = {
+  id: 'id',
+  type: 'type'
+};
 exports.Role = exports.$Enums.Role = {
   admin: 'admin',
   user: 'user'
@@ -484,6 +502,13 @@ exports.FlowRecordStatus = exports.$Enums.FlowRecordStatus = {
   error: 'error'
 };
 
+exports.QueueStatus = exports.$Enums.QueueStatus = {
+  pending: 'pending',
+  processing: 'processing',
+  completed: 'completed',
+  error: 'error'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   VerificationToken: 'VerificationToken',
@@ -499,7 +524,8 @@ exports.Prisma.ModelName = {
   PostCategories: 'PostCategories',
   Conversation: 'Conversation',
   Message: 'Message',
-  FlowRecord: 'FlowRecord'
+  FlowRecord: 'FlowRecord',
+  Queue: 'Queue'
 };
 
 /**

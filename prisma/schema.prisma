@@ -338,3 +338,21 @@ enum FlowRecordStatus {
     cancelled
     error
 }
+
+model Queue {
+    id        String      @id @default(uuid())
+    type      String
+    payload   Json
+    status    QueueStatus
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+
+    @@map("queues")
+}
+
+enum QueueStatus {
+    pending
+    processing
+    completed
+    error
+}

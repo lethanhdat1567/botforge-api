@@ -1,7 +1,7 @@
 import { prisma } from '~/config/prisma';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import { generateAccessToken, generateRefreshToken } from '~/utils/jwt';
+import { generateAccessToken } from '~/utils/jwt';
 import { envConfig } from '~/config/envConfig';
 import ms, { StringValue } from 'ms';
 import { authCode } from '~/constants/auth';
@@ -71,7 +71,6 @@ class AuthService {
         if (!isMatch) return ['Password is incorrect', null];
 
         const result = await this.getAuthResponse(user);
-        console.log(result);
 
         return [null, result];
     }
