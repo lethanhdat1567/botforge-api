@@ -140,6 +140,10 @@ class FlowService {
             }
         });
     }
+
+    async findById(id: string) {
+        return await prisma.flow.findUnique({ where: { id } });
+    }
 }
 
 export default new FlowService();

@@ -1,11 +1,13 @@
 import facebookSenderService from '~/services/facebook-sender.service';
 import flowRecordService from '~/services/flow-record.service';
 import { ActionPayloadItem, ConditionField } from '~/types/flows/actions.type';
-import { CollectionPayloadItem } from '~/types/flows/collection.type';
+import { CollectionPayloadItem, WaitingVariable } from '~/types/flows/collection.type';
 import { MessagePayloadItem } from '~/types/flows/messages.type';
 import { Node, NodePayloadItem } from '~/types/flows/node.type';
 import { sleep } from '~/utils/time';
 import { formatMediaUrl } from '~/utils/url';
+
+type PayloadResult = { type: 'CONTINUE'; nextNodeId?: string } | { type: 'WAITING' } | { type: 'NONE' };
 
 class FlowExecutorService {
     async runFlow(
@@ -23,6 +25,7 @@ class FlowExecutorService {
             }
 
             while (currentNodeId) {
+                await flowRecordService.updateCurrentNode(flowRecordId, currentNodeId);
                 const currentNode: Node = nodes[currentNodeId];
 
                 if (!currentNode) {
@@ -30,23 +33,35 @@ class FlowExecutorService {
                 }
 
                 let branchedNextId = null;
+                let isPending = false;
 
-                for (const payload of currentNode.payload) {
-                    branchedNextId = (await this.handleNodePayload(flowRecordId, pageId, senderId, payload)) as any;
-                    if (branchedNextId) break;
+                for (const payload of currentNode.payload || []) {
+                    const payloadResult = (await this.handleNodePayload(flowRecordId, pageId, senderId, payload)) || {};
+
+                    if (payloadResult.type === 'CONTINUE') {
+                        branchedNextId = payloadResult.nextNodeId;
+                    } else if (payloadResult.type === 'WAITING') {
+                        isPending = true;
+                    }
+
+                    if (branchedNextId || isPending) break;
                 }
 
                 if (branchedNextId) {
                     currentNodeId = branchedNextId;
-                } else if (currentNode.next) {
+                } else if (currentNode.next && !isPending) {
                     currentNodeId = currentNode.next;
+                } else if (isPending) {
+                    return;
                 } else {
                     currentNodeId = null;
-                    // Hoàn thành Flow thành công
+                    isPending = false;
                     return await flowRecordService.setComplete(flowRecordId);
                 }
             }
         } catch (error: any) {
+            console.log(error);
+
             if (error.response) {
                 const fbError = error.response.data.error;
                 flowRecordService.setError(
@@ -61,33 +76,41 @@ class FlowExecutorService {
         }
     }
 
-    private async handleNodePayload(flowRecordId: string, pageId: string, senderId: string, payload: NodePayloadItem) {
+    private async handleNodePayload(
+        flowRecordId: string,
+        pageId: string,
+        senderId: string,
+        payload: NodePayloadItem
+    ): Promise<PayloadResult> {
         switch (payload.category) {
             case 'message': {
-                await this.handleMessagePayload(pageId, senderId, payload as MessagePayloadItem);
-                break;
+                await this.handleMessagePayload(flowRecordId, pageId, senderId, payload as MessagePayloadItem);
+                return { type: 'NONE' };
             }
             case 'action': {
-                const conditionNextNodeId = await this.handleActionPayload(flowRecordId, payload as ActionPayloadItem);
-                return conditionNextNodeId;
+                return await this.handleActionPayload(flowRecordId, payload as ActionPayloadItem);
             }
             case 'collection': {
-                this.handleCollectionPayload(payload as CollectionPayloadItem);
-                break;
+                return this.handleCollectionPayload(flowRecordId, pageId, senderId, payload as CollectionPayloadItem);
             }
             default: {
                 console.log('Invalid Category: ', (payload as any).category);
-                break;
+                return { type: 'NONE' };
             }
         }
     }
 
-    private async handleMessagePayload(pageId: string, senderId: string, payload: MessagePayloadItem) {
+    private async handleMessagePayload(
+        flowRecordId: string,
+        pageId: string,
+        senderId: string,
+        payload: MessagePayloadItem
+    ) {
         const { type, field } = payload;
 
         switch (type) {
             case 'text': {
-                await facebookSenderService.sendTextMessage(pageId, senderId, {
+                await facebookSenderService.sendTextMessage(flowRecordId, pageId, senderId, {
                     text: field.text,
                     buttons: field.buttons
                 });
@@ -115,7 +138,7 @@ class FlowExecutorService {
         }
     }
 
-    private async handleActionPayload(flowRecordId: string, payload: ActionPayloadItem) {
+    private async handleActionPayload(flowRecordId: string, payload: ActionPayloadItem): Promise<PayloadResult> {
         const { type, field } = payload;
 
         switch (type) {
@@ -130,25 +153,41 @@ class FlowExecutorService {
                     return String(actualValue) === String(expectedValue);
                 });
 
-                if (isMatch && next) {
-                    return next;
-                }
-
-                return null;
+                return isMatch ? { type: 'CONTINUE', nextNodeId: next } : { type: 'NONE' };
             }
             case 'delay': {
                 await sleep(field.duration, field.unit);
-                break;
+                return { type: 'NONE' };
             }
             case 'set_variable': {
                 flowRecordService.setVariable(flowRecordId, field.name, field.value);
-                break;
+                return { type: 'NONE' };
             }
         }
     }
 
-    private handleCollectionPayload(payload: CollectionPayloadItem) {
-        console.log(`[Collection] Fetching data for type: ${payload.type}`);
+    private async handleCollectionPayload(
+        flowRecordId: string,
+        pageId: string,
+        senderId: string,
+        payload: CollectionPayloadItem
+    ): Promise<PayloadResult> {
+        const message = payload.field.text;
+        const buttons = payload.field.buttons;
+
+        await facebookSenderService.sendTextMessage(flowRecordId, pageId, senderId, { text: message, buttons });
+
+        const variable = payload.field.variable;
+        const fallback = payload.field.fallback;
+
+        const waitingVariable: WaitingVariable = {
+            variable,
+            fallback
+        };
+
+        await flowRecordService.setPendingVariable(flowRecordId, waitingVariable);
+
+        return { type: 'WAITING' };
     }
 }
 

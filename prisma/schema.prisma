@@ -318,9 +318,10 @@ model FlowRecord {
     variables Json?            @map("variables")
     status    FlowRecordStatus @default(running)
 
-    lastInteraction    DateTime @default(now()) @updatedAt @map("last_interaction")
-    errorLog           String?  @map("error_log") @db.Text
-    waitingForVariable Json?    @map("waiting_for_variable")
+    lastInteraction    DateTime  @default(now()) @updatedAt @map("last_interaction")
+    errorLog           String?   @map("error_log") @db.Text
+    waitingForVariable Json?     @map("waiting_for_variable")
+    expiresAt          DateTime? @map("expires_at")
 
     flow Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
     page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
@@ -332,6 +333,7 @@ model FlowRecord {
 enum FlowRecordStatus {
     running
     pending
+    processing
     completed
     cancelled
     error

@@ -30,12 +30,29 @@ class FacebookSenderService {
         return response.data;
     }
 
-    async sendTextMessage(pageId: string, senderId: string, field: MessageTextField) {
+    async sendTextMessage(flowRecordId: string, pageId: string, senderId: string, field: MessageTextField) {
         if (!field.buttons || field.buttons.length === 0) {
             return this.callSendApi(pageId, senderId, {
                 text: field.text
             });
         }
+
+        const formatButtons = field.buttons.slice(0, 3).map((button) => {
+            if (button.type === 'postback') {
+                const parserPayload = JSON.parse(button.payload as any);
+
+                return {
+                    type: 'postback',
+                    title: button.title,
+                    payload: JSON.stringify({
+                        next: parserPayload.next,
+                        flowRecordId: flowRecordId
+                    })
+                };
+            }
+
+            return button;
+        });
 
         return this.callSendApi(pageId, senderId, {
             attachment: {
@@ -43,7 +60,7 @@ class FacebookSenderService {
                 payload: {
                     template_type: 'button',
                     text: field.text,
-                    buttons: field.buttons.slice(0, 3)
+                    buttons: formatButtons
                 }
             }
         });

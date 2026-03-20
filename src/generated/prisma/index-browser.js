@@ -280,7 +280,8 @@ exports.Prisma.FlowRecordScalarFieldEnum = {
   status: 'status',
   lastInteraction: 'lastInteraction',
   errorLog: 'errorLog',
-  waitingForVariable: 'waitingForVariable'
+  waitingForVariable: 'waitingForVariable',
+  expiresAt: 'expiresAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -477,6 +478,7 @@ exports.ConversationStatus = exports.$Enums.ConversationStatus = {
 exports.FlowRecordStatus = exports.$Enums.FlowRecordStatus = {
   running: 'running',
   pending: 'pending',
+  processing: 'processing',
   completed: 'completed',
   cancelled: 'cancelled',
   error: 'error'

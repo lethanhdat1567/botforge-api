@@ -30,5 +30,5 @@ export type WaitingVariable = {
 export type CollectionPayloadItem = {
     category: 'collection';
     type: 'text';
-    fields: CollectionField;
+    field: CollectionField;
 };

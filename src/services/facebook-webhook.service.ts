@@ -1,6 +1,10 @@
+import { getCurrentNodeAndLogicJson } from '~/helpers/flow.helper';
+import facebookSenderService from '~/services/facebook-sender.service';
 import { flowExecutorService } from '~/services/flow-executor.service';
 import flowRecordService from '~/services/flow-record.service';
 import flowService from '~/services/flow.service';
+import { isRegexMatch } from '~/utils/regex';
+import { isFlowExpired } from '~/utils/time';
 
 class FacebookWebhookService {
     async execute(body: any) {
@@ -16,6 +20,8 @@ class FacebookWebhookService {
             }
         }
 
+        // ! Chạy task
+        console.log('Tasks running: ', tasks);
         await Promise.all(tasks);
     }
 
@@ -26,9 +32,8 @@ class FacebookWebhookService {
             return await this.handleMessage(pageUid, senderId, text);
         }
 
-        // 2. Nếu là bấm nút (Postback)
         if (event.postback) {
-            return;
+            return await this.handlePostback(pageUid, senderId, event.postback);
         }
 
         if (event.message?.quick_reply) {
@@ -39,24 +44,78 @@ class FacebookWebhookService {
     private async handleMessage(pageUid: string, senderId: string, message: any) {
         const exitFlowRecord = await flowRecordService.findByPageUidAndSenderId(pageUid, senderId);
 
-        // * Exit flow: pending | running
+        // * Exit flow: pending | running | processing
         if (exitFlowRecord) {
-            if (exitFlowRecord.status === 'running') return;
-
+            if (exitFlowRecord.status === 'running' || exitFlowRecord.status === 'processing') return;
             if (exitFlowRecord.status === 'pending') {
-                await flowRecordService.setWaitingVariable(exitFlowRecord.id, message);
-                const flow = await flowService.detail(exitFlowRecord.flowId);
+                await flowRecordService.setProcessing(exitFlowRecord.id);
+                const waitingVariables = await flowRecordService.getWaitingVariable(exitFlowRecord.id);
 
-                if (!flow?.logicJson) return;
-                await flowExecutorService.runFlow(
-                    exitFlowRecord.id,
-                    exitFlowRecord.pageId,
-                    senderId,
-                    exitFlowRecord.currentNodeId,
-                    flow.logicJson as any
-                );
+                if (!waitingVariables) {
+                    return await flowRecordService.setError(exitFlowRecord.id, 'Không có pending variable');
+                }
+                // * Check fallback
+                const isExpired = isFlowExpired(exitFlowRecord.expiresAt);
+
+                if (isExpired) {
+                    await facebookSenderService.sendTextMessage(exitFlowRecord.id, exitFlowRecord.pageId, senderId, {
+                        text: waitingVariables.fallback.message
+                    });
+                    return await flowRecordService.setCancel(exitFlowRecord.id);
+                }
+                // *Check regex
+                const isMatch = isRegexMatch(message, waitingVariables.variable.regex || '');
+
+                if (isMatch) {
+                    await flowRecordService.setVariable(exitFlowRecord.id, waitingVariables.variable.key, message);
+                    await flowRecordService.setRunning(exitFlowRecord.id);
+
+                    const currentFlow = await flowService.findById(exitFlowRecord.flowId);
+                    const { currentNode, logicJson } = getCurrentNodeAndLogicJson(
+                        currentFlow,
+                        currentFlow?.startNodeId
+                    );
+
+                    if (!currentFlow || !logicJson) {
+                        return await flowRecordService.setError(
+                            exitFlowRecord.id,
+                            'Flow not found when check regex message'
+                        );
+                    }
+
+                    return await flowExecutorService.runFlow(
+                        exitFlowRecord.id,
+                        exitFlowRecord.pageId,
+                        senderId,
+                        currentNode.next,
+                        currentFlow.logicJson as any
+                    );
+                } else {
+                    await facebookSenderService.sendTextMessage(exitFlowRecord.id, exitFlowRecord.pageId, senderId, {
+                        text: waitingVariables.variable.regexMessage || ''
+                    });
+                    const currentFlow = await flowService.findById(exitFlowRecord.flowId);
+                    const { currentNode, logicJson } = getCurrentNodeAndLogicJson(
+                        currentFlow,
+                        currentFlow?.startNodeId
+                    );
+
+                    if (!currentFlow || !logicJson) {
+                        return await flowRecordService.setError(
+                            exitFlowRecord.id,
+                            'Flow not found when check regex message'
+                        );
+                    }
+
+                    return await flowExecutorService.runFlow(
+                        exitFlowRecord.id,
+                        exitFlowRecord.pageId,
+                        senderId,
+                        currentNode.id as string,
+                        currentFlow.logicJson as any
+                    );
+                }
             }
-
             return;
         }
         // * New flow
@@ -87,6 +146,30 @@ class FacebookWebhookService {
                 flow.logicJson as any
             );
         }
+    }
+
+    private async handlePostback(pageUid: string, senderId: string, postback: any) {
+        const buttonPayload = JSON.parse(postback.payload);
+
+        const flowRecord = await flowRecordService.findById(buttonPayload.flowRecordId);
+
+        if (!flowRecord) return;
+        if (!buttonPayload?.next) return;
+
+        const flow = await flowService.findById(flowRecord.flowId);
+
+        if (!flow) return;
+        const logicJsonObj = flow.logicJson as Record<string, any>;
+
+        await flowRecordService.setRunning(flowRecord.id);
+
+        return await flowExecutorService.runFlow(
+            flowRecord.id,
+            flowRecord.pageId,
+            flowRecord.senderId,
+            buttonPayload.next,
+            logicJsonObj
+        );
     }
 }
 

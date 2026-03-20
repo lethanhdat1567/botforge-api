@@ -10,12 +10,13 @@ export interface UrlButton {
     type: 'web_url';
     title: string;
     url: string;
-    next?: string;
 }
 
 export interface PostbackButton {
     type: 'postback';
     title: string;
-    payload: string;
-    next?: string;
+    payload: {
+        next?: string;
+        flowRecordId: string;
+    };
 }

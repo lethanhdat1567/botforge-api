@@ -167,6 +167,7 @@ export type ConversationStatus = (typeof ConversationStatus)[keyof typeof Conver
 export const FlowRecordStatus: {
   running: 'running',
   pending: 'pending',
+  processing: 'processing',
   completed: 'completed',
   cancelled: 'cancelled',
   error: 'error'
@@ -16632,6 +16633,7 @@ export namespace Prisma {
     status: $Enums.FlowRecordStatus | null
     lastInteraction: Date | null
     errorLog: string | null
+    expiresAt: Date | null
   }
 
   export type FlowRecordMaxAggregateOutputType = {
@@ -16643,6 +16645,7 @@ export namespace Prisma {
     status: $Enums.FlowRecordStatus | null
     lastInteraction: Date | null
     errorLog: string | null
+    expiresAt: Date | null
   }
 
   export type FlowRecordCountAggregateOutputType = {
@@ -16656,6 +16659,7 @@ export namespace Prisma {
     lastInteraction: number
     errorLog: number
     waitingForVariable: number
+    expiresAt: number
     _all: number
   }
 
@@ -16669,6 +16673,7 @@ export namespace Prisma {
     status?: true
     lastInteraction?: true
     errorLog?: true
+    expiresAt?: true
   }
 
   export type FlowRecordMaxAggregateInputType = {
@@ -16680,6 +16685,7 @@ export namespace Prisma {
     status?: true
     lastInteraction?: true
     errorLog?: true
+    expiresAt?: true
   }
 
   export type FlowRecordCountAggregateInputType = {
@@ -16693,6 +16699,7 @@ export namespace Prisma {
     lastInteraction?: true
     errorLog?: true
     waitingForVariable?: true
+    expiresAt?: true
     _all?: true
   }
 
@@ -16779,6 +16786,7 @@ export namespace Prisma {
     lastInteraction: Date
     errorLog: string | null
     waitingForVariable: JsonValue | null
+    expiresAt: Date | null
     _count: FlowRecordCountAggregateOutputType | null
     _min: FlowRecordMinAggregateOutputType | null
     _max: FlowRecordMaxAggregateOutputType | null
@@ -16809,6 +16817,7 @@ export namespace Prisma {
     lastInteraction?: boolean
     errorLog?: boolean
     waitingForVariable?: boolean
+    expiresAt?: boolean
     flow?: boolean | FlowDefaultArgs<ExtArgs>
     page?: boolean | PageDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["flowRecord"]>
@@ -16826,9 +16835,10 @@ export namespace Prisma {
     lastInteraction?: boolean
     errorLog?: boolean
     waitingForVariable?: boolean
+    expiresAt?: boolean
   }
 
-  export type FlowRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "pageId" | "flowId" | "currentNodeId" | "variables" | "status" | "lastInteraction" | "errorLog" | "waitingForVariable", ExtArgs["result"]["flowRecord"]>
+  export type FlowRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "pageId" | "flowId" | "currentNodeId" | "variables" | "status" | "lastInteraction" | "errorLog" | "waitingForVariable" | "expiresAt", ExtArgs["result"]["flowRecord"]>
   export type FlowRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     flow?: boolean | FlowDefaultArgs<ExtArgs>
     page?: boolean | PageDefaultArgs<ExtArgs>
@@ -16851,6 +16861,7 @@ export namespace Prisma {
       lastInteraction: Date
       errorLog: string | null
       waitingForVariable: Prisma.JsonValue | null
+      expiresAt: Date | null
     }, ExtArgs["result"]["flowRecord"]>
     composites: {}
   }
@@ -17232,6 +17243,7 @@ export namespace Prisma {
     readonly lastInteraction: FieldRef<"FlowRecord", 'DateTime'>
     readonly errorLog: FieldRef<"FlowRecord", 'String'>
     readonly waitingForVariable: FieldRef<"FlowRecord", 'Json'>
+    readonly expiresAt: FieldRef<"FlowRecord", 'DateTime'>
   }
     
 
@@ -17809,7 +17821,8 @@ export namespace Prisma {
     status: 'status',
     lastInteraction: 'lastInteraction',
     errorLog: 'errorLog',
-    waitingForVariable: 'waitingForVariable'
+    waitingForVariable: 'waitingForVariable',
+    expiresAt: 'expiresAt'
   };
 
   export type FlowRecordScalarFieldEnum = (typeof FlowRecordScalarFieldEnum)[keyof typeof FlowRecordScalarFieldEnum]
@@ -19207,6 +19220,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableFilter<"FlowRecord"> | string | null
     waitingForVariable?: JsonNullableFilter<"FlowRecord">
+    expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }
@@ -19222,6 +19236,7 @@ export namespace Prisma {
     lastInteraction?: SortOrder
     errorLog?: SortOrderInput | SortOrder
     waitingForVariable?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
     flow?: FlowOrderByWithRelationInput
     page?: PageOrderByWithRelationInput
     _relevance?: FlowRecordOrderByRelevanceInput
@@ -19241,6 +19256,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableFilter<"FlowRecord"> | string | null
     waitingForVariable?: JsonNullableFilter<"FlowRecord">
+    expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }, "id">
@@ -19256,6 +19272,7 @@ export namespace Prisma {
     lastInteraction?: SortOrder
     errorLog?: SortOrderInput | SortOrder
     waitingForVariable?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
     _count?: FlowRecordCountOrderByAggregateInput
     _max?: FlowRecordMaxOrderByAggregateInput
     _min?: FlowRecordMinOrderByAggregateInput
@@ -19275,6 +19292,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeWithAggregatesFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableWithAggregatesFilter<"FlowRecord"> | string | null
     waitingForVariable?: JsonNullableWithAggregatesFilter<"FlowRecord">
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"FlowRecord"> | Date | string | null
   }
 
   export type UserCreateInput = {
@@ -20404,6 +20422,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
     flow: FlowCreateNestedOneWithoutFlowRecordsInput
     page: PageCreateNestedOneWithoutFlowRecordsInput
   }
@@ -20419,6 +20438,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
   }
 
   export type FlowRecordUpdateInput = {
@@ -20430,6 +20450,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
     page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
@@ -20445,6 +20466,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FlowRecordCreateManyInput = {
@@ -20458,6 +20480,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
   }
 
   export type FlowRecordUpdateManyMutationInput = {
@@ -20469,6 +20492,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FlowRecordUncheckedUpdateManyInput = {
@@ -20482,6 +20506,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -21540,6 +21565,7 @@ export namespace Prisma {
     lastInteraction?: SortOrder
     errorLog?: SortOrder
     waitingForVariable?: SortOrder
+    expiresAt?: SortOrder
   }
 
   export type FlowRecordMaxOrderByAggregateInput = {
@@ -21551,6 +21577,7 @@ export namespace Prisma {
     status?: SortOrder
     lastInteraction?: SortOrder
     errorLog?: SortOrder
+    expiresAt?: SortOrder
   }
 
   export type FlowRecordMinOrderByAggregateInput = {
@@ -21562,6 +21589,7 @@ export namespace Prisma {
     status?: SortOrder
     lastInteraction?: SortOrder
     errorLog?: SortOrder
+    expiresAt?: SortOrder
   }
 
   export type EnumFlowRecordStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -24107,6 +24135,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
     page: PageCreateNestedOneWithoutFlowRecordsInput
   }
 
@@ -24120,6 +24149,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
   }
 
   export type FlowRecordCreateOrConnectWithoutFlowInput = {
@@ -24274,6 +24304,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFilter<"FlowRecord"> | Date | string
     errorLog?: StringNullableFilter<"FlowRecord"> | string | null
     waitingForVariable?: JsonNullableFilter<"FlowRecord">
+    expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
   }
 
   export type UserCreateWithoutPagesInput = {
@@ -24382,6 +24413,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
     flow: FlowCreateNestedOneWithoutFlowRecordsInput
   }
 
@@ -24395,6 +24427,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
   }
 
   export type FlowRecordCreateOrConnectWithoutPageInput = {
@@ -26889,6 +26922,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
   }
 
   export type FlowShareUpdateWithoutFlowInput = {
@@ -26944,6 +26978,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
@@ -26957,6 +26992,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FlowRecordUncheckedUpdateManyWithoutFlowInput = {
@@ -26969,6 +27005,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FlowCreateManyPageInput = {
@@ -26996,6 +27033,7 @@ export namespace Prisma {
     lastInteraction?: Date | string
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
   }
 
   export type FlowUpdateWithoutPageInput = {
@@ -27056,6 +27094,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
@@ -27069,6 +27108,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FlowRecordUncheckedUpdateManyWithoutPageInput = {
@@ -27081,6 +27121,7 @@ export namespace Prisma {
     lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FlowShareDowloadCreateManyFlowShareInput = {

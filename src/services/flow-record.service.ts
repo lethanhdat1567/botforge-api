@@ -1,4 +1,6 @@
 import { prisma } from '~/config/prisma';
+import { WaitingVariable } from '~/types/flows/collection.type';
+import { convertToMs } from '~/utils/time';
 
 type CreateFlowRecord = {
     senderId: string;
@@ -15,9 +17,13 @@ class FlowRecordService {
                     pageUid
                 },
                 senderId,
-                OR: [{ status: 'pending' }, { status: 'running' }]
+                OR: [{ status: 'pending' }, { status: 'running' }, { status: 'processing' }]
             }
         });
+    }
+
+    async findById(id: string) {
+        return await prisma.flowRecord.findUnique({ where: { id } });
     }
 
     async getVariables(flowRecordId: string) {
@@ -29,8 +35,30 @@ class FlowRecordService {
         return flowRecord?.variables;
     }
 
+    async getWaitingVariable(flowRecordId: string): Promise<WaitingVariable> {
+        const flowRecord = await prisma.flowRecord.findFirst({
+            where: { id: flowRecordId, status: 'processing' },
+            select: { waitingForVariable: true }
+        });
+
+        console.log(flowRecord);
+
+        return flowRecord?.waitingForVariable as any;
+    }
+
     async create(data: CreateFlowRecord) {
         return await prisma.flowRecord.create({ data });
+    }
+
+    async setPendingVariable(flowRecordId: string, waitingPayload: WaitingVariable) {
+        const expiresIn = convertToMs(waitingPayload.fallback.timeout.duration, waitingPayload.fallback.timeout.unit);
+
+        const expiresAt = new Date(Date.now() + expiresIn);
+
+        await prisma.flowRecord.update({
+            where: { id: flowRecordId },
+            data: { waitingForVariable: waitingPayload, status: 'pending', expiresAt }
+        });
     }
 
     async setVariable(flowRecordId: string, key: string, value: string) {
@@ -64,6 +92,25 @@ class FlowRecordService {
             where: { id: flowRecordId },
             data: { status: 'error', errorLog: message }
         });
+    }
+
+    async setCancel(flowRecordId: string) {
+        await prisma.flowRecord.update({
+            where: { id: flowRecordId },
+            data: { status: 'cancelled' }
+        });
+    }
+
+    async setRunning(flowRecordId: string) {
+        await prisma.flowRecord.update({ where: { id: flowRecordId }, data: { status: 'running' } });
+    }
+
+    async setProcessing(flowRecordId: string) {
+        await prisma.flowRecord.update({ where: { id: flowRecordId }, data: { status: 'processing' } });
+    }
+
+    async updateCurrentNode(flowRecordId: string, currentNodeId: string) {
+        await prisma.flowRecord.update({ where: { id: flowRecordId }, data: { currentNodeId } });
     }
 }
 
