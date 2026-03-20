@@ -13,7 +13,7 @@ const ensureDir = (dir: string) => {
 const getFolderByMime = (mimetype: string) => {
     if (mimetype.startsWith('image/')) return 'images';
     if (mimetype.startsWith('video/')) return 'videos';
-    if (mimetype.startsWith('audio/')) return 'audio';
+    if (mimetype.startsWith('audio/')) return 'audios';
     return 'others';
 };
 

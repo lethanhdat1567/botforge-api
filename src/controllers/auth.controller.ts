@@ -1,9 +1,7 @@
 import { Request } from 'express';
 import { authCode } from '~/constants/auth';
 import { AuthRequest } from '~/middlewares/auth.middleware';
-import { sendEmail } from '~/config/mailer';
 import authService from '~/services/auth.service';
-import { envConfig } from '~/config/envConfig';
 import { httpCode } from '~/constants/httpsCode';
 import { queueService } from '~/services/queue.service';
 import { queue } from '~/constants/queue';
@@ -69,14 +67,11 @@ class AuthController {
 
         const [error, token] = await authService.forgotPassword(email);
 
-        if (error || !token) return;
+        if (error || !token) {
+            return res.error({ message: error }, httpCode.clientError.unauthorized);
+        }
 
-        await sendEmail(
-            email,
-            'Reset Your Password',
-            `<p>You requested a password reset. Click <a href="${envConfig.frontendUrl}/reset-password?token=${token}">here</a> to set a new password.</p>
-         `
-        );
+        await queueService.push(queue.sendResetPassword, { email, token });
 
         return res.success({
             message: 'Please check your email to reset your password'

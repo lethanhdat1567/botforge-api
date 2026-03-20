@@ -1,7 +1,6 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
-import { envConfig } from '~/config/envConfig.js';
-import { emailService } from '~/services/email.service.js';
+import googleDriveService from '~/services/googleDrive.service';
 
 async function backupDB() {
     const fileName = `todo-${new Date().toISOString().split('T')[0]}.sql`;
@@ -17,21 +16,19 @@ async function backupDB() {
         outputStream.end();
 
         if (code === 0) {
-            console.log(`Backup success: ${outputFile}`);
-
-            try {
-                // await googleDriveService.uploadFile(outputFile, envConfig.googleDriveBackupFolder);
-                // console.log('Upload to Google Drive success');
-                // await emailService.sendMail(
-                //     envConfig.googleAppUser,
-                //     'Backup database',
-                //     `<p>Backup database success</p>`
-                // );
-            } catch (err) {
-                console.error('Upload failed:', err);
-            }
+            outputStream.end();
         } else {
             fs.unlinkSync(outputFile);
+        }
+    });
+
+    outputStream.on('finish', async () => {
+        try {
+            console.log(`Đang upload: ${fileName}`);
+            await googleDriveService.uploadToDrive(outputFile, fileName);
+            console.log('Upload hoàn tất!');
+        } catch (err) {
+            console.error('Upload failed:', err);
         }
     });
 }

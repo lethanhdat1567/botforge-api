@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { queue } from '~/constants/queue';
 import { emailService } from '~/services/email.service';
 import { queueService } from '~/services/queue.service';
-import { VerifyEmailPayload } from '~/types/queue.type';
+import { SendResetPasswordPayload, VerifyEmailPayload } from '~/types/queue.type';
 import { sleep } from '~/utils/time';
 
 (async () => {
@@ -22,6 +22,13 @@ import { sleep } from '~/utils/time';
                         const payload = queueJob.payload as any as VerifyEmailPayload;
 
                         await emailService.sendVerifyEmail(payload?.user, payload?.token);
+                        break;
+                    }
+
+                    case queue.sendResetPassword: {
+                        const payload = queueJob.payload as any as SendResetPasswordPayload;
+
+                        await emailService.sendResetPassword(payload?.email, payload?.token);
                         break;
                     }
                 }
