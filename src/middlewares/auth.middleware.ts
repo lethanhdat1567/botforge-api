@@ -16,8 +16,18 @@ export const authMiddleware = (req: AuthRequest, res: any, next: NextFunction) =
 
     const token = authHeader.split(' ')[1];
 
-    const decoded = jwt.verify(token, envConfig.jwt.accessSecret!) as TokenPayload;
-    req.user = decoded;
+    try {
+        // THÊM OPTION clockTolerance: 0 VÀO ĐÂY
+        const decoded = jwt.verify(token, envConfig.jwt.accessSecret!, {
+            clockTolerance: 0
+        }) as TokenPayload;
 
-    next();
+        req.user = decoded;
+        next();
+    } catch (error: any) {
+        if (error.name === 'TokenExpiredError') {
+            return res.unauthorized('Token đã hết hạn rồi Đạt ơi!');
+        }
+        return res.unauthorized('Token không hợp lệ!');
+    }
 };

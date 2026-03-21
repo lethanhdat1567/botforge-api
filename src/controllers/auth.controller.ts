@@ -23,7 +23,7 @@ class AuthController {
 
         await queueService.push(queue.verifyEmail, {
             user: user,
-            token: userEmailToken
+            token: userEmailToken.token
         });
 
         return res.success({
@@ -108,7 +108,7 @@ class AuthController {
         const [error, data] = await authService.refreshToken(refreshToken);
 
         if (error) {
-            return res.error({ message: error }, httpCode.clientError.unauthorized);
+            return res.error({ message: error, code: authCode.Unauthorized }, httpCode.clientError.unauthorized);
         }
 
         return res.success(data);
@@ -120,6 +120,22 @@ class AuthController {
         await authService.logout(refreshToken);
 
         return res.success({ message: 'Logout successfully' });
+    }
+
+    async googleLogin(req: Request, res: any) {
+        const { code } = req.body;
+
+        if (!code) {
+            return res.error({ message: 'Code is required' }, httpCode.clientError.badRequest);
+        }
+
+        const [error, data] = await authService.googleLogin(code);
+
+        if (error) {
+            return res.error({ message: error }, httpCode.clientError.unauthorized);
+        }
+
+        return res.success(data);
     }
 }
 

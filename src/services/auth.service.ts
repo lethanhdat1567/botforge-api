@@ -7,6 +7,7 @@ import ms, { StringValue } from 'ms';
 import { authCode } from '~/constants/auth';
 import { TokenType, User } from '~/generated/prisma';
 import notificationService from '~/services/notification.service';
+import { OAuth2Client } from 'google-auth-library';
 
 class AuthService {
     async getMe(userId: string) {
@@ -238,6 +239,66 @@ class AuthService {
             user: userResult,
             ...token
         };
+    }
+    async googleLogin(code: string) {
+        const client = new OAuth2Client(envConfig.google.clientId, envConfig.google.clientSecret, 'postmessage');
+
+        try {
+            const { tokens } = await client.getToken({
+                code: code,
+                redirect_uri: 'postmessage'
+            });
+
+            const idToken = tokens.id_token;
+            if (!idToken) return ['Không lấy được ID Token từ Google', null];
+
+            const ticket = await client.verifyIdToken({
+                idToken,
+                audience: envConfig.google.clientId
+            });
+            const payload = ticket.getPayload();
+
+            if (!payload) return ['Token không hợp lệ', null];
+
+            const { email, name, picture, sub: googleId } = payload;
+
+            let user = await prisma.user.findUnique({ where: { email } });
+
+            if (!user) {
+                user = await prisma.user.create({
+                    data: {
+                        email: email!,
+                        displayName: name || 'User',
+                        avatar: picture,
+                        googleProviderId: googleId,
+                        verifyAt: new Date()
+                    }
+                });
+            } else {
+                if (user.googleProviderId && user.googleProviderId !== googleId) {
+                    return ['Email này đã được liên kết với một tài khoản Google khác', null];
+                }
+
+                user = await prisma.user.update({
+                    where: { id: user.id },
+                    data: {
+                        googleProviderId: googleId,
+                        verifyAt: user.verifyAt || new Date(),
+                        avatar: user.avatar || picture
+                    }
+                });
+            }
+
+            const systemTokens = await this.getAuthResponse(user);
+            return [null, systemTokens];
+        } catch (error: any) {
+            if (error.response) {
+                console.error('Google API Error Response:', error.response.data);
+            } else {
+                console.error('Google Login Error:', error.message);
+            }
+            return ['Xác thực Google thất bại', null];
+        }
     }
 }
 

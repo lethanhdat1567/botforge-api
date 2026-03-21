@@ -1,4 +1,5 @@
 import { Response, RequestHandler } from 'express';
+import { authCode } from '~/constants/auth';
 import { httpCode } from '~/constants/httpsCode';
 
 // Mở rộng Response
@@ -22,7 +23,11 @@ const responseMiddleware: RequestHandler = (req, res, next) => {
 
     customRes.unauthorized = () => {
         return res.status(httpCode.clientError.unauthorized).json({
-            message: 'Unauthorized'
+            status: 'error',
+            data: {
+                message: 'Unauthorized',
+                code: authCode.Unauthorized
+            }
         });
     };
 

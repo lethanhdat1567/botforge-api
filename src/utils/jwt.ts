@@ -1,14 +1,15 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
+import { envConfig } from '~/config/envConfig';
 
 export interface TokenPayload {
     id: string;
     role: 'admin' | 'user';
 }
 
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
-const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
-const ACCESS_EXPIRES = process.env.JWT_ACCESS_EXPIRES || '1d';
-const REFRESH_EXPIRES = process.env.JWT_REFRESH_EXPIRES || '7d';
+const ACCESS_SECRET = envConfig.jwt.accessSecret;
+const REFRESH_SECRET = envConfig.jwt.refreshSecret;
+const ACCESS_EXPIRES = envConfig.jwt.accessExpires || '1h';
+const REFRESH_EXPIRES = envConfig.jwt.refreshExpires || '7d';
 
 // đảm bảo env được set
 if (!ACCESS_SECRET || !REFRESH_SECRET) {
