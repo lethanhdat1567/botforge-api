@@ -17,6 +17,7 @@ router.get('/admin', requireRole, flowController.listForAdmin);
 
 router.get('/:id', flowController.detail);
 
+router.patch('/toggle-active/:id', flowController.toggleActive);
 router.patch('/:id', flowController.update);
 
 router.delete('/:id', flowController.remove);

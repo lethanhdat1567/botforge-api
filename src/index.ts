@@ -18,7 +18,16 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-app.use(cors());
+// 1. Cấu hình CORS chi tiết
+app.use(
+    cors({
+        origin: '*', // Hoặc điền link ngrok cụ thể của bạn
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'Accept'],
+        credentials: true
+    })
+);
+
 app.use(express.json());
 app.use(response);
 

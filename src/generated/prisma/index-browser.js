@@ -134,6 +134,16 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FacebookAuthScalarFieldEnum = {
+  id: 'id',
+  facebookProviderId: 'facebookProviderId',
+  fbAccessToken: 'fbAccessToken',
+  fbTokenExpiresAt: 'fbTokenExpiresAt',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   id: 'id',
   type: 'type',
@@ -147,26 +157,14 @@ exports.Prisma.FlowScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   pageId: 'pageId',
+  pageAccessToken: 'pageAccessToken',
   name: 'name',
-  description: 'description',
   status: 'status',
   logicJson: 'logicJson',
   layoutJson: 'layoutJson',
   timeoutDuration: 'timeoutDuration',
   startNodeId: 'startNodeId',
   timeoutJson: 'timeoutJson',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.PageScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  pageUid: 'pageUid',
-  name: 'name',
-  avatar: 'avatar',
-  pageAccessToken: 'pageAccessToken',
-  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -322,6 +320,13 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   googleProviderId: 'googleProviderId'
 };
 
+exports.Prisma.FacebookAuthOrderByRelevanceFieldEnum = {
+  id: 'id',
+  facebookProviderId: 'facebookProviderId',
+  fbAccessToken: 'fbAccessToken',
+  userId: 'userId'
+};
+
 exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
   id: 'id',
   token: 'token',
@@ -344,19 +349,10 @@ exports.Prisma.FlowOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
   pageId: 'pageId',
+  pageAccessToken: 'pageAccessToken',
   name: 'name',
-  description: 'description',
   timeoutDuration: 'timeoutDuration',
   startNodeId: 'startNodeId'
-};
-
-exports.Prisma.PageOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  pageUid: 'pageUid',
-  name: 'name',
-  avatar: 'avatar',
-  pageAccessToken: 'pageAccessToken'
 };
 
 exports.Prisma.FlowShareOrderByRelevanceFieldEnum = {
@@ -462,12 +458,6 @@ exports.FlowStatus = exports.$Enums.FlowStatus = {
   inactive: 'inactive'
 };
 
-exports.PageStatus = exports.$Enums.PageStatus = {
-  active: 'active',
-  inactive: 'inactive',
-  isExpired: 'isExpired'
-};
-
 exports.FlowShareStatus = exports.$Enums.FlowShareStatus = {
   active: 'active',
   inactive: 'inactive'
@@ -511,9 +501,9 @@ exports.QueueStatus = exports.$Enums.QueueStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  FacebookAuth: 'FacebookAuth',
   VerificationToken: 'VerificationToken',
   Flow: 'Flow',
-  Page: 'Page',
   FlowShare: 'FlowShare',
   FlowShareDowload: 'FlowShareDowload',
   FlowShareComment: 'FlowShareComment',

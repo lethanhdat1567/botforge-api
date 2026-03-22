@@ -10,6 +10,7 @@ export interface AuthRequest extends Request {
 
 export const authMiddleware = (req: AuthRequest, res: any, next: NextFunction) => {
     const authHeader = req.headers.authorization;
+
     if (!authHeader) {
         return res.unauthorized();
     }

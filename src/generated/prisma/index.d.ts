@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model FacebookAuth
+ * 
+ */
+export type FacebookAuth = $Result.DefaultSelection<Prisma.$FacebookAuthPayload>
+/**
  * Model VerificationToken
  * 
  */
@@ -28,11 +33,6 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  * 
  */
 export type Flow = $Result.DefaultSelection<Prisma.$FlowPayload>
-/**
- * Model Page
- * 
- */
-export type Page = $Result.DefaultSelection<Prisma.$PagePayload>
 /**
  * Model FlowShare
  * 
@@ -123,15 +123,6 @@ export const FlowStatus: {
 export type FlowStatus = (typeof FlowStatus)[keyof typeof FlowStatus]
 
 
-export const PageStatus: {
-  active: 'active',
-  inactive: 'inactive',
-  isExpired: 'isExpired'
-};
-
-export type PageStatus = (typeof PageStatus)[keyof typeof PageStatus]
-
-
 export const FlowShareStatus: {
   active: 'active',
   inactive: 'inactive'
@@ -203,10 +194,6 @@ export const TokenType: typeof $Enums.TokenType
 export type FlowStatus = $Enums.FlowStatus
 
 export const FlowStatus: typeof $Enums.FlowStatus
-
-export type PageStatus = $Enums.PageStatus
-
-export const PageStatus: typeof $Enums.PageStatus
 
 export type FlowShareStatus = $Enums.FlowShareStatus
 
@@ -360,6 +347,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.facebookAuth`: Exposes CRUD operations for the **FacebookAuth** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FacebookAuths
+    * const facebookAuths = await prisma.facebookAuth.findMany()
+    * ```
+    */
+  get facebookAuth(): Prisma.FacebookAuthDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
     * Example usage:
     * ```ts
@@ -378,16 +375,6 @@ export class PrismaClient<
     * ```
     */
   get flow(): Prisma.FlowDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.page`: Exposes CRUD operations for the **Page** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Pages
-    * const pages = await prisma.page.findMany()
-    * ```
-    */
-  get page(): Prisma.PageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.flowShare`: Exposes CRUD operations for the **FlowShare** model.
@@ -943,9 +930,9 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    FacebookAuth: 'FacebookAuth',
     VerificationToken: 'VerificationToken',
     Flow: 'Flow',
-    Page: 'Page',
     FlowShare: 'FlowShare',
     FlowShareDowload: 'FlowShareDowload',
     FlowShareComment: 'FlowShareComment',
@@ -973,7 +960,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
+      modelProps: "user" | "facebookAuth" | "verificationToken" | "flow" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1040,6 +1027,72 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      FacebookAuth: {
+        payload: Prisma.$FacebookAuthPayload<ExtArgs>
+        fields: Prisma.FacebookAuthFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FacebookAuthFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FacebookAuthFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload>
+          }
+          findFirst: {
+            args: Prisma.FacebookAuthFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FacebookAuthFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload>
+          }
+          findMany: {
+            args: Prisma.FacebookAuthFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload>[]
+          }
+          create: {
+            args: Prisma.FacebookAuthCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload>
+          }
+          createMany: {
+            args: Prisma.FacebookAuthCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.FacebookAuthDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload>
+          }
+          update: {
+            args: Prisma.FacebookAuthUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload>
+          }
+          deleteMany: {
+            args: Prisma.FacebookAuthDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FacebookAuthUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FacebookAuthUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FacebookAuthPayload>
+          }
+          aggregate: {
+            args: Prisma.FacebookAuthAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFacebookAuth>
+          }
+          groupBy: {
+            args: Prisma.FacebookAuthGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FacebookAuthGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FacebookAuthCountArgs<ExtArgs>
+            result: $Utils.Optional<FacebookAuthCountAggregateOutputType> | number
           }
         }
       }
@@ -1172,72 +1225,6 @@ export namespace Prisma {
           count: {
             args: Prisma.FlowCountArgs<ExtArgs>
             result: $Utils.Optional<FlowCountAggregateOutputType> | number
-          }
-        }
-      }
-      Page: {
-        payload: Prisma.$PagePayload<ExtArgs>
-        fields: Prisma.PageFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.PageFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.PageFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload>
-          }
-          findFirst: {
-            args: Prisma.PageFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.PageFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload>
-          }
-          findMany: {
-            args: Prisma.PageFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload>[]
-          }
-          create: {
-            args: Prisma.PageCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload>
-          }
-          createMany: {
-            args: Prisma.PageCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.PageDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload>
-          }
-          update: {
-            args: Prisma.PageUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload>
-          }
-          deleteMany: {
-            args: Prisma.PageDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.PageUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.PageUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagePayload>
-          }
-          aggregate: {
-            args: Prisma.PageAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePage>
-          }
-          groupBy: {
-            args: Prisma.PageGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PageGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.PageCountArgs<ExtArgs>
-            result: $Utils.Optional<PageCountAggregateOutputType> | number
           }
         }
       }
@@ -2142,9 +2129,9 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    facebookAuth?: FacebookAuthOmit
     verificationToken?: VerificationTokenOmit
     flow?: FlowOmit
-    page?: PageOmit
     flowShare?: FlowShareOmit
     flowShareDowload?: FlowShareDowloadOmit
     flowShareComment?: FlowShareCommentOmit
@@ -2240,7 +2227,6 @@ export namespace Prisma {
     flows: number
     flowShares: number
     notifications: number
-    pages: number
     verificationTokens: number
     flowShareDowloads: number
     flowShareLikes: number
@@ -2254,7 +2240,6 @@ export namespace Prisma {
     flows?: boolean | UserCountOutputTypeCountFlowsArgs
     flowShares?: boolean | UserCountOutputTypeCountFlowSharesArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-    pages?: boolean | UserCountOutputTypeCountPagesArgs
     verificationTokens?: boolean | UserCountOutputTypeCountVerificationTokensArgs
     flowShareDowloads?: boolean | UserCountOutputTypeCountFlowShareDowloadsArgs
     flowShareLikes?: boolean | UserCountOutputTypeCountFlowShareLikesArgs
@@ -2294,13 +2279,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountPagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PageWhereInput
   }
 
   /**
@@ -2389,46 +2367,6 @@ export namespace Prisma {
    * FlowCountOutputType without action
    */
   export type FlowCountOutputTypeCountFlowRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FlowRecordWhereInput
-  }
-
-
-  /**
-   * Count Type PageCountOutputType
-   */
-
-  export type PageCountOutputType = {
-    flows: number
-    flowRecords: number
-  }
-
-  export type PageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    flows?: boolean | PageCountOutputTypeCountFlowsArgs
-    flowRecords?: boolean | PageCountOutputTypeCountFlowRecordsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * PageCountOutputType without action
-   */
-  export type PageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PageCountOutputType
-     */
-    select?: PageCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * PageCountOutputType without action
-   */
-  export type PageCountOutputTypeCountFlowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FlowWhereInput
-  }
-
-  /**
-   * PageCountOutputType without action
-   */
-  export type PageCountOutputTypeCountFlowRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlowRecordWhereInput
   }
 
@@ -2803,7 +2741,6 @@ export namespace Prisma {
     flows?: boolean | User$flowsArgs<ExtArgs>
     flowShares?: boolean | User$flowSharesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    pages?: boolean | User$pagesArgs<ExtArgs>
     verificationTokens?: boolean | User$verificationTokensArgs<ExtArgs>
     flowShareDowloads?: boolean | User$flowShareDowloadsArgs<ExtArgs>
     flowShareLikes?: boolean | User$flowShareLikesArgs<ExtArgs>
@@ -2811,6 +2748,7 @@ export namespace Prisma {
     flowShareComments?: boolean | User$flowShareCommentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     conversations?: boolean | User$conversationsArgs<ExtArgs>
+    facebookAuth?: boolean | User$facebookAuthArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2835,7 +2773,6 @@ export namespace Prisma {
     flows?: boolean | User$flowsArgs<ExtArgs>
     flowShares?: boolean | User$flowSharesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    pages?: boolean | User$pagesArgs<ExtArgs>
     verificationTokens?: boolean | User$verificationTokensArgs<ExtArgs>
     flowShareDowloads?: boolean | User$flowShareDowloadsArgs<ExtArgs>
     flowShareLikes?: boolean | User$flowShareLikesArgs<ExtArgs>
@@ -2843,6 +2780,7 @@ export namespace Prisma {
     flowShareComments?: boolean | User$flowShareCommentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     conversations?: boolean | User$conversationsArgs<ExtArgs>
+    facebookAuth?: boolean | User$facebookAuthArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2852,7 +2790,6 @@ export namespace Prisma {
       flows: Prisma.$FlowPayload<ExtArgs>[]
       flowShares: Prisma.$FlowSharePayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      pages: Prisma.$PagePayload<ExtArgs>[]
       verificationTokens: Prisma.$VerificationTokenPayload<ExtArgs>[]
       flowShareDowloads: Prisma.$FlowShareDowloadPayload<ExtArgs>[]
       flowShareLikes: Prisma.$FlowShareLikePayload<ExtArgs>[]
@@ -2860,6 +2797,7 @@ export namespace Prisma {
       flowShareComments: Prisma.$FlowShareCommentPayload<ExtArgs>[]
       posts: Prisma.$PostsPayload<ExtArgs>[]
       conversations: Prisma.$ConversationPayload<ExtArgs>[]
+      facebookAuth: Prisma.$FacebookAuthPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3216,7 +3154,6 @@ export namespace Prisma {
     flows<T extends User$flowsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShares<T extends User$flowSharesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowSharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    pages<T extends User$pagesArgs<ExtArgs> = {}>(args?: Subset<T, User$pagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     verificationTokens<T extends User$verificationTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$verificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShareDowloads<T extends User$flowShareDowloadsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowShareDowloadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareDowloadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShareLikes<T extends User$flowShareLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$flowShareLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3224,6 +3161,7 @@ export namespace Prisma {
     flowShareComments<T extends User$flowShareCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowShareCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conversations<T extends User$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    facebookAuth<T extends User$facebookAuthArgs<ExtArgs> = {}>(args?: Subset<T, User$facebookAuthArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3679,30 +3617,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.pages
-   */
-  export type User$pagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    where?: PageWhereInput
-    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
-    cursor?: PageWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
-  }
-
-  /**
    * User.verificationTokens
    */
   export type User$verificationTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3871,6 +3785,25 @@ export namespace Prisma {
   }
 
   /**
+   * User.facebookAuth
+   */
+  export type User$facebookAuthArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    where?: FacebookAuthWhereInput
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3886,6 +3819,957 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FacebookAuth
+   */
+
+  export type AggregateFacebookAuth = {
+    _count: FacebookAuthCountAggregateOutputType | null
+    _min: FacebookAuthMinAggregateOutputType | null
+    _max: FacebookAuthMaxAggregateOutputType | null
+  }
+
+  export type FacebookAuthMinAggregateOutputType = {
+    id: string | null
+    facebookProviderId: string | null
+    fbAccessToken: string | null
+    fbTokenExpiresAt: Date | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FacebookAuthMaxAggregateOutputType = {
+    id: string | null
+    facebookProviderId: string | null
+    fbAccessToken: string | null
+    fbTokenExpiresAt: Date | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FacebookAuthCountAggregateOutputType = {
+    id: number
+    facebookProviderId: number
+    fbAccessToken: number
+    fbTokenExpiresAt: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FacebookAuthMinAggregateInputType = {
+    id?: true
+    facebookProviderId?: true
+    fbAccessToken?: true
+    fbTokenExpiresAt?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FacebookAuthMaxAggregateInputType = {
+    id?: true
+    facebookProviderId?: true
+    fbAccessToken?: true
+    fbTokenExpiresAt?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FacebookAuthCountAggregateInputType = {
+    id?: true
+    facebookProviderId?: true
+    fbAccessToken?: true
+    fbTokenExpiresAt?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FacebookAuthAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FacebookAuth to aggregate.
+     */
+    where?: FacebookAuthWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FacebookAuths to fetch.
+     */
+    orderBy?: FacebookAuthOrderByWithRelationInput | FacebookAuthOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FacebookAuthWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FacebookAuths from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FacebookAuths.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FacebookAuths
+    **/
+    _count?: true | FacebookAuthCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FacebookAuthMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FacebookAuthMaxAggregateInputType
+  }
+
+  export type GetFacebookAuthAggregateType<T extends FacebookAuthAggregateArgs> = {
+        [P in keyof T & keyof AggregateFacebookAuth]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFacebookAuth[P]>
+      : GetScalarType<T[P], AggregateFacebookAuth[P]>
+  }
+
+
+
+
+  export type FacebookAuthGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FacebookAuthWhereInput
+    orderBy?: FacebookAuthOrderByWithAggregationInput | FacebookAuthOrderByWithAggregationInput[]
+    by: FacebookAuthScalarFieldEnum[] | FacebookAuthScalarFieldEnum
+    having?: FacebookAuthScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FacebookAuthCountAggregateInputType | true
+    _min?: FacebookAuthMinAggregateInputType
+    _max?: FacebookAuthMaxAggregateInputType
+  }
+
+  export type FacebookAuthGroupByOutputType = {
+    id: string
+    facebookProviderId: string
+    fbAccessToken: string
+    fbTokenExpiresAt: Date | null
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: FacebookAuthCountAggregateOutputType | null
+    _min: FacebookAuthMinAggregateOutputType | null
+    _max: FacebookAuthMaxAggregateOutputType | null
+  }
+
+  type GetFacebookAuthGroupByPayload<T extends FacebookAuthGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FacebookAuthGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FacebookAuthGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FacebookAuthGroupByOutputType[P]>
+            : GetScalarType<T[P], FacebookAuthGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FacebookAuthSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facebookProviderId?: boolean
+    fbAccessToken?: boolean
+    fbTokenExpiresAt?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["facebookAuth"]>
+
+
+
+  export type FacebookAuthSelectScalar = {
+    id?: boolean
+    facebookProviderId?: boolean
+    fbAccessToken?: boolean
+    fbTokenExpiresAt?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FacebookAuthOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facebookProviderId" | "fbAccessToken" | "fbTokenExpiresAt" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["facebookAuth"]>
+  export type FacebookAuthInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FacebookAuthPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FacebookAuth"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      facebookProviderId: string
+      fbAccessToken: string
+      fbTokenExpiresAt: Date | null
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["facebookAuth"]>
+    composites: {}
+  }
+
+  type FacebookAuthGetPayload<S extends boolean | null | undefined | FacebookAuthDefaultArgs> = $Result.GetResult<Prisma.$FacebookAuthPayload, S>
+
+  type FacebookAuthCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FacebookAuthFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FacebookAuthCountAggregateInputType | true
+    }
+
+  export interface FacebookAuthDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FacebookAuth'], meta: { name: 'FacebookAuth' } }
+    /**
+     * Find zero or one FacebookAuth that matches the filter.
+     * @param {FacebookAuthFindUniqueArgs} args - Arguments to find a FacebookAuth
+     * @example
+     * // Get one FacebookAuth
+     * const facebookAuth = await prisma.facebookAuth.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FacebookAuthFindUniqueArgs>(args: SelectSubset<T, FacebookAuthFindUniqueArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FacebookAuth that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FacebookAuthFindUniqueOrThrowArgs} args - Arguments to find a FacebookAuth
+     * @example
+     * // Get one FacebookAuth
+     * const facebookAuth = await prisma.facebookAuth.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FacebookAuthFindUniqueOrThrowArgs>(args: SelectSubset<T, FacebookAuthFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FacebookAuth that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FacebookAuthFindFirstArgs} args - Arguments to find a FacebookAuth
+     * @example
+     * // Get one FacebookAuth
+     * const facebookAuth = await prisma.facebookAuth.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FacebookAuthFindFirstArgs>(args?: SelectSubset<T, FacebookAuthFindFirstArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FacebookAuth that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FacebookAuthFindFirstOrThrowArgs} args - Arguments to find a FacebookAuth
+     * @example
+     * // Get one FacebookAuth
+     * const facebookAuth = await prisma.facebookAuth.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FacebookAuthFindFirstOrThrowArgs>(args?: SelectSubset<T, FacebookAuthFindFirstOrThrowArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FacebookAuths that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FacebookAuthFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FacebookAuths
+     * const facebookAuths = await prisma.facebookAuth.findMany()
+     * 
+     * // Get first 10 FacebookAuths
+     * const facebookAuths = await prisma.facebookAuth.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const facebookAuthWithIdOnly = await prisma.facebookAuth.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FacebookAuthFindManyArgs>(args?: SelectSubset<T, FacebookAuthFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FacebookAuth.
+     * @param {FacebookAuthCreateArgs} args - Arguments to create a FacebookAuth.
+     * @example
+     * // Create one FacebookAuth
+     * const FacebookAuth = await prisma.facebookAuth.create({
+     *   data: {
+     *     // ... data to create a FacebookAuth
+     *   }
+     * })
+     * 
+     */
+    create<T extends FacebookAuthCreateArgs>(args: SelectSubset<T, FacebookAuthCreateArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FacebookAuths.
+     * @param {FacebookAuthCreateManyArgs} args - Arguments to create many FacebookAuths.
+     * @example
+     * // Create many FacebookAuths
+     * const facebookAuth = await prisma.facebookAuth.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FacebookAuthCreateManyArgs>(args?: SelectSubset<T, FacebookAuthCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a FacebookAuth.
+     * @param {FacebookAuthDeleteArgs} args - Arguments to delete one FacebookAuth.
+     * @example
+     * // Delete one FacebookAuth
+     * const FacebookAuth = await prisma.facebookAuth.delete({
+     *   where: {
+     *     // ... filter to delete one FacebookAuth
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FacebookAuthDeleteArgs>(args: SelectSubset<T, FacebookAuthDeleteArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FacebookAuth.
+     * @param {FacebookAuthUpdateArgs} args - Arguments to update one FacebookAuth.
+     * @example
+     * // Update one FacebookAuth
+     * const facebookAuth = await prisma.facebookAuth.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FacebookAuthUpdateArgs>(args: SelectSubset<T, FacebookAuthUpdateArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FacebookAuths.
+     * @param {FacebookAuthDeleteManyArgs} args - Arguments to filter FacebookAuths to delete.
+     * @example
+     * // Delete a few FacebookAuths
+     * const { count } = await prisma.facebookAuth.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FacebookAuthDeleteManyArgs>(args?: SelectSubset<T, FacebookAuthDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FacebookAuths.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FacebookAuthUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FacebookAuths
+     * const facebookAuth = await prisma.facebookAuth.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FacebookAuthUpdateManyArgs>(args: SelectSubset<T, FacebookAuthUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FacebookAuth.
+     * @param {FacebookAuthUpsertArgs} args - Arguments to update or create a FacebookAuth.
+     * @example
+     * // Update or create a FacebookAuth
+     * const facebookAuth = await prisma.facebookAuth.upsert({
+     *   create: {
+     *     // ... data to create a FacebookAuth
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FacebookAuth we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FacebookAuthUpsertArgs>(args: SelectSubset<T, FacebookAuthUpsertArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FacebookAuths.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FacebookAuthCountArgs} args - Arguments to filter FacebookAuths to count.
+     * @example
+     * // Count the number of FacebookAuths
+     * const count = await prisma.facebookAuth.count({
+     *   where: {
+     *     // ... the filter for the FacebookAuths we want to count
+     *   }
+     * })
+    **/
+    count<T extends FacebookAuthCountArgs>(
+      args?: Subset<T, FacebookAuthCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FacebookAuthCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FacebookAuth.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FacebookAuthAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FacebookAuthAggregateArgs>(args: Subset<T, FacebookAuthAggregateArgs>): Prisma.PrismaPromise<GetFacebookAuthAggregateType<T>>
+
+    /**
+     * Group by FacebookAuth.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FacebookAuthGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FacebookAuthGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FacebookAuthGroupByArgs['orderBy'] }
+        : { orderBy?: FacebookAuthGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FacebookAuthGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFacebookAuthGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FacebookAuth model
+   */
+  readonly fields: FacebookAuthFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FacebookAuth.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FacebookAuthClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FacebookAuth model
+   */
+  interface FacebookAuthFieldRefs {
+    readonly id: FieldRef<"FacebookAuth", 'String'>
+    readonly facebookProviderId: FieldRef<"FacebookAuth", 'String'>
+    readonly fbAccessToken: FieldRef<"FacebookAuth", 'String'>
+    readonly fbTokenExpiresAt: FieldRef<"FacebookAuth", 'DateTime'>
+    readonly userId: FieldRef<"FacebookAuth", 'String'>
+    readonly createdAt: FieldRef<"FacebookAuth", 'DateTime'>
+    readonly updatedAt: FieldRef<"FacebookAuth", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FacebookAuth findUnique
+   */
+  export type FacebookAuthFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * Filter, which FacebookAuth to fetch.
+     */
+    where: FacebookAuthWhereUniqueInput
+  }
+
+  /**
+   * FacebookAuth findUniqueOrThrow
+   */
+  export type FacebookAuthFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * Filter, which FacebookAuth to fetch.
+     */
+    where: FacebookAuthWhereUniqueInput
+  }
+
+  /**
+   * FacebookAuth findFirst
+   */
+  export type FacebookAuthFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * Filter, which FacebookAuth to fetch.
+     */
+    where?: FacebookAuthWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FacebookAuths to fetch.
+     */
+    orderBy?: FacebookAuthOrderByWithRelationInput | FacebookAuthOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FacebookAuths.
+     */
+    cursor?: FacebookAuthWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FacebookAuths from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FacebookAuths.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FacebookAuths.
+     */
+    distinct?: FacebookAuthScalarFieldEnum | FacebookAuthScalarFieldEnum[]
+  }
+
+  /**
+   * FacebookAuth findFirstOrThrow
+   */
+  export type FacebookAuthFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * Filter, which FacebookAuth to fetch.
+     */
+    where?: FacebookAuthWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FacebookAuths to fetch.
+     */
+    orderBy?: FacebookAuthOrderByWithRelationInput | FacebookAuthOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FacebookAuths.
+     */
+    cursor?: FacebookAuthWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FacebookAuths from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FacebookAuths.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FacebookAuths.
+     */
+    distinct?: FacebookAuthScalarFieldEnum | FacebookAuthScalarFieldEnum[]
+  }
+
+  /**
+   * FacebookAuth findMany
+   */
+  export type FacebookAuthFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * Filter, which FacebookAuths to fetch.
+     */
+    where?: FacebookAuthWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FacebookAuths to fetch.
+     */
+    orderBy?: FacebookAuthOrderByWithRelationInput | FacebookAuthOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FacebookAuths.
+     */
+    cursor?: FacebookAuthWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FacebookAuths from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FacebookAuths.
+     */
+    skip?: number
+    distinct?: FacebookAuthScalarFieldEnum | FacebookAuthScalarFieldEnum[]
+  }
+
+  /**
+   * FacebookAuth create
+   */
+  export type FacebookAuthCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FacebookAuth.
+     */
+    data: XOR<FacebookAuthCreateInput, FacebookAuthUncheckedCreateInput>
+  }
+
+  /**
+   * FacebookAuth createMany
+   */
+  export type FacebookAuthCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FacebookAuths.
+     */
+    data: FacebookAuthCreateManyInput | FacebookAuthCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FacebookAuth update
+   */
+  export type FacebookAuthUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FacebookAuth.
+     */
+    data: XOR<FacebookAuthUpdateInput, FacebookAuthUncheckedUpdateInput>
+    /**
+     * Choose, which FacebookAuth to update.
+     */
+    where: FacebookAuthWhereUniqueInput
+  }
+
+  /**
+   * FacebookAuth updateMany
+   */
+  export type FacebookAuthUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FacebookAuths.
+     */
+    data: XOR<FacebookAuthUpdateManyMutationInput, FacebookAuthUncheckedUpdateManyInput>
+    /**
+     * Filter which FacebookAuths to update
+     */
+    where?: FacebookAuthWhereInput
+    /**
+     * Limit how many FacebookAuths to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FacebookAuth upsert
+   */
+  export type FacebookAuthUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FacebookAuth to update in case it exists.
+     */
+    where: FacebookAuthWhereUniqueInput
+    /**
+     * In case the FacebookAuth found by the `where` argument doesn't exist, create a new FacebookAuth with this data.
+     */
+    create: XOR<FacebookAuthCreateInput, FacebookAuthUncheckedCreateInput>
+    /**
+     * In case the FacebookAuth was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FacebookAuthUpdateInput, FacebookAuthUncheckedUpdateInput>
+  }
+
+  /**
+   * FacebookAuth delete
+   */
+  export type FacebookAuthDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
+    /**
+     * Filter which FacebookAuth to delete.
+     */
+    where: FacebookAuthWhereUniqueInput
+  }
+
+  /**
+   * FacebookAuth deleteMany
+   */
+  export type FacebookAuthDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FacebookAuths to delete
+     */
+    where?: FacebookAuthWhereInput
+    /**
+     * Limit how many FacebookAuths to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FacebookAuth without action
+   */
+  export type FacebookAuthDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacebookAuth
+     */
+    select?: FacebookAuthSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FacebookAuth
+     */
+    omit?: FacebookAuthOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacebookAuthInclude<ExtArgs> | null
   }
 
 
@@ -4843,8 +5727,8 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     pageId: string | null
+    pageAccessToken: string | null
     name: string | null
-    description: string | null
     status: $Enums.FlowStatus | null
     timeoutDuration: string | null
     startNodeId: string | null
@@ -4856,8 +5740,8 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     pageId: string | null
+    pageAccessToken: string | null
     name: string | null
-    description: string | null
     status: $Enums.FlowStatus | null
     timeoutDuration: string | null
     startNodeId: string | null
@@ -4869,8 +5753,8 @@ export namespace Prisma {
     id: number
     userId: number
     pageId: number
+    pageAccessToken: number
     name: number
-    description: number
     status: number
     logicJson: number
     layoutJson: number
@@ -4887,8 +5771,8 @@ export namespace Prisma {
     id?: true
     userId?: true
     pageId?: true
+    pageAccessToken?: true
     name?: true
-    description?: true
     status?: true
     timeoutDuration?: true
     startNodeId?: true
@@ -4900,8 +5784,8 @@ export namespace Prisma {
     id?: true
     userId?: true
     pageId?: true
+    pageAccessToken?: true
     name?: true
-    description?: true
     status?: true
     timeoutDuration?: true
     startNodeId?: true
@@ -4913,8 +5797,8 @@ export namespace Prisma {
     id?: true
     userId?: true
     pageId?: true
+    pageAccessToken?: true
     name?: true
-    description?: true
     status?: true
     logicJson?: true
     layoutJson?: true
@@ -5002,8 +5886,8 @@ export namespace Prisma {
     id: string
     userId: string
     pageId: string | null
+    pageAccessToken: string | null
     name: string
-    description: string | null
     status: $Enums.FlowStatus
     logicJson: JsonValue | null
     layoutJson: JsonValue | null
@@ -5035,8 +5919,8 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     pageId?: boolean
+    pageAccessToken?: boolean
     name?: boolean
-    description?: boolean
     status?: boolean
     logicJson?: boolean
     layoutJson?: boolean
@@ -5046,7 +5930,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    page?: boolean | Flow$pageArgs<ExtArgs>
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     flowRecords?: boolean | Flow$flowRecordsArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
@@ -5058,8 +5941,8 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     pageId?: boolean
+    pageAccessToken?: boolean
     name?: boolean
-    description?: boolean
     status?: boolean
     logicJson?: boolean
     layoutJson?: boolean
@@ -5070,10 +5953,9 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "name" | "description" | "status" | "logicJson" | "layoutJson" | "timeoutDuration" | "startNodeId" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
+  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "pageAccessToken" | "name" | "status" | "logicJson" | "layoutJson" | "timeoutDuration" | "startNodeId" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
   export type FlowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    page?: boolean | Flow$pageArgs<ExtArgs>
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     flowRecords?: boolean | Flow$flowRecordsArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
@@ -5083,7 +5965,6 @@ export namespace Prisma {
     name: "Flow"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      page: Prisma.$PagePayload<ExtArgs> | null
       shares: Prisma.$FlowSharePayload<ExtArgs>[]
       flowRecords: Prisma.$FlowRecordPayload<ExtArgs>[]
     }
@@ -5091,8 +5972,8 @@ export namespace Prisma {
       id: string
       userId: string
       pageId: string | null
+      pageAccessToken: string | null
       name: string
-      description: string | null
       status: $Enums.FlowStatus
       logicJson: Prisma.JsonValue | null
       layoutJson: Prisma.JsonValue | null
@@ -5442,7 +6323,6 @@ export namespace Prisma {
   export interface Prisma__FlowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    page<T extends Flow$pageArgs<ExtArgs> = {}>(args?: Subset<T, Flow$pageArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     shares<T extends Flow$sharesArgs<ExtArgs> = {}>(args?: Subset<T, Flow$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowRecords<T extends Flow$flowRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Flow$flowRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -5477,8 +6357,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Flow", 'String'>
     readonly userId: FieldRef<"Flow", 'String'>
     readonly pageId: FieldRef<"Flow", 'String'>
+    readonly pageAccessToken: FieldRef<"Flow", 'String'>
     readonly name: FieldRef<"Flow", 'String'>
-    readonly description: FieldRef<"Flow", 'String'>
     readonly status: FieldRef<"Flow", 'FlowStatus'>
     readonly logicJson: FieldRef<"Flow", 'Json'>
     readonly layoutJson: FieldRef<"Flow", 'Json'>
@@ -5830,25 +6710,6 @@ export namespace Prisma {
   }
 
   /**
-   * Flow.page
-   */
-  export type Flow$pageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    where?: PageWhereInput
-  }
-
-  /**
    * Flow.shares
    */
   export type Flow$sharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5912,1037 +6773,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: FlowInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Page
-   */
-
-  export type AggregatePage = {
-    _count: PageCountAggregateOutputType | null
-    _min: PageMinAggregateOutputType | null
-    _max: PageMaxAggregateOutputType | null
-  }
-
-  export type PageMinAggregateOutputType = {
-    id: string | null
-    userId: string | null
-    pageUid: string | null
-    name: string | null
-    avatar: string | null
-    pageAccessToken: string | null
-    status: $Enums.PageStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type PageMaxAggregateOutputType = {
-    id: string | null
-    userId: string | null
-    pageUid: string | null
-    name: string | null
-    avatar: string | null
-    pageAccessToken: string | null
-    status: $Enums.PageStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type PageCountAggregateOutputType = {
-    id: number
-    userId: number
-    pageUid: number
-    name: number
-    avatar: number
-    pageAccessToken: number
-    status: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type PageMinAggregateInputType = {
-    id?: true
-    userId?: true
-    pageUid?: true
-    name?: true
-    avatar?: true
-    pageAccessToken?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type PageMaxAggregateInputType = {
-    id?: true
-    userId?: true
-    pageUid?: true
-    name?: true
-    avatar?: true
-    pageAccessToken?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type PageCountAggregateInputType = {
-    id?: true
-    userId?: true
-    pageUid?: true
-    name?: true
-    avatar?: true
-    pageAccessToken?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type PageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Page to aggregate.
-     */
-    where?: PageWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pages to fetch.
-     */
-    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: PageWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pages.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Pages
-    **/
-    _count?: true | PageCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: PageMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: PageMaxAggregateInputType
-  }
-
-  export type GetPageAggregateType<T extends PageAggregateArgs> = {
-        [P in keyof T & keyof AggregatePage]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePage[P]>
-      : GetScalarType<T[P], AggregatePage[P]>
-  }
-
-
-
-
-  export type PageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PageWhereInput
-    orderBy?: PageOrderByWithAggregationInput | PageOrderByWithAggregationInput[]
-    by: PageScalarFieldEnum[] | PageScalarFieldEnum
-    having?: PageScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: PageCountAggregateInputType | true
-    _min?: PageMinAggregateInputType
-    _max?: PageMaxAggregateInputType
-  }
-
-  export type PageGroupByOutputType = {
-    id: string
-    userId: string
-    pageUid: string
-    name: string
-    avatar: string | null
-    pageAccessToken: string
-    status: $Enums.PageStatus
-    createdAt: Date
-    updatedAt: Date
-    _count: PageCountAggregateOutputType | null
-    _min: PageMinAggregateOutputType | null
-    _max: PageMaxAggregateOutputType | null
-  }
-
-  type GetPageGroupByPayload<T extends PageGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<PageGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof PageGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PageGroupByOutputType[P]>
-            : GetScalarType<T[P], PageGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type PageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    pageUid?: boolean
-    name?: boolean
-    avatar?: boolean
-    pageAccessToken?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    flows?: boolean | Page$flowsArgs<ExtArgs>
-    flowRecords?: boolean | Page$flowRecordsArgs<ExtArgs>
-    _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["page"]>
-
-
-
-  export type PageSelectScalar = {
-    id?: boolean
-    userId?: boolean
-    pageUid?: boolean
-    name?: boolean
-    avatar?: boolean
-    pageAccessToken?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type PageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageUid" | "name" | "avatar" | "pageAccessToken" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["page"]>
-  export type PageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    flows?: boolean | Page$flowsArgs<ExtArgs>
-    flowRecords?: boolean | Page$flowRecordsArgs<ExtArgs>
-    _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $PagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Page"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      flows: Prisma.$FlowPayload<ExtArgs>[]
-      flowRecords: Prisma.$FlowRecordPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      userId: string
-      pageUid: string
-      name: string
-      avatar: string | null
-      pageAccessToken: string
-      status: $Enums.PageStatus
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["page"]>
-    composites: {}
-  }
-
-  type PageGetPayload<S extends boolean | null | undefined | PageDefaultArgs> = $Result.GetResult<Prisma.$PagePayload, S>
-
-  type PageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PageCountAggregateInputType | true
-    }
-
-  export interface PageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Page'], meta: { name: 'Page' } }
-    /**
-     * Find zero or one Page that matches the filter.
-     * @param {PageFindUniqueArgs} args - Arguments to find a Page
-     * @example
-     * // Get one Page
-     * const page = await prisma.page.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends PageFindUniqueArgs>(args: SelectSubset<T, PageFindUniqueArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Page that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {PageFindUniqueOrThrowArgs} args - Arguments to find a Page
-     * @example
-     * // Get one Page
-     * const page = await prisma.page.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends PageFindUniqueOrThrowArgs>(args: SelectSubset<T, PageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Page that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PageFindFirstArgs} args - Arguments to find a Page
-     * @example
-     * // Get one Page
-     * const page = await prisma.page.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends PageFindFirstArgs>(args?: SelectSubset<T, PageFindFirstArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Page that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PageFindFirstOrThrowArgs} args - Arguments to find a Page
-     * @example
-     * // Get one Page
-     * const page = await prisma.page.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends PageFindFirstOrThrowArgs>(args?: SelectSubset<T, PageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Pages that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PageFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Pages
-     * const pages = await prisma.page.findMany()
-     * 
-     * // Get first 10 Pages
-     * const pages = await prisma.page.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const pageWithIdOnly = await prisma.page.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends PageFindManyArgs>(args?: SelectSubset<T, PageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Page.
-     * @param {PageCreateArgs} args - Arguments to create a Page.
-     * @example
-     * // Create one Page
-     * const Page = await prisma.page.create({
-     *   data: {
-     *     // ... data to create a Page
-     *   }
-     * })
-     * 
-     */
-    create<T extends PageCreateArgs>(args: SelectSubset<T, PageCreateArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Pages.
-     * @param {PageCreateManyArgs} args - Arguments to create many Pages.
-     * @example
-     * // Create many Pages
-     * const page = await prisma.page.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends PageCreateManyArgs>(args?: SelectSubset<T, PageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Page.
-     * @param {PageDeleteArgs} args - Arguments to delete one Page.
-     * @example
-     * // Delete one Page
-     * const Page = await prisma.page.delete({
-     *   where: {
-     *     // ... filter to delete one Page
-     *   }
-     * })
-     * 
-     */
-    delete<T extends PageDeleteArgs>(args: SelectSubset<T, PageDeleteArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Page.
-     * @param {PageUpdateArgs} args - Arguments to update one Page.
-     * @example
-     * // Update one Page
-     * const page = await prisma.page.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends PageUpdateArgs>(args: SelectSubset<T, PageUpdateArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Pages.
-     * @param {PageDeleteManyArgs} args - Arguments to filter Pages to delete.
-     * @example
-     * // Delete a few Pages
-     * const { count } = await prisma.page.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends PageDeleteManyArgs>(args?: SelectSubset<T, PageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Pages.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PageUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Pages
-     * const page = await prisma.page.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends PageUpdateManyArgs>(args: SelectSubset<T, PageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Page.
-     * @param {PageUpsertArgs} args - Arguments to update or create a Page.
-     * @example
-     * // Update or create a Page
-     * const page = await prisma.page.upsert({
-     *   create: {
-     *     // ... data to create a Page
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Page we want to update
-     *   }
-     * })
-     */
-    upsert<T extends PageUpsertArgs>(args: SelectSubset<T, PageUpsertArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Pages.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PageCountArgs} args - Arguments to filter Pages to count.
-     * @example
-     * // Count the number of Pages
-     * const count = await prisma.page.count({
-     *   where: {
-     *     // ... the filter for the Pages we want to count
-     *   }
-     * })
-    **/
-    count<T extends PageCountArgs>(
-      args?: Subset<T, PageCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], PageCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Page.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends PageAggregateArgs>(args: Subset<T, PageAggregateArgs>): Prisma.PrismaPromise<GetPageAggregateType<T>>
-
-    /**
-     * Group by Page.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PageGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends PageGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PageGroupByArgs['orderBy'] }
-        : { orderBy?: PageGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, PageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Page model
-   */
-  readonly fields: PageFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Page.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__PageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    flows<T extends Page$flowsArgs<ExtArgs> = {}>(args?: Subset<T, Page$flowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    flowRecords<T extends Page$flowRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Page$flowRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Page model
-   */
-  interface PageFieldRefs {
-    readonly id: FieldRef<"Page", 'String'>
-    readonly userId: FieldRef<"Page", 'String'>
-    readonly pageUid: FieldRef<"Page", 'String'>
-    readonly name: FieldRef<"Page", 'String'>
-    readonly avatar: FieldRef<"Page", 'String'>
-    readonly pageAccessToken: FieldRef<"Page", 'String'>
-    readonly status: FieldRef<"Page", 'PageStatus'>
-    readonly createdAt: FieldRef<"Page", 'DateTime'>
-    readonly updatedAt: FieldRef<"Page", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Page findUnique
-   */
-  export type PageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * Filter, which Page to fetch.
-     */
-    where: PageWhereUniqueInput
-  }
-
-  /**
-   * Page findUniqueOrThrow
-   */
-  export type PageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * Filter, which Page to fetch.
-     */
-    where: PageWhereUniqueInput
-  }
-
-  /**
-   * Page findFirst
-   */
-  export type PageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * Filter, which Page to fetch.
-     */
-    where?: PageWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pages to fetch.
-     */
-    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Pages.
-     */
-    cursor?: PageWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pages.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Pages.
-     */
-    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
-  }
-
-  /**
-   * Page findFirstOrThrow
-   */
-  export type PageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * Filter, which Page to fetch.
-     */
-    where?: PageWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pages to fetch.
-     */
-    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Pages.
-     */
-    cursor?: PageWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pages.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Pages.
-     */
-    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
-  }
-
-  /**
-   * Page findMany
-   */
-  export type PageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * Filter, which Pages to fetch.
-     */
-    where?: PageWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pages to fetch.
-     */
-    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Pages.
-     */
-    cursor?: PageWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pages.
-     */
-    skip?: number
-    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
-  }
-
-  /**
-   * Page create
-   */
-  export type PageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Page.
-     */
-    data: XOR<PageCreateInput, PageUncheckedCreateInput>
-  }
-
-  /**
-   * Page createMany
-   */
-  export type PageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Pages.
-     */
-    data: PageCreateManyInput | PageCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Page update
-   */
-  export type PageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Page.
-     */
-    data: XOR<PageUpdateInput, PageUncheckedUpdateInput>
-    /**
-     * Choose, which Page to update.
-     */
-    where: PageWhereUniqueInput
-  }
-
-  /**
-   * Page updateMany
-   */
-  export type PageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Pages.
-     */
-    data: XOR<PageUpdateManyMutationInput, PageUncheckedUpdateManyInput>
-    /**
-     * Filter which Pages to update
-     */
-    where?: PageWhereInput
-    /**
-     * Limit how many Pages to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Page upsert
-   */
-  export type PageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Page to update in case it exists.
-     */
-    where: PageWhereUniqueInput
-    /**
-     * In case the Page found by the `where` argument doesn't exist, create a new Page with this data.
-     */
-    create: XOR<PageCreateInput, PageUncheckedCreateInput>
-    /**
-     * In case the Page was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PageUpdateInput, PageUncheckedUpdateInput>
-  }
-
-  /**
-   * Page delete
-   */
-  export type PageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
-    /**
-     * Filter which Page to delete.
-     */
-    where: PageWhereUniqueInput
-  }
-
-  /**
-   * Page deleteMany
-   */
-  export type PageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Pages to delete
-     */
-    where?: PageWhereInput
-    /**
-     * Limit how many Pages to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Page.flows
-   */
-  export type Page$flowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Flow
-     */
-    select?: FlowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Flow
-     */
-    omit?: FlowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowInclude<ExtArgs> | null
-    where?: FlowWhereInput
-    orderBy?: FlowOrderByWithRelationInput | FlowOrderByWithRelationInput[]
-    cursor?: FlowWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FlowScalarFieldEnum | FlowScalarFieldEnum[]
-  }
-
-  /**
-   * Page.flowRecords
-   */
-  export type Page$flowRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FlowRecord
-     */
-    select?: FlowRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FlowRecord
-     */
-    omit?: FlowRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FlowRecordInclude<ExtArgs> | null
-    where?: FlowRecordWhereInput
-    orderBy?: FlowRecordOrderByWithRelationInput | FlowRecordOrderByWithRelationInput[]
-    cursor?: FlowRecordWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FlowRecordScalarFieldEnum | FlowRecordScalarFieldEnum[]
-  }
-
-  /**
-   * Page without action
-   */
-  export type PageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Page
-     */
-    select?: PageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Page
-     */
-    omit?: PageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PageInclude<ExtArgs> | null
   }
 
 
@@ -16916,7 +16746,6 @@ export namespace Prisma {
     waitingForVariable?: boolean
     expiresAt?: boolean
     flow?: boolean | FlowDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["flowRecord"]>
 
 
@@ -16938,14 +16767,12 @@ export namespace Prisma {
   export type FlowRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "pageId" | "flowId" | "currentNodeId" | "variables" | "status" | "lastInteraction" | "errorLog" | "waitingForVariable" | "expiresAt", ExtArgs["result"]["flowRecord"]>
   export type FlowRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     flow?: boolean | FlowDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
   }
 
   export type $FlowRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FlowRecord"
     objects: {
       flow: Prisma.$FlowPayload<ExtArgs>
-      page: Prisma.$PagePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17300,7 +17127,6 @@ export namespace Prisma {
   export interface Prisma__FlowRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     flow<T extends FlowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowDefaultArgs<ExtArgs>>): Prisma__FlowClient<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    page<T extends PageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PageDefaultArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18622,6 +18448,19 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const FacebookAuthScalarFieldEnum: {
+    id: 'id',
+    facebookProviderId: 'facebookProviderId',
+    fbAccessToken: 'fbAccessToken',
+    fbTokenExpiresAt: 'fbTokenExpiresAt',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FacebookAuthScalarFieldEnum = (typeof FacebookAuthScalarFieldEnum)[keyof typeof FacebookAuthScalarFieldEnum]
+
+
   export const VerificationTokenScalarFieldEnum: {
     id: 'id',
     type: 'type',
@@ -18638,8 +18477,8 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     pageId: 'pageId',
+    pageAccessToken: 'pageAccessToken',
     name: 'name',
-    description: 'description',
     status: 'status',
     logicJson: 'logicJson',
     layoutJson: 'layoutJson',
@@ -18651,21 +18490,6 @@ export namespace Prisma {
   };
 
   export type FlowScalarFieldEnum = (typeof FlowScalarFieldEnum)[keyof typeof FlowScalarFieldEnum]
-
-
-  export const PageScalarFieldEnum: {
-    id: 'id',
-    userId: 'userId',
-    pageUid: 'pageUid',
-    name: 'name',
-    avatar: 'avatar',
-    pageAccessToken: 'pageAccessToken',
-    status: 'status',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type PageScalarFieldEnum = (typeof PageScalarFieldEnum)[keyof typeof PageScalarFieldEnum]
 
 
   export const FlowShareScalarFieldEnum: {
@@ -18870,6 +18694,16 @@ export namespace Prisma {
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
 
 
+  export const FacebookAuthOrderByRelevanceFieldEnum: {
+    id: 'id',
+    facebookProviderId: 'facebookProviderId',
+    fbAccessToken: 'fbAccessToken',
+    userId: 'userId'
+  };
+
+  export type FacebookAuthOrderByRelevanceFieldEnum = (typeof FacebookAuthOrderByRelevanceFieldEnum)[keyof typeof FacebookAuthOrderByRelevanceFieldEnum]
+
+
   export const VerificationTokenOrderByRelevanceFieldEnum: {
     id: 'id',
     token: 'token',
@@ -18901,25 +18735,13 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     pageId: 'pageId',
+    pageAccessToken: 'pageAccessToken',
     name: 'name',
-    description: 'description',
     timeoutDuration: 'timeoutDuration',
     startNodeId: 'startNodeId'
   };
 
   export type FlowOrderByRelevanceFieldEnum = (typeof FlowOrderByRelevanceFieldEnum)[keyof typeof FlowOrderByRelevanceFieldEnum]
-
-
-  export const PageOrderByRelevanceFieldEnum: {
-    id: 'id',
-    userId: 'userId',
-    pageUid: 'pageUid',
-    name: 'name',
-    avatar: 'avatar',
-    pageAccessToken: 'pageAccessToken'
-  };
-
-  export type PageOrderByRelevanceFieldEnum = (typeof PageOrderByRelevanceFieldEnum)[keyof typeof PageOrderByRelevanceFieldEnum]
 
 
   export const FlowShareOrderByRelevanceFieldEnum: {
@@ -19101,13 +18923,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'PageStatus'
-   */
-  export type EnumPageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PageStatus'>
-    
-
-
-  /**
    * Reference to a field of type 'FlowShareStatus'
    */
   export type EnumFlowShareStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FlowShareStatus'>
@@ -19184,7 +18999,6 @@ export namespace Prisma {
     flows?: FlowListRelationFilter
     flowShares?: FlowShareListRelationFilter
     notifications?: NotificationListRelationFilter
-    pages?: PageListRelationFilter
     verificationTokens?: VerificationTokenListRelationFilter
     flowShareDowloads?: FlowShareDowloadListRelationFilter
     flowShareLikes?: FlowShareLikeListRelationFilter
@@ -19192,6 +19006,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentListRelationFilter
     posts?: PostsListRelationFilter
     conversations?: ConversationListRelationFilter
+    facebookAuth?: XOR<FacebookAuthNullableScalarRelationFilter, FacebookAuthWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -19209,7 +19024,6 @@ export namespace Prisma {
     flows?: FlowOrderByRelationAggregateInput
     flowShares?: FlowShareOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
-    pages?: PageOrderByRelationAggregateInput
     verificationTokens?: VerificationTokenOrderByRelationAggregateInput
     flowShareDowloads?: FlowShareDowloadOrderByRelationAggregateInput
     flowShareLikes?: FlowShareLikeOrderByRelationAggregateInput
@@ -19217,6 +19031,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentOrderByRelationAggregateInput
     posts?: PostsOrderByRelationAggregateInput
     conversations?: ConversationOrderByRelationAggregateInput
+    facebookAuth?: FacebookAuthOrderByWithRelationInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -19238,7 +19053,6 @@ export namespace Prisma {
     flows?: FlowListRelationFilter
     flowShares?: FlowShareListRelationFilter
     notifications?: NotificationListRelationFilter
-    pages?: PageListRelationFilter
     verificationTokens?: VerificationTokenListRelationFilter
     flowShareDowloads?: FlowShareDowloadListRelationFilter
     flowShareLikes?: FlowShareLikeListRelationFilter
@@ -19246,6 +19060,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentListRelationFilter
     posts?: PostsListRelationFilter
     conversations?: ConversationListRelationFilter
+    facebookAuth?: XOR<FacebookAuthNullableScalarRelationFilter, FacebookAuthWhereInput> | null
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -19280,6 +19095,72 @@ export namespace Prisma {
     verifyAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type FacebookAuthWhereInput = {
+    AND?: FacebookAuthWhereInput | FacebookAuthWhereInput[]
+    OR?: FacebookAuthWhereInput[]
+    NOT?: FacebookAuthWhereInput | FacebookAuthWhereInput[]
+    id?: StringFilter<"FacebookAuth"> | string
+    facebookProviderId?: StringFilter<"FacebookAuth"> | string
+    fbAccessToken?: StringFilter<"FacebookAuth"> | string
+    fbTokenExpiresAt?: DateTimeNullableFilter<"FacebookAuth"> | Date | string | null
+    userId?: StringFilter<"FacebookAuth"> | string
+    createdAt?: DateTimeFilter<"FacebookAuth"> | Date | string
+    updatedAt?: DateTimeFilter<"FacebookAuth"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FacebookAuthOrderByWithRelationInput = {
+    id?: SortOrder
+    facebookProviderId?: SortOrder
+    fbAccessToken?: SortOrder
+    fbTokenExpiresAt?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    _relevance?: FacebookAuthOrderByRelevanceInput
+  }
+
+  export type FacebookAuthWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    facebookProviderId?: string
+    userId?: string
+    AND?: FacebookAuthWhereInput | FacebookAuthWhereInput[]
+    OR?: FacebookAuthWhereInput[]
+    NOT?: FacebookAuthWhereInput | FacebookAuthWhereInput[]
+    fbAccessToken?: StringFilter<"FacebookAuth"> | string
+    fbTokenExpiresAt?: DateTimeNullableFilter<"FacebookAuth"> | Date | string | null
+    createdAt?: DateTimeFilter<"FacebookAuth"> | Date | string
+    updatedAt?: DateTimeFilter<"FacebookAuth"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "facebookProviderId" | "userId">
+
+  export type FacebookAuthOrderByWithAggregationInput = {
+    id?: SortOrder
+    facebookProviderId?: SortOrder
+    fbAccessToken?: SortOrder
+    fbTokenExpiresAt?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FacebookAuthCountOrderByAggregateInput
+    _max?: FacebookAuthMaxOrderByAggregateInput
+    _min?: FacebookAuthMinOrderByAggregateInput
+  }
+
+  export type FacebookAuthScalarWhereWithAggregatesInput = {
+    AND?: FacebookAuthScalarWhereWithAggregatesInput | FacebookAuthScalarWhereWithAggregatesInput[]
+    OR?: FacebookAuthScalarWhereWithAggregatesInput[]
+    NOT?: FacebookAuthScalarWhereWithAggregatesInput | FacebookAuthScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FacebookAuth"> | string
+    facebookProviderId?: StringWithAggregatesFilter<"FacebookAuth"> | string
+    fbAccessToken?: StringWithAggregatesFilter<"FacebookAuth"> | string
+    fbTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"FacebookAuth"> | Date | string | null
+    userId?: StringWithAggregatesFilter<"FacebookAuth"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"FacebookAuth"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FacebookAuth"> | Date | string
   }
 
   export type VerificationTokenWhereInput = {
@@ -19350,8 +19231,8 @@ export namespace Prisma {
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
     pageId?: StringNullableFilter<"Flow"> | string | null
+    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
-    description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableFilter<"Flow">
     layoutJson?: JsonNullableFilter<"Flow">
@@ -19361,7 +19242,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
     shares?: FlowShareListRelationFilter
     flowRecords?: FlowRecordListRelationFilter
   }
@@ -19370,8 +19250,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrderInput | SortOrder
+    pageAccessToken?: SortOrderInput | SortOrder
     name?: SortOrder
-    description?: SortOrderInput | SortOrder
     status?: SortOrder
     logicJson?: SortOrderInput | SortOrder
     layoutJson?: SortOrderInput | SortOrder
@@ -19381,7 +19261,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
-    page?: PageOrderByWithRelationInput
     shares?: FlowShareOrderByRelationAggregateInput
     flowRecords?: FlowRecordOrderByRelationAggregateInput
     _relevance?: FlowOrderByRelevanceInput
@@ -19389,13 +19268,14 @@ export namespace Prisma {
 
   export type FlowWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId_name?: FlowUserIdNameCompoundUniqueInput
     AND?: FlowWhereInput | FlowWhereInput[]
     OR?: FlowWhereInput[]
     NOT?: FlowWhereInput | FlowWhereInput[]
     userId?: StringFilter<"Flow"> | string
     pageId?: StringNullableFilter<"Flow"> | string | null
+    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
-    description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableFilter<"Flow">
     layoutJson?: JsonNullableFilter<"Flow">
@@ -19405,17 +19285,16 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Flow"> | Date | string
     updatedAt?: DateTimeFilter<"Flow"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
     shares?: FlowShareListRelationFilter
     flowRecords?: FlowRecordListRelationFilter
-  }, "id">
+  }, "id" | "userId_name">
 
   export type FlowOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrderInput | SortOrder
+    pageAccessToken?: SortOrderInput | SortOrder
     name?: SortOrder
-    description?: SortOrderInput | SortOrder
     status?: SortOrder
     logicJson?: SortOrderInput | SortOrder
     layoutJson?: SortOrderInput | SortOrder
@@ -19436,8 +19315,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Flow"> | string
     userId?: StringWithAggregatesFilter<"Flow"> | string
     pageId?: StringNullableWithAggregatesFilter<"Flow"> | string | null
+    pageAccessToken?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     name?: StringWithAggregatesFilter<"Flow"> | string
-    description?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     status?: EnumFlowStatusWithAggregatesFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableWithAggregatesFilter<"Flow">
     layoutJson?: JsonNullableWithAggregatesFilter<"Flow">
@@ -19446,88 +19325,6 @@ export namespace Prisma {
     timeoutJson?: JsonNullableWithAggregatesFilter<"Flow">
     createdAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
-  }
-
-  export type PageWhereInput = {
-    AND?: PageWhereInput | PageWhereInput[]
-    OR?: PageWhereInput[]
-    NOT?: PageWhereInput | PageWhereInput[]
-    id?: StringFilter<"Page"> | string
-    userId?: StringFilter<"Page"> | string
-    pageUid?: StringFilter<"Page"> | string
-    name?: StringFilter<"Page"> | string
-    avatar?: StringNullableFilter<"Page"> | string | null
-    pageAccessToken?: StringFilter<"Page"> | string
-    status?: EnumPageStatusFilter<"Page"> | $Enums.PageStatus
-    createdAt?: DateTimeFilter<"Page"> | Date | string
-    updatedAt?: DateTimeFilter<"Page"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    flows?: FlowListRelationFilter
-    flowRecords?: FlowRecordListRelationFilter
-  }
-
-  export type PageOrderByWithRelationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    pageUid?: SortOrder
-    name?: SortOrder
-    avatar?: SortOrderInput | SortOrder
-    pageAccessToken?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-    flows?: FlowOrderByRelationAggregateInput
-    flowRecords?: FlowRecordOrderByRelationAggregateInput
-    _relevance?: PageOrderByRelevanceInput
-  }
-
-  export type PageWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    pageUid?: string
-    AND?: PageWhereInput | PageWhereInput[]
-    OR?: PageWhereInput[]
-    NOT?: PageWhereInput | PageWhereInput[]
-    userId?: StringFilter<"Page"> | string
-    name?: StringFilter<"Page"> | string
-    avatar?: StringNullableFilter<"Page"> | string | null
-    pageAccessToken?: StringFilter<"Page"> | string
-    status?: EnumPageStatusFilter<"Page"> | $Enums.PageStatus
-    createdAt?: DateTimeFilter<"Page"> | Date | string
-    updatedAt?: DateTimeFilter<"Page"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    flows?: FlowListRelationFilter
-    flowRecords?: FlowRecordListRelationFilter
-  }, "id" | "pageUid">
-
-  export type PageOrderByWithAggregationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    pageUid?: SortOrder
-    name?: SortOrder
-    avatar?: SortOrderInput | SortOrder
-    pageAccessToken?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: PageCountOrderByAggregateInput
-    _max?: PageMaxOrderByAggregateInput
-    _min?: PageMinOrderByAggregateInput
-  }
-
-  export type PageScalarWhereWithAggregatesInput = {
-    AND?: PageScalarWhereWithAggregatesInput | PageScalarWhereWithAggregatesInput[]
-    OR?: PageScalarWhereWithAggregatesInput[]
-    NOT?: PageScalarWhereWithAggregatesInput | PageScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Page"> | string
-    userId?: StringWithAggregatesFilter<"Page"> | string
-    pageUid?: StringWithAggregatesFilter<"Page"> | string
-    name?: StringWithAggregatesFilter<"Page"> | string
-    avatar?: StringNullableWithAggregatesFilter<"Page"> | string | null
-    pageAccessToken?: StringWithAggregatesFilter<"Page"> | string
-    status?: EnumPageStatusWithAggregatesFilter<"Page"> | $Enums.PageStatus
-    createdAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
   }
 
   export type FlowShareWhereInput = {
@@ -20242,7 +20039,6 @@ export namespace Prisma {
     waitingForVariable?: JsonNullableFilter<"FlowRecord">
     expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
-    page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }
 
   export type FlowRecordOrderByWithRelationInput = {
@@ -20258,7 +20054,6 @@ export namespace Prisma {
     waitingForVariable?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
     flow?: FlowOrderByWithRelationInput
-    page?: PageOrderByWithRelationInput
     _relevance?: FlowRecordOrderByRelevanceInput
   }
 
@@ -20278,7 +20073,6 @@ export namespace Prisma {
     waitingForVariable?: JsonNullableFilter<"FlowRecord">
     expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
-    page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }, "id">
 
   export type FlowRecordOrderByWithAggregationInput = {
@@ -20388,7 +20182,6 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
@@ -20396,6 +20189,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -20413,7 +20207,6 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
@@ -20421,6 +20214,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -20438,7 +20232,6 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
@@ -20446,6 +20239,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -20463,7 +20257,6 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -20471,6 +20264,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -20511,6 +20305,75 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FacebookAuthCreateInput = {
+    id?: string
+    facebookProviderId: string
+    fbAccessToken: string
+    fbTokenExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFacebookAuthInput
+  }
+
+  export type FacebookAuthUncheckedCreateInput = {
+    id?: string
+    facebookProviderId: string
+    fbAccessToken: string
+    fbTokenExpiresAt?: Date | string | null
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FacebookAuthUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebookProviderId?: StringFieldUpdateOperationsInput | string
+    fbAccessToken?: StringFieldUpdateOperationsInput | string
+    fbTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFacebookAuthNestedInput
+  }
+
+  export type FacebookAuthUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebookProviderId?: StringFieldUpdateOperationsInput | string
+    fbAccessToken?: StringFieldUpdateOperationsInput | string
+    fbTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FacebookAuthCreateManyInput = {
+    id?: string
+    facebookProviderId: string
+    fbAccessToken: string
+    fbTokenExpiresAt?: Date | string | null
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FacebookAuthUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebookProviderId?: StringFieldUpdateOperationsInput | string
+    fbAccessToken?: StringFieldUpdateOperationsInput | string
+    fbTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FacebookAuthUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebookProviderId?: StringFieldUpdateOperationsInput | string
+    fbAccessToken?: StringFieldUpdateOperationsInput | string
+    fbTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20579,8 +20442,9 @@ export namespace Prisma {
 
   export type FlowCreateInput = {
     id?: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20590,7 +20454,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
-    page?: PageCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
   }
@@ -20599,8 +20462,8 @@ export namespace Prisma {
     id?: string
     userId: string
     pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20615,8 +20478,9 @@ export namespace Prisma {
 
   export type FlowUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20626,7 +20490,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
-    page?: PageUpdateOneWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
   }
@@ -20635,8 +20498,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20653,8 +20516,8 @@ export namespace Prisma {
     id?: string
     userId: string
     pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20667,8 +20530,9 @@ export namespace Prisma {
 
   export type FlowUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20683,105 +20547,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
     timeoutDuration?: StringFieldUpdateOperationsInput | string
     startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PageCreateInput = {
-    id?: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutPagesInput
-    flows?: FlowCreateNestedManyWithoutPageInput
-    flowRecords?: FlowRecordCreateNestedManyWithoutPageInput
-  }
-
-  export type PageUncheckedCreateInput = {
-    id?: string
-    userId: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowUncheckedCreateNestedManyWithoutPageInput
-    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutPageInput
-  }
-
-  export type PageUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPagesNestedInput
-    flows?: FlowUpdateManyWithoutPageNestedInput
-    flowRecords?: FlowRecordUpdateManyWithoutPageNestedInput
-  }
-
-  export type PageUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUncheckedUpdateManyWithoutPageNestedInput
-    flowRecords?: FlowRecordUncheckedUpdateManyWithoutPageNestedInput
-  }
-
-  export type PageCreateManyInput = {
-    id?: string
-    userId: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PageUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PageUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21494,6 +21267,7 @@ export namespace Prisma {
   export type FlowRecordCreateInput = {
     id?: string
     senderId: string
+    pageId: string
     currentNodeId: string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
@@ -21502,7 +21276,6 @@ export namespace Prisma {
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: Date | string | null
     flow: FlowCreateNestedOneWithoutFlowRecordsInput
-    page: PageCreateNestedOneWithoutFlowRecordsInput
   }
 
   export type FlowRecordUncheckedCreateInput = {
@@ -21522,6 +21295,7 @@ export namespace Prisma {
   export type FlowRecordUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
@@ -21530,7 +21304,6 @@ export namespace Prisma {
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
-    page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
   export type FlowRecordUncheckedUpdateInput = {
@@ -21564,6 +21337,7 @@ export namespace Prisma {
   export type FlowRecordUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
@@ -21727,12 +21501,6 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
-  export type PageListRelationFilter = {
-    every?: PageWhereInput
-    some?: PageWhereInput
-    none?: PageWhereInput
-  }
-
   export type VerificationTokenListRelationFilter = {
     every?: VerificationTokenWhereInput
     some?: VerificationTokenWhereInput
@@ -21775,6 +21543,11 @@ export namespace Prisma {
     none?: ConversationWhereInput
   }
 
+  export type FacebookAuthNullableScalarRelationFilter = {
+    is?: FacebookAuthWhereInput | null
+    isNot?: FacebookAuthWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -21789,10 +21562,6 @@ export namespace Prisma {
   }
 
   export type NotificationOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21946,16 +21715,52 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type FacebookAuthOrderByRelevanceInput = {
+    fields: FacebookAuthOrderByRelevanceFieldEnum | FacebookAuthOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type FacebookAuthCountOrderByAggregateInput = {
+    id?: SortOrder
+    facebookProviderId?: SortOrder
+    fbAccessToken?: SortOrder
+    fbTokenExpiresAt?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FacebookAuthMaxOrderByAggregateInput = {
+    id?: SortOrder
+    facebookProviderId?: SortOrder
+    fbAccessToken?: SortOrder
+    fbTokenExpiresAt?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FacebookAuthMinOrderByAggregateInput = {
+    id?: SortOrder
+    facebookProviderId?: SortOrder
+    fbAccessToken?: SortOrder
+    fbTokenExpiresAt?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type EnumTokenTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.TokenType | EnumTokenTypeFieldRefInput<$PrismaModel>
     in?: $Enums.TokenType[]
     notIn?: $Enums.TokenType[]
     not?: NestedEnumTokenTypeFilter<$PrismaModel> | $Enums.TokenType
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type VerificationTokenOrderByRelevanceInput = {
@@ -22031,11 +21836,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type PageNullableScalarRelationFilter = {
-    is?: PageWhereInput | null
-    isNot?: PageWhereInput | null
-  }
-
   export type FlowRecordListRelationFilter = {
     every?: FlowRecordWhereInput
     some?: FlowRecordWhereInput
@@ -22052,12 +21852,17 @@ export namespace Prisma {
     search: string
   }
 
+  export type FlowUserIdNameCompoundUniqueInput = {
+    userId: string
+    name: string
+  }
+
   export type FlowCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
-    description?: SortOrder
     status?: SortOrder
     logicJson?: SortOrder
     layoutJson?: SortOrder
@@ -22072,8 +21877,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
-    description?: SortOrder
     status?: SortOrder
     timeoutDuration?: SortOrder
     startNodeId?: SortOrder
@@ -22085,8 +21890,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     pageId?: SortOrder
+    pageAccessToken?: SortOrder
     name?: SortOrder
-    description?: SortOrder
     status?: SortOrder
     timeoutDuration?: SortOrder
     startNodeId?: SortOrder
@@ -22128,65 +21933,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type EnumPageStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.PageStatus | EnumPageStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PageStatus[]
-    notIn?: $Enums.PageStatus[]
-    not?: NestedEnumPageStatusFilter<$PrismaModel> | $Enums.PageStatus
-  }
-
-  export type PageOrderByRelevanceInput = {
-    fields: PageOrderByRelevanceFieldEnum | PageOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
-  export type PageCountOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    pageUid?: SortOrder
-    name?: SortOrder
-    avatar?: SortOrder
-    pageAccessToken?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PageMaxOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    pageUid?: SortOrder
-    name?: SortOrder
-    avatar?: SortOrder
-    pageAccessToken?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PageMinOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    pageUid?: SortOrder
-    name?: SortOrder
-    avatar?: SortOrder
-    pageAccessToken?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type EnumPageStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PageStatus | EnumPageStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PageStatus[]
-    notIn?: $Enums.PageStatus[]
-    not?: NestedEnumPageStatusWithAggregatesFilter<$PrismaModel> | $Enums.PageStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPageStatusFilter<$PrismaModel>
-    _max?: NestedEnumPageStatusFilter<$PrismaModel>
   }
 
   export type EnumFlowShareStatusFilter<$PrismaModel = never> = {
@@ -22684,11 +22430,6 @@ export namespace Prisma {
     not?: NestedEnumFlowRecordStatusFilter<$PrismaModel> | $Enums.FlowRecordStatus
   }
 
-  export type PageScalarRelationFilter = {
-    is?: PageWhereInput
-    isNot?: PageWhereInput
-  }
-
   export type FlowRecordOrderByRelevanceInput = {
     fields: FlowRecordOrderByRelevanceFieldEnum | FlowRecordOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -22861,13 +22602,6 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type PageCreateNestedManyWithoutUserInput = {
-    create?: XOR<PageCreateWithoutUserInput, PageUncheckedCreateWithoutUserInput> | PageCreateWithoutUserInput[] | PageUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PageCreateOrConnectWithoutUserInput | PageCreateOrConnectWithoutUserInput[]
-    createMany?: PageCreateManyUserInputEnvelope
-    connect?: PageWhereUniqueInput | PageWhereUniqueInput[]
-  }
-
   export type VerificationTokenCreateNestedManyWithoutUserInput = {
     create?: XOR<VerificationTokenCreateWithoutUserInput, VerificationTokenUncheckedCreateWithoutUserInput> | VerificationTokenCreateWithoutUserInput[] | VerificationTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VerificationTokenCreateOrConnectWithoutUserInput | VerificationTokenCreateOrConnectWithoutUserInput[]
@@ -22917,6 +22651,12 @@ export namespace Prisma {
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
+  export type FacebookAuthCreateNestedOneWithoutUserInput = {
+    create?: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FacebookAuthCreateOrConnectWithoutUserInput
+    connect?: FacebookAuthWhereUniqueInput
+  }
+
   export type FlowUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<FlowCreateWithoutUserInput, FlowUncheckedCreateWithoutUserInput> | FlowCreateWithoutUserInput[] | FlowUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCreateOrConnectWithoutUserInput | FlowCreateOrConnectWithoutUserInput[]
@@ -22936,13 +22676,6 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
-  export type PageUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<PageCreateWithoutUserInput, PageUncheckedCreateWithoutUserInput> | PageCreateWithoutUserInput[] | PageUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PageCreateOrConnectWithoutUserInput | PageCreateOrConnectWithoutUserInput[]
-    createMany?: PageCreateManyUserInputEnvelope
-    connect?: PageWhereUniqueInput | PageWhereUniqueInput[]
   }
 
   export type VerificationTokenUncheckedCreateNestedManyWithoutUserInput = {
@@ -22992,6 +22725,12 @@ export namespace Prisma {
     connectOrCreate?: ConversationCreateOrConnectWithoutUserInput | ConversationCreateOrConnectWithoutUserInput[]
     createMany?: ConversationCreateManyUserInputEnvelope
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type FacebookAuthUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FacebookAuthCreateOrConnectWithoutUserInput
+    connect?: FacebookAuthWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -23054,20 +22793,6 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type PageUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PageCreateWithoutUserInput, PageUncheckedCreateWithoutUserInput> | PageCreateWithoutUserInput[] | PageUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PageCreateOrConnectWithoutUserInput | PageCreateOrConnectWithoutUserInput[]
-    upsert?: PageUpsertWithWhereUniqueWithoutUserInput | PageUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PageCreateManyUserInputEnvelope
-    set?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    disconnect?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    delete?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    connect?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    update?: PageUpdateWithWhereUniqueWithoutUserInput | PageUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PageUpdateManyWithWhereWithoutUserInput | PageUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PageScalarWhereInput | PageScalarWhereInput[]
   }
 
   export type VerificationTokenUpdateManyWithoutUserNestedInput = {
@@ -23168,6 +22893,16 @@ export namespace Prisma {
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
+  export type FacebookAuthUpdateOneWithoutUserNestedInput = {
+    create?: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FacebookAuthCreateOrConnectWithoutUserInput
+    upsert?: FacebookAuthUpsertWithoutUserInput
+    disconnect?: FacebookAuthWhereInput | boolean
+    delete?: FacebookAuthWhereInput | boolean
+    connect?: FacebookAuthWhereUniqueInput
+    update?: XOR<XOR<FacebookAuthUpdateToOneWithWhereWithoutUserInput, FacebookAuthUpdateWithoutUserInput>, FacebookAuthUncheckedUpdateWithoutUserInput>
+  }
+
   export type FlowUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<FlowCreateWithoutUserInput, FlowUncheckedCreateWithoutUserInput> | FlowCreateWithoutUserInput[] | FlowUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FlowCreateOrConnectWithoutUserInput | FlowCreateOrConnectWithoutUserInput[]
@@ -23208,20 +22943,6 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type PageUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PageCreateWithoutUserInput, PageUncheckedCreateWithoutUserInput> | PageCreateWithoutUserInput[] | PageUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PageCreateOrConnectWithoutUserInput | PageCreateOrConnectWithoutUserInput[]
-    upsert?: PageUpsertWithWhereUniqueWithoutUserInput | PageUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PageCreateManyUserInputEnvelope
-    set?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    disconnect?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    delete?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    connect?: PageWhereUniqueInput | PageWhereUniqueInput[]
-    update?: PageUpdateWithWhereUniqueWithoutUserInput | PageUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PageUpdateManyWithWhereWithoutUserInput | PageUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PageScalarWhereInput | PageScalarWhereInput[]
   }
 
   export type VerificationTokenUncheckedUpdateManyWithoutUserNestedInput = {
@@ -23322,6 +23043,30 @@ export namespace Prisma {
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
+  export type FacebookAuthUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FacebookAuthCreateOrConnectWithoutUserInput
+    upsert?: FacebookAuthUpsertWithoutUserInput
+    disconnect?: FacebookAuthWhereInput | boolean
+    delete?: FacebookAuthWhereInput | boolean
+    connect?: FacebookAuthWhereUniqueInput
+    update?: XOR<XOR<FacebookAuthUpdateToOneWithWhereWithoutUserInput, FacebookAuthUpdateWithoutUserInput>, FacebookAuthUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserCreateNestedOneWithoutFacebookAuthInput = {
+    create?: XOR<UserCreateWithoutFacebookAuthInput, UserUncheckedCreateWithoutFacebookAuthInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFacebookAuthInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutFacebookAuthNestedInput = {
+    create?: XOR<UserCreateWithoutFacebookAuthInput, UserUncheckedCreateWithoutFacebookAuthInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFacebookAuthInput
+    upsert?: UserUpsertWithoutFacebookAuthInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFacebookAuthInput, UserUpdateWithoutFacebookAuthInput>, UserUncheckedUpdateWithoutFacebookAuthInput>
+  }
+
   export type UserCreateNestedOneWithoutVerificationTokensInput = {
     create?: XOR<UserCreateWithoutVerificationTokensInput, UserUncheckedCreateWithoutVerificationTokensInput>
     connectOrCreate?: UserCreateOrConnectWithoutVerificationTokensInput
@@ -23344,12 +23089,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutFlowsInput, UserUncheckedCreateWithoutFlowsInput>
     connectOrCreate?: UserCreateOrConnectWithoutFlowsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type PageCreateNestedOneWithoutFlowsInput = {
-    create?: XOR<PageCreateWithoutFlowsInput, PageUncheckedCreateWithoutFlowsInput>
-    connectOrCreate?: PageCreateOrConnectWithoutFlowsInput
-    connect?: PageWhereUniqueInput
   }
 
   export type FlowShareCreateNestedManyWithoutFlowInput = {
@@ -23390,16 +23129,6 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutFlowsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFlowsInput, UserUpdateWithoutFlowsInput>, UserUncheckedUpdateWithoutFlowsInput>
-  }
-
-  export type PageUpdateOneWithoutFlowsNestedInput = {
-    create?: XOR<PageCreateWithoutFlowsInput, PageUncheckedCreateWithoutFlowsInput>
-    connectOrCreate?: PageCreateOrConnectWithoutFlowsInput
-    upsert?: PageUpsertWithoutFlowsInput
-    disconnect?: PageWhereInput | boolean
-    delete?: PageWhereInput | boolean
-    connect?: PageWhereUniqueInput
-    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowsInput, PageUpdateWithoutFlowsInput>, PageUncheckedUpdateWithoutFlowsInput>
   }
 
   export type FlowShareUpdateManyWithoutFlowNestedInput = {
@@ -23455,108 +23184,6 @@ export namespace Prisma {
     connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
     update?: FlowRecordUpdateWithWhereUniqueWithoutFlowInput | FlowRecordUpdateWithWhereUniqueWithoutFlowInput[]
     updateMany?: FlowRecordUpdateManyWithWhereWithoutFlowInput | FlowRecordUpdateManyWithWhereWithoutFlowInput[]
-    deleteMany?: FlowRecordScalarWhereInput | FlowRecordScalarWhereInput[]
-  }
-
-  export type UserCreateNestedOneWithoutPagesInput = {
-    create?: XOR<UserCreateWithoutPagesInput, UserUncheckedCreateWithoutPagesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPagesInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type FlowCreateNestedManyWithoutPageInput = {
-    create?: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput> | FlowCreateWithoutPageInput[] | FlowUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowCreateOrConnectWithoutPageInput | FlowCreateOrConnectWithoutPageInput[]
-    createMany?: FlowCreateManyPageInputEnvelope
-    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-  }
-
-  export type FlowRecordCreateNestedManyWithoutPageInput = {
-    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
-    createMany?: FlowRecordCreateManyPageInputEnvelope
-    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-  }
-
-  export type FlowUncheckedCreateNestedManyWithoutPageInput = {
-    create?: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput> | FlowCreateWithoutPageInput[] | FlowUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowCreateOrConnectWithoutPageInput | FlowCreateOrConnectWithoutPageInput[]
-    createMany?: FlowCreateManyPageInputEnvelope
-    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-  }
-
-  export type FlowRecordUncheckedCreateNestedManyWithoutPageInput = {
-    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
-    createMany?: FlowRecordCreateManyPageInputEnvelope
-    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-  }
-
-  export type EnumPageStatusFieldUpdateOperationsInput = {
-    set?: $Enums.PageStatus
-  }
-
-  export type UserUpdateOneRequiredWithoutPagesNestedInput = {
-    create?: XOR<UserCreateWithoutPagesInput, UserUncheckedCreateWithoutPagesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPagesInput
-    upsert?: UserUpsertWithoutPagesInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPagesInput, UserUpdateWithoutPagesInput>, UserUncheckedUpdateWithoutPagesInput>
-  }
-
-  export type FlowUpdateManyWithoutPageNestedInput = {
-    create?: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput> | FlowCreateWithoutPageInput[] | FlowUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowCreateOrConnectWithoutPageInput | FlowCreateOrConnectWithoutPageInput[]
-    upsert?: FlowUpsertWithWhereUniqueWithoutPageInput | FlowUpsertWithWhereUniqueWithoutPageInput[]
-    createMany?: FlowCreateManyPageInputEnvelope
-    set?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    disconnect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    delete?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    update?: FlowUpdateWithWhereUniqueWithoutPageInput | FlowUpdateWithWhereUniqueWithoutPageInput[]
-    updateMany?: FlowUpdateManyWithWhereWithoutPageInput | FlowUpdateManyWithWhereWithoutPageInput[]
-    deleteMany?: FlowScalarWhereInput | FlowScalarWhereInput[]
-  }
-
-  export type FlowRecordUpdateManyWithoutPageNestedInput = {
-    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
-    upsert?: FlowRecordUpsertWithWhereUniqueWithoutPageInput | FlowRecordUpsertWithWhereUniqueWithoutPageInput[]
-    createMany?: FlowRecordCreateManyPageInputEnvelope
-    set?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    disconnect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    delete?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    update?: FlowRecordUpdateWithWhereUniqueWithoutPageInput | FlowRecordUpdateWithWhereUniqueWithoutPageInput[]
-    updateMany?: FlowRecordUpdateManyWithWhereWithoutPageInput | FlowRecordUpdateManyWithWhereWithoutPageInput[]
-    deleteMany?: FlowRecordScalarWhereInput | FlowRecordScalarWhereInput[]
-  }
-
-  export type FlowUncheckedUpdateManyWithoutPageNestedInput = {
-    create?: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput> | FlowCreateWithoutPageInput[] | FlowUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowCreateOrConnectWithoutPageInput | FlowCreateOrConnectWithoutPageInput[]
-    upsert?: FlowUpsertWithWhereUniqueWithoutPageInput | FlowUpsertWithWhereUniqueWithoutPageInput[]
-    createMany?: FlowCreateManyPageInputEnvelope
-    set?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    disconnect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    delete?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    connect?: FlowWhereUniqueInput | FlowWhereUniqueInput[]
-    update?: FlowUpdateWithWhereUniqueWithoutPageInput | FlowUpdateWithWhereUniqueWithoutPageInput[]
-    updateMany?: FlowUpdateManyWithWhereWithoutPageInput | FlowUpdateManyWithWhereWithoutPageInput[]
-    deleteMany?: FlowScalarWhereInput | FlowScalarWhereInput[]
-  }
-
-  export type FlowRecordUncheckedUpdateManyWithoutPageNestedInput = {
-    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
-    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
-    upsert?: FlowRecordUpsertWithWhereUniqueWithoutPageInput | FlowRecordUpsertWithWhereUniqueWithoutPageInput[]
-    createMany?: FlowRecordCreateManyPageInputEnvelope
-    set?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    disconnect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    delete?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
-    update?: FlowRecordUpdateWithWhereUniqueWithoutPageInput | FlowRecordUpdateWithWhereUniqueWithoutPageInput[]
-    updateMany?: FlowRecordUpdateManyWithWhereWithoutPageInput | FlowRecordUpdateManyWithWhereWithoutPageInput[]
     deleteMany?: FlowRecordScalarWhereInput | FlowRecordScalarWhereInput[]
   }
 
@@ -24108,12 +23735,6 @@ export namespace Prisma {
     connect?: FlowWhereUniqueInput
   }
 
-  export type PageCreateNestedOneWithoutFlowRecordsInput = {
-    create?: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
-    connectOrCreate?: PageCreateOrConnectWithoutFlowRecordsInput
-    connect?: PageWhereUniqueInput
-  }
-
   export type EnumFlowRecordStatusFieldUpdateOperationsInput = {
     set?: $Enums.FlowRecordStatus
   }
@@ -24124,14 +23745,6 @@ export namespace Prisma {
     upsert?: FlowUpsertWithoutFlowRecordsInput
     connect?: FlowWhereUniqueInput
     update?: XOR<XOR<FlowUpdateToOneWithWhereWithoutFlowRecordsInput, FlowUpdateWithoutFlowRecordsInput>, FlowUncheckedUpdateWithoutFlowRecordsInput>
-  }
-
-  export type PageUpdateOneRequiredWithoutFlowRecordsNestedInput = {
-    create?: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
-    connectOrCreate?: PageCreateOrConnectWithoutFlowRecordsInput
-    upsert?: PageUpsertWithoutFlowRecordsInput
-    connect?: PageWhereUniqueInput
-    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowRecordsInput, PageUpdateWithoutFlowRecordsInput>, PageUncheckedUpdateWithoutFlowRecordsInput>
   }
 
   export type EnumQueueStatusFieldUpdateOperationsInput = {
@@ -24350,23 +23963,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedEnumPageStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.PageStatus | EnumPageStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PageStatus[]
-    notIn?: $Enums.PageStatus[]
-    not?: NestedEnumPageStatusFilter<$PrismaModel> | $Enums.PageStatus
-  }
-
-  export type NestedEnumPageStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PageStatus | EnumPageStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PageStatus[]
-    notIn?: $Enums.PageStatus[]
-    not?: NestedEnumPageStatusWithAggregatesFilter<$PrismaModel> | $Enums.PageStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPageStatusFilter<$PrismaModel>
-    _max?: NestedEnumPageStatusFilter<$PrismaModel>
-  }
-
   export type NestedEnumFlowShareStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FlowShareStatus | EnumFlowShareStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FlowShareStatus[]
@@ -24507,8 +24103,9 @@ export namespace Prisma {
 
   export type FlowCreateWithoutUserInput = {
     id?: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -24517,7 +24114,6 @@ export namespace Prisma {
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    page?: PageCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
   }
@@ -24525,8 +24121,8 @@ export namespace Prisma {
   export type FlowUncheckedCreateWithoutUserInput = {
     id?: string
     pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -24620,42 +24216,6 @@ export namespace Prisma {
 
   export type NotificationCreateManyUserInputEnvelope = {
     data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PageCreateWithoutUserInput = {
-    id?: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowCreateNestedManyWithoutPageInput
-    flowRecords?: FlowRecordCreateNestedManyWithoutPageInput
-  }
-
-  export type PageUncheckedCreateWithoutUserInput = {
-    id?: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowUncheckedCreateNestedManyWithoutPageInput
-    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutPageInput
-  }
-
-  export type PageCreateOrConnectWithoutUserInput = {
-    where: PageWhereUniqueInput
-    create: XOR<PageCreateWithoutUserInput, PageUncheckedCreateWithoutUserInput>
-  }
-
-  export type PageCreateManyUserInputEnvelope = {
-    data: PageCreateManyUserInput | PageCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -24845,6 +24405,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FacebookAuthCreateWithoutUserInput = {
+    id?: string
+    facebookProviderId: string
+    fbAccessToken: string
+    fbTokenExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FacebookAuthUncheckedCreateWithoutUserInput = {
+    id?: string
+    facebookProviderId: string
+    fbAccessToken: string
+    fbTokenExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FacebookAuthCreateOrConnectWithoutUserInput = {
+    where: FacebookAuthWhereUniqueInput
+    create: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
+  }
+
   export type FlowUpsertWithWhereUniqueWithoutUserInput = {
     where: FlowWhereUniqueInput
     update: XOR<FlowUpdateWithoutUserInput, FlowUncheckedUpdateWithoutUserInput>
@@ -24868,8 +24451,8 @@ export namespace Prisma {
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
     pageId?: StringNullableFilter<"Flow"> | string | null
+    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
-    description?: StringNullableFilter<"Flow"> | string | null
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableFilter<"Flow">
     layoutJson?: JsonNullableFilter<"Flow">
@@ -24941,37 +24524,6 @@ export namespace Prisma {
     read?: BoolFilter<"Notification"> | boolean
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
-  }
-
-  export type PageUpsertWithWhereUniqueWithoutUserInput = {
-    where: PageWhereUniqueInput
-    update: XOR<PageUpdateWithoutUserInput, PageUncheckedUpdateWithoutUserInput>
-    create: XOR<PageCreateWithoutUserInput, PageUncheckedCreateWithoutUserInput>
-  }
-
-  export type PageUpdateWithWhereUniqueWithoutUserInput = {
-    where: PageWhereUniqueInput
-    data: XOR<PageUpdateWithoutUserInput, PageUncheckedUpdateWithoutUserInput>
-  }
-
-  export type PageUpdateManyWithWhereWithoutUserInput = {
-    where: PageScalarWhereInput
-    data: XOR<PageUpdateManyMutationInput, PageUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type PageScalarWhereInput = {
-    AND?: PageScalarWhereInput | PageScalarWhereInput[]
-    OR?: PageScalarWhereInput[]
-    NOT?: PageScalarWhereInput | PageScalarWhereInput[]
-    id?: StringFilter<"Page"> | string
-    userId?: StringFilter<"Page"> | string
-    pageUid?: StringFilter<"Page"> | string
-    name?: StringFilter<"Page"> | string
-    avatar?: StringNullableFilter<"Page"> | string | null
-    pageAccessToken?: StringFilter<"Page"> | string
-    status?: EnumPageStatusFilter<"Page"> | $Enums.PageStatus
-    createdAt?: DateTimeFilter<"Page"> | Date | string
-    updatedAt?: DateTimeFilter<"Page"> | Date | string
   }
 
   export type VerificationTokenUpsertWithWhereUniqueWithoutUserInput = {
@@ -25170,6 +24722,147 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
   }
 
+  export type FacebookAuthUpsertWithoutUserInput = {
+    update: XOR<FacebookAuthUpdateWithoutUserInput, FacebookAuthUncheckedUpdateWithoutUserInput>
+    create: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
+    where?: FacebookAuthWhereInput
+  }
+
+  export type FacebookAuthUpdateToOneWithWhereWithoutUserInput = {
+    where?: FacebookAuthWhereInput
+    data: XOR<FacebookAuthUpdateWithoutUserInput, FacebookAuthUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FacebookAuthUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebookProviderId?: StringFieldUpdateOperationsInput | string
+    fbAccessToken?: StringFieldUpdateOperationsInput | string
+    fbTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FacebookAuthUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebookProviderId?: StringFieldUpdateOperationsInput | string
+    fbAccessToken?: StringFieldUpdateOperationsInput | string
+    fbTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutFacebookAuthInput = {
+    id?: string
+    username?: string | null
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    googleProviderId?: string | null
+    verifyAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
+    flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
+    flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
+    flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
+    flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
+    conversations?: ConversationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFacebookAuthInput = {
+    id?: string
+    username?: string | null
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    googleProviderId?: string | null
+    verifyAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
+    flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
+    flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
+    flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFacebookAuthInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFacebookAuthInput, UserUncheckedCreateWithoutFacebookAuthInput>
+  }
+
+  export type UserUpsertWithoutFacebookAuthInput = {
+    update: XOR<UserUpdateWithoutFacebookAuthInput, UserUncheckedUpdateWithoutFacebookAuthInput>
+    create: XOR<UserCreateWithoutFacebookAuthInput, UserUncheckedCreateWithoutFacebookAuthInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFacebookAuthInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFacebookAuthInput, UserUncheckedUpdateWithoutFacebookAuthInput>
+  }
+
+  export type UserUpdateWithoutFacebookAuthInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
+    flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
+    flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
+    flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
+    flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
+    conversations?: ConversationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFacebookAuthInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
+    flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutVerificationTokensInput = {
     id?: string
     username?: string | null
@@ -25185,13 +24878,13 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVerificationTokensInput = {
@@ -25209,13 +24902,13 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVerificationTokensInput = {
@@ -25249,13 +24942,13 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVerificationTokensInput = {
@@ -25273,13 +24966,13 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFlowsInput = {
@@ -25296,7 +24989,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
@@ -25304,6 +24996,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlowsInput = {
@@ -25320,7 +25013,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
@@ -25328,42 +25020,12 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlowsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutFlowsInput, UserUncheckedCreateWithoutFlowsInput>
-  }
-
-  export type PageCreateWithoutFlowsInput = {
-    id?: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutPagesInput
-    flowRecords?: FlowRecordCreateNestedManyWithoutPageInput
-  }
-
-  export type PageUncheckedCreateWithoutFlowsInput = {
-    id?: string
-    userId: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutPageInput
-  }
-
-  export type PageCreateOrConnectWithoutFlowsInput = {
-    where: PageWhereUniqueInput
-    create: XOR<PageCreateWithoutFlowsInput, PageUncheckedCreateWithoutFlowsInput>
   }
 
   export type FlowShareCreateWithoutFlowInput = {
@@ -25411,6 +25073,7 @@ export namespace Prisma {
   export type FlowRecordCreateWithoutFlowInput = {
     id?: string
     senderId: string
+    pageId: string
     currentNodeId: string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
@@ -25418,7 +25081,6 @@ export namespace Prisma {
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: Date | string | null
-    page: PageCreateNestedOneWithoutFlowRecordsInput
   }
 
   export type FlowRecordUncheckedCreateWithoutFlowInput = {
@@ -25469,7 +25131,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
@@ -25477,6 +25138,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowsInput = {
@@ -25493,7 +25155,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -25501,43 +25162,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type PageUpsertWithoutFlowsInput = {
-    update: XOR<PageUpdateWithoutFlowsInput, PageUncheckedUpdateWithoutFlowsInput>
-    create: XOR<PageCreateWithoutFlowsInput, PageUncheckedCreateWithoutFlowsInput>
-    where?: PageWhereInput
-  }
-
-  export type PageUpdateToOneWithWhereWithoutFlowsInput = {
-    where?: PageWhereInput
-    data: XOR<PageUpdateWithoutFlowsInput, PageUncheckedUpdateWithoutFlowsInput>
-  }
-
-  export type PageUpdateWithoutFlowsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPagesNestedInput
-    flowRecords?: FlowRecordUpdateManyWithoutPageNestedInput
-  }
-
-  export type PageUncheckedUpdateWithoutFlowsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flowRecords?: FlowRecordUncheckedUpdateManyWithoutPageNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type FlowShareUpsertWithWhereUniqueWithoutFlowInput = {
@@ -25589,234 +25214,11 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
   }
 
-  export type UserCreateWithoutPagesInput = {
-    id?: string
-    username?: string | null
-    displayName?: string | null
-    email: string
-    avatar?: string | null
-    password?: string | null
-    role?: $Enums.Role
-    googleProviderId?: string | null
-    verifyAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowCreateNestedManyWithoutUserInput
-    flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
-    flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
-    flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
-    flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
-    flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
-    posts?: PostsCreateNestedManyWithoutAuthorInput
-    conversations?: ConversationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutPagesInput = {
-    id?: string
-    username?: string | null
-    displayName?: string | null
-    email: string
-    avatar?: string | null
-    password?: string | null
-    role?: $Enums.Role
-    googleProviderId?: string | null
-    verifyAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
-    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
-    flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
-    flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
-    flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
-    flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
-    conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutPagesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPagesInput, UserUncheckedCreateWithoutPagesInput>
-  }
-
-  export type FlowCreateWithoutPageInput = {
-    id?: string
-    name: string
-    description?: string | null
-    status?: $Enums.FlowStatus
-    logicJson?: NullableJsonNullValueInput | InputJsonValue
-    layoutJson?: NullableJsonNullValueInput | InputJsonValue
-    timeoutDuration?: string
-    startNodeId?: string | null
-    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutFlowsInput
-    shares?: FlowShareCreateNestedManyWithoutFlowInput
-    flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
-  }
-
-  export type FlowUncheckedCreateWithoutPageInput = {
-    id?: string
-    userId: string
-    name: string
-    description?: string | null
-    status?: $Enums.FlowStatus
-    logicJson?: NullableJsonNullValueInput | InputJsonValue
-    layoutJson?: NullableJsonNullValueInput | InputJsonValue
-    timeoutDuration?: string
-    startNodeId?: string | null
-    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
-    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
-  }
-
-  export type FlowCreateOrConnectWithoutPageInput = {
-    where: FlowWhereUniqueInput
-    create: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput>
-  }
-
-  export type FlowCreateManyPageInputEnvelope = {
-    data: FlowCreateManyPageInput | FlowCreateManyPageInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FlowRecordCreateWithoutPageInput = {
-    id?: string
-    senderId: string
-    currentNodeId: string
-    variables?: NullableJsonNullValueInput | InputJsonValue
-    status?: $Enums.FlowRecordStatus
-    lastInteraction?: Date | string
-    errorLog?: string | null
-    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
-    expiresAt?: Date | string | null
-    flow: FlowCreateNestedOneWithoutFlowRecordsInput
-  }
-
-  export type FlowRecordUncheckedCreateWithoutPageInput = {
-    id?: string
-    senderId: string
-    flowId: string
-    currentNodeId: string
-    variables?: NullableJsonNullValueInput | InputJsonValue
-    status?: $Enums.FlowRecordStatus
-    lastInteraction?: Date | string
-    errorLog?: string | null
-    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
-    expiresAt?: Date | string | null
-  }
-
-  export type FlowRecordCreateOrConnectWithoutPageInput = {
-    where: FlowRecordWhereUniqueInput
-    create: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput>
-  }
-
-  export type FlowRecordCreateManyPageInputEnvelope = {
-    data: FlowRecordCreateManyPageInput | FlowRecordCreateManyPageInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutPagesInput = {
-    update: XOR<UserUpdateWithoutPagesInput, UserUncheckedUpdateWithoutPagesInput>
-    create: XOR<UserCreateWithoutPagesInput, UserUncheckedCreateWithoutPagesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutPagesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutPagesInput, UserUncheckedUpdateWithoutPagesInput>
-  }
-
-  export type UserUpdateWithoutPagesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
-    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUpdateManyWithoutUserNestedInput
-    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
-    flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
-    flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
-    flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
-    flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
-    posts?: PostsUpdateManyWithoutAuthorNestedInput
-    conversations?: ConversationUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutPagesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
-    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
-    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
-    flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
-    flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
-    flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
-    flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
-    conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type FlowUpsertWithWhereUniqueWithoutPageInput = {
-    where: FlowWhereUniqueInput
-    update: XOR<FlowUpdateWithoutPageInput, FlowUncheckedUpdateWithoutPageInput>
-    create: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput>
-  }
-
-  export type FlowUpdateWithWhereUniqueWithoutPageInput = {
-    where: FlowWhereUniqueInput
-    data: XOR<FlowUpdateWithoutPageInput, FlowUncheckedUpdateWithoutPageInput>
-  }
-
-  export type FlowUpdateManyWithWhereWithoutPageInput = {
-    where: FlowScalarWhereInput
-    data: XOR<FlowUpdateManyMutationInput, FlowUncheckedUpdateManyWithoutPageInput>
-  }
-
-  export type FlowRecordUpsertWithWhereUniqueWithoutPageInput = {
-    where: FlowRecordWhereUniqueInput
-    update: XOR<FlowRecordUpdateWithoutPageInput, FlowRecordUncheckedUpdateWithoutPageInput>
-    create: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput>
-  }
-
-  export type FlowRecordUpdateWithWhereUniqueWithoutPageInput = {
-    where: FlowRecordWhereUniqueInput
-    data: XOR<FlowRecordUpdateWithoutPageInput, FlowRecordUncheckedUpdateWithoutPageInput>
-  }
-
-  export type FlowRecordUpdateManyWithWhereWithoutPageInput = {
-    where: FlowRecordScalarWhereInput
-    data: XOR<FlowRecordUpdateManyMutationInput, FlowRecordUncheckedUpdateManyWithoutPageInput>
-  }
-
   export type FlowCreateWithoutSharesInput = {
     id?: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -25826,7 +25228,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
-    page?: PageCreateNestedOneWithoutFlowsInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
   }
 
@@ -25834,8 +25235,8 @@ export namespace Prisma {
     id?: string
     userId: string
     pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -25866,7 +25267,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
@@ -25874,6 +25274,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlowSharesInput = {
@@ -25890,7 +25291,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
@@ -25898,6 +25298,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlowSharesInput = {
@@ -26014,8 +25415,9 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -26025,7 +25427,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
-    page?: PageUpdateOneWithoutFlowsNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
   }
 
@@ -26033,8 +25434,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -26071,7 +25472,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
@@ -26079,6 +25479,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowSharesInput = {
@@ -26095,7 +25496,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -26103,6 +25503,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type FlowShareDowloadUpsertWithWhereUniqueWithoutFlowShareInput = {
@@ -26221,13 +25622,13 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareDowloadsInput = {
@@ -26245,13 +25646,13 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareDowloadsInput = {
@@ -26328,13 +25729,13 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareDowloadsInput = {
@@ -26352,13 +25753,13 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type FlowShareCreateWithoutFlowShareCommentsInput = {
@@ -26413,13 +25814,13 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareCommentsInput = {
@@ -26437,13 +25838,13 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareCommentsInput = {
@@ -26575,13 +25976,13 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareCommentsInput = {
@@ -26599,13 +26000,13 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type FlowShareCommentUpsertWithoutRepliesInput = {
@@ -26707,13 +26108,13 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareLikesInput = {
@@ -26731,13 +26132,13 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareLikesInput = {
@@ -26814,13 +26215,13 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareLikesInput = {
@@ -26838,13 +26239,13 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type FlowShareCreateWithoutFlowShareSavesInput = {
@@ -26899,13 +26300,13 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlowShareSavesInput = {
@@ -26923,13 +26324,13 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlowShareSavesInput = {
@@ -27006,13 +26407,13 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlowShareSavesInput = {
@@ -27030,13 +26431,13 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -27053,7 +26454,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
@@ -27061,6 +26461,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -27077,7 +26478,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
@@ -27085,6 +26485,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -27117,7 +26518,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
@@ -27125,6 +26525,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -27141,7 +26542,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -27149,6 +26549,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type PostCategoriesCreateWithoutPostsInput = {
@@ -27187,13 +26588,13 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -27211,13 +26612,13 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -27278,13 +26679,13 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -27302,13 +26703,13 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type PostsCreateWithoutCategoryInput = {
@@ -27410,13 +26811,13 @@ export namespace Prisma {
     flows?: FlowCreateNestedManyWithoutUserInput
     flowShares?: FlowShareCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    pages?: PageCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsInput = {
@@ -27434,13 +26835,13 @@ export namespace Prisma {
     flows?: FlowUncheckedCreateNestedManyWithoutUserInput
     flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    pages?: PageUncheckedCreateNestedManyWithoutUserInput
     verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsInput = {
@@ -27505,13 +26906,13 @@ export namespace Prisma {
     flows?: FlowUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    pages?: PageUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsInput = {
@@ -27529,13 +26930,13 @@ export namespace Prisma {
     flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
     flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    pages?: PageUncheckedUpdateManyWithoutUserNestedInput
     verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type ConversationCreateWithoutMessagesInput = {
@@ -27592,8 +26993,9 @@ export namespace Prisma {
 
   export type FlowCreateWithoutFlowRecordsInput = {
     id?: string
+    pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27603,7 +27005,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
-    page?: PageCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
   }
 
@@ -27611,8 +27012,8 @@ export namespace Prisma {
     id?: string
     userId: string
     pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27629,37 +27030,6 @@ export namespace Prisma {
     create: XOR<FlowCreateWithoutFlowRecordsInput, FlowUncheckedCreateWithoutFlowRecordsInput>
   }
 
-  export type PageCreateWithoutFlowRecordsInput = {
-    id?: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutPagesInput
-    flows?: FlowCreateNestedManyWithoutPageInput
-  }
-
-  export type PageUncheckedCreateWithoutFlowRecordsInput = {
-    id?: string
-    userId: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    flows?: FlowUncheckedCreateNestedManyWithoutPageInput
-  }
-
-  export type PageCreateOrConnectWithoutFlowRecordsInput = {
-    where: PageWhereUniqueInput
-    create: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
-  }
-
   export type FlowUpsertWithoutFlowRecordsInput = {
     update: XOR<FlowUpdateWithoutFlowRecordsInput, FlowUncheckedUpdateWithoutFlowRecordsInput>
     create: XOR<FlowCreateWithoutFlowRecordsInput, FlowUncheckedCreateWithoutFlowRecordsInput>
@@ -27673,8 +27043,9 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutFlowRecordsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27684,7 +27055,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
-    page?: PageUpdateOneWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
   }
 
@@ -27692,8 +27062,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27705,48 +27075,11 @@ export namespace Prisma {
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
   }
 
-  export type PageUpsertWithoutFlowRecordsInput = {
-    update: XOR<PageUpdateWithoutFlowRecordsInput, PageUncheckedUpdateWithoutFlowRecordsInput>
-    create: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
-    where?: PageWhereInput
-  }
-
-  export type PageUpdateToOneWithWhereWithoutFlowRecordsInput = {
-    where?: PageWhereInput
-    data: XOR<PageUpdateWithoutFlowRecordsInput, PageUncheckedUpdateWithoutFlowRecordsInput>
-  }
-
-  export type PageUpdateWithoutFlowRecordsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPagesNestedInput
-    flows?: FlowUpdateManyWithoutPageNestedInput
-  }
-
-  export type PageUncheckedUpdateWithoutFlowRecordsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUncheckedUpdateManyWithoutPageNestedInput
-  }
-
   export type FlowCreateManyUserInput = {
     id?: string
     pageId?: string | null
+    pageAccessToken?: string | null
     name: string
-    description?: string | null
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27776,17 +27109,6 @@ export namespace Prisma {
     thumbnail?: string | null
     relatedId: string
     read?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PageCreateManyUserInput = {
-    id?: string
-    pageUid: string
-    name: string
-    avatar?: string | null
-    pageAccessToken: string
-    status?: $Enums.PageStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27849,8 +27171,9 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27859,7 +27182,6 @@ export namespace Prisma {
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    page?: PageUpdateOneWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
   }
@@ -27867,8 +27189,8 @@ export namespace Prisma {
   export type FlowUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27884,8 +27206,8 @@ export namespace Prisma {
   export type FlowUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
     layoutJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27969,43 +27291,6 @@ export namespace Prisma {
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     relatedId?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PageUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUpdateManyWithoutPageNestedInput
-    flowRecords?: FlowRecordUpdateManyWithoutPageNestedInput
-  }
-
-  export type PageUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    flows?: FlowUncheckedUpdateManyWithoutPageNestedInput
-    flowRecords?: FlowRecordUncheckedUpdateManyWithoutPageNestedInput
-  }
-
-  export type PageUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    pageUid?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: StringFieldUpdateOperationsInput | string
-    status?: EnumPageStatusFieldUpdateOperationsInput | $Enums.PageStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28254,6 +27539,7 @@ export namespace Prisma {
   export type FlowRecordUpdateWithoutFlowInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
@@ -28261,7 +27547,6 @@ export namespace Prisma {
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
   export type FlowRecordUncheckedUpdateWithoutFlowInput = {
@@ -28281,122 +27566,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     pageId?: StringFieldUpdateOperationsInput | string
-    currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: NullableJsonNullValueInput | InputJsonValue
-    status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
-    lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
-    errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
-    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type FlowCreateManyPageInput = {
-    id?: string
-    userId: string
-    name: string
-    description?: string | null
-    status?: $Enums.FlowStatus
-    logicJson?: NullableJsonNullValueInput | InputJsonValue
-    layoutJson?: NullableJsonNullValueInput | InputJsonValue
-    timeoutDuration?: string
-    startNodeId?: string | null
-    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type FlowRecordCreateManyPageInput = {
-    id?: string
-    senderId: string
-    flowId: string
-    currentNodeId: string
-    variables?: NullableJsonNullValueInput | InputJsonValue
-    status?: $Enums.FlowRecordStatus
-    lastInteraction?: Date | string
-    errorLog?: string | null
-    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
-    expiresAt?: Date | string | null
-  }
-
-  export type FlowUpdateWithoutPageInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: NullableJsonNullValueInput | InputJsonValue
-    layoutJson?: NullableJsonNullValueInput | InputJsonValue
-    timeoutDuration?: StringFieldUpdateOperationsInput | string
-    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutFlowsNestedInput
-    shares?: FlowShareUpdateManyWithoutFlowNestedInput
-    flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
-  }
-
-  export type FlowUncheckedUpdateWithoutPageInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: NullableJsonNullValueInput | InputJsonValue
-    layoutJson?: NullableJsonNullValueInput | InputJsonValue
-    timeoutDuration?: StringFieldUpdateOperationsInput | string
-    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
-    flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
-  }
-
-  export type FlowUncheckedUpdateManyWithoutPageInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
-    logicJson?: NullableJsonNullValueInput | InputJsonValue
-    layoutJson?: NullableJsonNullValueInput | InputJsonValue
-    timeoutDuration?: StringFieldUpdateOperationsInput | string
-    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
-    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FlowRecordUpdateWithoutPageInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: NullableJsonNullValueInput | InputJsonValue
-    status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
-    lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
-    errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
-    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
-  }
-
-  export type FlowRecordUncheckedUpdateWithoutPageInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    flowId?: StringFieldUpdateOperationsInput | string
-    currentNodeId?: StringFieldUpdateOperationsInput | string
-    variables?: NullableJsonNullValueInput | InputJsonValue
-    status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
-    lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
-    errorLog?: NullableStringFieldUpdateOperationsInput | string | null
-    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
-    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type FlowRecordUncheckedUpdateManyWithoutPageInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    flowId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus

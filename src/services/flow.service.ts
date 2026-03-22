@@ -12,7 +12,6 @@ type ListQuery = {
 type CreateFlow = {
     userId: string;
     name: string;
-    description?: string;
     status?: FlowStatus;
 
     logicJson?: Prisma.InputJsonValue;
@@ -21,6 +20,7 @@ type CreateFlow = {
 
     timeoutDuration?: string;
     pageId?: string;
+    pageAccessToken?: string;
     startNodeId?: string;
 };
 
@@ -31,7 +31,6 @@ class FlowService {
                 select: {
                     id: true,
                     name: true,
-                    description: true,
                     pageId: true,
                     status: true,
                     createdAt: true,
@@ -43,6 +42,9 @@ class FlowService {
                     name: {
                         contains: query?.q
                     }
+                },
+                orderBy: {
+                    createdAt: 'desc'
                 }
             })
             .withPages(getPaginationOptions(query));
@@ -59,7 +61,6 @@ class FlowService {
                 select: {
                     id: true,
                     name: true,
-                    description: true,
                     pageId: true,
                     status: true,
                     createdAt: true,
@@ -85,8 +86,7 @@ class FlowService {
 
         return {
             id: flow.id,
-            name: flow.name,
-            description: flow.description
+            name: flow.name
         };
     }
 
@@ -111,16 +111,50 @@ class FlowService {
     }
 
     async duplicate(flowId: string, userId: string) {
-        const flow = await prisma.flow.findUnique({ where: { id: flowId, userId } });
+        const flow = await prisma.flow.findUnique({
+            where: { id: flowId, userId }
+        });
 
         if (!flow) return ['Flow not found', null];
 
+        const existingCopies = await prisma.flow.findMany({
+            where: {
+                userId,
+                name: {
+                    startsWith: `${flow.name} (copy`
+                }
+            },
+            select: { name: true }
+        });
+
+        let newName = `${flow.name} (copy)`;
+
+        if (existingCopies.length > 0) {
+            // Trích xuất các số thứ tự hiện có: "Flow (copy) 1" -> 1
+            const numbers = existingCopies
+                .map((f) => {
+                    if (f.name === `${flow.name} (copy)`) return 0;
+                    const match = f.name.match(/\(copy\)\s(\d+)$/);
+                    return match ? parseInt(match[1], 10) : 0;
+                })
+                .filter((n) => !isNaN(n));
+
+            if (numbers.length > 0) {
+                const maxNumber = Math.max(...numbers);
+                newName = `${flow.name} (copy) ${maxNumber + 1}`;
+            } else {
+                // Nếu chỉ mới có bản "(copy)" đầu tiên
+                newName = `${flow.name} (copy) 1`;
+            }
+        }
+
+        // 4. Tạo bản sao mới
         const { id, createdAt, updatedAt, ...restFlow } = flow;
 
         const dupPayload = await prisma.flow.create({
             data: {
                 ...restFlow,
-                name: `${flow.name} (copy)`,
+                name: newName,
                 logicJson: restFlow.logicJson as Prisma.InputJsonValue,
                 layoutJson: restFlow.layoutJson as Prisma.InputJsonValue,
                 timeoutJson: restFlow.timeoutJson as Prisma.InputJsonValue
@@ -133,9 +167,7 @@ class FlowService {
     async findActiveByPageUid(pageUid: string) {
         return await prisma.flow.findFirst({
             where: {
-                page: {
-                    pageUid
-                },
+                pageId: pageUid,
                 status: 'active'
             }
         });
@@ -143,6 +175,47 @@ class FlowService {
 
     async findById(id: string) {
         return await prisma.flow.findUnique({ where: { id } });
+    }
+
+    async toggleActive(id: string, userId: string) {
+        const flow = await prisma.flow.findUnique({
+            where: { id, userId }
+        });
+
+        if (!flow) return ['Flow không tồn tại', null];
+
+        // Nếu flow hiện tại đang inactive và muốn bật lên active
+        if (flow.status === 'inactive') {
+            if (!flow.pageId) return ['Flow chưa được gán vào Page nào', null];
+
+            const result = await prisma.$transaction(async (tx) => {
+                // 1. Tắt tất cả các flow khác của cùng Page này
+                await tx.flow.updateMany({
+                    where: {
+                        pageId: flow.pageId,
+                        userId,
+                        id: { not: id }
+                    },
+                    data: { status: 'inactive' }
+                });
+
+                // 2. Bật flow hiện tại lên active
+                return await tx.flow.update({
+                    where: { id },
+                    data: { status: 'active' }
+                });
+            });
+
+            return [null, result];
+        }
+
+        // Nếu đang active mà muốn tắt đi (đơn giản là chuyển về inactive)
+        const deactivatedFlow = await prisma.flow.update({
+            where: { id },
+            data: { status: 'inactive' }
+        });
+
+        return [null, deactivatedFlow];
     }
 }
 

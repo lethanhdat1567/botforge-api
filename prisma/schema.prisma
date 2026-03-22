@@ -23,7 +23,6 @@ model User {
     flows         Flow[]
     flowShares    FlowShare[]
     notifications Notification[]
-    pages         Page[]
 
     verificationTokens VerificationToken[]
     flowShareDowloads  FlowShareDowload[]
@@ -32,6 +31,7 @@ model User {
     flowShareComments  FlowShareComment[]
     posts              Posts[]
     conversations      Conversation[]
+    facebookAuth       FacebookAuth?
 
     @@map("users")
 }
@@ -39,6 +39,21 @@ model User {
 enum Role {
     admin
     user
+}
+
+model FacebookAuth {
+    id                 String    @id @default(uuid())
+    facebookProviderId String    @unique @map("facebook_provider_id")
+    fbAccessToken      String    @map("fb_access_token") @db.Text
+    fbTokenExpiresAt   DateTime? @map("fb_token_expires_at")
+
+    userId String @unique @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("facebook_auths")
 }
 
 model VerificationToken {
@@ -63,9 +78,9 @@ model Flow {
     id              String     @id @default(uuid())
     userId          String     @map("user_id")
     pageId          String?    @map("page_id")
+    pageAccessToken String?    @map("page_access_token") @db.Text
     name            String     @map("name")
-    description     String?
-    status          FlowStatus @default(active)
+    status          FlowStatus @default(inactive)
     logicJson       Json?      @map("logic_json")
     layoutJson      Json?      @map("layout_json")
     timeoutDuration String     @default("10s") @map("timeout_duration")
@@ -75,46 +90,16 @@ model Flow {
     updatedAt       DateTime   @default(now()) @map("updated_at")
 
     user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-    page        Page?        @relation(fields: [pageId], references: [id], onDelete: SetNull)
     shares      FlowShare[]
     flowRecords FlowRecord[]
 
+    @@unique([userId, name])
     @@map("flows")
 }
 
 enum FlowStatus {
     active
     inactive
-}
-
-model Page {
-    id String @id @default(uuid()) @map("id")
-
-    userId String @map("user_id")
-
-    pageUid String @unique @map("page_uid")
-
-    name   String  @map("name")
-    avatar String? @map("avatar")
-
-    pageAccessToken String @map("page_access_token") @db.Text
-
-    status PageStatus @default(active)
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-
-    user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-    flows       Flow[]
-    flowRecords FlowRecord[]
-
-    @@map("pages")
-}
-
-enum PageStatus {
-    active
-    inactive
-    isExpired
 }
 
 model FlowShare {
@@ -324,7 +309,6 @@ model FlowRecord {
     expiresAt          DateTime? @map("expires_at")
 
     flow Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
-    page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
     @@index([status])
     @@map("flow_records")

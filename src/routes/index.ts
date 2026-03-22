@@ -15,11 +15,13 @@ import postCategoyRouter from './post-category.route';
 import conversationRouter from './conversation.route';
 import messageRouter from './message.route';
 import facebookWebhookRouter from './facebook-webhook.route';
+import facebookAuthRouter from './facebook-auth.route';
 
 const router = express.Router();
 
 // Mount routers
 router.use('/auth', authRouter);
+router.use('/facebook-auth', facebookAuthRouter);
 router.use('/users', usersRouter);
 router.use('/flow-shares', flowSharedRouter);
 router.use('/flow-share-downloads', flowShareDowloadRouter);

@@ -1,4 +1,3 @@
-import { flowCode } from '~/constants/flow';
 import { httpCode } from '~/constants/httpsCode';
 import flowService from '~/services/flow.service';
 
@@ -49,6 +48,16 @@ class FlowController {
         }
 
         return res.success(flow, httpCode.success.created);
+    }
+
+    async toggleActive(req: any, res: any) {
+        const [error, flow] = await flowService.toggleActive(req.params.id, req.user.id);
+
+        if (error) {
+            return res.error(error, httpCode.clientError.badRequest);
+        }
+
+        return res.success(flow);
     }
 }
 
