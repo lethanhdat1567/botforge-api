@@ -19,8 +19,6 @@ type CreateFlow = {
     timeoutJson?: Prisma.InputJsonValue;
 
     timeoutDuration?: string;
-    pageId?: string;
-    pageAccessToken?: string;
     startNodeId?: string;
 };
 
@@ -31,7 +29,6 @@ class FlowService {
                 select: {
                     id: true,
                     name: true,
-                    pageId: true,
                     status: true,
                     createdAt: true,
                     updatedAt: true
@@ -61,7 +58,6 @@ class FlowService {
                 select: {
                     id: true,
                     name: true,
-                    pageId: true,
                     status: true,
                     createdAt: true,
                     updatedAt: true

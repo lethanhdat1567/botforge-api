@@ -156,8 +156,6 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
 exports.Prisma.FlowScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  pageId: 'pageId',
-  pageAccessToken: 'pageAccessToken',
   name: 'name',
   status: 'status',
   logicJson: 'logicJson',
@@ -165,6 +163,15 @@ exports.Prisma.FlowScalarFieldEnum = {
   timeoutDuration: 'timeoutDuration',
   startNodeId: 'startNodeId',
   timeoutJson: 'timeoutJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PageScalarFieldEnum = {
+  id: 'id',
+  pageUid: 'pageUid',
+  pageAccessToken: 'pageAccessToken',
+  flowId: 'flowId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -348,11 +355,16 @@ exports.Prisma.QueryMode = {
 exports.Prisma.FlowOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
-  pageId: 'pageId',
-  pageAccessToken: 'pageAccessToken',
   name: 'name',
   timeoutDuration: 'timeoutDuration',
   startNodeId: 'startNodeId'
+};
+
+exports.Prisma.PageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  pageUid: 'pageUid',
+  pageAccessToken: 'pageAccessToken',
+  flowId: 'flowId'
 };
 
 exports.Prisma.FlowShareOrderByRelevanceFieldEnum = {
@@ -504,6 +516,7 @@ exports.Prisma.ModelName = {
   FacebookAuth: 'FacebookAuth',
   VerificationToken: 'VerificationToken',
   Flow: 'Flow',
+  Page: 'Page',
   FlowShare: 'FlowShare',
   FlowShareDowload: 'FlowShareDowload',
   FlowShareComment: 'FlowShareComment',

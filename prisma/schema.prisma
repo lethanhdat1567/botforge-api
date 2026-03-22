@@ -77,8 +77,6 @@ enum TokenType {
 model Flow {
     id              String     @id @default(uuid())
     userId          String     @map("user_id")
-    pageId          String?    @map("page_id")
-    pageAccessToken String?    @map("page_access_token") @db.Text
     name            String     @map("name")
     status          FlowStatus @default(inactive)
     logicJson       Json?      @map("logic_json")
@@ -92,9 +90,25 @@ model Flow {
     user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     shares      FlowShare[]
     flowRecords FlowRecord[]
+    page        Page?
 
     @@unique([userId, name])
     @@map("flows")
+}
+
+model Page {
+    id              String @id @default(uuid()) @map("id")
+    pageUid         String @unique @map("page_uid")
+    pageAccessToken String @map("page_access_token") @db.Text
+    flowId          String @unique @map("flow_id")
+    flow            Flow   @relation(fields: [flowId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    flowRecords FlowRecord[]
+
+    @@map("pages")
 }
 
 enum FlowStatus {
@@ -309,6 +323,7 @@ model FlowRecord {
     expiresAt          DateTime? @map("expires_at")
 
     flow Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
+    page Page @relation(fields: [pageId], references: [id])
 
     @@index([status])
     @@map("flow_records")

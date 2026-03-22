@@ -34,6 +34,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Flow = $Result.DefaultSelection<Prisma.$FlowPayload>
 /**
+ * Model Page
+ * 
+ */
+export type Page = $Result.DefaultSelection<Prisma.$PagePayload>
+/**
  * Model FlowShare
  * 
  */
@@ -375,6 +380,16 @@ export class PrismaClient<
     * ```
     */
   get flow(): Prisma.FlowDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.page`: Exposes CRUD operations for the **Page** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Pages
+    * const pages = await prisma.page.findMany()
+    * ```
+    */
+  get page(): Prisma.PageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.flowShare`: Exposes CRUD operations for the **FlowShare** model.
@@ -933,6 +948,7 @@ export namespace Prisma {
     FacebookAuth: 'FacebookAuth',
     VerificationToken: 'VerificationToken',
     Flow: 'Flow',
+    Page: 'Page',
     FlowShare: 'FlowShare',
     FlowShareDowload: 'FlowShareDowload',
     FlowShareComment: 'FlowShareComment',
@@ -960,7 +976,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "facebookAuth" | "verificationToken" | "flow" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
+      modelProps: "user" | "facebookAuth" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1225,6 +1241,72 @@ export namespace Prisma {
           count: {
             args: Prisma.FlowCountArgs<ExtArgs>
             result: $Utils.Optional<FlowCountAggregateOutputType> | number
+          }
+        }
+      }
+      Page: {
+        payload: Prisma.$PagePayload<ExtArgs>
+        fields: Prisma.PageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          findFirst: {
+            args: Prisma.PageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          findMany: {
+            args: Prisma.PageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>[]
+          }
+          create: {
+            args: Prisma.PageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          createMany: {
+            args: Prisma.PageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          update: {
+            args: Prisma.PageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          deleteMany: {
+            args: Prisma.PageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          aggregate: {
+            args: Prisma.PageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePage>
+          }
+          groupBy: {
+            args: Prisma.PageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PageCountArgs<ExtArgs>
+            result: $Utils.Optional<PageCountAggregateOutputType> | number
           }
         }
       }
@@ -2132,6 +2214,7 @@ export namespace Prisma {
     facebookAuth?: FacebookAuthOmit
     verificationToken?: VerificationTokenOmit
     flow?: FlowOmit
+    page?: PageOmit
     flowShare?: FlowShareOmit
     flowShareDowload?: FlowShareDowloadOmit
     flowShareComment?: FlowShareCommentOmit
@@ -2367,6 +2450,37 @@ export namespace Prisma {
    * FlowCountOutputType without action
    */
   export type FlowCountOutputTypeCountFlowRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowRecordWhereInput
+  }
+
+
+  /**
+   * Count Type PageCountOutputType
+   */
+
+  export type PageCountOutputType = {
+    flowRecords: number
+  }
+
+  export type PageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    flowRecords?: boolean | PageCountOutputTypeCountFlowRecordsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PageCountOutputType without action
+   */
+  export type PageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PageCountOutputType
+     */
+    select?: PageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PageCountOutputType without action
+   */
+  export type PageCountOutputTypeCountFlowRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlowRecordWhereInput
   }
 
@@ -5726,8 +5840,6 @@ export namespace Prisma {
   export type FlowMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    pageId: string | null
-    pageAccessToken: string | null
     name: string | null
     status: $Enums.FlowStatus | null
     timeoutDuration: string | null
@@ -5739,8 +5851,6 @@ export namespace Prisma {
   export type FlowMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    pageId: string | null
-    pageAccessToken: string | null
     name: string | null
     status: $Enums.FlowStatus | null
     timeoutDuration: string | null
@@ -5752,8 +5862,6 @@ export namespace Prisma {
   export type FlowCountAggregateOutputType = {
     id: number
     userId: number
-    pageId: number
-    pageAccessToken: number
     name: number
     status: number
     logicJson: number
@@ -5770,8 +5878,6 @@ export namespace Prisma {
   export type FlowMinAggregateInputType = {
     id?: true
     userId?: true
-    pageId?: true
-    pageAccessToken?: true
     name?: true
     status?: true
     timeoutDuration?: true
@@ -5783,8 +5889,6 @@ export namespace Prisma {
   export type FlowMaxAggregateInputType = {
     id?: true
     userId?: true
-    pageId?: true
-    pageAccessToken?: true
     name?: true
     status?: true
     timeoutDuration?: true
@@ -5796,8 +5900,6 @@ export namespace Prisma {
   export type FlowCountAggregateInputType = {
     id?: true
     userId?: true
-    pageId?: true
-    pageAccessToken?: true
     name?: true
     status?: true
     logicJson?: true
@@ -5885,8 +5987,6 @@ export namespace Prisma {
   export type FlowGroupByOutputType = {
     id: string
     userId: string
-    pageId: string | null
-    pageAccessToken: string | null
     name: string
     status: $Enums.FlowStatus
     logicJson: JsonValue | null
@@ -5918,8 +6018,6 @@ export namespace Prisma {
   export type FlowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    pageId?: boolean
-    pageAccessToken?: boolean
     name?: boolean
     status?: boolean
     logicJson?: boolean
@@ -5932,6 +6030,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     flowRecords?: boolean | Flow$flowRecordsArgs<ExtArgs>
+    page?: boolean | Flow$pageArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["flow"]>
 
@@ -5940,8 +6039,6 @@ export namespace Prisma {
   export type FlowSelectScalar = {
     id?: boolean
     userId?: boolean
-    pageId?: boolean
-    pageAccessToken?: boolean
     name?: boolean
     status?: boolean
     logicJson?: boolean
@@ -5953,11 +6050,12 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageId" | "pageAccessToken" | "name" | "status" | "logicJson" | "layoutJson" | "timeoutDuration" | "startNodeId" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
+  export type FlowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "status" | "logicJson" | "layoutJson" | "timeoutDuration" | "startNodeId" | "timeoutJson" | "createdAt" | "updatedAt", ExtArgs["result"]["flow"]>
   export type FlowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     flowRecords?: boolean | Flow$flowRecordsArgs<ExtArgs>
+    page?: boolean | Flow$pageArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -5967,12 +6065,11 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       shares: Prisma.$FlowSharePayload<ExtArgs>[]
       flowRecords: Prisma.$FlowRecordPayload<ExtArgs>[]
+      page: Prisma.$PagePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      pageId: string | null
-      pageAccessToken: string | null
       name: string
       status: $Enums.FlowStatus
       logicJson: Prisma.JsonValue | null
@@ -6325,6 +6422,7 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     shares<T extends Flow$sharesArgs<ExtArgs> = {}>(args?: Subset<T, Flow$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowRecords<T extends Flow$flowRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Flow$flowRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    page<T extends Flow$pageArgs<ExtArgs> = {}>(args?: Subset<T, Flow$pageArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6356,8 +6454,6 @@ export namespace Prisma {
   interface FlowFieldRefs {
     readonly id: FieldRef<"Flow", 'String'>
     readonly userId: FieldRef<"Flow", 'String'>
-    readonly pageId: FieldRef<"Flow", 'String'>
-    readonly pageAccessToken: FieldRef<"Flow", 'String'>
     readonly name: FieldRef<"Flow", 'String'>
     readonly status: FieldRef<"Flow", 'FlowStatus'>
     readonly logicJson: FieldRef<"Flow", 'Json'>
@@ -6758,6 +6854,25 @@ export namespace Prisma {
   }
 
   /**
+   * Flow.page
+   */
+  export type Flow$pageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    where?: PageWhereInput
+  }
+
+  /**
    * Flow without action
    */
   export type FlowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6773,6 +6888,976 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: FlowInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Page
+   */
+
+  export type AggregatePage = {
+    _count: PageCountAggregateOutputType | null
+    _min: PageMinAggregateOutputType | null
+    _max: PageMaxAggregateOutputType | null
+  }
+
+  export type PageMinAggregateOutputType = {
+    id: string | null
+    pageUid: string | null
+    pageAccessToken: string | null
+    flowId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PageMaxAggregateOutputType = {
+    id: string | null
+    pageUid: string | null
+    pageAccessToken: string | null
+    flowId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PageCountAggregateOutputType = {
+    id: number
+    pageUid: number
+    pageAccessToken: number
+    flowId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PageMinAggregateInputType = {
+    id?: true
+    pageUid?: true
+    pageAccessToken?: true
+    flowId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PageMaxAggregateInputType = {
+    id?: true
+    pageUid?: true
+    pageAccessToken?: true
+    flowId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PageCountAggregateInputType = {
+    id?: true
+    pageUid?: true
+    pageAccessToken?: true
+    flowId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Page to aggregate.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Pages
+    **/
+    _count?: true | PageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PageMaxAggregateInputType
+  }
+
+  export type GetPageAggregateType<T extends PageAggregateArgs> = {
+        [P in keyof T & keyof AggregatePage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePage[P]>
+      : GetScalarType<T[P], AggregatePage[P]>
+  }
+
+
+
+
+  export type PageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PageWhereInput
+    orderBy?: PageOrderByWithAggregationInput | PageOrderByWithAggregationInput[]
+    by: PageScalarFieldEnum[] | PageScalarFieldEnum
+    having?: PageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PageCountAggregateInputType | true
+    _min?: PageMinAggregateInputType
+    _max?: PageMaxAggregateInputType
+  }
+
+  export type PageGroupByOutputType = {
+    id: string
+    pageUid: string
+    pageAccessToken: string
+    flowId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PageCountAggregateOutputType | null
+    _min: PageMinAggregateOutputType | null
+    _max: PageMaxAggregateOutputType | null
+  }
+
+  type GetPageGroupByPayload<T extends PageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PageGroupByOutputType[P]>
+            : GetScalarType<T[P], PageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageUid?: boolean
+    pageAccessToken?: boolean
+    flowId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    flow?: boolean | FlowDefaultArgs<ExtArgs>
+    flowRecords?: boolean | Page$flowRecordsArgs<ExtArgs>
+    _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["page"]>
+
+
+
+  export type PageSelectScalar = {
+    id?: boolean
+    pageUid?: boolean
+    pageAccessToken?: boolean
+    flowId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pageUid" | "pageAccessToken" | "flowId" | "createdAt" | "updatedAt", ExtArgs["result"]["page"]>
+  export type PageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    flow?: boolean | FlowDefaultArgs<ExtArgs>
+    flowRecords?: boolean | Page$flowRecordsArgs<ExtArgs>
+    _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $PagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Page"
+    objects: {
+      flow: Prisma.$FlowPayload<ExtArgs>
+      flowRecords: Prisma.$FlowRecordPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageUid: string
+      pageAccessToken: string
+      flowId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["page"]>
+    composites: {}
+  }
+
+  type PageGetPayload<S extends boolean | null | undefined | PageDefaultArgs> = $Result.GetResult<Prisma.$PagePayload, S>
+
+  type PageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PageCountAggregateInputType | true
+    }
+
+  export interface PageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Page'], meta: { name: 'Page' } }
+    /**
+     * Find zero or one Page that matches the filter.
+     * @param {PageFindUniqueArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PageFindUniqueArgs>(args: SelectSubset<T, PageFindUniqueArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Page that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PageFindUniqueOrThrowArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PageFindUniqueOrThrowArgs>(args: SelectSubset<T, PageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Page that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageFindFirstArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PageFindFirstArgs>(args?: SelectSubset<T, PageFindFirstArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Page that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageFindFirstOrThrowArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PageFindFirstOrThrowArgs>(args?: SelectSubset<T, PageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Pages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Pages
+     * const pages = await prisma.page.findMany()
+     * 
+     * // Get first 10 Pages
+     * const pages = await prisma.page.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pageWithIdOnly = await prisma.page.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PageFindManyArgs>(args?: SelectSubset<T, PageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Page.
+     * @param {PageCreateArgs} args - Arguments to create a Page.
+     * @example
+     * // Create one Page
+     * const Page = await prisma.page.create({
+     *   data: {
+     *     // ... data to create a Page
+     *   }
+     * })
+     * 
+     */
+    create<T extends PageCreateArgs>(args: SelectSubset<T, PageCreateArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Pages.
+     * @param {PageCreateManyArgs} args - Arguments to create many Pages.
+     * @example
+     * // Create many Pages
+     * const page = await prisma.page.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PageCreateManyArgs>(args?: SelectSubset<T, PageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Page.
+     * @param {PageDeleteArgs} args - Arguments to delete one Page.
+     * @example
+     * // Delete one Page
+     * const Page = await prisma.page.delete({
+     *   where: {
+     *     // ... filter to delete one Page
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PageDeleteArgs>(args: SelectSubset<T, PageDeleteArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Page.
+     * @param {PageUpdateArgs} args - Arguments to update one Page.
+     * @example
+     * // Update one Page
+     * const page = await prisma.page.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PageUpdateArgs>(args: SelectSubset<T, PageUpdateArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Pages.
+     * @param {PageDeleteManyArgs} args - Arguments to filter Pages to delete.
+     * @example
+     * // Delete a few Pages
+     * const { count } = await prisma.page.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PageDeleteManyArgs>(args?: SelectSubset<T, PageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Pages
+     * const page = await prisma.page.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PageUpdateManyArgs>(args: SelectSubset<T, PageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Page.
+     * @param {PageUpsertArgs} args - Arguments to update or create a Page.
+     * @example
+     * // Update or create a Page
+     * const page = await prisma.page.upsert({
+     *   create: {
+     *     // ... data to create a Page
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Page we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PageUpsertArgs>(args: SelectSubset<T, PageUpsertArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageCountArgs} args - Arguments to filter Pages to count.
+     * @example
+     * // Count the number of Pages
+     * const count = await prisma.page.count({
+     *   where: {
+     *     // ... the filter for the Pages we want to count
+     *   }
+     * })
+    **/
+    count<T extends PageCountArgs>(
+      args?: Subset<T, PageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Page.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PageAggregateArgs>(args: Subset<T, PageAggregateArgs>): Prisma.PrismaPromise<GetPageAggregateType<T>>
+
+    /**
+     * Group by Page.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PageGroupByArgs['orderBy'] }
+        : { orderBy?: PageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Page model
+   */
+  readonly fields: PageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Page.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    flow<T extends FlowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowDefaultArgs<ExtArgs>>): Prisma__FlowClient<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    flowRecords<T extends Page$flowRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Page$flowRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Page model
+   */
+  interface PageFieldRefs {
+    readonly id: FieldRef<"Page", 'String'>
+    readonly pageUid: FieldRef<"Page", 'String'>
+    readonly pageAccessToken: FieldRef<"Page", 'String'>
+    readonly flowId: FieldRef<"Page", 'String'>
+    readonly createdAt: FieldRef<"Page", 'DateTime'>
+    readonly updatedAt: FieldRef<"Page", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Page findUnique
+   */
+  export type PageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page findUniqueOrThrow
+   */
+  export type PageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page findFirst
+   */
+  export type PageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pages.
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pages.
+     */
+    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
+  }
+
+  /**
+   * Page findFirstOrThrow
+   */
+  export type PageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pages.
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pages.
+     */
+    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
+  }
+
+  /**
+   * Page findMany
+   */
+  export type PageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * Filter, which Pages to fetch.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Pages.
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
+  }
+
+  /**
+   * Page create
+   */
+  export type PageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Page.
+     */
+    data: XOR<PageCreateInput, PageUncheckedCreateInput>
+  }
+
+  /**
+   * Page createMany
+   */
+  export type PageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Pages.
+     */
+    data: PageCreateManyInput | PageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Page update
+   */
+  export type PageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Page.
+     */
+    data: XOR<PageUpdateInput, PageUncheckedUpdateInput>
+    /**
+     * Choose, which Page to update.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page updateMany
+   */
+  export type PageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Pages.
+     */
+    data: XOR<PageUpdateManyMutationInput, PageUncheckedUpdateManyInput>
+    /**
+     * Filter which Pages to update
+     */
+    where?: PageWhereInput
+    /**
+     * Limit how many Pages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Page upsert
+   */
+  export type PageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Page to update in case it exists.
+     */
+    where: PageWhereUniqueInput
+    /**
+     * In case the Page found by the `where` argument doesn't exist, create a new Page with this data.
+     */
+    create: XOR<PageCreateInput, PageUncheckedCreateInput>
+    /**
+     * In case the Page was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PageUpdateInput, PageUncheckedUpdateInput>
+  }
+
+  /**
+   * Page delete
+   */
+  export type PageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    /**
+     * Filter which Page to delete.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page deleteMany
+   */
+  export type PageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pages to delete
+     */
+    where?: PageWhereInput
+    /**
+     * Limit how many Pages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Page.flowRecords
+   */
+  export type Page$flowRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowRecord
+     */
+    select?: FlowRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowRecord
+     */
+    omit?: FlowRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowRecordInclude<ExtArgs> | null
+    where?: FlowRecordWhereInput
+    orderBy?: FlowRecordOrderByWithRelationInput | FlowRecordOrderByWithRelationInput[]
+    cursor?: FlowRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowRecordScalarFieldEnum | FlowRecordScalarFieldEnum[]
+  }
+
+  /**
+   * Page without action
+   */
+  export type PageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
   }
 
 
@@ -16746,6 +17831,7 @@ export namespace Prisma {
     waitingForVariable?: boolean
     expiresAt?: boolean
     flow?: boolean | FlowDefaultArgs<ExtArgs>
+    page?: boolean | PageDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["flowRecord"]>
 
 
@@ -16767,12 +17853,14 @@ export namespace Prisma {
   export type FlowRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "pageId" | "flowId" | "currentNodeId" | "variables" | "status" | "lastInteraction" | "errorLog" | "waitingForVariable" | "expiresAt", ExtArgs["result"]["flowRecord"]>
   export type FlowRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     flow?: boolean | FlowDefaultArgs<ExtArgs>
+    page?: boolean | PageDefaultArgs<ExtArgs>
   }
 
   export type $FlowRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FlowRecord"
     objects: {
       flow: Prisma.$FlowPayload<ExtArgs>
+      page: Prisma.$PagePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17127,6 +18215,7 @@ export namespace Prisma {
   export interface Prisma__FlowRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     flow<T extends FlowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowDefaultArgs<ExtArgs>>): Prisma__FlowClient<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    page<T extends PageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PageDefaultArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18476,8 +19565,6 @@ export namespace Prisma {
   export const FlowScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    pageId: 'pageId',
-    pageAccessToken: 'pageAccessToken',
     name: 'name',
     status: 'status',
     logicJson: 'logicJson',
@@ -18490,6 +19577,18 @@ export namespace Prisma {
   };
 
   export type FlowScalarFieldEnum = (typeof FlowScalarFieldEnum)[keyof typeof FlowScalarFieldEnum]
+
+
+  export const PageScalarFieldEnum: {
+    id: 'id',
+    pageUid: 'pageUid',
+    pageAccessToken: 'pageAccessToken',
+    flowId: 'flowId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PageScalarFieldEnum = (typeof PageScalarFieldEnum)[keyof typeof PageScalarFieldEnum]
 
 
   export const FlowShareScalarFieldEnum: {
@@ -18734,14 +19833,22 @@ export namespace Prisma {
   export const FlowOrderByRelevanceFieldEnum: {
     id: 'id',
     userId: 'userId',
-    pageId: 'pageId',
-    pageAccessToken: 'pageAccessToken',
     name: 'name',
     timeoutDuration: 'timeoutDuration',
     startNodeId: 'startNodeId'
   };
 
   export type FlowOrderByRelevanceFieldEnum = (typeof FlowOrderByRelevanceFieldEnum)[keyof typeof FlowOrderByRelevanceFieldEnum]
+
+
+  export const PageOrderByRelevanceFieldEnum: {
+    id: 'id',
+    pageUid: 'pageUid',
+    pageAccessToken: 'pageAccessToken',
+    flowId: 'flowId'
+  };
+
+  export type PageOrderByRelevanceFieldEnum = (typeof PageOrderByRelevanceFieldEnum)[keyof typeof PageOrderByRelevanceFieldEnum]
 
 
   export const FlowShareOrderByRelevanceFieldEnum: {
@@ -19230,8 +20337,6 @@ export namespace Prisma {
     NOT?: FlowWhereInput | FlowWhereInput[]
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
-    pageId?: StringNullableFilter<"Flow"> | string | null
-    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableFilter<"Flow">
@@ -19244,13 +20349,12 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     shares?: FlowShareListRelationFilter
     flowRecords?: FlowRecordListRelationFilter
+    page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
   }
 
   export type FlowOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    pageId?: SortOrderInput | SortOrder
-    pageAccessToken?: SortOrderInput | SortOrder
     name?: SortOrder
     status?: SortOrder
     logicJson?: SortOrderInput | SortOrder
@@ -19263,6 +20367,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     shares?: FlowShareOrderByRelationAggregateInput
     flowRecords?: FlowRecordOrderByRelationAggregateInput
+    page?: PageOrderByWithRelationInput
     _relevance?: FlowOrderByRelevanceInput
   }
 
@@ -19273,8 +20378,6 @@ export namespace Prisma {
     OR?: FlowWhereInput[]
     NOT?: FlowWhereInput | FlowWhereInput[]
     userId?: StringFilter<"Flow"> | string
-    pageId?: StringNullableFilter<"Flow"> | string | null
-    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableFilter<"Flow">
@@ -19287,13 +20390,12 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     shares?: FlowShareListRelationFilter
     flowRecords?: FlowRecordListRelationFilter
+    page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
   }, "id" | "userId_name">
 
   export type FlowOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    pageId?: SortOrderInput | SortOrder
-    pageAccessToken?: SortOrderInput | SortOrder
     name?: SortOrder
     status?: SortOrder
     logicJson?: SortOrderInput | SortOrder
@@ -19314,8 +20416,6 @@ export namespace Prisma {
     NOT?: FlowScalarWhereWithAggregatesInput | FlowScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Flow"> | string
     userId?: StringWithAggregatesFilter<"Flow"> | string
-    pageId?: StringNullableWithAggregatesFilter<"Flow"> | string | null
-    pageAccessToken?: StringNullableWithAggregatesFilter<"Flow"> | string | null
     name?: StringWithAggregatesFilter<"Flow"> | string
     status?: EnumFlowStatusWithAggregatesFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableWithAggregatesFilter<"Flow">
@@ -19325,6 +20425,70 @@ export namespace Prisma {
     timeoutJson?: JsonNullableWithAggregatesFilter<"Flow">
     createdAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Flow"> | Date | string
+  }
+
+  export type PageWhereInput = {
+    AND?: PageWhereInput | PageWhereInput[]
+    OR?: PageWhereInput[]
+    NOT?: PageWhereInput | PageWhereInput[]
+    id?: StringFilter<"Page"> | string
+    pageUid?: StringFilter<"Page"> | string
+    pageAccessToken?: StringFilter<"Page"> | string
+    flowId?: StringFilter<"Page"> | string
+    createdAt?: DateTimeFilter<"Page"> | Date | string
+    updatedAt?: DateTimeFilter<"Page"> | Date | string
+    flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
+    flowRecords?: FlowRecordListRelationFilter
+  }
+
+  export type PageOrderByWithRelationInput = {
+    id?: SortOrder
+    pageUid?: SortOrder
+    pageAccessToken?: SortOrder
+    flowId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    flow?: FlowOrderByWithRelationInput
+    flowRecords?: FlowRecordOrderByRelationAggregateInput
+    _relevance?: PageOrderByRelevanceInput
+  }
+
+  export type PageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pageUid?: string
+    flowId?: string
+    AND?: PageWhereInput | PageWhereInput[]
+    OR?: PageWhereInput[]
+    NOT?: PageWhereInput | PageWhereInput[]
+    pageAccessToken?: StringFilter<"Page"> | string
+    createdAt?: DateTimeFilter<"Page"> | Date | string
+    updatedAt?: DateTimeFilter<"Page"> | Date | string
+    flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
+    flowRecords?: FlowRecordListRelationFilter
+  }, "id" | "pageUid" | "flowId">
+
+  export type PageOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageUid?: SortOrder
+    pageAccessToken?: SortOrder
+    flowId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PageCountOrderByAggregateInput
+    _max?: PageMaxOrderByAggregateInput
+    _min?: PageMinOrderByAggregateInput
+  }
+
+  export type PageScalarWhereWithAggregatesInput = {
+    AND?: PageScalarWhereWithAggregatesInput | PageScalarWhereWithAggregatesInput[]
+    OR?: PageScalarWhereWithAggregatesInput[]
+    NOT?: PageScalarWhereWithAggregatesInput | PageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Page"> | string
+    pageUid?: StringWithAggregatesFilter<"Page"> | string
+    pageAccessToken?: StringWithAggregatesFilter<"Page"> | string
+    flowId?: StringWithAggregatesFilter<"Page"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
   }
 
   export type FlowShareWhereInput = {
@@ -20039,6 +21203,7 @@ export namespace Prisma {
     waitingForVariable?: JsonNullableFilter<"FlowRecord">
     expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }
 
   export type FlowRecordOrderByWithRelationInput = {
@@ -20054,6 +21219,7 @@ export namespace Prisma {
     waitingForVariable?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
     flow?: FlowOrderByWithRelationInput
+    page?: PageOrderByWithRelationInput
     _relevance?: FlowRecordOrderByRelevanceInput
   }
 
@@ -20073,6 +21239,7 @@ export namespace Prisma {
     waitingForVariable?: JsonNullableFilter<"FlowRecord">
     expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }, "id">
 
   export type FlowRecordOrderByWithAggregationInput = {
@@ -20442,8 +21609,6 @@ export namespace Prisma {
 
   export type FlowCreateInput = {
     id?: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20456,13 +21621,12 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
+    page?: PageCreateNestedOneWithoutFlowInput
   }
 
   export type FlowUncheckedCreateInput = {
     id?: string
     userId: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20474,12 +21638,11 @@ export namespace Prisma {
     updatedAt?: Date | string
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
+    page?: PageUncheckedCreateNestedOneWithoutFlowInput
   }
 
   export type FlowUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20492,13 +21655,12 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
+    page?: PageUpdateOneWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20510,13 +21672,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
+    page?: PageUncheckedUpdateOneWithoutFlowNestedInput
   }
 
   export type FlowCreateManyInput = {
     id?: string
     userId: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20530,8 +21691,6 @@ export namespace Prisma {
 
   export type FlowUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20546,8 +21705,6 @@ export namespace Prisma {
   export type FlowUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -20555,6 +21712,72 @@ export namespace Prisma {
     timeoutDuration?: StringFieldUpdateOperationsInput | string
     startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
     timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PageCreateInput = {
+    id?: string
+    pageUid: string
+    pageAccessToken: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flow: FlowCreateNestedOneWithoutPageInput
+    flowRecords?: FlowRecordCreateNestedManyWithoutPageInput
+  }
+
+  export type PageUncheckedCreateInput = {
+    id?: string
+    pageUid: string
+    pageAccessToken: string
+    flowId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type PageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flow?: FlowUpdateOneRequiredWithoutPageNestedInput
+    flowRecords?: FlowRecordUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowRecords?: FlowRecordUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageCreateManyInput = {
+    id?: string
+    pageUid: string
+    pageAccessToken: string
+    flowId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21267,7 +22490,6 @@ export namespace Prisma {
   export type FlowRecordCreateInput = {
     id?: string
     senderId: string
-    pageId: string
     currentNodeId: string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
@@ -21276,6 +22498,7 @@ export namespace Prisma {
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: Date | string | null
     flow: FlowCreateNestedOneWithoutFlowRecordsInput
+    page: PageCreateNestedOneWithoutFlowRecordsInput
   }
 
   export type FlowRecordUncheckedCreateInput = {
@@ -21295,7 +22518,6 @@ export namespace Prisma {
   export type FlowRecordUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
@@ -21304,6 +22526,7 @@ export namespace Prisma {
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
+    page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
   export type FlowRecordUncheckedUpdateInput = {
@@ -21337,7 +22560,6 @@ export namespace Prisma {
   export type FlowRecordUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
@@ -21842,6 +23064,11 @@ export namespace Prisma {
     none?: FlowRecordWhereInput
   }
 
+  export type PageNullableScalarRelationFilter = {
+    is?: PageWhereInput | null
+    isNot?: PageWhereInput | null
+  }
+
   export type FlowRecordOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -21860,8 +23087,6 @@ export namespace Prisma {
   export type FlowCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    pageId?: SortOrder
-    pageAccessToken?: SortOrder
     name?: SortOrder
     status?: SortOrder
     logicJson?: SortOrder
@@ -21876,8 +23101,6 @@ export namespace Prisma {
   export type FlowMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    pageId?: SortOrder
-    pageAccessToken?: SortOrder
     name?: SortOrder
     status?: SortOrder
     timeoutDuration?: SortOrder
@@ -21889,8 +23112,6 @@ export namespace Prisma {
   export type FlowMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    pageId?: SortOrder
-    pageAccessToken?: SortOrder
     name?: SortOrder
     status?: SortOrder
     timeoutDuration?: SortOrder
@@ -21935,16 +23156,49 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type FlowScalarRelationFilter = {
+    is?: FlowWhereInput
+    isNot?: FlowWhereInput
+  }
+
+  export type PageOrderByRelevanceInput = {
+    fields: PageOrderByRelevanceFieldEnum | PageOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PageCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageUid?: SortOrder
+    pageAccessToken?: SortOrder
+    flowId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageUid?: SortOrder
+    pageAccessToken?: SortOrder
+    flowId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PageMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageUid?: SortOrder
+    pageAccessToken?: SortOrder
+    flowId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type EnumFlowShareStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FlowShareStatus | EnumFlowShareStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FlowShareStatus[]
     notIn?: $Enums.FlowShareStatus[]
     not?: NestedEnumFlowShareStatusFilter<$PrismaModel> | $Enums.FlowShareStatus
-  }
-
-  export type FlowScalarRelationFilter = {
-    is?: FlowWhereInput
-    isNot?: FlowWhereInput
   }
 
   export type FlowShareOrderByRelevanceInput = {
@@ -22428,6 +23682,11 @@ export namespace Prisma {
     in?: $Enums.FlowRecordStatus[]
     notIn?: $Enums.FlowRecordStatus[]
     not?: NestedEnumFlowRecordStatusFilter<$PrismaModel> | $Enums.FlowRecordStatus
+  }
+
+  export type PageScalarRelationFilter = {
+    is?: PageWhereInput
+    isNot?: PageWhereInput
   }
 
   export type FlowRecordOrderByRelevanceInput = {
@@ -23105,6 +24364,12 @@ export namespace Prisma {
     connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
   }
 
+  export type PageCreateNestedOneWithoutFlowInput = {
+    create?: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
+    connectOrCreate?: PageCreateOrConnectWithoutFlowInput
+    connect?: PageWhereUniqueInput
+  }
+
   export type FlowShareUncheckedCreateNestedManyWithoutFlowInput = {
     create?: XOR<FlowShareCreateWithoutFlowInput, FlowShareUncheckedCreateWithoutFlowInput> | FlowShareCreateWithoutFlowInput[] | FlowShareUncheckedCreateWithoutFlowInput[]
     connectOrCreate?: FlowShareCreateOrConnectWithoutFlowInput | FlowShareCreateOrConnectWithoutFlowInput[]
@@ -23117,6 +24382,12 @@ export namespace Prisma {
     connectOrCreate?: FlowRecordCreateOrConnectWithoutFlowInput | FlowRecordCreateOrConnectWithoutFlowInput[]
     createMany?: FlowRecordCreateManyFlowInputEnvelope
     connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+  }
+
+  export type PageUncheckedCreateNestedOneWithoutFlowInput = {
+    create?: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
+    connectOrCreate?: PageCreateOrConnectWithoutFlowInput
+    connect?: PageWhereUniqueInput
   }
 
   export type EnumFlowStatusFieldUpdateOperationsInput = {
@@ -23159,6 +24430,16 @@ export namespace Prisma {
     deleteMany?: FlowRecordScalarWhereInput | FlowRecordScalarWhereInput[]
   }
 
+  export type PageUpdateOneWithoutFlowNestedInput = {
+    create?: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
+    connectOrCreate?: PageCreateOrConnectWithoutFlowInput
+    upsert?: PageUpsertWithoutFlowInput
+    disconnect?: PageWhereInput | boolean
+    delete?: PageWhereInput | boolean
+    connect?: PageWhereUniqueInput
+    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowInput, PageUpdateWithoutFlowInput>, PageUncheckedUpdateWithoutFlowInput>
+  }
+
   export type FlowShareUncheckedUpdateManyWithoutFlowNestedInput = {
     create?: XOR<FlowShareCreateWithoutFlowInput, FlowShareUncheckedCreateWithoutFlowInput> | FlowShareCreateWithoutFlowInput[] | FlowShareUncheckedCreateWithoutFlowInput[]
     connectOrCreate?: FlowShareCreateOrConnectWithoutFlowInput | FlowShareCreateOrConnectWithoutFlowInput[]
@@ -23184,6 +24465,72 @@ export namespace Prisma {
     connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
     update?: FlowRecordUpdateWithWhereUniqueWithoutFlowInput | FlowRecordUpdateWithWhereUniqueWithoutFlowInput[]
     updateMany?: FlowRecordUpdateManyWithWhereWithoutFlowInput | FlowRecordUpdateManyWithWhereWithoutFlowInput[]
+    deleteMany?: FlowRecordScalarWhereInput | FlowRecordScalarWhereInput[]
+  }
+
+  export type PageUncheckedUpdateOneWithoutFlowNestedInput = {
+    create?: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
+    connectOrCreate?: PageCreateOrConnectWithoutFlowInput
+    upsert?: PageUpsertWithoutFlowInput
+    disconnect?: PageWhereInput | boolean
+    delete?: PageWhereInput | boolean
+    connect?: PageWhereUniqueInput
+    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowInput, PageUpdateWithoutFlowInput>, PageUncheckedUpdateWithoutFlowInput>
+  }
+
+  export type FlowCreateNestedOneWithoutPageInput = {
+    create?: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput>
+    connectOrCreate?: FlowCreateOrConnectWithoutPageInput
+    connect?: FlowWhereUniqueInput
+  }
+
+  export type FlowRecordCreateNestedManyWithoutPageInput = {
+    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
+    createMany?: FlowRecordCreateManyPageInputEnvelope
+    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+  }
+
+  export type FlowRecordUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
+    createMany?: FlowRecordCreateManyPageInputEnvelope
+    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+  }
+
+  export type FlowUpdateOneRequiredWithoutPageNestedInput = {
+    create?: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput>
+    connectOrCreate?: FlowCreateOrConnectWithoutPageInput
+    upsert?: FlowUpsertWithoutPageInput
+    connect?: FlowWhereUniqueInput
+    update?: XOR<XOR<FlowUpdateToOneWithWhereWithoutPageInput, FlowUpdateWithoutPageInput>, FlowUncheckedUpdateWithoutPageInput>
+  }
+
+  export type FlowRecordUpdateManyWithoutPageNestedInput = {
+    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
+    upsert?: FlowRecordUpsertWithWhereUniqueWithoutPageInput | FlowRecordUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: FlowRecordCreateManyPageInputEnvelope
+    set?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    disconnect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    delete?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    update?: FlowRecordUpdateWithWhereUniqueWithoutPageInput | FlowRecordUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: FlowRecordUpdateManyWithWhereWithoutPageInput | FlowRecordUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: FlowRecordScalarWhereInput | FlowRecordScalarWhereInput[]
+  }
+
+  export type FlowRecordUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput> | FlowRecordCreateWithoutPageInput[] | FlowRecordUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: FlowRecordCreateOrConnectWithoutPageInput | FlowRecordCreateOrConnectWithoutPageInput[]
+    upsert?: FlowRecordUpsertWithWhereUniqueWithoutPageInput | FlowRecordUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: FlowRecordCreateManyPageInputEnvelope
+    set?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    disconnect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    delete?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    connect?: FlowRecordWhereUniqueInput | FlowRecordWhereUniqueInput[]
+    update?: FlowRecordUpdateWithWhereUniqueWithoutPageInput | FlowRecordUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: FlowRecordUpdateManyWithWhereWithoutPageInput | FlowRecordUpdateManyWithWhereWithoutPageInput[]
     deleteMany?: FlowRecordScalarWhereInput | FlowRecordScalarWhereInput[]
   }
 
@@ -23735,6 +25082,12 @@ export namespace Prisma {
     connect?: FlowWhereUniqueInput
   }
 
+  export type PageCreateNestedOneWithoutFlowRecordsInput = {
+    create?: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutFlowRecordsInput
+    connect?: PageWhereUniqueInput
+  }
+
   export type EnumFlowRecordStatusFieldUpdateOperationsInput = {
     set?: $Enums.FlowRecordStatus
   }
@@ -23745,6 +25098,14 @@ export namespace Prisma {
     upsert?: FlowUpsertWithoutFlowRecordsInput
     connect?: FlowWhereUniqueInput
     update?: XOR<XOR<FlowUpdateToOneWithWhereWithoutFlowRecordsInput, FlowUpdateWithoutFlowRecordsInput>, FlowUncheckedUpdateWithoutFlowRecordsInput>
+  }
+
+  export type PageUpdateOneRequiredWithoutFlowRecordsNestedInput = {
+    create?: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutFlowRecordsInput
+    upsert?: PageUpsertWithoutFlowRecordsInput
+    connect?: PageWhereUniqueInput
+    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowRecordsInput, PageUpdateWithoutFlowRecordsInput>, PageUncheckedUpdateWithoutFlowRecordsInput>
   }
 
   export type EnumQueueStatusFieldUpdateOperationsInput = {
@@ -24103,8 +25464,6 @@ export namespace Prisma {
 
   export type FlowCreateWithoutUserInput = {
     id?: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -24116,12 +25475,11 @@ export namespace Prisma {
     updatedAt?: Date | string
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
+    page?: PageCreateNestedOneWithoutFlowInput
   }
 
   export type FlowUncheckedCreateWithoutUserInput = {
     id?: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -24133,6 +25491,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
+    page?: PageUncheckedCreateNestedOneWithoutFlowInput
   }
 
   export type FlowCreateOrConnectWithoutUserInput = {
@@ -24450,8 +25809,6 @@ export namespace Prisma {
     NOT?: FlowScalarWhereInput | FlowScalarWhereInput[]
     id?: StringFilter<"Flow"> | string
     userId?: StringFilter<"Flow"> | string
-    pageId?: StringNullableFilter<"Flow"> | string | null
-    pageAccessToken?: StringNullableFilter<"Flow"> | string | null
     name?: StringFilter<"Flow"> | string
     status?: EnumFlowStatusFilter<"Flow"> | $Enums.FlowStatus
     logicJson?: JsonNullableFilter<"Flow">
@@ -25073,7 +26430,6 @@ export namespace Prisma {
   export type FlowRecordCreateWithoutFlowInput = {
     id?: string
     senderId: string
-    pageId: string
     currentNodeId: string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.FlowRecordStatus
@@ -25081,6 +26437,7 @@ export namespace Prisma {
     errorLog?: string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: Date | string | null
+    page: PageCreateNestedOneWithoutFlowRecordsInput
   }
 
   export type FlowRecordUncheckedCreateWithoutFlowInput = {
@@ -25104,6 +26461,29 @@ export namespace Prisma {
   export type FlowRecordCreateManyFlowInputEnvelope = {
     data: FlowRecordCreateManyFlowInput | FlowRecordCreateManyFlowInput[]
     skipDuplicates?: boolean
+  }
+
+  export type PageCreateWithoutFlowInput = {
+    id?: string
+    pageUid: string
+    pageAccessToken: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flowRecords?: FlowRecordCreateNestedManyWithoutPageInput
+  }
+
+  export type PageUncheckedCreateWithoutFlowInput = {
+    id?: string
+    pageUid: string
+    pageAccessToken: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type PageCreateOrConnectWithoutFlowInput = {
+    where: PageWhereUniqueInput
+    create: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
   }
 
   export type UserUpsertWithoutFlowsInput = {
@@ -25214,10 +26594,169 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"FlowRecord"> | Date | string | null
   }
 
+  export type PageUpsertWithoutFlowInput = {
+    update: XOR<PageUpdateWithoutFlowInput, PageUncheckedUpdateWithoutFlowInput>
+    create: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
+    where?: PageWhereInput
+  }
+
+  export type PageUpdateToOneWithWhereWithoutFlowInput = {
+    where?: PageWhereInput
+    data: XOR<PageUpdateWithoutFlowInput, PageUncheckedUpdateWithoutFlowInput>
+  }
+
+  export type PageUpdateWithoutFlowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowRecords?: FlowRecordUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageUncheckedUpdateWithoutFlowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowRecords?: FlowRecordUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type FlowCreateWithoutPageInput = {
+    id?: string
+    name: string
+    status?: $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: string
+    startNodeId?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFlowsInput
+    shares?: FlowShareCreateNestedManyWithoutFlowInput
+    flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
+  }
+
+  export type FlowUncheckedCreateWithoutPageInput = {
+    id?: string
+    userId: string
+    name: string
+    status?: $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: string
+    startNodeId?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
+    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
+  }
+
+  export type FlowCreateOrConnectWithoutPageInput = {
+    where: FlowWhereUniqueInput
+    create: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput>
+  }
+
+  export type FlowRecordCreateWithoutPageInput = {
+    id?: string
+    senderId: string
+    currentNodeId: string
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.FlowRecordStatus
+    lastInteraction?: Date | string
+    errorLog?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+    flow: FlowCreateNestedOneWithoutFlowRecordsInput
+  }
+
+  export type FlowRecordUncheckedCreateWithoutPageInput = {
+    id?: string
+    senderId: string
+    flowId: string
+    currentNodeId: string
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.FlowRecordStatus
+    lastInteraction?: Date | string
+    errorLog?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+  }
+
+  export type FlowRecordCreateOrConnectWithoutPageInput = {
+    where: FlowRecordWhereUniqueInput
+    create: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput>
+  }
+
+  export type FlowRecordCreateManyPageInputEnvelope = {
+    data: FlowRecordCreateManyPageInput | FlowRecordCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FlowUpsertWithoutPageInput = {
+    update: XOR<FlowUpdateWithoutPageInput, FlowUncheckedUpdateWithoutPageInput>
+    create: XOR<FlowCreateWithoutPageInput, FlowUncheckedCreateWithoutPageInput>
+    where?: FlowWhereInput
+  }
+
+  export type FlowUpdateToOneWithWhereWithoutPageInput = {
+    where?: FlowWhereInput
+    data: XOR<FlowUpdateWithoutPageInput, FlowUncheckedUpdateWithoutPageInput>
+  }
+
+  export type FlowUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: StringFieldUpdateOperationsInput | string
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFlowsNestedInput
+    shares?: FlowShareUpdateManyWithoutFlowNestedInput
+    flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
+  }
+
+  export type FlowUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: StringFieldUpdateOperationsInput | string
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
+    flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
+  }
+
+  export type FlowRecordUpsertWithWhereUniqueWithoutPageInput = {
+    where: FlowRecordWhereUniqueInput
+    update: XOR<FlowRecordUpdateWithoutPageInput, FlowRecordUncheckedUpdateWithoutPageInput>
+    create: XOR<FlowRecordCreateWithoutPageInput, FlowRecordUncheckedCreateWithoutPageInput>
+  }
+
+  export type FlowRecordUpdateWithWhereUniqueWithoutPageInput = {
+    where: FlowRecordWhereUniqueInput
+    data: XOR<FlowRecordUpdateWithoutPageInput, FlowRecordUncheckedUpdateWithoutPageInput>
+  }
+
+  export type FlowRecordUpdateManyWithWhereWithoutPageInput = {
+    where: FlowRecordScalarWhereInput
+    data: XOR<FlowRecordUpdateManyMutationInput, FlowRecordUncheckedUpdateManyWithoutPageInput>
+  }
+
   export type FlowCreateWithoutSharesInput = {
     id?: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -25229,13 +26768,12 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
+    page?: PageCreateNestedOneWithoutFlowInput
   }
 
   export type FlowUncheckedCreateWithoutSharesInput = {
     id?: string
     userId: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -25246,6 +26784,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
+    page?: PageUncheckedCreateNestedOneWithoutFlowInput
   }
 
   export type FlowCreateOrConnectWithoutSharesInput = {
@@ -25415,8 +26954,6 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -25428,13 +26965,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
+    page?: PageUpdateOneWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -25445,6 +26981,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
+    page?: PageUncheckedUpdateOneWithoutFlowNestedInput
   }
 
   export type UserUpsertWithoutFlowSharesInput = {
@@ -26993,8 +28530,6 @@ export namespace Prisma {
 
   export type FlowCreateWithoutFlowRecordsInput = {
     id?: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27006,13 +28541,12 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
+    page?: PageCreateNestedOneWithoutFlowInput
   }
 
   export type FlowUncheckedCreateWithoutFlowRecordsInput = {
     id?: string
     userId: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27023,11 +28557,35 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
+    page?: PageUncheckedCreateNestedOneWithoutFlowInput
   }
 
   export type FlowCreateOrConnectWithoutFlowRecordsInput = {
     where: FlowWhereUniqueInput
     create: XOR<FlowCreateWithoutFlowRecordsInput, FlowUncheckedCreateWithoutFlowRecordsInput>
+  }
+
+  export type PageCreateWithoutFlowRecordsInput = {
+    id?: string
+    pageUid: string
+    pageAccessToken: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flow: FlowCreateNestedOneWithoutPageInput
+  }
+
+  export type PageUncheckedCreateWithoutFlowRecordsInput = {
+    id?: string
+    pageUid: string
+    pageAccessToken: string
+    flowId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PageCreateOrConnectWithoutFlowRecordsInput = {
+    where: PageWhereUniqueInput
+    create: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
   }
 
   export type FlowUpsertWithoutFlowRecordsInput = {
@@ -27043,8 +28601,6 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutFlowRecordsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27056,13 +28612,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
+    page?: PageUpdateOneWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutFlowRecordsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27073,12 +28628,40 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
+    page?: PageUncheckedUpdateOneWithoutFlowNestedInput
+  }
+
+  export type PageUpsertWithoutFlowRecordsInput = {
+    update: XOR<PageUpdateWithoutFlowRecordsInput, PageUncheckedUpdateWithoutFlowRecordsInput>
+    create: XOR<PageCreateWithoutFlowRecordsInput, PageUncheckedCreateWithoutFlowRecordsInput>
+    where?: PageWhereInput
+  }
+
+  export type PageUpdateToOneWithWhereWithoutFlowRecordsInput = {
+    where?: PageWhereInput
+    data: XOR<PageUpdateWithoutFlowRecordsInput, PageUncheckedUpdateWithoutFlowRecordsInput>
+  }
+
+  export type PageUpdateWithoutFlowRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flow?: FlowUpdateOneRequiredWithoutPageNestedInput
+  }
+
+  export type PageUncheckedUpdateWithoutFlowRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageUid?: StringFieldUpdateOperationsInput | string
+    pageAccessToken?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FlowCreateManyUserInput = {
     id?: string
-    pageId?: string | null
-    pageAccessToken?: string | null
     name: string
     status?: $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27171,8 +28754,6 @@ export namespace Prisma {
 
   export type FlowUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27184,12 +28765,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
+    page?: PageUpdateOneWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27201,12 +28781,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
+    page?: PageUncheckedUpdateOneWithoutFlowNestedInput
   }
 
   export type FlowUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    pageId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
     logicJson?: NullableJsonNullValueInput | InputJsonValue
@@ -27539,7 +29118,6 @@ export namespace Prisma {
   export type FlowRecordUpdateWithoutFlowInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
@@ -27547,6 +29125,7 @@ export namespace Prisma {
     errorLog?: NullableStringFieldUpdateOperationsInput | string | null
     waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    page?: PageUpdateOneRequiredWithoutFlowRecordsNestedInput
   }
 
   export type FlowRecordUncheckedUpdateWithoutFlowInput = {
@@ -27566,6 +29145,58 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     pageId?: StringFieldUpdateOperationsInput | string
+    currentNodeId?: StringFieldUpdateOperationsInput | string
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
+    lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
+    errorLog?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FlowRecordCreateManyPageInput = {
+    id?: string
+    senderId: string
+    flowId: string
+    currentNodeId: string
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.FlowRecordStatus
+    lastInteraction?: Date | string
+    errorLog?: string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+  }
+
+  export type FlowRecordUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    currentNodeId?: StringFieldUpdateOperationsInput | string
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
+    lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
+    errorLog?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flow?: FlowUpdateOneRequiredWithoutFlowRecordsNestedInput
+  }
+
+  export type FlowRecordUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
+    currentNodeId?: StringFieldUpdateOperationsInput | string
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
+    lastInteraction?: DateTimeFieldUpdateOperationsInput | Date | string
+    errorLog?: NullableStringFieldUpdateOperationsInput | string | null
+    waitingForVariable?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FlowRecordUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
     currentNodeId?: StringFieldUpdateOperationsInput | string
     variables?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumFlowRecordStatusFieldUpdateOperationsInput | $Enums.FlowRecordStatus
