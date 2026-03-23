@@ -3,6 +3,7 @@ import { PostbackButton } from '~/types/flows/base.type';
 
 export interface CollectionField {
     text: string;
+    buttons?: PostbackButton[];
     variable: {
         key: string;
         regex?: string;
@@ -12,7 +13,6 @@ export interface CollectionField {
         timeout: DelayField;
         message: string;
     };
-    buttons?: PostbackButton[];
 }
 
 export type WaitingVariable = {

@@ -98,7 +98,7 @@ model Flow {
 
 model Page {
     id              String @id @default(uuid()) @map("id")
-    pageUid         String @unique @map("page_uid")
+    pageUid         String @map("page_uid")
     pageAccessToken String @map("page_access_token") @db.Text
     flowId          String @unique @map("flow_id")
     flow            Flow   @relation(fields: [flowId], references: [id], onDelete: Cascade)

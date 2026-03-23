@@ -20455,17 +20455,17 @@ export namespace Prisma {
 
   export type PageWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    pageUid?: string
     flowId?: string
     AND?: PageWhereInput | PageWhereInput[]
     OR?: PageWhereInput[]
     NOT?: PageWhereInput | PageWhereInput[]
+    pageUid?: StringFilter<"Page"> | string
     pageAccessToken?: StringFilter<"Page"> | string
     createdAt?: DateTimeFilter<"Page"> | Date | string
     updatedAt?: DateTimeFilter<"Page"> | Date | string
     flow?: XOR<FlowScalarRelationFilter, FlowWhereInput>
     flowRecords?: FlowRecordListRelationFilter
-  }, "id" | "pageUid" | "flowId">
+  }, "id" | "flowId">
 
   export type PageOrderByWithAggregationInput = {
     id?: SortOrder

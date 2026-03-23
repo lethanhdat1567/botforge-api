@@ -31,7 +31,13 @@ class FlowService {
                     name: true,
                     status: true,
                     createdAt: true,
-                    updatedAt: true
+                    updatedAt: true,
+                    page: {
+                        select: {
+                            id: true,
+                            pageUid: true
+                        }
+                    }
                 },
                 where: {
                     userId: userId,
@@ -46,8 +52,13 @@ class FlowService {
             })
             .withPages(getPaginationOptions(query));
 
+        const flowsWithConnectStatus = flows.map((flow) => ({
+            ...flow,
+            isConnected: !!flow.page
+        }));
+
         return {
-            flows,
+            flows: flowsWithConnectStatus,
             meta
         };
     }
