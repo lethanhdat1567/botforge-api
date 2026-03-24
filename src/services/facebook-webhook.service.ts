@@ -20,7 +20,6 @@ class FacebookWebhookService {
             }
         }
 
-        // ! Chạy task
         console.log('Tasks running: ', tasks);
         await Promise.all(tasks);
     }
@@ -48,6 +47,7 @@ class FacebookWebhookService {
         if (exitFlowRecord) {
             if (exitFlowRecord.status === 'running' || exitFlowRecord.status === 'processing') return;
             if (exitFlowRecord.status === 'pending') {
+                const flowPageId = exitFlowRecord?.flow?.page?.id || '';
                 await flowRecordService.setProcessing(exitFlowRecord.id);
                 const waitingVariables = await flowRecordService.getWaitingVariable(exitFlowRecord.id);
 
@@ -58,7 +58,7 @@ class FacebookWebhookService {
                 const isExpired = isFlowExpired(exitFlowRecord.expiresAt);
 
                 if (isExpired) {
-                    await facebookSenderService.sendTextMessage(exitFlowRecord.id, exitFlowRecord.pageId, senderId, {
+                    await facebookSenderService.sendTextMessage(exitFlowRecord.id, flowPageId, senderId, {
                         text: waitingVariables.fallback.message
                     });
                     return await flowRecordService.setCancel(exitFlowRecord.id);
@@ -85,13 +85,13 @@ class FacebookWebhookService {
 
                     return await flowExecutorService.runFlow(
                         exitFlowRecord.id,
-                        exitFlowRecord.pageId,
+                        pageUid,
                         senderId,
                         currentNode.next,
                         currentFlow.logicJson as any
                     );
                 } else {
-                    await facebookSenderService.sendTextMessage(exitFlowRecord.id, exitFlowRecord.pageId, senderId, {
+                    await facebookSenderService.sendTextMessage(exitFlowRecord.id, flowPageId, senderId, {
                         text: waitingVariables.variable.regexMessage || ''
                     });
                     const currentFlow = await flowService.findById(exitFlowRecord.flowId);
@@ -109,7 +109,7 @@ class FacebookWebhookService {
 
                     return await flowExecutorService.runFlow(
                         exitFlowRecord.id,
-                        exitFlowRecord.pageId,
+                        pageUid,
                         senderId,
                         currentNode.id as string,
                         currentFlow.logicJson as any
@@ -121,8 +121,14 @@ class FacebookWebhookService {
         // * New flow
         else {
             const flow = await flowService.findActiveByPageUid(pageUid);
+            const flowPageId = flow?.page?.id;
             if (!flow) {
                 console.log('Flow not found with pageId: ', pageUid);
+                return;
+            }
+
+            if (!flowPageId) {
+                console.log('Page Id not found with pageUid: ', pageUid);
                 return;
             }
 
@@ -134,13 +140,12 @@ class FacebookWebhookService {
             const newFlowRecord = await flowRecordService.create({
                 currentNodeId: flow.startNodeId,
                 flowId: flow.id,
-                pageId: flow.pageId as string,
                 senderId: senderId
             });
 
             return await flowExecutorService.runFlow(
                 newFlowRecord.id,
-                newFlowRecord.pageId,
+                flowPageId,
                 senderId,
                 newFlowRecord.currentNodeId,
                 flow.logicJson as any
@@ -150,6 +155,11 @@ class FacebookWebhookService {
 
     private async handlePostback(pageUid: string, senderId: string, postback: any) {
         const buttonPayload = JSON.parse(postback.payload);
+        const { key, value } = buttonPayload;
+
+        if (key && value) {
+            await flowRecordService.setVariable(buttonPayload.flowRecordId, key, value);
+        }
 
         const flowRecord = await flowRecordService.findById(buttonPayload.flowRecordId);
 
@@ -165,7 +175,7 @@ class FacebookWebhookService {
 
         return await flowExecutorService.runFlow(
             flowRecord.id,
-            flowRecord.pageId,
+            flow?.page?.id || '',
             flowRecord.senderId,
             buttonPayload.next,
             logicJsonObj

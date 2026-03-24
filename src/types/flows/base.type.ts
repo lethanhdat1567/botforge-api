@@ -4,12 +4,23 @@ export type MessagePayloadType = 'text' | 'video' | 'image' | 'audio' | 'media_t
 
 export type ActionPayloadType = 'delay' | 'set_variable' | 'condition';
 
-export type AnyButton = UrlButton | PostbackButton;
+export type AnyButton = UrlButton | PostbackButton | ContinueButton;
+
+export interface ContinueButton {
+    type: 'continue';
+    title: 'Tiếp tục';
+    payload: {
+        flowRecordId: string;
+        next?: string;
+    };
+}
 
 export interface UrlButton {
     type: 'web_url';
     title: string;
-    url: string;
+    payload: {
+        url: string;
+    };
 }
 
 export interface PostbackButton {
@@ -18,5 +29,7 @@ export interface PostbackButton {
     payload: {
         next?: string;
         flowRecordId: string;
+        key: string;
+        value: string;
     };
 }

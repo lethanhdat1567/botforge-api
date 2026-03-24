@@ -4,7 +4,6 @@ import { convertToMs } from '~/utils/time';
 
 type CreateFlowRecord = {
     senderId: string;
-    pageId: string;
     flowId: string;
     currentNodeId: string;
 };
@@ -13,11 +12,20 @@ class FlowRecordService {
     async findByPageUidAndSenderId(pageUid: string, senderId: string) {
         return await prisma.flowRecord.findFirst({
             where: {
-                page: {
-                    pageUid
+                flow: {
+                    page: {
+                        pageUid
+                    }
                 },
                 senderId,
                 OR: [{ status: 'pending' }, { status: 'running' }, { status: 'processing' }]
+            },
+            include: {
+                flow: {
+                    include: {
+                        page: true
+                    }
+                }
             }
         });
     }

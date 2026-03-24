@@ -278,7 +278,6 @@ exports.Prisma.MessageScalarFieldEnum = {
 exports.Prisma.FlowRecordScalarFieldEnum = {
   id: 'id',
   senderId: 'senderId',
-  pageId: 'pageId',
   flowId: 'flowId',
   currentNodeId: 'currentNodeId',
   variables: 'variables',
@@ -444,7 +443,6 @@ exports.Prisma.MessageOrderByRelevanceFieldEnum = {
 exports.Prisma.FlowRecordOrderByRelevanceFieldEnum = {
   id: 'id',
   senderId: 'senderId',
-  pageId: 'pageId',
   flowId: 'flowId',
   currentNodeId: 'currentNodeId',
   errorLog: 'errorLog'

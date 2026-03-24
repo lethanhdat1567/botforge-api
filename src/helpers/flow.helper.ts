@@ -1,3 +1,6 @@
+import { variableResolverService } from '~/services/variable-resolver.service';
+import { AnyButton } from '~/types/flows/base.type';
+
 export const getCurrentNodeAndLogicJson = (
     flow: any,
     currentNodeId?: string | null
@@ -12,4 +15,32 @@ export const getCurrentNodeAndLogicJson = (
     if (!currentNode) return { currentNode: null, logicJson: {} };
 
     return { currentNode, logicJson };
+};
+
+export const formatButtons = async (buttons: AnyButton[], flowRecordId: string) => {
+    const buttonPromises = buttons.map(async (button) => {
+        if (button.type === 'continue' || button.type === 'postback') {
+            const resolvedTitle = await variableResolverService.resolve(flowRecordId, button.title);
+            return {
+                type: 'postback',
+                title: resolvedTitle,
+                payload: JSON.stringify({ ...button.payload, flowRecordId })
+            };
+        }
+
+        if (button.type === 'web_url') {
+            const resolvedTitle = await variableResolverService.resolve(flowRecordId, button.title);
+            return {
+                type: 'web_url',
+                title: resolvedTitle,
+                url: button.payload.url
+            };
+        }
+
+        return null;
+    });
+
+    const resolvedButtons = await Promise.all(buttonPromises);
+
+    return resolvedButtons.filter(Boolean);
 };

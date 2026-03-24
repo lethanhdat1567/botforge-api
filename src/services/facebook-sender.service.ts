@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { prisma } from '~/config/prisma';
+import { formatButtons } from '~/helpers/flow.helper';
+import { variableResolverService } from '~/services/variable-resolver.service';
 import { GenericElement, MediaTemplateField, MessageTextField } from '~/types/flows/messages.type';
 import { formatMediaUrl } from '~/utils/url';
 
@@ -31,36 +33,23 @@ class FacebookSenderService {
     }
 
     async sendTextMessage(flowRecordId: string, pageId: string, senderId: string, field: MessageTextField) {
+        const content = await variableResolverService.resolve(flowRecordId, field.text);
+
         if (!field.buttons || field.buttons.length === 0) {
             return this.callSendApi(pageId, senderId, {
-                text: field.text
+                text: content
             });
         }
 
-        const formatButtons = field.buttons.slice(0, 3).map((button) => {
-            if (button.type === 'postback') {
-                const parserPayload = JSON.parse(button.payload as any);
-
-                return {
-                    type: 'postback',
-                    title: button.title,
-                    payload: JSON.stringify({
-                        next: parserPayload.next,
-                        flowRecordId: flowRecordId
-                    })
-                };
-            }
-
-            return button;
-        });
+        const filterButtons = await formatButtons(field.buttons, flowRecordId);
 
         return this.callSendApi(pageId, senderId, {
             attachment: {
                 type: 'template',
                 payload: {
                     template_type: 'button',
-                    text: field.text,
-                    buttons: formatButtons
+                    text: content,
+                    buttons: filterButtons
                 }
             }
         });
@@ -77,7 +66,12 @@ class FacebookSenderService {
         });
     }
 
-    async sendMediaTemplateMessage(pageId: string, senderId: string, payload: MediaTemplateField) {
+    async sendMediaTemplateMessage(
+        flowRecordId: string,
+        pageId: string,
+        senderId: string,
+        payload: MediaTemplateField
+    ) {
         return this.callSendApi(pageId, senderId, {
             attachment: {
                 type: 'template',
@@ -88,7 +82,9 @@ class FacebookSenderService {
                             media_type: payload.attachment_type,
                             url: formatMediaUrl(payload.url),
                             buttons:
-                                payload.buttons && payload.buttons.length > 0 ? payload.buttons.slice(0, 3) : undefined
+                                payload.buttons &&
+                                payload.buttons.length > 0 &&
+                                (await formatButtons(payload.buttons, flowRecordId))
                         }
                     ]
                 }
@@ -96,11 +92,26 @@ class FacebookSenderService {
         });
     }
 
-    async sendGenericMessage(pageId: string, senderId: string, elements: GenericElement[]) {
-        const formatElements = elements.map((element) => ({
-            ...element,
-            image_url: formatMediaUrl(element.image_url || '')
-        }));
+    async sendGenericMessage(flowRecordId: string, pageId: string, senderId: string, elements: GenericElement[]) {
+        const formatElements = await Promise.all(
+            elements.map(async (element) => {
+                const resolvedTitle = await variableResolverService.resolve(flowRecordId, element.title || '');
+                const resolvedSubtitle = await variableResolverService.resolve(flowRecordId, element.subtitle || '');
+
+                let resolvedButtons = undefined;
+                if (element.buttons && element.buttons.length > 0) {
+                    resolvedButtons = await formatButtons(element.buttons, flowRecordId);
+                }
+
+                return {
+                    title: resolvedTitle,
+                    subtitle: resolvedSubtitle,
+                    image_url: formatMediaUrl(element.image_url || ''),
+                    default_action: element.default_action,
+                    buttons: resolvedButtons
+                };
+            })
+        );
 
         return this.callSendApi(pageId, senderId, {
             attachment: {

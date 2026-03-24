@@ -174,33 +174,47 @@ class FlowService {
     async findActiveByPageUid(pageUid: string) {
         return await prisma.flow.findFirst({
             where: {
-                pageId: pageUid,
+                page: {
+                    pageUid: pageUid
+                },
                 status: 'active'
+            },
+            include: {
+                page: true
             }
         });
     }
 
     async findById(id: string) {
-        return await prisma.flow.findUnique({ where: { id } });
+        return await prisma.flow.findUnique({ where: { id }, include: { page: true } });
     }
 
     async toggleActive(id: string, userId: string) {
         const flow = await prisma.flow.findUnique({
-            where: { id, userId }
+            where: { id, userId },
+            select: {
+                status: true,
+                page: {
+                    select: {
+                        id: true,
+                        pageUid: true
+                    }
+                }
+            }
         });
 
         if (!flow) return ['Flow không tồn tại', null];
 
         // Nếu flow hiện tại đang inactive và muốn bật lên active
         if (flow.status === 'inactive') {
-            if (!flow.pageId) return ['Flow chưa được gán vào Page nào', null];
+            if (!flow.page) return ['Flow chưa được gán vào Page nào', null];
 
             const result = await prisma.$transaction(async (tx) => {
                 // 1. Tắt tất cả các flow khác của cùng Page này
                 await tx.flow.updateMany({
                     where: {
-                        pageId: flow.pageId,
                         userId,
+                        page: { pageUid: (flow.page as any).pageUid },
                         id: { not: id }
                     },
                     data: { status: 'inactive' }

@@ -25,7 +25,9 @@ class FlowExecutorService {
             }
 
             while (currentNodeId) {
+                // *[Flow Record]: Update current node
                 await flowRecordService.updateCurrentNode(flowRecordId, currentNodeId);
+
                 const currentNode: Node = nodes[currentNodeId];
 
                 if (!currentNode) {
@@ -35,6 +37,7 @@ class FlowExecutorService {
                 let branchedNextId = null;
                 let isPending = false;
 
+                // *[PAYLOAD]: Handle loop payload
                 for (const payload of currentNode.payload || []) {
                     const payloadResult = (await this.handleNodePayload(flowRecordId, pageId, senderId, payload)) || {};
 
@@ -124,7 +127,7 @@ class FlowExecutorService {
                 break;
             }
             case 'media_template': {
-                await facebookSenderService.sendMediaTemplateMessage(pageId, senderId, {
+                await facebookSenderService.sendMediaTemplateMessage(flowRecordId, pageId, senderId, {
                     attachment_type: field.attachment_type,
                     buttons: field.buttons,
                     url: formatMediaUrl(field.url)
@@ -132,7 +135,7 @@ class FlowExecutorService {
                 break;
             }
             case 'generic_template': {
-                await facebookSenderService.sendGenericMessage(pageId, senderId, field.elements);
+                await facebookSenderService.sendGenericMessage(flowRecordId, pageId, senderId, field.elements);
                 break;
             }
         }

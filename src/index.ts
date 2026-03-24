@@ -21,7 +21,13 @@ const PORT = process.env.PORT || 8000;
 // 1. Cấu hình CORS chi tiết
 app.use(
     cors({
-        origin: '*', // Hoặc điền link ngrok cụ thể của bạn
+        origin: function (origin, callback) {
+            if (!origin || origin.includes('ngrok-free.app') || origin.includes('localhost')) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
         allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'Accept'],
         credentials: true

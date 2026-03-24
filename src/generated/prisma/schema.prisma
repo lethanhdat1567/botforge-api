@@ -106,8 +106,6 @@ model Page {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  flowRecords FlowRecord[]
-
   @@map("pages")
 }
 
@@ -309,7 +307,6 @@ model FlowRecord {
   id String @id @default(uuid())
 
   senderId String @map("sender_id")
-  pageId   String @map("page_id")
   flowId   String @map("flow_id")
 
   currentNodeId String @map("current_node_id")
@@ -323,7 +320,6 @@ model FlowRecord {
   expiresAt          DateTime? @map("expires_at")
 
   flow Flow @relation(fields: [flowId], references: [id], onDelete: Cascade)
-  page Page @relation(fields: [pageId], references: [id])
 
   @@index([status])
   @@map("flow_records")
