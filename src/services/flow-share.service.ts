@@ -31,6 +31,13 @@ class FlowShareService {
                             id: true,
                             name: true
                         }
+                    },
+                    _count: {
+                        select: {
+                            flowShareLikes: true,
+                            flowShareComments: true,
+                            flowShareDowloads: true
+                        }
                     }
                 },
                 where: {
@@ -65,6 +72,13 @@ class FlowShareService {
                         select: {
                             id: true,
                             name: true
+                        }
+                    },
+                    _count: {
+                        select: {
+                            flowShareLikes: true,
+                            flowShareComments: true,
+                            flowShareDowloads: true
                         }
                     }
                 },
