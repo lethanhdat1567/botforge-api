@@ -51,7 +51,7 @@ class FlowShareController {
     }
 
     async related(req: any, res: any) {
-        const flowShare = await flowShareService.related(req.params.id, 6);
+        const flowShare = await flowShareService.related(req.params.id, 4);
 
         return res.success(flowShare);
     }
