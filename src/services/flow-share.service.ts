@@ -2,6 +2,7 @@ import { prisma } from '~/config/prisma';
 import { FlowShareStatus } from '~/generated/prisma';
 import { ListQuery } from '~/types/query.type';
 import { getPaginationOptions } from '~/utils/pagination';
+import { getOrderBy } from '~/utils/prisma';
 
 type CreateShareFlow = {
     flowId: string;
@@ -11,42 +12,60 @@ type CreateShareFlow = {
     thumbnail?: string;
     content?: string;
     status?: FlowShareStatus;
+    categories?: string[];
 };
 
 class FlowShareService {
+    private selectFlowShare = {
+        id: true,
+        flowId: true,
+        name: true,
+        description: true,
+        thumbnail: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        flow: {
+            select: {
+                id: true,
+                name: true
+            }
+        },
+        flowShareCategory: {
+            select: {
+                id: true,
+                name: true,
+                slug: true
+            }
+        },
+        _count: {
+            select: {
+                flowShareLikes: true,
+                flowShareComments: true,
+                flowShareDowloads: true
+            }
+        }
+    };
+
     async list(userId: string, query: ListQuery<FlowShareStatus>) {
+        const customMapping = {
+            likes: { flowShareLikes: { _count: query.sortOrder || 'desc' } },
+            downloads: { flowShareDowloads: { _count: query.sortOrder || 'desc' } }
+        };
+
+        const orderBy = getOrderBy(query.sortBy, query.sortOrder, customMapping);
+
         const [flows, meta] = await prisma.flowShare
             .paginate({
-                select: {
-                    id: true,
-                    flowId: true,
-                    name: true,
-                    description: true,
-                    thumbnail: true,
-                    status: true,
-                    createdAt: true,
-                    updatedAt: true,
-                    flow: {
-                        select: {
-                            id: true,
-                            name: true
-                        }
-                    },
-                    _count: {
-                        select: {
-                            flowShareLikes: true,
-                            flowShareComments: true,
-                            flowShareDowloads: true
-                        }
-                    }
-                },
+                select: this.selectFlowShare,
                 where: {
                     userId: userId,
                     status: query?.status || undefined,
                     name: {
                         contains: query?.q
                     }
-                }
+                },
+                orderBy: orderBy
             })
             .withPages(getPaginationOptions(query));
 
@@ -55,33 +74,53 @@ class FlowShareService {
             meta
         };
     }
+    async public(filter: ListQuery<FlowShareStatus> & { category?: string }) {
+        const customMapping = {
+            likes: { flowShareLikes: { _count: filter.sortOrder || 'desc' } },
+            downloads: { flowShareDowloads: { _count: filter.sortOrder || 'desc' } }
+        };
+
+        const orderBy = getOrderBy(filter.sortBy, filter.sortOrder, customMapping);
+
+        const [flowShares, meta] = await prisma.flowShare
+            .paginate({
+                where: {
+                    status: filter.status || undefined,
+                    flowShareCategory: filter.category
+                        ? {
+                              some: {
+                                  id: filter.category
+                              }
+                          }
+                        : undefined,
+                    OR: [
+                        {
+                            name: {
+                                contains: filter.q || ''
+                            }
+                        },
+                        {
+                            description: {
+                                contains: filter.q || ''
+                            }
+                        }
+                    ]
+                },
+                select: this.selectFlowShare,
+                orderBy: orderBy
+            })
+            .withPages(getPaginationOptions(filter));
+
+        return {
+            flowShares,
+            meta
+        };
+    }
 
     async listForAdmin(query: ListQuery<FlowShareStatus>) {
         const [flows, meta] = await prisma.flowShare
             .paginate({
-                select: {
-                    id: true,
-                    flowId: true,
-                    name: true,
-                    description: true,
-                    thumbnail: true,
-                    status: true,
-                    createdAt: true,
-                    updatedAt: true,
-                    flow: {
-                        select: {
-                            id: true,
-                            name: true
-                        }
-                    },
-                    _count: {
-                        select: {
-                            flowShareLikes: true,
-                            flowShareComments: true,
-                            flowShareDowloads: true
-                        }
-                    }
-                },
+                select: this.selectFlowShare,
                 where: {
                     status: query?.status || undefined,
                     name: {
@@ -101,20 +140,55 @@ class FlowShareService {
         const flowShares = await prisma.flowShare.findFirst({
             where: {
                 id: flowShareId
+            },
+            include: {
+                flowShareCategory: true
             }
         });
 
         return flowShares;
     }
 
-    async create(date: CreateShareFlow, userId: string) {
-        const newFlowShare = await prisma.flowShare.create({ data: { ...date, userId } });
+    async create(data: CreateShareFlow, userId: string) {
+        const { categories, ...rest } = data;
+
+        const newFlowShare = await prisma.flowShare.create({
+            data: {
+                ...rest,
+                userId,
+
+                flowShareCategory: {
+                    connect: categories?.map((id) => ({ id })) || []
+                }
+            },
+            include: {
+                flowShareCategory: true
+            }
+        });
 
         return newFlowShare;
     }
 
     async update(flowShareId: string, userId: string, data: Partial<CreateShareFlow>) {
-        const flowShare = await prisma.flowShare.update({ where: { id: flowShareId, userId }, data });
+        const { categories, ...updateData } = data;
+
+        const flowShare = await prisma.flowShare.update({
+            where: {
+                id: flowShareId,
+                userId
+            },
+            data: {
+                ...updateData,
+                flowShareCategory: categories
+                    ? {
+                          set: categories.map((id) => ({ id }))
+                      }
+                    : undefined
+            },
+            include: {
+                flowShareCategory: true
+            }
+        });
 
         return flowShare;
     }
@@ -129,51 +203,6 @@ class FlowShareService {
         const flowShares = await prisma.flowShare.deleteMany({ where: { id: { in: flowShareIds }, userId } });
 
         return flowShares;
-    }
-
-    async public(filter: ListQuery<FlowShareStatus>) {
-        const [flowShares, meta] = await prisma.flowShare
-            .paginate({
-                where: {
-                    status: filter.status || undefined,
-                    OR: [
-                        {
-                            name: {
-                                contains: filter.q || ''
-                            }
-                        },
-                        {
-                            description: {
-                                contains: filter.q || ''
-                            }
-                        }
-                    ]
-                },
-                select: {
-                    id: true,
-                    flowId: true,
-                    name: true,
-                    description: true,
-                    thumbnail: true,
-                    status: true,
-                    createdAt: true,
-                    updatedAt: true,
-                    user: {
-                        select: {
-                            id: true,
-                            username: true,
-                            displayName: true,
-                            avatar: true
-                        }
-                    }
-                }
-            })
-            .withPages(getPaginationOptions(filter));
-
-        return {
-            flowShares,
-            meta
-        };
     }
 
     async related(id: string, limit: number) {

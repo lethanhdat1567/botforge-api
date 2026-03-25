@@ -44,6 +44,11 @@ export type Page = $Result.DefaultSelection<Prisma.$PagePayload>
  */
 export type FlowShare = $Result.DefaultSelection<Prisma.$FlowSharePayload>
 /**
+ * Model FlowShareCategory
+ * 
+ */
+export type FlowShareCategory = $Result.DefaultSelection<Prisma.$FlowShareCategoryPayload>
+/**
  * Model FlowShareDowload
  * 
  */
@@ -400,6 +405,16 @@ export class PrismaClient<
     * ```
     */
   get flowShare(): Prisma.FlowShareDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.flowShareCategory`: Exposes CRUD operations for the **FlowShareCategory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FlowShareCategories
+    * const flowShareCategories = await prisma.flowShareCategory.findMany()
+    * ```
+    */
+  get flowShareCategory(): Prisma.FlowShareCategoryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.flowShareDowload`: Exposes CRUD operations for the **FlowShareDowload** model.
@@ -950,6 +965,7 @@ export namespace Prisma {
     Flow: 'Flow',
     Page: 'Page',
     FlowShare: 'FlowShare',
+    FlowShareCategory: 'FlowShareCategory',
     FlowShareDowload: 'FlowShareDowload',
     FlowShareComment: 'FlowShareComment',
     FlowShareLike: 'FlowShareLike',
@@ -976,7 +992,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "facebookAuth" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
+      modelProps: "user" | "facebookAuth" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareCategory" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1373,6 +1389,72 @@ export namespace Prisma {
           count: {
             args: Prisma.FlowShareCountArgs<ExtArgs>
             result: $Utils.Optional<FlowShareCountAggregateOutputType> | number
+          }
+        }
+      }
+      FlowShareCategory: {
+        payload: Prisma.$FlowShareCategoryPayload<ExtArgs>
+        fields: Prisma.FlowShareCategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FlowShareCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FlowShareCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.FlowShareCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FlowShareCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload>
+          }
+          findMany: {
+            args: Prisma.FlowShareCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload>[]
+          }
+          create: {
+            args: Prisma.FlowShareCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload>
+          }
+          createMany: {
+            args: Prisma.FlowShareCategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.FlowShareCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload>
+          }
+          update: {
+            args: Prisma.FlowShareCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.FlowShareCategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FlowShareCategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FlowShareCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowShareCategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.FlowShareCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFlowShareCategory>
+          }
+          groupBy: {
+            args: Prisma.FlowShareCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FlowShareCategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FlowShareCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<FlowShareCategoryCountAggregateOutputType> | number
           }
         }
       }
@@ -2216,6 +2298,7 @@ export namespace Prisma {
     flow?: FlowOmit
     page?: PageOmit
     flowShare?: FlowShareOmit
+    flowShareCategory?: FlowShareCategoryOmit
     flowShareDowload?: FlowShareDowloadOmit
     flowShareComment?: FlowShareCommentOmit
     flowShareLike?: FlowShareLikeOmit
@@ -2463,6 +2546,7 @@ export namespace Prisma {
     flowShareLikes: number
     flowShareSaves: number
     flowShareComments: number
+    flowShareCategory: number
   }
 
   export type FlowShareCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2470,6 +2554,7 @@ export namespace Prisma {
     flowShareLikes?: boolean | FlowShareCountOutputTypeCountFlowShareLikesArgs
     flowShareSaves?: boolean | FlowShareCountOutputTypeCountFlowShareSavesArgs
     flowShareComments?: boolean | FlowShareCountOutputTypeCountFlowShareCommentsArgs
+    flowShareCategory?: boolean | FlowShareCountOutputTypeCountFlowShareCategoryArgs
   }
 
   // Custom InputTypes
@@ -2509,6 +2594,44 @@ export namespace Prisma {
    */
   export type FlowShareCountOutputTypeCountFlowShareCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlowShareCommentWhereInput
+  }
+
+  /**
+   * FlowShareCountOutputType without action
+   */
+  export type FlowShareCountOutputTypeCountFlowShareCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowShareCategoryWhereInput
+  }
+
+
+  /**
+   * Count Type FlowShareCategoryCountOutputType
+   */
+
+  export type FlowShareCategoryCountOutputType = {
+    flowShares: number
+  }
+
+  export type FlowShareCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    flowShares?: boolean | FlowShareCategoryCountOutputTypeCountFlowSharesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FlowShareCategoryCountOutputType without action
+   */
+  export type FlowShareCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategoryCountOutputType
+     */
+    select?: FlowShareCategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FlowShareCategoryCountOutputType without action
+   */
+  export type FlowShareCategoryCountOutputTypeCountFlowSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowShareWhereInput
   }
 
 
@@ -8010,6 +8133,7 @@ export namespace Prisma {
     flowShareLikes?: boolean | FlowShare$flowShareLikesArgs<ExtArgs>
     flowShareSaves?: boolean | FlowShare$flowShareSavesArgs<ExtArgs>
     flowShareComments?: boolean | FlowShare$flowShareCommentsArgs<ExtArgs>
+    flowShareCategory?: boolean | FlowShare$flowShareCategoryArgs<ExtArgs>
     _count?: boolean | FlowShareCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["flowShare"]>
 
@@ -8036,6 +8160,7 @@ export namespace Prisma {
     flowShareLikes?: boolean | FlowShare$flowShareLikesArgs<ExtArgs>
     flowShareSaves?: boolean | FlowShare$flowShareSavesArgs<ExtArgs>
     flowShareComments?: boolean | FlowShare$flowShareCommentsArgs<ExtArgs>
+    flowShareCategory?: boolean | FlowShare$flowShareCategoryArgs<ExtArgs>
     _count?: boolean | FlowShareCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -8048,6 +8173,7 @@ export namespace Prisma {
       flowShareLikes: Prisma.$FlowShareLikePayload<ExtArgs>[]
       flowShareSaves: Prisma.$FlowShareSavePayload<ExtArgs>[]
       flowShareComments: Prisma.$FlowShareCommentPayload<ExtArgs>[]
+      flowShareCategory: Prisma.$FlowShareCategoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8406,6 +8532,7 @@ export namespace Prisma {
     flowShareLikes<T extends FlowShare$flowShareLikesArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$flowShareLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShareSaves<T extends FlowShare$flowShareSavesArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$flowShareSavesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareSavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowShareComments<T extends FlowShare$flowShareCommentsArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$flowShareCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    flowShareCategory<T extends FlowShare$flowShareCategoryArgs<ExtArgs> = {}>(args?: Subset<T, FlowShare$flowShareCategoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8884,6 +9011,30 @@ export namespace Prisma {
   }
 
   /**
+   * FlowShare.flowShareCategory
+   */
+  export type FlowShare$flowShareCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    where?: FlowShareCategoryWhereInput
+    orderBy?: FlowShareCategoryOrderByWithRelationInput | FlowShareCategoryOrderByWithRelationInput[]
+    cursor?: FlowShareCategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowShareCategoryScalarFieldEnum | FlowShareCategoryScalarFieldEnum[]
+  }
+
+  /**
    * FlowShare without action
    */
   export type FlowShareDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8899,6 +9050,939 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: FlowShareInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FlowShareCategory
+   */
+
+  export type AggregateFlowShareCategory = {
+    _count: FlowShareCategoryCountAggregateOutputType | null
+    _min: FlowShareCategoryMinAggregateOutputType | null
+    _max: FlowShareCategoryMaxAggregateOutputType | null
+  }
+
+  export type FlowShareCategoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+  }
+
+  export type FlowShareCategoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+  }
+
+  export type FlowShareCategoryCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    _all: number
+  }
+
+
+  export type FlowShareCategoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+  }
+
+  export type FlowShareCategoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+  }
+
+  export type FlowShareCategoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    _all?: true
+  }
+
+  export type FlowShareCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowShareCategory to aggregate.
+     */
+    where?: FlowShareCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowShareCategories to fetch.
+     */
+    orderBy?: FlowShareCategoryOrderByWithRelationInput | FlowShareCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FlowShareCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowShareCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowShareCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FlowShareCategories
+    **/
+    _count?: true | FlowShareCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FlowShareCategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FlowShareCategoryMaxAggregateInputType
+  }
+
+  export type GetFlowShareCategoryAggregateType<T extends FlowShareCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateFlowShareCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFlowShareCategory[P]>
+      : GetScalarType<T[P], AggregateFlowShareCategory[P]>
+  }
+
+
+
+
+  export type FlowShareCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowShareCategoryWhereInput
+    orderBy?: FlowShareCategoryOrderByWithAggregationInput | FlowShareCategoryOrderByWithAggregationInput[]
+    by: FlowShareCategoryScalarFieldEnum[] | FlowShareCategoryScalarFieldEnum
+    having?: FlowShareCategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FlowShareCategoryCountAggregateInputType | true
+    _min?: FlowShareCategoryMinAggregateInputType
+    _max?: FlowShareCategoryMaxAggregateInputType
+  }
+
+  export type FlowShareCategoryGroupByOutputType = {
+    id: string
+    name: string
+    slug: string
+    _count: FlowShareCategoryCountAggregateOutputType | null
+    _min: FlowShareCategoryMinAggregateOutputType | null
+    _max: FlowShareCategoryMaxAggregateOutputType | null
+  }
+
+  type GetFlowShareCategoryGroupByPayload<T extends FlowShareCategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FlowShareCategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FlowShareCategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FlowShareCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], FlowShareCategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FlowShareCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    flowShares?: boolean | FlowShareCategory$flowSharesArgs<ExtArgs>
+    _count?: boolean | FlowShareCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["flowShareCategory"]>
+
+
+
+  export type FlowShareCategorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+  }
+
+  export type FlowShareCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug", ExtArgs["result"]["flowShareCategory"]>
+  export type FlowShareCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    flowShares?: boolean | FlowShareCategory$flowSharesArgs<ExtArgs>
+    _count?: boolean | FlowShareCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $FlowShareCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FlowShareCategory"
+    objects: {
+      flowShares: Prisma.$FlowSharePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      slug: string
+    }, ExtArgs["result"]["flowShareCategory"]>
+    composites: {}
+  }
+
+  type FlowShareCategoryGetPayload<S extends boolean | null | undefined | FlowShareCategoryDefaultArgs> = $Result.GetResult<Prisma.$FlowShareCategoryPayload, S>
+
+  type FlowShareCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FlowShareCategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FlowShareCategoryCountAggregateInputType | true
+    }
+
+  export interface FlowShareCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FlowShareCategory'], meta: { name: 'FlowShareCategory' } }
+    /**
+     * Find zero or one FlowShareCategory that matches the filter.
+     * @param {FlowShareCategoryFindUniqueArgs} args - Arguments to find a FlowShareCategory
+     * @example
+     * // Get one FlowShareCategory
+     * const flowShareCategory = await prisma.flowShareCategory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FlowShareCategoryFindUniqueArgs>(args: SelectSubset<T, FlowShareCategoryFindUniqueArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FlowShareCategory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FlowShareCategoryFindUniqueOrThrowArgs} args - Arguments to find a FlowShareCategory
+     * @example
+     * // Get one FlowShareCategory
+     * const flowShareCategory = await prisma.flowShareCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FlowShareCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, FlowShareCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowShareCategory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowShareCategoryFindFirstArgs} args - Arguments to find a FlowShareCategory
+     * @example
+     * // Get one FlowShareCategory
+     * const flowShareCategory = await prisma.flowShareCategory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FlowShareCategoryFindFirstArgs>(args?: SelectSubset<T, FlowShareCategoryFindFirstArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FlowShareCategory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowShareCategoryFindFirstOrThrowArgs} args - Arguments to find a FlowShareCategory
+     * @example
+     * // Get one FlowShareCategory
+     * const flowShareCategory = await prisma.flowShareCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FlowShareCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, FlowShareCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FlowShareCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowShareCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FlowShareCategories
+     * const flowShareCategories = await prisma.flowShareCategory.findMany()
+     * 
+     * // Get first 10 FlowShareCategories
+     * const flowShareCategories = await prisma.flowShareCategory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const flowShareCategoryWithIdOnly = await prisma.flowShareCategory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FlowShareCategoryFindManyArgs>(args?: SelectSubset<T, FlowShareCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FlowShareCategory.
+     * @param {FlowShareCategoryCreateArgs} args - Arguments to create a FlowShareCategory.
+     * @example
+     * // Create one FlowShareCategory
+     * const FlowShareCategory = await prisma.flowShareCategory.create({
+     *   data: {
+     *     // ... data to create a FlowShareCategory
+     *   }
+     * })
+     * 
+     */
+    create<T extends FlowShareCategoryCreateArgs>(args: SelectSubset<T, FlowShareCategoryCreateArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FlowShareCategories.
+     * @param {FlowShareCategoryCreateManyArgs} args - Arguments to create many FlowShareCategories.
+     * @example
+     * // Create many FlowShareCategories
+     * const flowShareCategory = await prisma.flowShareCategory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FlowShareCategoryCreateManyArgs>(args?: SelectSubset<T, FlowShareCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a FlowShareCategory.
+     * @param {FlowShareCategoryDeleteArgs} args - Arguments to delete one FlowShareCategory.
+     * @example
+     * // Delete one FlowShareCategory
+     * const FlowShareCategory = await prisma.flowShareCategory.delete({
+     *   where: {
+     *     // ... filter to delete one FlowShareCategory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FlowShareCategoryDeleteArgs>(args: SelectSubset<T, FlowShareCategoryDeleteArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FlowShareCategory.
+     * @param {FlowShareCategoryUpdateArgs} args - Arguments to update one FlowShareCategory.
+     * @example
+     * // Update one FlowShareCategory
+     * const flowShareCategory = await prisma.flowShareCategory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FlowShareCategoryUpdateArgs>(args: SelectSubset<T, FlowShareCategoryUpdateArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FlowShareCategories.
+     * @param {FlowShareCategoryDeleteManyArgs} args - Arguments to filter FlowShareCategories to delete.
+     * @example
+     * // Delete a few FlowShareCategories
+     * const { count } = await prisma.flowShareCategory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FlowShareCategoryDeleteManyArgs>(args?: SelectSubset<T, FlowShareCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FlowShareCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowShareCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FlowShareCategories
+     * const flowShareCategory = await prisma.flowShareCategory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FlowShareCategoryUpdateManyArgs>(args: SelectSubset<T, FlowShareCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FlowShareCategory.
+     * @param {FlowShareCategoryUpsertArgs} args - Arguments to update or create a FlowShareCategory.
+     * @example
+     * // Update or create a FlowShareCategory
+     * const flowShareCategory = await prisma.flowShareCategory.upsert({
+     *   create: {
+     *     // ... data to create a FlowShareCategory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FlowShareCategory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FlowShareCategoryUpsertArgs>(args: SelectSubset<T, FlowShareCategoryUpsertArgs<ExtArgs>>): Prisma__FlowShareCategoryClient<$Result.GetResult<Prisma.$FlowShareCategoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FlowShareCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowShareCategoryCountArgs} args - Arguments to filter FlowShareCategories to count.
+     * @example
+     * // Count the number of FlowShareCategories
+     * const count = await prisma.flowShareCategory.count({
+     *   where: {
+     *     // ... the filter for the FlowShareCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends FlowShareCategoryCountArgs>(
+      args?: Subset<T, FlowShareCategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FlowShareCategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FlowShareCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowShareCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FlowShareCategoryAggregateArgs>(args: Subset<T, FlowShareCategoryAggregateArgs>): Prisma.PrismaPromise<GetFlowShareCategoryAggregateType<T>>
+
+    /**
+     * Group by FlowShareCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowShareCategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FlowShareCategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FlowShareCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: FlowShareCategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FlowShareCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFlowShareCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FlowShareCategory model
+   */
+  readonly fields: FlowShareCategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FlowShareCategory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FlowShareCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    flowShares<T extends FlowShareCategory$flowSharesArgs<ExtArgs> = {}>(args?: Subset<T, FlowShareCategory$flowSharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FlowShareCategory model
+   */
+  interface FlowShareCategoryFieldRefs {
+    readonly id: FieldRef<"FlowShareCategory", 'String'>
+    readonly name: FieldRef<"FlowShareCategory", 'String'>
+    readonly slug: FieldRef<"FlowShareCategory", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FlowShareCategory findUnique
+   */
+  export type FlowShareCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowShareCategory to fetch.
+     */
+    where: FlowShareCategoryWhereUniqueInput
+  }
+
+  /**
+   * FlowShareCategory findUniqueOrThrow
+   */
+  export type FlowShareCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowShareCategory to fetch.
+     */
+    where: FlowShareCategoryWhereUniqueInput
+  }
+
+  /**
+   * FlowShareCategory findFirst
+   */
+  export type FlowShareCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowShareCategory to fetch.
+     */
+    where?: FlowShareCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowShareCategories to fetch.
+     */
+    orderBy?: FlowShareCategoryOrderByWithRelationInput | FlowShareCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowShareCategories.
+     */
+    cursor?: FlowShareCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowShareCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowShareCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowShareCategories.
+     */
+    distinct?: FlowShareCategoryScalarFieldEnum | FlowShareCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * FlowShareCategory findFirstOrThrow
+   */
+  export type FlowShareCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowShareCategory to fetch.
+     */
+    where?: FlowShareCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowShareCategories to fetch.
+     */
+    orderBy?: FlowShareCategoryOrderByWithRelationInput | FlowShareCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FlowShareCategories.
+     */
+    cursor?: FlowShareCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowShareCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowShareCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FlowShareCategories.
+     */
+    distinct?: FlowShareCategoryScalarFieldEnum | FlowShareCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * FlowShareCategory findMany
+   */
+  export type FlowShareCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which FlowShareCategories to fetch.
+     */
+    where?: FlowShareCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FlowShareCategories to fetch.
+     */
+    orderBy?: FlowShareCategoryOrderByWithRelationInput | FlowShareCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FlowShareCategories.
+     */
+    cursor?: FlowShareCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FlowShareCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FlowShareCategories.
+     */
+    skip?: number
+    distinct?: FlowShareCategoryScalarFieldEnum | FlowShareCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * FlowShareCategory create
+   */
+  export type FlowShareCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FlowShareCategory.
+     */
+    data: XOR<FlowShareCategoryCreateInput, FlowShareCategoryUncheckedCreateInput>
+  }
+
+  /**
+   * FlowShareCategory createMany
+   */
+  export type FlowShareCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FlowShareCategories.
+     */
+    data: FlowShareCategoryCreateManyInput | FlowShareCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FlowShareCategory update
+   */
+  export type FlowShareCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FlowShareCategory.
+     */
+    data: XOR<FlowShareCategoryUpdateInput, FlowShareCategoryUncheckedUpdateInput>
+    /**
+     * Choose, which FlowShareCategory to update.
+     */
+    where: FlowShareCategoryWhereUniqueInput
+  }
+
+  /**
+   * FlowShareCategory updateMany
+   */
+  export type FlowShareCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FlowShareCategories.
+     */
+    data: XOR<FlowShareCategoryUpdateManyMutationInput, FlowShareCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which FlowShareCategories to update
+     */
+    where?: FlowShareCategoryWhereInput
+    /**
+     * Limit how many FlowShareCategories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowShareCategory upsert
+   */
+  export type FlowShareCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FlowShareCategory to update in case it exists.
+     */
+    where: FlowShareCategoryWhereUniqueInput
+    /**
+     * In case the FlowShareCategory found by the `where` argument doesn't exist, create a new FlowShareCategory with this data.
+     */
+    create: XOR<FlowShareCategoryCreateInput, FlowShareCategoryUncheckedCreateInput>
+    /**
+     * In case the FlowShareCategory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FlowShareCategoryUpdateInput, FlowShareCategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * FlowShareCategory delete
+   */
+  export type FlowShareCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
+    /**
+     * Filter which FlowShareCategory to delete.
+     */
+    where: FlowShareCategoryWhereUniqueInput
+  }
+
+  /**
+   * FlowShareCategory deleteMany
+   */
+  export type FlowShareCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FlowShareCategories to delete
+     */
+    where?: FlowShareCategoryWhereInput
+    /**
+     * Limit how many FlowShareCategories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FlowShareCategory.flowShares
+   */
+  export type FlowShareCategory$flowSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShare
+     */
+    select?: FlowShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShare
+     */
+    omit?: FlowShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareInclude<ExtArgs> | null
+    where?: FlowShareWhereInput
+    orderBy?: FlowShareOrderByWithRelationInput | FlowShareOrderByWithRelationInput[]
+    cursor?: FlowShareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowShareScalarFieldEnum | FlowShareScalarFieldEnum[]
+  }
+
+  /**
+   * FlowShareCategory without action
+   */
+  export type FlowShareCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareCategory
+     */
+    select?: FlowShareCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareCategory
+     */
+    omit?: FlowShareCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareCategoryInclude<ExtArgs> | null
   }
 
 
@@ -19531,6 +20615,15 @@ export namespace Prisma {
   export type FlowShareScalarFieldEnum = (typeof FlowShareScalarFieldEnum)[keyof typeof FlowShareScalarFieldEnum]
 
 
+  export const FlowShareCategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug'
+  };
+
+  export type FlowShareCategoryScalarFieldEnum = (typeof FlowShareCategoryScalarFieldEnum)[keyof typeof FlowShareCategoryScalarFieldEnum]
+
+
   export const FlowShareDowloadScalarFieldEnum: {
     id: 'id',
     flowShareId: 'flowShareId',
@@ -19785,6 +20878,15 @@ export namespace Prisma {
   };
 
   export type FlowShareOrderByRelevanceFieldEnum = (typeof FlowShareOrderByRelevanceFieldEnum)[keyof typeof FlowShareOrderByRelevanceFieldEnum]
+
+
+  export const FlowShareCategoryOrderByRelevanceFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug'
+  };
+
+  export type FlowShareCategoryOrderByRelevanceFieldEnum = (typeof FlowShareCategoryOrderByRelevanceFieldEnum)[keyof typeof FlowShareCategoryOrderByRelevanceFieldEnum]
 
 
   export const FlowShareDowloadOrderByRelevanceFieldEnum: {
@@ -20430,6 +21532,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeListRelationFilter
     flowShareSaves?: FlowShareSaveListRelationFilter
     flowShareComments?: FlowShareCommentListRelationFilter
+    flowShareCategory?: FlowShareCategoryListRelationFilter
   }
 
   export type FlowShareOrderByWithRelationInput = {
@@ -20449,6 +21552,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeOrderByRelationAggregateInput
     flowShareSaves?: FlowShareSaveOrderByRelationAggregateInput
     flowShareComments?: FlowShareCommentOrderByRelationAggregateInput
+    flowShareCategory?: FlowShareCategoryOrderByRelationAggregateInput
     _relevance?: FlowShareOrderByRelevanceInput
   }
 
@@ -20472,6 +21576,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeListRelationFilter
     flowShareSaves?: FlowShareSaveListRelationFilter
     flowShareComments?: FlowShareCommentListRelationFilter
+    flowShareCategory?: FlowShareCategoryListRelationFilter
   }, "id">
 
   export type FlowShareOrderByWithAggregationInput = {
@@ -20504,6 +21609,52 @@ export namespace Prisma {
     status?: EnumFlowShareStatusWithAggregatesFilter<"FlowShare"> | $Enums.FlowShareStatus
     createdAt?: DateTimeWithAggregatesFilter<"FlowShare"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FlowShare"> | Date | string
+  }
+
+  export type FlowShareCategoryWhereInput = {
+    AND?: FlowShareCategoryWhereInput | FlowShareCategoryWhereInput[]
+    OR?: FlowShareCategoryWhereInput[]
+    NOT?: FlowShareCategoryWhereInput | FlowShareCategoryWhereInput[]
+    id?: StringFilter<"FlowShareCategory"> | string
+    name?: StringFilter<"FlowShareCategory"> | string
+    slug?: StringFilter<"FlowShareCategory"> | string
+    flowShares?: FlowShareListRelationFilter
+  }
+
+  export type FlowShareCategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    flowShares?: FlowShareOrderByRelationAggregateInput
+    _relevance?: FlowShareCategoryOrderByRelevanceInput
+  }
+
+  export type FlowShareCategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    slug?: string
+    AND?: FlowShareCategoryWhereInput | FlowShareCategoryWhereInput[]
+    OR?: FlowShareCategoryWhereInput[]
+    NOT?: FlowShareCategoryWhereInput | FlowShareCategoryWhereInput[]
+    flowShares?: FlowShareListRelationFilter
+  }, "id" | "name" | "slug">
+
+  export type FlowShareCategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    _count?: FlowShareCategoryCountOrderByAggregateInput
+    _max?: FlowShareCategoryMaxOrderByAggregateInput
+    _min?: FlowShareCategoryMinOrderByAggregateInput
+  }
+
+  export type FlowShareCategoryScalarWhereWithAggregatesInput = {
+    AND?: FlowShareCategoryScalarWhereWithAggregatesInput | FlowShareCategoryScalarWhereWithAggregatesInput[]
+    OR?: FlowShareCategoryScalarWhereWithAggregatesInput[]
+    NOT?: FlowShareCategoryScalarWhereWithAggregatesInput | FlowShareCategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FlowShareCategory"> | string
+    name?: StringWithAggregatesFilter<"FlowShareCategory"> | string
+    slug?: StringWithAggregatesFilter<"FlowShareCategory"> | string
   }
 
   export type FlowShareDowloadWhereInput = {
@@ -21704,6 +22855,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUncheckedCreateInput = {
@@ -21721,6 +22873,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUpdateInput = {
@@ -21738,6 +22891,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateInput = {
@@ -21755,6 +22909,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareCreateManyInput = {
@@ -21792,6 +22947,52 @@ export namespace Prisma {
     status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowShareCategoryCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    flowShares?: FlowShareCreateNestedManyWithoutFlowShareCategoryInput
+  }
+
+  export type FlowShareCategoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutFlowShareCategoryInput
+  }
+
+  export type FlowShareCategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    flowShares?: FlowShareUpdateManyWithoutFlowShareCategoryNestedInput
+  }
+
+  export type FlowShareCategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    flowShares?: FlowShareUncheckedUpdateManyWithoutFlowShareCategoryNestedInput
+  }
+
+  export type FlowShareCategoryCreateManyInput = {
+    id?: string
+    name: string
+    slug: string
+  }
+
+  export type FlowShareCategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FlowShareCategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type FlowShareDowloadCreateInput = {
@@ -23102,6 +24303,16 @@ export namespace Prisma {
     not?: NestedEnumFlowShareStatusFilter<$PrismaModel> | $Enums.FlowShareStatus
   }
 
+  export type FlowShareCategoryListRelationFilter = {
+    every?: FlowShareCategoryWhereInput
+    some?: FlowShareCategoryWhereInput
+    none?: FlowShareCategoryWhereInput
+  }
+
+  export type FlowShareCategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type FlowShareOrderByRelevanceInput = {
     fields: FlowShareOrderByRelevanceFieldEnum | FlowShareOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -23155,6 +24366,30 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFlowShareStatusFilter<$PrismaModel>
     _max?: NestedEnumFlowShareStatusFilter<$PrismaModel>
+  }
+
+  export type FlowShareCategoryOrderByRelevanceInput = {
+    fields: FlowShareCategoryOrderByRelevanceFieldEnum | FlowShareCategoryOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type FlowShareCategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+  }
+
+  export type FlowShareCategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+  }
+
+  export type FlowShareCategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
   }
 
   export type FlowShareScalarRelationFilter = {
@@ -24425,6 +25660,12 @@ export namespace Prisma {
     connect?: FlowShareCommentWhereUniqueInput | FlowShareCommentWhereUniqueInput[]
   }
 
+  export type FlowShareCategoryCreateNestedManyWithoutFlowSharesInput = {
+    create?: XOR<FlowShareCategoryCreateWithoutFlowSharesInput, FlowShareCategoryUncheckedCreateWithoutFlowSharesInput> | FlowShareCategoryCreateWithoutFlowSharesInput[] | FlowShareCategoryUncheckedCreateWithoutFlowSharesInput[]
+    connectOrCreate?: FlowShareCategoryCreateOrConnectWithoutFlowSharesInput | FlowShareCategoryCreateOrConnectWithoutFlowSharesInput[]
+    connect?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+  }
+
   export type FlowShareDowloadUncheckedCreateNestedManyWithoutFlowShareInput = {
     create?: XOR<FlowShareDowloadCreateWithoutFlowShareInput, FlowShareDowloadUncheckedCreateWithoutFlowShareInput> | FlowShareDowloadCreateWithoutFlowShareInput[] | FlowShareDowloadUncheckedCreateWithoutFlowShareInput[]
     connectOrCreate?: FlowShareDowloadCreateOrConnectWithoutFlowShareInput | FlowShareDowloadCreateOrConnectWithoutFlowShareInput[]
@@ -24451,6 +25692,12 @@ export namespace Prisma {
     connectOrCreate?: FlowShareCommentCreateOrConnectWithoutFlowShareInput | FlowShareCommentCreateOrConnectWithoutFlowShareInput[]
     createMany?: FlowShareCommentCreateManyFlowShareInputEnvelope
     connect?: FlowShareCommentWhereUniqueInput | FlowShareCommentWhereUniqueInput[]
+  }
+
+  export type FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput = {
+    create?: XOR<FlowShareCategoryCreateWithoutFlowSharesInput, FlowShareCategoryUncheckedCreateWithoutFlowSharesInput> | FlowShareCategoryCreateWithoutFlowSharesInput[] | FlowShareCategoryUncheckedCreateWithoutFlowSharesInput[]
+    connectOrCreate?: FlowShareCategoryCreateOrConnectWithoutFlowSharesInput | FlowShareCategoryCreateOrConnectWithoutFlowSharesInput[]
+    connect?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
   }
 
   export type EnumFlowShareStatusFieldUpdateOperationsInput = {
@@ -24529,6 +25776,19 @@ export namespace Prisma {
     deleteMany?: FlowShareCommentScalarWhereInput | FlowShareCommentScalarWhereInput[]
   }
 
+  export type FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput = {
+    create?: XOR<FlowShareCategoryCreateWithoutFlowSharesInput, FlowShareCategoryUncheckedCreateWithoutFlowSharesInput> | FlowShareCategoryCreateWithoutFlowSharesInput[] | FlowShareCategoryUncheckedCreateWithoutFlowSharesInput[]
+    connectOrCreate?: FlowShareCategoryCreateOrConnectWithoutFlowSharesInput | FlowShareCategoryCreateOrConnectWithoutFlowSharesInput[]
+    upsert?: FlowShareCategoryUpsertWithWhereUniqueWithoutFlowSharesInput | FlowShareCategoryUpsertWithWhereUniqueWithoutFlowSharesInput[]
+    set?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    disconnect?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    delete?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    connect?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    update?: FlowShareCategoryUpdateWithWhereUniqueWithoutFlowSharesInput | FlowShareCategoryUpdateWithWhereUniqueWithoutFlowSharesInput[]
+    updateMany?: FlowShareCategoryUpdateManyWithWhereWithoutFlowSharesInput | FlowShareCategoryUpdateManyWithWhereWithoutFlowSharesInput[]
+    deleteMany?: FlowShareCategoryScalarWhereInput | FlowShareCategoryScalarWhereInput[]
+  }
+
   export type FlowShareDowloadUncheckedUpdateManyWithoutFlowShareNestedInput = {
     create?: XOR<FlowShareDowloadCreateWithoutFlowShareInput, FlowShareDowloadUncheckedCreateWithoutFlowShareInput> | FlowShareDowloadCreateWithoutFlowShareInput[] | FlowShareDowloadUncheckedCreateWithoutFlowShareInput[]
     connectOrCreate?: FlowShareDowloadCreateOrConnectWithoutFlowShareInput | FlowShareDowloadCreateOrConnectWithoutFlowShareInput[]
@@ -24583,6 +25843,57 @@ export namespace Prisma {
     update?: FlowShareCommentUpdateWithWhereUniqueWithoutFlowShareInput | FlowShareCommentUpdateWithWhereUniqueWithoutFlowShareInput[]
     updateMany?: FlowShareCommentUpdateManyWithWhereWithoutFlowShareInput | FlowShareCommentUpdateManyWithWhereWithoutFlowShareInput[]
     deleteMany?: FlowShareCommentScalarWhereInput | FlowShareCommentScalarWhereInput[]
+  }
+
+  export type FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput = {
+    create?: XOR<FlowShareCategoryCreateWithoutFlowSharesInput, FlowShareCategoryUncheckedCreateWithoutFlowSharesInput> | FlowShareCategoryCreateWithoutFlowSharesInput[] | FlowShareCategoryUncheckedCreateWithoutFlowSharesInput[]
+    connectOrCreate?: FlowShareCategoryCreateOrConnectWithoutFlowSharesInput | FlowShareCategoryCreateOrConnectWithoutFlowSharesInput[]
+    upsert?: FlowShareCategoryUpsertWithWhereUniqueWithoutFlowSharesInput | FlowShareCategoryUpsertWithWhereUniqueWithoutFlowSharesInput[]
+    set?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    disconnect?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    delete?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    connect?: FlowShareCategoryWhereUniqueInput | FlowShareCategoryWhereUniqueInput[]
+    update?: FlowShareCategoryUpdateWithWhereUniqueWithoutFlowSharesInput | FlowShareCategoryUpdateWithWhereUniqueWithoutFlowSharesInput[]
+    updateMany?: FlowShareCategoryUpdateManyWithWhereWithoutFlowSharesInput | FlowShareCategoryUpdateManyWithWhereWithoutFlowSharesInput[]
+    deleteMany?: FlowShareCategoryScalarWhereInput | FlowShareCategoryScalarWhereInput[]
+  }
+
+  export type FlowShareCreateNestedManyWithoutFlowShareCategoryInput = {
+    create?: XOR<FlowShareCreateWithoutFlowShareCategoryInput, FlowShareUncheckedCreateWithoutFlowShareCategoryInput> | FlowShareCreateWithoutFlowShareCategoryInput[] | FlowShareUncheckedCreateWithoutFlowShareCategoryInput[]
+    connectOrCreate?: FlowShareCreateOrConnectWithoutFlowShareCategoryInput | FlowShareCreateOrConnectWithoutFlowShareCategoryInput[]
+    connect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+  }
+
+  export type FlowShareUncheckedCreateNestedManyWithoutFlowShareCategoryInput = {
+    create?: XOR<FlowShareCreateWithoutFlowShareCategoryInput, FlowShareUncheckedCreateWithoutFlowShareCategoryInput> | FlowShareCreateWithoutFlowShareCategoryInput[] | FlowShareUncheckedCreateWithoutFlowShareCategoryInput[]
+    connectOrCreate?: FlowShareCreateOrConnectWithoutFlowShareCategoryInput | FlowShareCreateOrConnectWithoutFlowShareCategoryInput[]
+    connect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+  }
+
+  export type FlowShareUpdateManyWithoutFlowShareCategoryNestedInput = {
+    create?: XOR<FlowShareCreateWithoutFlowShareCategoryInput, FlowShareUncheckedCreateWithoutFlowShareCategoryInput> | FlowShareCreateWithoutFlowShareCategoryInput[] | FlowShareUncheckedCreateWithoutFlowShareCategoryInput[]
+    connectOrCreate?: FlowShareCreateOrConnectWithoutFlowShareCategoryInput | FlowShareCreateOrConnectWithoutFlowShareCategoryInput[]
+    upsert?: FlowShareUpsertWithWhereUniqueWithoutFlowShareCategoryInput | FlowShareUpsertWithWhereUniqueWithoutFlowShareCategoryInput[]
+    set?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    disconnect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    delete?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    connect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    update?: FlowShareUpdateWithWhereUniqueWithoutFlowShareCategoryInput | FlowShareUpdateWithWhereUniqueWithoutFlowShareCategoryInput[]
+    updateMany?: FlowShareUpdateManyWithWhereWithoutFlowShareCategoryInput | FlowShareUpdateManyWithWhereWithoutFlowShareCategoryInput[]
+    deleteMany?: FlowShareScalarWhereInput | FlowShareScalarWhereInput[]
+  }
+
+  export type FlowShareUncheckedUpdateManyWithoutFlowShareCategoryNestedInput = {
+    create?: XOR<FlowShareCreateWithoutFlowShareCategoryInput, FlowShareUncheckedCreateWithoutFlowShareCategoryInput> | FlowShareCreateWithoutFlowShareCategoryInput[] | FlowShareUncheckedCreateWithoutFlowShareCategoryInput[]
+    connectOrCreate?: FlowShareCreateOrConnectWithoutFlowShareCategoryInput | FlowShareCreateOrConnectWithoutFlowShareCategoryInput[]
+    upsert?: FlowShareUpsertWithWhereUniqueWithoutFlowShareCategoryInput | FlowShareUpsertWithWhereUniqueWithoutFlowShareCategoryInput[]
+    set?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    disconnect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    delete?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    connect?: FlowShareWhereUniqueInput | FlowShareWhereUniqueInput[]
+    update?: FlowShareUpdateWithWhereUniqueWithoutFlowShareCategoryInput | FlowShareUpdateWithWhereUniqueWithoutFlowShareCategoryInput[]
+    updateMany?: FlowShareUpdateManyWithWhereWithoutFlowShareCategoryInput | FlowShareUpdateManyWithWhereWithoutFlowShareCategoryInput[]
+    deleteMany?: FlowShareScalarWhereInput | FlowShareScalarWhereInput[]
   }
 
   export type FlowShareCreateNestedOneWithoutFlowShareDowloadsInput = {
@@ -25355,6 +26666,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUncheckedCreateWithoutUserInput = {
@@ -25371,6 +26683,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareCreateOrConnectWithoutUserInput = {
@@ -26236,6 +27549,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUncheckedCreateWithoutFlowInput = {
@@ -26252,6 +27566,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareCreateOrConnectWithoutFlowInput = {
@@ -26719,6 +28034,23 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FlowShareCategoryCreateWithoutFlowSharesInput = {
+    id?: string
+    name: string
+    slug: string
+  }
+
+  export type FlowShareCategoryUncheckedCreateWithoutFlowSharesInput = {
+    id?: string
+    name: string
+    slug: string
+  }
+
+  export type FlowShareCategoryCreateOrConnectWithoutFlowSharesInput = {
+    where: FlowShareCategoryWhereUniqueInput
+    create: XOR<FlowShareCategoryCreateWithoutFlowSharesInput, FlowShareCategoryUncheckedCreateWithoutFlowSharesInput>
+  }
+
   export type FlowUpsertWithoutSharesInput = {
     update: XOR<FlowUpdateWithoutSharesInput, FlowUncheckedUpdateWithoutSharesInput>
     create: XOR<FlowCreateWithoutSharesInput, FlowUncheckedCreateWithoutSharesInput>
@@ -26885,6 +28217,86 @@ export namespace Prisma {
     data: XOR<FlowShareCommentUpdateManyMutationInput, FlowShareCommentUncheckedUpdateManyWithoutFlowShareInput>
   }
 
+  export type FlowShareCategoryUpsertWithWhereUniqueWithoutFlowSharesInput = {
+    where: FlowShareCategoryWhereUniqueInput
+    update: XOR<FlowShareCategoryUpdateWithoutFlowSharesInput, FlowShareCategoryUncheckedUpdateWithoutFlowSharesInput>
+    create: XOR<FlowShareCategoryCreateWithoutFlowSharesInput, FlowShareCategoryUncheckedCreateWithoutFlowSharesInput>
+  }
+
+  export type FlowShareCategoryUpdateWithWhereUniqueWithoutFlowSharesInput = {
+    where: FlowShareCategoryWhereUniqueInput
+    data: XOR<FlowShareCategoryUpdateWithoutFlowSharesInput, FlowShareCategoryUncheckedUpdateWithoutFlowSharesInput>
+  }
+
+  export type FlowShareCategoryUpdateManyWithWhereWithoutFlowSharesInput = {
+    where: FlowShareCategoryScalarWhereInput
+    data: XOR<FlowShareCategoryUpdateManyMutationInput, FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesInput>
+  }
+
+  export type FlowShareCategoryScalarWhereInput = {
+    AND?: FlowShareCategoryScalarWhereInput | FlowShareCategoryScalarWhereInput[]
+    OR?: FlowShareCategoryScalarWhereInput[]
+    NOT?: FlowShareCategoryScalarWhereInput | FlowShareCategoryScalarWhereInput[]
+    id?: StringFilter<"FlowShareCategory"> | string
+    name?: StringFilter<"FlowShareCategory"> | string
+    slug?: StringFilter<"FlowShareCategory"> | string
+  }
+
+  export type FlowShareCreateWithoutFlowShareCategoryInput = {
+    id?: string
+    name: string
+    description?: string | null
+    thumbnail?: string | null
+    content?: string | null
+    status?: $Enums.FlowShareStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flow: FlowCreateNestedOneWithoutSharesInput
+    user: UserCreateNestedOneWithoutFlowSharesInput
+    flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutFlowShareInput
+    flowShareLikes?: FlowShareLikeCreateNestedManyWithoutFlowShareInput
+    flowShareSaves?: FlowShareSaveCreateNestedManyWithoutFlowShareInput
+    flowShareComments?: FlowShareCommentCreateNestedManyWithoutFlowShareInput
+  }
+
+  export type FlowShareUncheckedCreateWithoutFlowShareCategoryInput = {
+    id?: string
+    flowId: string
+    userId: string
+    name: string
+    description?: string | null
+    thumbnail?: string | null
+    content?: string | null
+    status?: $Enums.FlowShareStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutFlowShareInput
+  }
+
+  export type FlowShareCreateOrConnectWithoutFlowShareCategoryInput = {
+    where: FlowShareWhereUniqueInput
+    create: XOR<FlowShareCreateWithoutFlowShareCategoryInput, FlowShareUncheckedCreateWithoutFlowShareCategoryInput>
+  }
+
+  export type FlowShareUpsertWithWhereUniqueWithoutFlowShareCategoryInput = {
+    where: FlowShareWhereUniqueInput
+    update: XOR<FlowShareUpdateWithoutFlowShareCategoryInput, FlowShareUncheckedUpdateWithoutFlowShareCategoryInput>
+    create: XOR<FlowShareCreateWithoutFlowShareCategoryInput, FlowShareUncheckedCreateWithoutFlowShareCategoryInput>
+  }
+
+  export type FlowShareUpdateWithWhereUniqueWithoutFlowShareCategoryInput = {
+    where: FlowShareWhereUniqueInput
+    data: XOR<FlowShareUpdateWithoutFlowShareCategoryInput, FlowShareUncheckedUpdateWithoutFlowShareCategoryInput>
+  }
+
+  export type FlowShareUpdateManyWithWhereWithoutFlowShareCategoryInput = {
+    where: FlowShareScalarWhereInput
+    data: XOR<FlowShareUpdateManyMutationInput, FlowShareUncheckedUpdateManyWithoutFlowShareCategoryInput>
+  }
+
   export type FlowShareCreateWithoutFlowShareDowloadsInput = {
     id?: string
     name: string
@@ -26899,6 +28311,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUncheckedCreateWithoutFlowShareDowloadsInput = {
@@ -26915,6 +28328,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareCreateOrConnectWithoutFlowShareDowloadsInput = {
@@ -27000,6 +28414,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutFlowShareDowloadsInput = {
@@ -27016,6 +28431,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type UserUpsertWithoutFlowShareDowloadsInput = {
@@ -27091,6 +28507,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutFlowShareInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUncheckedCreateWithoutFlowShareCommentsInput = {
@@ -27107,6 +28524,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareCreateOrConnectWithoutFlowShareCommentsInput = {
@@ -27247,6 +28665,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutFlowShareNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutFlowShareCommentsInput = {
@@ -27263,6 +28682,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type UserUpsertWithoutFlowShareCommentsInput = {
@@ -27385,6 +28805,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUncheckedCreateWithoutFlowShareLikesInput = {
@@ -27401,6 +28822,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareCreateOrConnectWithoutFlowShareLikesInput = {
@@ -27486,6 +28908,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutFlowShareLikesInput = {
@@ -27502,6 +28925,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type UserUpsertWithoutFlowShareLikesInput = {
@@ -27577,6 +29001,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutFlowShareInput
     flowShareLikes?: FlowShareLikeCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareUncheckedCreateWithoutFlowShareSavesInput = {
@@ -27593,6 +29018,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutFlowShareInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutFlowShareInput
+    flowShareCategory?: FlowShareCategoryUncheckedCreateNestedManyWithoutFlowSharesInput
   }
 
   export type FlowShareCreateOrConnectWithoutFlowShareSavesInput = {
@@ -27678,6 +29104,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUpdateManyWithoutFlowShareNestedInput
     flowShareLikes?: FlowShareLikeUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutFlowShareSavesInput = {
@@ -27694,6 +29121,7 @@ export namespace Prisma {
     flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type UserUpsertWithoutFlowShareSavesInput = {
@@ -28537,6 +29965,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutUserInput = {
@@ -28553,6 +29982,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateManyWithoutUserInput = {
@@ -28810,6 +30240,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateWithoutFlowInput = {
@@ -28826,6 +30257,7 @@ export namespace Prisma {
     flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutFlowShareNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareCategory?: FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesNestedInput
   }
 
   export type FlowShareUncheckedUpdateManyWithoutFlowInput = {
@@ -28982,6 +30414,71 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     comment?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowShareCategoryUpdateWithoutFlowSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FlowShareCategoryUncheckedUpdateWithoutFlowSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FlowShareCategoryUncheckedUpdateManyWithoutFlowSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FlowShareUpdateWithoutFlowShareCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flow?: FlowUpdateOneRequiredWithoutSharesNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowSharesNestedInput
+    flowShareDowloads?: FlowShareDowloadUpdateManyWithoutFlowShareNestedInput
+    flowShareLikes?: FlowShareLikeUpdateManyWithoutFlowShareNestedInput
+    flowShareSaves?: FlowShareSaveUpdateManyWithoutFlowShareNestedInput
+    flowShareComments?: FlowShareCommentUpdateManyWithoutFlowShareNestedInput
+  }
+
+  export type FlowShareUncheckedUpdateWithoutFlowShareCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutFlowShareNestedInput
+    flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutFlowShareNestedInput
+  }
+
+  export type FlowShareUncheckedUpdateManyWithoutFlowShareCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumFlowShareStatusFieldUpdateOperationsInput | $Enums.FlowShareStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

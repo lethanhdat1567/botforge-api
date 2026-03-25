@@ -8,6 +8,12 @@ class FlowShareController {
         return res.success(result);
     }
 
+    async public(req: any, res: any) {
+        const flowShare = await flowShareService.public(req.query);
+
+        return res.success(flowShare);
+    }
+
     async listForAdmin(req: any, res: any) {
         const result = await flowShareService.listForAdmin(req.query);
 
@@ -40,12 +46,6 @@ class FlowShareController {
 
     async removeMany(req: any, res: any) {
         const flowShare = await flowShareService.removeMany(req.body.ids, req.user.id);
-
-        return res.success(flowShare);
-    }
-
-    async public(req: any, res: any) {
-        const flowShare = await flowShareService.public(req.query);
 
         return res.success(flowShare);
     }

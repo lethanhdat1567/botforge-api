@@ -189,6 +189,12 @@ exports.Prisma.FlowShareScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FlowShareCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug'
+};
+
 exports.Prisma.FlowShareDowloadScalarFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
@@ -376,6 +382,12 @@ exports.Prisma.FlowShareOrderByRelevanceFieldEnum = {
   content: 'content'
 };
 
+exports.Prisma.FlowShareCategoryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug'
+};
+
 exports.Prisma.FlowShareDowloadOrderByRelevanceFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
@@ -516,6 +528,7 @@ exports.Prisma.ModelName = {
   Flow: 'Flow',
   Page: 'Page',
   FlowShare: 'FlowShare',
+  FlowShareCategory: 'FlowShareCategory',
   FlowShareDowload: 'FlowShareDowload',
   FlowShareComment: 'FlowShareComment',
   FlowShareLike: 'FlowShareLike',

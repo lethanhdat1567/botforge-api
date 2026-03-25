@@ -16,6 +16,7 @@ import conversationRouter from './conversation.route';
 import messageRouter from './message.route';
 import facebookWebhookRouter from './facebook-webhook.route';
 import facebookAuthRouter from './facebook-auth.route';
+import flowShareCategoryRouter from './flow-share-category.route';
 
 const router = express.Router();
 
@@ -28,6 +29,7 @@ router.use('/flow-share-downloads', flowShareDowloadRouter);
 router.use('/flow-share-likes', flowShareLikeRouter);
 router.use('/flow-share-saves', flowShareSaveRouter);
 router.use('/flow-share-comments', flowShareCommentRouter);
+router.use('/flow-share-categories', flowShareCategoryRouter);
 router.use('/flows', flowRouter);
 router.use('/notifications', notificationRouter);
 router.use('/upload', uploadRouter);

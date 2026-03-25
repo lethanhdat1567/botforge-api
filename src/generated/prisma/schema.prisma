@@ -126,12 +126,13 @@ model FlowShare {
   createdAt   DateTime        @default(now()) @map("created_at")
   updatedAt   DateTime        @default(now()) @updatedAt @map("updated_at")
 
-  flow              Flow               @relation(fields: [flowId], references: [id])
-  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flow              Flow                @relation(fields: [flowId], references: [id])
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   flowShareDowloads FlowShareDowload[]
   flowShareLikes    FlowShareLike[]
   flowShareSaves    FlowShareSave[]
   flowShareComments FlowShareComment[]
+  flowShareCategory FlowShareCategory[]
 
   @@map("flow_shares")
 }
@@ -139,6 +140,16 @@ model FlowShare {
 enum FlowShareStatus {
   active
   inactive
+}
+
+model FlowShareCategory {
+  id   String @id @default(uuid())
+  name String @unique
+  slug String @unique
+
+  flowShares FlowShare[]
+
+  @@map("categories")
 }
 
 model FlowShareDowload {
