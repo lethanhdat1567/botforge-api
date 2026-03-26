@@ -18,6 +18,7 @@ import facebookWebhookRouter from './facebook-webhook.route';
 import facebookAuthRouter from './facebook-auth.route';
 import flowShareCategoryRouter from './flow-share-category.route';
 import flowRecordROuter from './flow-record.route';
+import dashboardRouter from './dashboard.routes';
 
 const router = express.Router();
 
@@ -41,6 +42,7 @@ router.use('/conversations', conversationRouter);
 router.use('/messages', messageRouter);
 router.use('/webhook', facebookWebhookRouter);
 router.use('/flow-records', flowRecordROuter);
+router.use('/dashboard', dashboardRouter);
 
 // Health route
 router.get('/', (req, res) => {
