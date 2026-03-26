@@ -27,7 +27,7 @@ export const authMiddleware = (req: AuthRequest, res: any, next: NextFunction) =
         next();
     } catch (error: any) {
         if (error.name === 'TokenExpiredError') {
-            return res.unauthorized('Token đã hết hạn rồi Đạt ơi!');
+            return res.unauthorized('Token đã hết hạn!');
         }
         return res.unauthorized('Token không hợp lệ!');
     }

@@ -1,5 +1,8 @@
 import { prisma } from '~/config/prisma';
+import { FlowRecordStatus } from '~/generated/prisma';
 import { WaitingVariable } from '~/types/flows/collection.type';
+import { ListQuery } from '~/types/query.type';
+import { getPaginationOptions } from '~/utils/pagination';
 import { convertToMs } from '~/utils/time';
 
 type CreateFlowRecord = {
@@ -9,6 +12,44 @@ type CreateFlowRecord = {
 };
 
 class FlowRecordService {
+    async listByUser(userId: string, filter: ListQuery<FlowRecordStatus>) {
+        const ownFlow = await prisma.flow.findFirst({
+            where: {
+                userId
+            },
+            select: {
+                id: true,
+                userId: true
+            }
+        });
+
+        const [flowRecords, meta] = await prisma.flowRecord
+            .paginate({
+                where: {
+                    flowId: ownFlow?.id,
+                    status: filter?.status || undefined,
+                    OR: [
+                        {
+                            flowId: {
+                                contains: filter.q || ''
+                            }
+                        },
+                        {
+                            senderId: {
+                                contains: filter.q || ''
+                            }
+                        }
+                    ]
+                }
+            })
+            .withPages(getPaginationOptions(filter));
+
+        return {
+            flowRecords,
+            meta
+        };
+    }
+
     async findByPageUidAndSenderId(pageUid: string, senderId: string) {
         return await prisma.flowRecord.findFirst({
             where: {
@@ -119,6 +160,26 @@ class FlowRecordService {
 
     async updateCurrentNode(flowRecordId: string, currentNodeId: string) {
         await prisma.flowRecord.update({ where: { id: flowRecordId }, data: { currentNodeId } });
+    }
+
+    async delete(id: string) {
+        const res = await prisma.flowRecord.delete({
+            where: {
+                id: id
+            }
+        });
+
+        return res;
+    }
+
+    async bulkDelete(ids: string[]) {
+        const res = await prisma.flowRecord.deleteMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
+        });
     }
 }
 
