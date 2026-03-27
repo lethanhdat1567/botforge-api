@@ -19,6 +19,8 @@ const postSelect = {
     title: true,
     description: true,
     status: true,
+    thumbnail: true,
+    slug: true,
     createdAt: true,
     updatedAt: true,
     author: {
@@ -44,6 +46,8 @@ const postDetailSelect = {
     description: true,
     content: true,
     status: true,
+    slug: true,
+    thumbnail: true,
     createdAt: true,
     updatedAt: true,
     author: {

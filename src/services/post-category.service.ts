@@ -9,17 +9,15 @@ type CreateCategory = {
 
 class PostCategoryService {
     async list(query: ListQuery) {
-        const [postCategories, meta] = await prisma.postCategories
-            .paginate({
-                where: {
-                    name: {
-                        contains: query.q
-                    }
+        const postCategories = await prisma.postCategories.findMany({
+            where: {
+                name: {
+                    contains: query.q
                 }
-            })
-            .withPages(getPaginationOptions(query));
+            }
+        });
 
-        return { postCategories, meta };
+        return { postCategories };
     }
 
     async detail(id: string) {
