@@ -11,23 +11,35 @@ import { OAuth2Client } from 'google-auth-library';
 
 class AuthService {
     async getMe(userId: string) {
-        const user = await prisma.user.findFirst({
-            where: {
-                id: userId
-            },
-            select: {
-                id: true,
-                username: true,
-                displayName: true,
-                avatar: true,
-                email: true,
-                createdAt: true,
-                updatedAt: true
-            }
-        });
+    const user = await prisma.user.findFirst({
+        where: {
+            id: userId
+        },
+        select: {
+            id: true,
+            username: true,
+            displayName: true,
+            avatar: true,
+            email: true,
+            createdAt: true,
+            updatedAt: true,
+            googleProviderId: true,
+            password: true
+        }
+    });
 
-        return user;
-    }
+    if (!user) return null;
+
+    const hasPassword = !!user.password;
+    const isGoogleAccount = !!user.googleProviderId;
+
+    const { password,googleProviderId, ...userWithoutPassword } = user;
+
+    return {
+        ...userWithoutPassword,
+        isSocialAccount: isGoogleAccount && !hasPassword
+    };
+}
 
     async register(displayName: string, email: string, password: string) {
         const hashPassword = await bcrypt.hash(password, 10);

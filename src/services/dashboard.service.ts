@@ -71,6 +71,72 @@ class DashboardService {
             chartData
         };
     }
+
+    async getAdminStats(from?: string, to?: string) {
+        // 1. Determine date range
+        const endDate = to ? dayjs(to).endOf('day').toDate() : dayjs().endOf('day').toDate();
+        const startDate = from ? dayjs(from).startOf('day').toDate() : dayjs().subtract(6, 'day').startOf('day').toDate();
+
+        // 2. Summary Statistics (Totals - still total count of all time)
+        const [usersCount, sharedFlowsCount, postsCount] = await Promise.all([
+            prisma.user.count(),
+            prisma.flowShare.count(),
+            prisma.posts.count()
+        ]);
+
+        // 3. Chart Data: Growth of these 3 metrics over the selected range
+        const [newUsers, newSharedFlows, newPosts] = await Promise.all([
+            prisma.user.findMany({
+                where: { createdAt: { gte: startDate, lte: endDate } },
+                select: { createdAt: true }
+            }),
+            prisma.flowShare.findMany({
+                where: { createdAt: { gte: startDate, lte: endDate } },
+                select: { createdAt: true }
+            }),
+            prisma.posts.findMany({
+                where: { createdAt: { gte: startDate, lte: endDate } },
+                select: { createdAt: true }
+            })
+        ]);
+
+        // Initialize range with 0
+        const chartDataMap: Record<string, { users: number; sharedFlows: number; posts: number }> = {};
+        const diffDays = dayjs(endDate).diff(dayjs(startDate), 'day');
+
+        for (let i = 0; i <= diffDays; i++) {
+            const date = dayjs(startDate).add(i, 'day').format('DD/MM');
+            chartDataMap[date] = { users: 0, sharedFlows: 0, posts: 0 };
+        }
+
+        // Aggregate data
+        newUsers.forEach((u) => {
+            const date = dayjs(u.createdAt).format('DD/MM');
+            if (chartDataMap[date]) chartDataMap[date].users++;
+        });
+        newSharedFlows.forEach((sf) => {
+            const date = dayjs(sf.createdAt).format('DD/MM');
+            if (chartDataMap[date]) chartDataMap[date].sharedFlows++;
+        });
+        newPosts.forEach((p) => {
+            const date = dayjs(p.createdAt).format('DD/MM');
+            if (chartDataMap[date]) chartDataMap[date].posts++;
+        });
+
+        const chartData = Object.entries(chartDataMap).map(([day, counts]) => ({
+            day,
+            ...counts
+        }));
+
+        return {
+            summary: {
+                usersCount,
+                sharedFlowsCount,
+                postsCount
+            },
+            chartData
+        };
+    }
 }
 
 export default new DashboardService();

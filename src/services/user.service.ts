@@ -15,6 +15,7 @@ const userSelect = {
     email: true,
     username: true,
     displayName: true,
+    avatar: true,
     role: true,
     createdAt: true,
     updatedAt: true
@@ -114,7 +115,7 @@ class UserService {
             return ['User not found', null];
         }
 
-        const isMatch = await bcrypt.compare(data.oldPassword, user.password as string);
+        const isMatch = await bcrypt.compare(data.oldPassword, user.password || '');
 
         if (!isMatch) {
             return ['Old password is incorrect', null];
