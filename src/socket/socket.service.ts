@@ -9,6 +9,7 @@ export function emitNewNotification(userId: string) {
     });
 }
 
+/** @deprecated Dùng `emitNewChatMessageForConversation` để hỗ trợ cả khách ẩn danh. */
 export function emitNewChatMessage(
     userId: string,
     payload: {
@@ -22,6 +23,39 @@ export function emitNewChatMessage(
     const io = getIO();
 
     io.to(`user:${userId}`).emit(SocketEvent.CHAT_NEW_MESSAGE, payload);
+}
+
+export type LiveChatNewMessagePayload = {
+    conversationId: string;
+    id: string;
+    sender: 'admin' | 'user';
+    type: 'text' | 'image' | 'video';
+    content: string;
+    createdAt: Date;
+};
+
+export function emitNewChatMessageForConversation(
+    conversation: {
+        id: string;
+        userId: string | null;
+        anonymousParticipantId: string | null;
+    },
+    payload: LiveChatNewMessagePayload
+) {
+    const io = getIO();
+
+    io.to(`conversation:${conversation.id}`).emit(SocketEvent.CHAT_NEW_MESSAGE, payload);
+
+    if (conversation.userId) {
+        io.to(`user:${conversation.userId}`).emit(SocketEvent.CHAT_NEW_MESSAGE, payload);
+    }
+
+    if (conversation.anonymousParticipantId) {
+        io.to(`anon:${conversation.anonymousParticipantId}`).emit(
+            SocketEvent.CHAT_NEW_MESSAGE,
+            payload
+        );
+    }
 }
 
 export function emitRevokeChatMessage(

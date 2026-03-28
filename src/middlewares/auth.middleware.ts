@@ -1,11 +1,13 @@
 import { Request, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { envConfig } from '~/config/envConfig';
+import type { LiveChatParticipant } from '~/types/live-chat-participant';
 import { TokenPayload } from '~/utils/jwt';
 
 // Mở rộng Request để có user
 export interface AuthRequest extends Request {
     user?: TokenPayload;
+    liveChatParticipant?: LiveChatParticipant;
 }
 
 export const authMiddleware = (req: AuthRequest, res: any, next: NextFunction) => {

@@ -1,5 +1,6 @@
 import { prisma } from '~/config/prisma';
-import { TokenPayload } from '~/utils/jwt';
+import { emitNewChatMessageForConversation } from '~/socket/socket.service';
+import type { LiveChatParticipant } from '~/types/live-chat-participant';
 
 type CreateMessage = {
     conversationId: string;
@@ -8,7 +9,48 @@ type CreateMessage = {
 };
 
 class MessageService {
-    async getMessagesByConversation(conversationId: string, { page = 1, limit = 10 }) {
+    async canAccessConversation(conversationId: string, participant: LiveChatParticipant) {
+        const conv = await prisma.conversation.findUnique({
+            where: { id: conversationId },
+            select: { userId: true, anonymousParticipantId: true }
+        });
+
+        if (!conv) {
+            return false;
+        }
+
+        if (participant.kind === 'user' && participant.role === 'admin') {
+            return true;
+        }
+
+        if (participant.kind === 'user' && conv.userId === participant.userId) {
+            return true;
+        }
+
+        if (participant.kind === 'anonymous' && conv.anonymousParticipantId === participant.anonymousParticipantId) {
+            return true;
+        }
+
+        return false;
+    }
+
+    async getMessagesByConversation(
+        conversationId: string,
+        query: { page?: number | string; limit?: number | string },
+        participant: LiveChatParticipant
+    ) {
+        if (!conversationId) {
+            return ['conversationId is required', null] as const;
+        }
+
+        const ok = await this.canAccessConversation(conversationId, participant);
+        if (!ok) {
+            return ['Không có quyền truy cập hội thoại này', null] as const;
+        }
+
+        const page = Math.max(1, Number(query.page) || 1);
+        const limit = Math.min(100, Math.max(1, Number(query.limit) || 50));
+
         const result = await prisma.message
             .paginate({
                 where: { conversationId },
@@ -16,24 +58,62 @@ class MessageService {
             })
             .withPages({ page, limit });
 
-        return result;
+        return [null, result] as const;
     }
-    async createMessage(data: CreateMessage, user?: TokenPayload) {
-        const senderRole = user?.role || 'user';
+
+    async createMessage(data: CreateMessage, participant: LiveChatParticipant) {
+        const ok = await this.canAccessConversation(data.conversationId, participant);
+        if (!ok) {
+            return ['Không có quyền gửi tin vào hội thoại này', null] as const;
+        }
+
+        const isAdmin = participant.kind === 'user' && participant.role === 'admin';
+
+        const role = isAdmin ? 'admin' : 'user';
+        const senderUserId = !isAdmin && participant.kind === 'user' ? participant.userId : null;
+        const senderAnonymousId =
+            !isAdmin && participant.kind === 'anonymous' ? participant.anonymousParticipantId : null;
 
         const result = await prisma.message.create({
             data: {
                 conversationId: data.conversationId,
                 content: data.content,
                 fileUrl: data.fileUrl,
-                role: senderRole as any,
-
-                readByAdmin: senderRole === 'admin',
-                readByUser: senderRole === 'user' || !user
+                role: role as 'admin' | 'user',
+                senderUserId,
+                senderAnonymousId,
+                readByAdmin: isAdmin,
+                readByUser: !isAdmin
             }
         });
 
-        return result;
+        await prisma.conversation.update({
+            where: { id: data.conversationId },
+            data: { updatedAt: new Date() }
+        });
+
+        const conversation = await prisma.conversation.findUnique({
+            where: { id: data.conversationId },
+            select: {
+                id: true,
+                userId: true,
+                anonymousParticipantId: true
+            }
+        });
+
+        if (conversation) {
+            const content = data.content ?? data.fileUrl ?? '';
+            emitNewChatMessageForConversation(conversation, {
+                conversationId: conversation.id,
+                id: result.id,
+                sender: role === 'admin' ? 'admin' : 'user',
+                type: data.fileUrl ? 'image' : 'text',
+                content,
+                createdAt: result.createdAt
+            });
+        }
+
+        return [null, result] as const;
     }
     async revokeMessage(messageId: string) {
         const message = await prisma.message.findUnique({
@@ -49,19 +129,33 @@ class MessageService {
 
         return [null, result];
     }
-    async markAsRead(conversationId: string, role: string) {
-        const result = await prisma.message.updateMany({
-            where: {
-                conversationId,
-                role: role as any
-            },
-            data: {
-                readByUser: role === 'user',
-                readByAdmin: role === 'admin'
-            }
-        });
+    async markAsRead(conversationId: string, _role: string, participant: LiveChatParticipant) {
+        const ok = await this.canAccessConversation(conversationId, participant);
+        if (!ok) {
+            return ['Không có quyền', null] as const;
+        }
 
-        return result;
+        const isAdminReader = participant.kind === 'user' && participant.role === 'admin';
+
+        const result = isAdminReader
+            ? await prisma.message.updateMany({
+                  where: {
+                      conversationId,
+                      role: 'user',
+                      revokedAt: null
+                  },
+                  data: { readByAdmin: true }
+              })
+            : await prisma.message.updateMany({
+                  where: {
+                      conversationId,
+                      role: 'admin',
+                      revokedAt: null
+                  },
+                  data: { readByUser: true }
+              });
+
+        return [null, result] as const;
     }
     async deleteMessage(messageId: string) {
         const message = await prisma.message.findUnique({

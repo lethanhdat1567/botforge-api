@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import conversationController from '~/controllers/conversation.controller';
 import { authMiddleware } from '~/middlewares/auth.middleware';
+import { resolveLiveChatParticipantMiddleware } from '~/middlewares/live-chat-participant.middleware';
 import { optionalAuthMiddleware } from '~/middlewares/optionalAuth.middleware';
 import requireRole from '~/middlewares/role.middleware';
 
 const router = Router();
 
-router.post('/', optionalAuthMiddleware, conversationController.create);
-router.get('/current', optionalAuthMiddleware, conversationController.getCurrent);
+router.post('/', optionalAuthMiddleware, resolveLiveChatParticipantMiddleware, conversationController.create);
+router.get('/current', optionalAuthMiddleware, resolveLiveChatParticipantMiddleware, conversationController.getCurrent);
 
 router.use(authMiddleware);
 

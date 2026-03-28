@@ -260,10 +260,18 @@ exports.Prisma.PostCategoriesScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AnonymousParticipantScalarFieldEnum = {
+  id: 'id',
+  displayName: 'displayName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   guestName: 'guestName',
+  anonymousParticipantId: 'anonymousParticipantId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -278,6 +286,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   revokedAt: 'revokedAt',
   content: 'content',
   fileUrl: 'fileUrl',
+  senderUserId: 'senderUserId',
+  senderAnonymousId: 'senderAnonymousId',
   createdAt: 'createdAt'
 };
 
@@ -439,17 +449,25 @@ exports.Prisma.PostCategoriesOrderByRelevanceFieldEnum = {
   slug: 'slug'
 };
 
+exports.Prisma.AnonymousParticipantOrderByRelevanceFieldEnum = {
+  id: 'id',
+  displayName: 'displayName'
+};
+
 exports.Prisma.ConversationOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
-  guestName: 'guestName'
+  guestName: 'guestName',
+  anonymousParticipantId: 'anonymousParticipantId'
 };
 
 exports.Prisma.MessageOrderByRelevanceFieldEnum = {
   id: 'id',
   conversationId: 'conversationId',
   content: 'content',
-  fileUrl: 'fileUrl'
+  fileUrl: 'fileUrl',
+  senderUserId: 'senderUserId',
+  senderAnonymousId: 'senderAnonymousId'
 };
 
 exports.Prisma.FlowRecordOrderByRelevanceFieldEnum = {
@@ -536,6 +554,7 @@ exports.Prisma.ModelName = {
   Notification: 'Notification',
   Posts: 'Posts',
   PostCategories: 'PostCategories',
+  AnonymousParticipant: 'AnonymousParticipant',
   Conversation: 'Conversation',
   Message: 'Message',
   FlowRecord: 'FlowRecord',

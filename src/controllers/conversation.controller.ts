@@ -15,7 +15,15 @@ class ConversationController {
     }
 
     async create(req: any, res: any) {
-        const result = await conversationService.create(req?.user?.id);
+        const participant = req.liveChatParticipant;
+        if (!participant) {
+            return res.error(
+                { message: 'Thiếu ngữ cảnh live chat (middleware).' },
+                httpCode.clientError.badRequest
+            );
+        }
+
+        const result = await conversationService.create(participant);
 
         return res.success(result, httpCode.success.created);
     }
@@ -33,9 +41,19 @@ class ConversationController {
     }
 
     async getCurrent(req: any, res: any) {
-        const { guestName } = req.query;
+        const participant = req.liveChatParticipant;
+        if (!participant) {
+            return res.error(
+                { message: 'Thiếu ngữ cảnh live chat (middleware).' },
+                httpCode.clientError.badRequest
+            );
+        }
 
-        const [error, result] = await conversationService.getCurrent(guestName, req?.user?.id);
+        const { guestName } = req.query;
+        const [error, result] = await conversationService.getCurrent(
+            participant,
+            typeof guestName === 'string' ? guestName : undefined
+        );
 
         if (error) {
             return res.error(error, httpCode.clientError.notFound);

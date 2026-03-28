@@ -11,11 +11,21 @@ export function initSocket(httpServer: any) {
 
     io.on('connection', (socket) => {
         const userId = socket.handshake.query.userId as string | undefined;
+        const anonymousId = socket.handshake.query.anonymousId as string | undefined;
+        const conversationId = socket.handshake.query.conversationId as string | undefined;
         const role = socket.handshake.query.role as string | undefined;
 
         // 1️⃣ Phòng riêng (ai cũng có)
         if (userId) {
             socket.join(`user:${userId}`);
+        }
+
+        if (anonymousId) {
+            socket.join(`anon:${anonymousId}`);
+        }
+
+        if (conversationId) {
+            socket.join(`conversation:${conversationId}`);
         }
 
         // 2️⃣ Phòng chung theo role

@@ -84,6 +84,11 @@ export type Posts = $Result.DefaultSelection<Prisma.$PostsPayload>
  */
 export type PostCategories = $Result.DefaultSelection<Prisma.$PostCategoriesPayload>
 /**
+ * Model AnonymousParticipant
+ * 
+ */
+export type AnonymousParticipant = $Result.DefaultSelection<Prisma.$AnonymousParticipantPayload>
+/**
  * Model Conversation
  * 
  */
@@ -485,6 +490,16 @@ export class PrismaClient<
     * ```
     */
   get postCategories(): Prisma.PostCategoriesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.anonymousParticipant`: Exposes CRUD operations for the **AnonymousParticipant** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AnonymousParticipants
+    * const anonymousParticipants = await prisma.anonymousParticipant.findMany()
+    * ```
+    */
+  get anonymousParticipant(): Prisma.AnonymousParticipantDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.conversation`: Exposes CRUD operations for the **Conversation** model.
@@ -973,6 +988,7 @@ export namespace Prisma {
     Notification: 'Notification',
     Posts: 'Posts',
     PostCategories: 'PostCategories',
+    AnonymousParticipant: 'AnonymousParticipant',
     Conversation: 'Conversation',
     Message: 'Message',
     FlowRecord: 'FlowRecord',
@@ -992,7 +1008,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "facebookAuth" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareCategory" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "conversation" | "message" | "flowRecord" | "queue"
+      modelProps: "user" | "facebookAuth" | "verificationToken" | "flow" | "page" | "flowShare" | "flowShareCategory" | "flowShareDowload" | "flowShareComment" | "flowShareLike" | "flowShareSave" | "notification" | "posts" | "postCategories" | "anonymousParticipant" | "conversation" | "message" | "flowRecord" | "queue"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1920,6 +1936,72 @@ export namespace Prisma {
           }
         }
       }
+      AnonymousParticipant: {
+        payload: Prisma.$AnonymousParticipantPayload<ExtArgs>
+        fields: Prisma.AnonymousParticipantFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnonymousParticipantFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnonymousParticipantFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload>
+          }
+          findFirst: {
+            args: Prisma.AnonymousParticipantFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnonymousParticipantFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload>
+          }
+          findMany: {
+            args: Prisma.AnonymousParticipantFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload>[]
+          }
+          create: {
+            args: Prisma.AnonymousParticipantCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload>
+          }
+          createMany: {
+            args: Prisma.AnonymousParticipantCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AnonymousParticipantDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload>
+          }
+          update: {
+            args: Prisma.AnonymousParticipantUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnonymousParticipantDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnonymousParticipantUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AnonymousParticipantUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnonymousParticipantPayload>
+          }
+          aggregate: {
+            args: Prisma.AnonymousParticipantAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnonymousParticipant>
+          }
+          groupBy: {
+            args: Prisma.AnonymousParticipantGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnonymousParticipantGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnonymousParticipantCountArgs<ExtArgs>
+            result: $Utils.Optional<AnonymousParticipantCountAggregateOutputType> | number
+          }
+        }
+      }
       Conversation: {
         payload: Prisma.$ConversationPayload<ExtArgs>
         fields: Prisma.ConversationFieldRefs
@@ -2306,6 +2388,7 @@ export namespace Prisma {
     notification?: NotificationOmit
     posts?: PostsOmit
     postCategories?: PostCategoriesOmit
+    anonymousParticipant?: AnonymousParticipantOmit
     conversation?: ConversationOmit
     message?: MessageOmit
     flowRecord?: FlowRecordOmit
@@ -2400,6 +2483,7 @@ export namespace Prisma {
     flowShareComments: number
     posts: number
     conversations: number
+    messagesSent: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2413,6 +2497,7 @@ export namespace Prisma {
     flowShareComments?: boolean | UserCountOutputTypeCountFlowShareCommentsArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
     conversations?: boolean | UserCountOutputTypeCountConversationsArgs
+    messagesSent?: boolean | UserCountOutputTypeCountMessagesSentArgs
   }
 
   // Custom InputTypes
@@ -2494,6 +2579,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConversationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMessagesSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
   }
 
 
@@ -2694,6 +2786,46 @@ export namespace Prisma {
    */
   export type PostCategoriesCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostsWhereInput
+  }
+
+
+  /**
+   * Count Type AnonymousParticipantCountOutputType
+   */
+
+  export type AnonymousParticipantCountOutputType = {
+    conversations: number
+    messages: number
+  }
+
+  export type AnonymousParticipantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversations?: boolean | AnonymousParticipantCountOutputTypeCountConversationsArgs
+    messages?: boolean | AnonymousParticipantCountOutputTypeCountMessagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AnonymousParticipantCountOutputType without action
+   */
+  export type AnonymousParticipantCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipantCountOutputType
+     */
+    select?: AnonymousParticipantCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AnonymousParticipantCountOutputType without action
+   */
+  export type AnonymousParticipantCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationWhereInput
+  }
+
+  /**
+   * AnonymousParticipantCountOutputType without action
+   */
+  export type AnonymousParticipantCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
   }
 
 
@@ -2954,6 +3086,7 @@ export namespace Prisma {
     flowShareComments?: boolean | User$flowShareCommentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     conversations?: boolean | User$conversationsArgs<ExtArgs>
+    messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
     facebookAuth?: boolean | User$facebookAuthArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -2986,6 +3119,7 @@ export namespace Prisma {
     flowShareComments?: boolean | User$flowShareCommentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     conversations?: boolean | User$conversationsArgs<ExtArgs>
+    messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
     facebookAuth?: boolean | User$facebookAuthArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3003,6 +3137,7 @@ export namespace Prisma {
       flowShareComments: Prisma.$FlowShareCommentPayload<ExtArgs>[]
       posts: Prisma.$PostsPayload<ExtArgs>[]
       conversations: Prisma.$ConversationPayload<ExtArgs>[]
+      messagesSent: Prisma.$MessagePayload<ExtArgs>[]
       facebookAuth: Prisma.$FacebookAuthPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3367,6 +3502,7 @@ export namespace Prisma {
     flowShareComments<T extends User$flowShareCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$flowShareCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conversations<T extends User$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messagesSent<T extends User$messagesSentArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     facebookAuth<T extends User$facebookAuthArgs<ExtArgs> = {}>(args?: Subset<T, User$facebookAuthArgs<ExtArgs>>): Prisma__FacebookAuthClient<$Result.GetResult<Prisma.$FacebookAuthPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3988,6 +4124,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * User.messagesSent
+   */
+  export type User$messagesSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
   }
 
   /**
@@ -16688,6 +16848,978 @@ export namespace Prisma {
 
 
   /**
+   * Model AnonymousParticipant
+   */
+
+  export type AggregateAnonymousParticipant = {
+    _count: AnonymousParticipantCountAggregateOutputType | null
+    _min: AnonymousParticipantMinAggregateOutputType | null
+    _max: AnonymousParticipantMaxAggregateOutputType | null
+  }
+
+  export type AnonymousParticipantMinAggregateOutputType = {
+    id: string | null
+    displayName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnonymousParticipantMaxAggregateOutputType = {
+    id: string | null
+    displayName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnonymousParticipantCountAggregateOutputType = {
+    id: number
+    displayName: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AnonymousParticipantMinAggregateInputType = {
+    id?: true
+    displayName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnonymousParticipantMaxAggregateInputType = {
+    id?: true
+    displayName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnonymousParticipantCountAggregateInputType = {
+    id?: true
+    displayName?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AnonymousParticipantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnonymousParticipant to aggregate.
+     */
+    where?: AnonymousParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnonymousParticipants to fetch.
+     */
+    orderBy?: AnonymousParticipantOrderByWithRelationInput | AnonymousParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnonymousParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnonymousParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnonymousParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AnonymousParticipants
+    **/
+    _count?: true | AnonymousParticipantCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnonymousParticipantMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnonymousParticipantMaxAggregateInputType
+  }
+
+  export type GetAnonymousParticipantAggregateType<T extends AnonymousParticipantAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnonymousParticipant]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnonymousParticipant[P]>
+      : GetScalarType<T[P], AggregateAnonymousParticipant[P]>
+  }
+
+
+
+
+  export type AnonymousParticipantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnonymousParticipantWhereInput
+    orderBy?: AnonymousParticipantOrderByWithAggregationInput | AnonymousParticipantOrderByWithAggregationInput[]
+    by: AnonymousParticipantScalarFieldEnum[] | AnonymousParticipantScalarFieldEnum
+    having?: AnonymousParticipantScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnonymousParticipantCountAggregateInputType | true
+    _min?: AnonymousParticipantMinAggregateInputType
+    _max?: AnonymousParticipantMaxAggregateInputType
+  }
+
+  export type AnonymousParticipantGroupByOutputType = {
+    id: string
+    displayName: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AnonymousParticipantCountAggregateOutputType | null
+    _min: AnonymousParticipantMinAggregateOutputType | null
+    _max: AnonymousParticipantMaxAggregateOutputType | null
+  }
+
+  type GetAnonymousParticipantGroupByPayload<T extends AnonymousParticipantGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnonymousParticipantGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnonymousParticipantGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnonymousParticipantGroupByOutputType[P]>
+            : GetScalarType<T[P], AnonymousParticipantGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnonymousParticipantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    displayName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    conversations?: boolean | AnonymousParticipant$conversationsArgs<ExtArgs>
+    messages?: boolean | AnonymousParticipant$messagesArgs<ExtArgs>
+    _count?: boolean | AnonymousParticipantCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["anonymousParticipant"]>
+
+
+
+  export type AnonymousParticipantSelectScalar = {
+    id?: boolean
+    displayName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AnonymousParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "displayName" | "createdAt" | "updatedAt", ExtArgs["result"]["anonymousParticipant"]>
+  export type AnonymousParticipantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversations?: boolean | AnonymousParticipant$conversationsArgs<ExtArgs>
+    messages?: boolean | AnonymousParticipant$messagesArgs<ExtArgs>
+    _count?: boolean | AnonymousParticipantCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $AnonymousParticipantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AnonymousParticipant"
+    objects: {
+      conversations: Prisma.$ConversationPayload<ExtArgs>[]
+      messages: Prisma.$MessagePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      displayName: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["anonymousParticipant"]>
+    composites: {}
+  }
+
+  type AnonymousParticipantGetPayload<S extends boolean | null | undefined | AnonymousParticipantDefaultArgs> = $Result.GetResult<Prisma.$AnonymousParticipantPayload, S>
+
+  type AnonymousParticipantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AnonymousParticipantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AnonymousParticipantCountAggregateInputType | true
+    }
+
+  export interface AnonymousParticipantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AnonymousParticipant'], meta: { name: 'AnonymousParticipant' } }
+    /**
+     * Find zero or one AnonymousParticipant that matches the filter.
+     * @param {AnonymousParticipantFindUniqueArgs} args - Arguments to find a AnonymousParticipant
+     * @example
+     * // Get one AnonymousParticipant
+     * const anonymousParticipant = await prisma.anonymousParticipant.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnonymousParticipantFindUniqueArgs>(args: SelectSubset<T, AnonymousParticipantFindUniqueArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AnonymousParticipant that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AnonymousParticipantFindUniqueOrThrowArgs} args - Arguments to find a AnonymousParticipant
+     * @example
+     * // Get one AnonymousParticipant
+     * const anonymousParticipant = await prisma.anonymousParticipant.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnonymousParticipantFindUniqueOrThrowArgs>(args: SelectSubset<T, AnonymousParticipantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AnonymousParticipant that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnonymousParticipantFindFirstArgs} args - Arguments to find a AnonymousParticipant
+     * @example
+     * // Get one AnonymousParticipant
+     * const anonymousParticipant = await prisma.anonymousParticipant.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnonymousParticipantFindFirstArgs>(args?: SelectSubset<T, AnonymousParticipantFindFirstArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AnonymousParticipant that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnonymousParticipantFindFirstOrThrowArgs} args - Arguments to find a AnonymousParticipant
+     * @example
+     * // Get one AnonymousParticipant
+     * const anonymousParticipant = await prisma.anonymousParticipant.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnonymousParticipantFindFirstOrThrowArgs>(args?: SelectSubset<T, AnonymousParticipantFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AnonymousParticipants that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnonymousParticipantFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AnonymousParticipants
+     * const anonymousParticipants = await prisma.anonymousParticipant.findMany()
+     * 
+     * // Get first 10 AnonymousParticipants
+     * const anonymousParticipants = await prisma.anonymousParticipant.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const anonymousParticipantWithIdOnly = await prisma.anonymousParticipant.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnonymousParticipantFindManyArgs>(args?: SelectSubset<T, AnonymousParticipantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AnonymousParticipant.
+     * @param {AnonymousParticipantCreateArgs} args - Arguments to create a AnonymousParticipant.
+     * @example
+     * // Create one AnonymousParticipant
+     * const AnonymousParticipant = await prisma.anonymousParticipant.create({
+     *   data: {
+     *     // ... data to create a AnonymousParticipant
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnonymousParticipantCreateArgs>(args: SelectSubset<T, AnonymousParticipantCreateArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AnonymousParticipants.
+     * @param {AnonymousParticipantCreateManyArgs} args - Arguments to create many AnonymousParticipants.
+     * @example
+     * // Create many AnonymousParticipants
+     * const anonymousParticipant = await prisma.anonymousParticipant.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnonymousParticipantCreateManyArgs>(args?: SelectSubset<T, AnonymousParticipantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AnonymousParticipant.
+     * @param {AnonymousParticipantDeleteArgs} args - Arguments to delete one AnonymousParticipant.
+     * @example
+     * // Delete one AnonymousParticipant
+     * const AnonymousParticipant = await prisma.anonymousParticipant.delete({
+     *   where: {
+     *     // ... filter to delete one AnonymousParticipant
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnonymousParticipantDeleteArgs>(args: SelectSubset<T, AnonymousParticipantDeleteArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AnonymousParticipant.
+     * @param {AnonymousParticipantUpdateArgs} args - Arguments to update one AnonymousParticipant.
+     * @example
+     * // Update one AnonymousParticipant
+     * const anonymousParticipant = await prisma.anonymousParticipant.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnonymousParticipantUpdateArgs>(args: SelectSubset<T, AnonymousParticipantUpdateArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AnonymousParticipants.
+     * @param {AnonymousParticipantDeleteManyArgs} args - Arguments to filter AnonymousParticipants to delete.
+     * @example
+     * // Delete a few AnonymousParticipants
+     * const { count } = await prisma.anonymousParticipant.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnonymousParticipantDeleteManyArgs>(args?: SelectSubset<T, AnonymousParticipantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AnonymousParticipants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnonymousParticipantUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AnonymousParticipants
+     * const anonymousParticipant = await prisma.anonymousParticipant.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnonymousParticipantUpdateManyArgs>(args: SelectSubset<T, AnonymousParticipantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AnonymousParticipant.
+     * @param {AnonymousParticipantUpsertArgs} args - Arguments to update or create a AnonymousParticipant.
+     * @example
+     * // Update or create a AnonymousParticipant
+     * const anonymousParticipant = await prisma.anonymousParticipant.upsert({
+     *   create: {
+     *     // ... data to create a AnonymousParticipant
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AnonymousParticipant we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnonymousParticipantUpsertArgs>(args: SelectSubset<T, AnonymousParticipantUpsertArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AnonymousParticipants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnonymousParticipantCountArgs} args - Arguments to filter AnonymousParticipants to count.
+     * @example
+     * // Count the number of AnonymousParticipants
+     * const count = await prisma.anonymousParticipant.count({
+     *   where: {
+     *     // ... the filter for the AnonymousParticipants we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnonymousParticipantCountArgs>(
+      args?: Subset<T, AnonymousParticipantCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnonymousParticipantCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AnonymousParticipant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnonymousParticipantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnonymousParticipantAggregateArgs>(args: Subset<T, AnonymousParticipantAggregateArgs>): Prisma.PrismaPromise<GetAnonymousParticipantAggregateType<T>>
+
+    /**
+     * Group by AnonymousParticipant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnonymousParticipantGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnonymousParticipantGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnonymousParticipantGroupByArgs['orderBy'] }
+        : { orderBy?: AnonymousParticipantGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnonymousParticipantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnonymousParticipantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AnonymousParticipant model
+   */
+  readonly fields: AnonymousParticipantFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AnonymousParticipant.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnonymousParticipantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    conversations<T extends AnonymousParticipant$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, AnonymousParticipant$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messages<T extends AnonymousParticipant$messagesArgs<ExtArgs> = {}>(args?: Subset<T, AnonymousParticipant$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AnonymousParticipant model
+   */
+  interface AnonymousParticipantFieldRefs {
+    readonly id: FieldRef<"AnonymousParticipant", 'String'>
+    readonly displayName: FieldRef<"AnonymousParticipant", 'String'>
+    readonly createdAt: FieldRef<"AnonymousParticipant", 'DateTime'>
+    readonly updatedAt: FieldRef<"AnonymousParticipant", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AnonymousParticipant findUnique
+   */
+  export type AnonymousParticipantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which AnonymousParticipant to fetch.
+     */
+    where: AnonymousParticipantWhereUniqueInput
+  }
+
+  /**
+   * AnonymousParticipant findUniqueOrThrow
+   */
+  export type AnonymousParticipantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which AnonymousParticipant to fetch.
+     */
+    where: AnonymousParticipantWhereUniqueInput
+  }
+
+  /**
+   * AnonymousParticipant findFirst
+   */
+  export type AnonymousParticipantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which AnonymousParticipant to fetch.
+     */
+    where?: AnonymousParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnonymousParticipants to fetch.
+     */
+    orderBy?: AnonymousParticipantOrderByWithRelationInput | AnonymousParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnonymousParticipants.
+     */
+    cursor?: AnonymousParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnonymousParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnonymousParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnonymousParticipants.
+     */
+    distinct?: AnonymousParticipantScalarFieldEnum | AnonymousParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * AnonymousParticipant findFirstOrThrow
+   */
+  export type AnonymousParticipantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which AnonymousParticipant to fetch.
+     */
+    where?: AnonymousParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnonymousParticipants to fetch.
+     */
+    orderBy?: AnonymousParticipantOrderByWithRelationInput | AnonymousParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnonymousParticipants.
+     */
+    cursor?: AnonymousParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnonymousParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnonymousParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnonymousParticipants.
+     */
+    distinct?: AnonymousParticipantScalarFieldEnum | AnonymousParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * AnonymousParticipant findMany
+   */
+  export type AnonymousParticipantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which AnonymousParticipants to fetch.
+     */
+    where?: AnonymousParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnonymousParticipants to fetch.
+     */
+    orderBy?: AnonymousParticipantOrderByWithRelationInput | AnonymousParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AnonymousParticipants.
+     */
+    cursor?: AnonymousParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnonymousParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnonymousParticipants.
+     */
+    skip?: number
+    distinct?: AnonymousParticipantScalarFieldEnum | AnonymousParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * AnonymousParticipant create
+   */
+  export type AnonymousParticipantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AnonymousParticipant.
+     */
+    data: XOR<AnonymousParticipantCreateInput, AnonymousParticipantUncheckedCreateInput>
+  }
+
+  /**
+   * AnonymousParticipant createMany
+   */
+  export type AnonymousParticipantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AnonymousParticipants.
+     */
+    data: AnonymousParticipantCreateManyInput | AnonymousParticipantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AnonymousParticipant update
+   */
+  export type AnonymousParticipantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AnonymousParticipant.
+     */
+    data: XOR<AnonymousParticipantUpdateInput, AnonymousParticipantUncheckedUpdateInput>
+    /**
+     * Choose, which AnonymousParticipant to update.
+     */
+    where: AnonymousParticipantWhereUniqueInput
+  }
+
+  /**
+   * AnonymousParticipant updateMany
+   */
+  export type AnonymousParticipantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AnonymousParticipants.
+     */
+    data: XOR<AnonymousParticipantUpdateManyMutationInput, AnonymousParticipantUncheckedUpdateManyInput>
+    /**
+     * Filter which AnonymousParticipants to update
+     */
+    where?: AnonymousParticipantWhereInput
+    /**
+     * Limit how many AnonymousParticipants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AnonymousParticipant upsert
+   */
+  export type AnonymousParticipantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AnonymousParticipant to update in case it exists.
+     */
+    where: AnonymousParticipantWhereUniqueInput
+    /**
+     * In case the AnonymousParticipant found by the `where` argument doesn't exist, create a new AnonymousParticipant with this data.
+     */
+    create: XOR<AnonymousParticipantCreateInput, AnonymousParticipantUncheckedCreateInput>
+    /**
+     * In case the AnonymousParticipant was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnonymousParticipantUpdateInput, AnonymousParticipantUncheckedUpdateInput>
+  }
+
+  /**
+   * AnonymousParticipant delete
+   */
+  export type AnonymousParticipantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    /**
+     * Filter which AnonymousParticipant to delete.
+     */
+    where: AnonymousParticipantWhereUniqueInput
+  }
+
+  /**
+   * AnonymousParticipant deleteMany
+   */
+  export type AnonymousParticipantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnonymousParticipants to delete
+     */
+    where?: AnonymousParticipantWhereInput
+    /**
+     * Limit how many AnonymousParticipants to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AnonymousParticipant.conversations
+   */
+  export type AnonymousParticipant$conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Conversation
+     */
+    omit?: ConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    cursor?: ConversationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * AnonymousParticipant.messages
+   */
+  export type AnonymousParticipant$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * AnonymousParticipant without action
+   */
+  export type AnonymousParticipantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Conversation
    */
 
@@ -16701,6 +17833,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     guestName: string | null
+    anonymousParticipantId: string | null
     status: $Enums.ConversationStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16710,6 +17843,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     guestName: string | null
+    anonymousParticipantId: string | null
     status: $Enums.ConversationStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16719,6 +17853,7 @@ export namespace Prisma {
     id: number
     userId: number
     guestName: number
+    anonymousParticipantId: number
     status: number
     createdAt: number
     updatedAt: number
@@ -16730,6 +17865,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     guestName?: true
+    anonymousParticipantId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -16739,6 +17875,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     guestName?: true
+    anonymousParticipantId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -16748,6 +17885,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     guestName?: true
+    anonymousParticipantId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -16830,6 +17968,7 @@ export namespace Prisma {
     id: string
     userId: string | null
     guestName: string | null
+    anonymousParticipantId: string | null
     status: $Enums.ConversationStatus
     createdAt: Date
     updatedAt: Date
@@ -16856,11 +17995,13 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     guestName?: boolean
+    anonymousParticipantId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
     user?: boolean | Conversation$userArgs<ExtArgs>
+    anonymousParticipant?: boolean | Conversation$anonymousParticipantArgs<ExtArgs>
     _count?: boolean | ConversationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversation"]>
 
@@ -16870,15 +18011,17 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     guestName?: boolean
+    anonymousParticipantId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "guestName" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["conversation"]>
+  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "guestName" | "anonymousParticipantId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["conversation"]>
   export type ConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
     user?: boolean | Conversation$userArgs<ExtArgs>
+    anonymousParticipant?: boolean | Conversation$anonymousParticipantArgs<ExtArgs>
     _count?: boolean | ConversationCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -16887,11 +18030,13 @@ export namespace Prisma {
     objects: {
       messages: Prisma.$MessagePayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs> | null
+      anonymousParticipant: Prisma.$AnonymousParticipantPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string | null
       guestName: string | null
+      anonymousParticipantId: string | null
       status: $Enums.ConversationStatus
       createdAt: Date
       updatedAt: Date
@@ -17237,6 +18382,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     messages<T extends Conversation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends Conversation$userArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    anonymousParticipant<T extends Conversation$anonymousParticipantArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$anonymousParticipantArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17269,6 +18415,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Conversation", 'String'>
     readonly userId: FieldRef<"Conversation", 'String'>
     readonly guestName: FieldRef<"Conversation", 'String'>
+    readonly anonymousParticipantId: FieldRef<"Conversation", 'String'>
     readonly status: FieldRef<"Conversation", 'ConversationStatus'>
     readonly createdAt: FieldRef<"Conversation", 'DateTime'>
     readonly updatedAt: FieldRef<"Conversation", 'DateTime'>
@@ -17658,6 +18805,25 @@ export namespace Prisma {
   }
 
   /**
+   * Conversation.anonymousParticipant
+   */
+  export type Conversation$anonymousParticipantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    where?: AnonymousParticipantWhereInput
+  }
+
+  /**
    * Conversation without action
    */
   export type ConversationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17695,6 +18861,8 @@ export namespace Prisma {
     revokedAt: Date | null
     content: string | null
     fileUrl: string | null
+    senderUserId: string | null
+    senderAnonymousId: string | null
     createdAt: Date | null
   }
 
@@ -17707,6 +18875,8 @@ export namespace Prisma {
     revokedAt: Date | null
     content: string | null
     fileUrl: string | null
+    senderUserId: string | null
+    senderAnonymousId: string | null
     createdAt: Date | null
   }
 
@@ -17719,6 +18889,8 @@ export namespace Prisma {
     revokedAt: number
     content: number
     fileUrl: number
+    senderUserId: number
+    senderAnonymousId: number
     createdAt: number
     _all: number
   }
@@ -17733,6 +18905,8 @@ export namespace Prisma {
     revokedAt?: true
     content?: true
     fileUrl?: true
+    senderUserId?: true
+    senderAnonymousId?: true
     createdAt?: true
   }
 
@@ -17745,6 +18919,8 @@ export namespace Prisma {
     revokedAt?: true
     content?: true
     fileUrl?: true
+    senderUserId?: true
+    senderAnonymousId?: true
     createdAt?: true
   }
 
@@ -17757,6 +18933,8 @@ export namespace Prisma {
     revokedAt?: true
     content?: true
     fileUrl?: true
+    senderUserId?: true
+    senderAnonymousId?: true
     createdAt?: true
     _all?: true
   }
@@ -17842,6 +19020,8 @@ export namespace Prisma {
     revokedAt: Date | null
     content: string | null
     fileUrl: string | null
+    senderUserId: string | null
+    senderAnonymousId: string | null
     createdAt: Date
     _count: MessageCountAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
@@ -17871,7 +19051,11 @@ export namespace Prisma {
     revokedAt?: boolean
     content?: boolean
     fileUrl?: boolean
+    senderUserId?: boolean
+    senderAnonymousId?: boolean
     createdAt?: boolean
+    senderUser?: boolean | Message$senderUserArgs<ExtArgs>
+    senderAnonymous?: boolean | Message$senderAnonymousArgs<ExtArgs>
     conversation?: boolean | ConversationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
@@ -17886,17 +19070,23 @@ export namespace Prisma {
     revokedAt?: boolean
     content?: boolean
     fileUrl?: boolean
+    senderUserId?: boolean
+    senderAnonymousId?: boolean
     createdAt?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "conversationId" | "role" | "readByAdmin" | "readByUser" | "revokedAt" | "content" | "fileUrl" | "createdAt", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "conversationId" | "role" | "readByAdmin" | "readByUser" | "revokedAt" | "content" | "fileUrl" | "senderUserId" | "senderAnonymousId" | "createdAt", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    senderUser?: boolean | Message$senderUserArgs<ExtArgs>
+    senderAnonymous?: boolean | Message$senderAnonymousArgs<ExtArgs>
     conversation?: boolean | ConversationDefaultArgs<ExtArgs>
   }
 
   export type $MessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Message"
     objects: {
+      senderUser: Prisma.$UserPayload<ExtArgs> | null
+      senderAnonymous: Prisma.$AnonymousParticipantPayload<ExtArgs> | null
       conversation: Prisma.$ConversationPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -17908,6 +19098,8 @@ export namespace Prisma {
       revokedAt: Date | null
       content: string | null
       fileUrl: string | null
+      senderUserId: string | null
+      senderAnonymousId: string | null
       createdAt: Date
     }, ExtArgs["result"]["message"]>
     composites: {}
@@ -18249,6 +19441,8 @@ export namespace Prisma {
    */
   export interface Prisma__MessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    senderUser<T extends Message$senderUserArgs<ExtArgs> = {}>(args?: Subset<T, Message$senderUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    senderAnonymous<T extends Message$senderAnonymousArgs<ExtArgs> = {}>(args?: Subset<T, Message$senderAnonymousArgs<ExtArgs>>): Prisma__AnonymousParticipantClient<$Result.GetResult<Prisma.$AnonymousParticipantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     conversation<T extends ConversationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConversationDefaultArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -18287,6 +19481,8 @@ export namespace Prisma {
     readonly revokedAt: FieldRef<"Message", 'DateTime'>
     readonly content: FieldRef<"Message", 'String'>
     readonly fileUrl: FieldRef<"Message", 'String'>
+    readonly senderUserId: FieldRef<"Message", 'String'>
+    readonly senderAnonymousId: FieldRef<"Message", 'String'>
     readonly createdAt: FieldRef<"Message", 'DateTime'>
   }
     
@@ -18628,6 +19824,44 @@ export namespace Prisma {
      * Limit how many Messages to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Message.senderUser
+   */
+  export type Message$senderUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Message.senderAnonymous
+   */
+  export type Message$senderAnonymousArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnonymousParticipant
+     */
+    select?: AnonymousParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AnonymousParticipant
+     */
+    omit?: AnonymousParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnonymousParticipantInclude<ExtArgs> | null
+    where?: AnonymousParticipantWhereInput
   }
 
   /**
@@ -20710,10 +21944,21 @@ export namespace Prisma {
   export type PostCategoriesScalarFieldEnum = (typeof PostCategoriesScalarFieldEnum)[keyof typeof PostCategoriesScalarFieldEnum]
 
 
+  export const AnonymousParticipantScalarFieldEnum: {
+    id: 'id',
+    displayName: 'displayName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AnonymousParticipantScalarFieldEnum = (typeof AnonymousParticipantScalarFieldEnum)[keyof typeof AnonymousParticipantScalarFieldEnum]
+
+
   export const ConversationScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
     guestName: 'guestName',
+    anonymousParticipantId: 'anonymousParticipantId',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -20731,6 +21976,8 @@ export namespace Prisma {
     revokedAt: 'revokedAt',
     content: 'content',
     fileUrl: 'fileUrl',
+    senderUserId: 'senderUserId',
+    senderAnonymousId: 'senderAnonymousId',
     createdAt: 'createdAt'
   };
 
@@ -20961,10 +22208,19 @@ export namespace Prisma {
   export type PostCategoriesOrderByRelevanceFieldEnum = (typeof PostCategoriesOrderByRelevanceFieldEnum)[keyof typeof PostCategoriesOrderByRelevanceFieldEnum]
 
 
+  export const AnonymousParticipantOrderByRelevanceFieldEnum: {
+    id: 'id',
+    displayName: 'displayName'
+  };
+
+  export type AnonymousParticipantOrderByRelevanceFieldEnum = (typeof AnonymousParticipantOrderByRelevanceFieldEnum)[keyof typeof AnonymousParticipantOrderByRelevanceFieldEnum]
+
+
   export const ConversationOrderByRelevanceFieldEnum: {
     id: 'id',
     userId: 'userId',
-    guestName: 'guestName'
+    guestName: 'guestName',
+    anonymousParticipantId: 'anonymousParticipantId'
   };
 
   export type ConversationOrderByRelevanceFieldEnum = (typeof ConversationOrderByRelevanceFieldEnum)[keyof typeof ConversationOrderByRelevanceFieldEnum]
@@ -20974,7 +22230,9 @@ export namespace Prisma {
     id: 'id',
     conversationId: 'conversationId',
     content: 'content',
-    fileUrl: 'fileUrl'
+    fileUrl: 'fileUrl',
+    senderUserId: 'senderUserId',
+    senderAnonymousId: 'senderAnonymousId'
   };
 
   export type MessageOrderByRelevanceFieldEnum = (typeof MessageOrderByRelevanceFieldEnum)[keyof typeof MessageOrderByRelevanceFieldEnum]
@@ -21137,6 +22395,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentListRelationFilter
     posts?: PostsListRelationFilter
     conversations?: ConversationListRelationFilter
+    messagesSent?: MessageListRelationFilter
     facebookAuth?: XOR<FacebookAuthNullableScalarRelationFilter, FacebookAuthWhereInput> | null
   }
 
@@ -21162,6 +22421,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentOrderByRelationAggregateInput
     posts?: PostsOrderByRelationAggregateInput
     conversations?: ConversationOrderByRelationAggregateInput
+    messagesSent?: MessageOrderByRelationAggregateInput
     facebookAuth?: FacebookAuthOrderByWithRelationInput
     _relevance?: UserOrderByRelevanceInput
   }
@@ -21191,6 +22451,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentListRelationFilter
     posts?: PostsListRelationFilter
     conversations?: ConversationListRelationFilter
+    messagesSent?: MessageListRelationFilter
     facebookAuth?: XOR<FacebookAuthNullableScalarRelationFilter, FacebookAuthWhereInput> | null
   }, "id" | "username" | "email">
 
@@ -22117,6 +23378,60 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"PostCategories"> | Date | string
   }
 
+  export type AnonymousParticipantWhereInput = {
+    AND?: AnonymousParticipantWhereInput | AnonymousParticipantWhereInput[]
+    OR?: AnonymousParticipantWhereInput[]
+    NOT?: AnonymousParticipantWhereInput | AnonymousParticipantWhereInput[]
+    id?: StringFilter<"AnonymousParticipant"> | string
+    displayName?: StringNullableFilter<"AnonymousParticipant"> | string | null
+    createdAt?: DateTimeFilter<"AnonymousParticipant"> | Date | string
+    updatedAt?: DateTimeFilter<"AnonymousParticipant"> | Date | string
+    conversations?: ConversationListRelationFilter
+    messages?: MessageListRelationFilter
+  }
+
+  export type AnonymousParticipantOrderByWithRelationInput = {
+    id?: SortOrder
+    displayName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    conversations?: ConversationOrderByRelationAggregateInput
+    messages?: MessageOrderByRelationAggregateInput
+    _relevance?: AnonymousParticipantOrderByRelevanceInput
+  }
+
+  export type AnonymousParticipantWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AnonymousParticipantWhereInput | AnonymousParticipantWhereInput[]
+    OR?: AnonymousParticipantWhereInput[]
+    NOT?: AnonymousParticipantWhereInput | AnonymousParticipantWhereInput[]
+    displayName?: StringNullableFilter<"AnonymousParticipant"> | string | null
+    createdAt?: DateTimeFilter<"AnonymousParticipant"> | Date | string
+    updatedAt?: DateTimeFilter<"AnonymousParticipant"> | Date | string
+    conversations?: ConversationListRelationFilter
+    messages?: MessageListRelationFilter
+  }, "id">
+
+  export type AnonymousParticipantOrderByWithAggregationInput = {
+    id?: SortOrder
+    displayName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AnonymousParticipantCountOrderByAggregateInput
+    _max?: AnonymousParticipantMaxOrderByAggregateInput
+    _min?: AnonymousParticipantMinOrderByAggregateInput
+  }
+
+  export type AnonymousParticipantScalarWhereWithAggregatesInput = {
+    AND?: AnonymousParticipantScalarWhereWithAggregatesInput | AnonymousParticipantScalarWhereWithAggregatesInput[]
+    OR?: AnonymousParticipantScalarWhereWithAggregatesInput[]
+    NOT?: AnonymousParticipantScalarWhereWithAggregatesInput | AnonymousParticipantScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AnonymousParticipant"> | string
+    displayName?: StringNullableWithAggregatesFilter<"AnonymousParticipant"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AnonymousParticipant"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AnonymousParticipant"> | Date | string
+  }
+
   export type ConversationWhereInput = {
     AND?: ConversationWhereInput | ConversationWhereInput[]
     OR?: ConversationWhereInput[]
@@ -22124,22 +23439,26 @@ export namespace Prisma {
     id?: StringFilter<"Conversation"> | string
     userId?: StringNullableFilter<"Conversation"> | string | null
     guestName?: StringNullableFilter<"Conversation"> | string | null
+    anonymousParticipantId?: StringNullableFilter<"Conversation"> | string | null
     status?: EnumConversationStatusFilter<"Conversation"> | $Enums.ConversationStatus
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     messages?: MessageListRelationFilter
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    anonymousParticipant?: XOR<AnonymousParticipantNullableScalarRelationFilter, AnonymousParticipantWhereInput> | null
   }
 
   export type ConversationOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     guestName?: SortOrderInput | SortOrder
+    anonymousParticipantId?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
+    anonymousParticipant?: AnonymousParticipantOrderByWithRelationInput
     _relevance?: ConversationOrderByRelevanceInput
   }
 
@@ -22150,17 +23469,20 @@ export namespace Prisma {
     NOT?: ConversationWhereInput | ConversationWhereInput[]
     userId?: StringNullableFilter<"Conversation"> | string | null
     guestName?: StringNullableFilter<"Conversation"> | string | null
+    anonymousParticipantId?: StringNullableFilter<"Conversation"> | string | null
     status?: EnumConversationStatusFilter<"Conversation"> | $Enums.ConversationStatus
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     messages?: MessageListRelationFilter
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    anonymousParticipant?: XOR<AnonymousParticipantNullableScalarRelationFilter, AnonymousParticipantWhereInput> | null
   }, "id">
 
   export type ConversationOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     guestName?: SortOrderInput | SortOrder
+    anonymousParticipantId?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22176,6 +23498,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Conversation"> | string
     userId?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     guestName?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    anonymousParticipantId?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     status?: EnumConversationStatusWithAggregatesFilter<"Conversation"> | $Enums.ConversationStatus
     createdAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
@@ -22193,7 +23516,11 @@ export namespace Prisma {
     revokedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     content?: StringNullableFilter<"Message"> | string | null
     fileUrl?: StringNullableFilter<"Message"> | string | null
+    senderUserId?: StringNullableFilter<"Message"> | string | null
+    senderAnonymousId?: StringNullableFilter<"Message"> | string | null
     createdAt?: DateTimeFilter<"Message"> | Date | string
+    senderUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    senderAnonymous?: XOR<AnonymousParticipantNullableScalarRelationFilter, AnonymousParticipantWhereInput> | null
     conversation?: XOR<ConversationScalarRelationFilter, ConversationWhereInput>
   }
 
@@ -22206,7 +23533,11 @@ export namespace Prisma {
     revokedAt?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
     fileUrl?: SortOrderInput | SortOrder
+    senderUserId?: SortOrderInput | SortOrder
+    senderAnonymousId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    senderUser?: UserOrderByWithRelationInput
+    senderAnonymous?: AnonymousParticipantOrderByWithRelationInput
     conversation?: ConversationOrderByWithRelationInput
     _relevance?: MessageOrderByRelevanceInput
   }
@@ -22223,7 +23554,11 @@ export namespace Prisma {
     revokedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     content?: StringNullableFilter<"Message"> | string | null
     fileUrl?: StringNullableFilter<"Message"> | string | null
+    senderUserId?: StringNullableFilter<"Message"> | string | null
+    senderAnonymousId?: StringNullableFilter<"Message"> | string | null
     createdAt?: DateTimeFilter<"Message"> | Date | string
+    senderUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    senderAnonymous?: XOR<AnonymousParticipantNullableScalarRelationFilter, AnonymousParticipantWhereInput> | null
     conversation?: XOR<ConversationScalarRelationFilter, ConversationWhereInput>
   }, "id">
 
@@ -22236,6 +23571,8 @@ export namespace Prisma {
     revokedAt?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
     fileUrl?: SortOrderInput | SortOrder
+    senderUserId?: SortOrderInput | SortOrder
+    senderAnonymousId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: MessageCountOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -22254,6 +23591,8 @@ export namespace Prisma {
     revokedAt?: DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
     content?: StringNullableWithAggregatesFilter<"Message"> | string | null
     fileUrl?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    senderUserId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    senderAnonymousId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
   }
 
@@ -22418,6 +23757,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -22443,6 +23783,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -22468,6 +23809,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -22493,6 +23835,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -23446,6 +24789,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AnonymousParticipantCreateInput = {
+    id: string
+    displayName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conversations?: ConversationCreateNestedManyWithoutAnonymousParticipantInput
+    messages?: MessageCreateNestedManyWithoutSenderAnonymousInput
+  }
+
+  export type AnonymousParticipantUncheckedCreateInput = {
+    id: string
+    displayName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conversations?: ConversationUncheckedCreateNestedManyWithoutAnonymousParticipantInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderAnonymousInput
+  }
+
+  export type AnonymousParticipantUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversations?: ConversationUpdateManyWithoutAnonymousParticipantNestedInput
+    messages?: MessageUpdateManyWithoutSenderAnonymousNestedInput
+  }
+
+  export type AnonymousParticipantUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversations?: ConversationUncheckedUpdateManyWithoutAnonymousParticipantNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderAnonymousNestedInput
+  }
+
+  export type AnonymousParticipantCreateManyInput = {
+    id: string
+    displayName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnonymousParticipantUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnonymousParticipantUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ConversationCreateInput = {
     id?: string
     guestName?: string | null
@@ -23454,12 +24854,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutConversationInput
     user?: UserCreateNestedOneWithoutConversationsInput
+    anonymousParticipant?: AnonymousParticipantCreateNestedOneWithoutConversationsInput
   }
 
   export type ConversationUncheckedCreateInput = {
     id?: string
     userId?: string | null
     guestName?: string | null
+    anonymousParticipantId?: string | null
     status?: $Enums.ConversationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23474,12 +24876,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutConversationNestedInput
     user?: UserUpdateOneWithoutConversationsNestedInput
+    anonymousParticipant?: AnonymousParticipantUpdateOneWithoutConversationsNestedInput
   }
 
   export type ConversationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    anonymousParticipantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23490,6 +24894,7 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     guestName?: string | null
+    anonymousParticipantId?: string | null
     status?: $Enums.ConversationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23507,6 +24912,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    anonymousParticipantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23521,6 +24927,8 @@ export namespace Prisma {
     content?: string | null
     fileUrl?: string | null
     createdAt?: Date | string
+    senderUser?: UserCreateNestedOneWithoutMessagesSentInput
+    senderAnonymous?: AnonymousParticipantCreateNestedOneWithoutMessagesInput
     conversation: ConversationCreateNestedOneWithoutMessagesInput
   }
 
@@ -23533,6 +24941,8 @@ export namespace Prisma {
     revokedAt?: Date | string | null
     content?: string | null
     fileUrl?: string | null
+    senderUserId?: string | null
+    senderAnonymousId?: string | null
     createdAt?: Date | string
   }
 
@@ -23545,6 +24955,8 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    senderUser?: UserUpdateOneWithoutMessagesSentNestedInput
+    senderAnonymous?: AnonymousParticipantUpdateOneWithoutMessagesNestedInput
     conversation?: ConversationUpdateOneRequiredWithoutMessagesNestedInput
   }
 
@@ -23557,6 +24969,8 @@ export namespace Prisma {
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAnonymousId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -23569,6 +24983,8 @@ export namespace Prisma {
     revokedAt?: Date | string | null
     content?: string | null
     fileUrl?: string | null
+    senderUserId?: string | null
+    senderAnonymousId?: string | null
     createdAt?: Date | string
   }
 
@@ -23592,6 +25008,8 @@ export namespace Prisma {
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAnonymousId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -23867,6 +25285,12 @@ export namespace Prisma {
     none?: ConversationWhereInput
   }
 
+  export type MessageListRelationFilter = {
+    every?: MessageWhereInput
+    some?: MessageWhereInput
+    none?: MessageWhereInput
+  }
+
   export type FacebookAuthNullableScalarRelationFilter = {
     is?: FacebookAuthWhereInput | null
     isNot?: FacebookAuthWhereInput | null
@@ -23914,6 +25338,10 @@ export namespace Prisma {
   }
 
   export type ConversationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24701,6 +26129,33 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type AnonymousParticipantOrderByRelevanceInput = {
+    fields: AnonymousParticipantOrderByRelevanceFieldEnum | AnonymousParticipantOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AnonymousParticipantCountOrderByAggregateInput = {
+    id?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnonymousParticipantMaxOrderByAggregateInput = {
+    id?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnonymousParticipantMinOrderByAggregateInput = {
+    id?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type EnumConversationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ConversationStatus | EnumConversationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ConversationStatus[]
@@ -24708,19 +26163,14 @@ export namespace Prisma {
     not?: NestedEnumConversationStatusFilter<$PrismaModel> | $Enums.ConversationStatus
   }
 
-  export type MessageListRelationFilter = {
-    every?: MessageWhereInput
-    some?: MessageWhereInput
-    none?: MessageWhereInput
-  }
-
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
   }
 
-  export type MessageOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type AnonymousParticipantNullableScalarRelationFilter = {
+    is?: AnonymousParticipantWhereInput | null
+    isNot?: AnonymousParticipantWhereInput | null
   }
 
   export type ConversationOrderByRelevanceInput = {
@@ -24733,6 +26183,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     guestName?: SortOrder
+    anonymousParticipantId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24742,6 +26193,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     guestName?: SortOrder
+    anonymousParticipantId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24751,6 +26203,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     guestName?: SortOrder
+    anonymousParticipantId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24786,6 +26239,8 @@ export namespace Prisma {
     revokedAt?: SortOrder
     content?: SortOrder
     fileUrl?: SortOrder
+    senderUserId?: SortOrder
+    senderAnonymousId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -24798,6 +26253,8 @@ export namespace Prisma {
     revokedAt?: SortOrder
     content?: SortOrder
     fileUrl?: SortOrder
+    senderUserId?: SortOrder
+    senderAnonymousId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -24810,6 +26267,8 @@ export namespace Prisma {
     revokedAt?: SortOrder
     content?: SortOrder
     fileUrl?: SortOrder
+    senderUserId?: SortOrder
+    senderAnonymousId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -25038,6 +26497,13 @@ export namespace Prisma {
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
+  export type MessageCreateNestedManyWithoutSenderUserInput = {
+    create?: XOR<MessageCreateWithoutSenderUserInput, MessageUncheckedCreateWithoutSenderUserInput> | MessageCreateWithoutSenderUserInput[] | MessageUncheckedCreateWithoutSenderUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderUserInput | MessageCreateOrConnectWithoutSenderUserInput[]
+    createMany?: MessageCreateManySenderUserInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
   export type FacebookAuthCreateNestedOneWithoutUserInput = {
     create?: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
     connectOrCreate?: FacebookAuthCreateOrConnectWithoutUserInput
@@ -25112,6 +26578,13 @@ export namespace Prisma {
     connectOrCreate?: ConversationCreateOrConnectWithoutUserInput | ConversationCreateOrConnectWithoutUserInput[]
     createMany?: ConversationCreateManyUserInputEnvelope
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutSenderUserInput = {
+    create?: XOR<MessageCreateWithoutSenderUserInput, MessageUncheckedCreateWithoutSenderUserInput> | MessageCreateWithoutSenderUserInput[] | MessageUncheckedCreateWithoutSenderUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderUserInput | MessageCreateOrConnectWithoutSenderUserInput[]
+    createMany?: MessageCreateManySenderUserInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
   export type FacebookAuthUncheckedCreateNestedOneWithoutUserInput = {
@@ -25280,6 +26753,20 @@ export namespace Prisma {
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
+  export type MessageUpdateManyWithoutSenderUserNestedInput = {
+    create?: XOR<MessageCreateWithoutSenderUserInput, MessageUncheckedCreateWithoutSenderUserInput> | MessageCreateWithoutSenderUserInput[] | MessageUncheckedCreateWithoutSenderUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderUserInput | MessageCreateOrConnectWithoutSenderUserInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutSenderUserInput | MessageUpsertWithWhereUniqueWithoutSenderUserInput[]
+    createMany?: MessageCreateManySenderUserInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutSenderUserInput | MessageUpdateWithWhereUniqueWithoutSenderUserInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutSenderUserInput | MessageUpdateManyWithWhereWithoutSenderUserInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
   export type FacebookAuthUpdateOneWithoutUserNestedInput = {
     create?: XOR<FacebookAuthCreateWithoutUserInput, FacebookAuthUncheckedCreateWithoutUserInput>
     connectOrCreate?: FacebookAuthCreateOrConnectWithoutUserInput
@@ -25428,6 +26915,20 @@ export namespace Prisma {
     update?: ConversationUpdateWithWhereUniqueWithoutUserInput | ConversationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ConversationUpdateManyWithWhereWithoutUserInput | ConversationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutSenderUserNestedInput = {
+    create?: XOR<MessageCreateWithoutSenderUserInput, MessageUncheckedCreateWithoutSenderUserInput> | MessageCreateWithoutSenderUserInput[] | MessageUncheckedCreateWithoutSenderUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderUserInput | MessageCreateOrConnectWithoutSenderUserInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutSenderUserInput | MessageUpsertWithWhereUniqueWithoutSenderUserInput[]
+    createMany?: MessageCreateManySenderUserInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutSenderUserInput | MessageUpdateWithWhereUniqueWithoutSenderUserInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutSenderUserInput | MessageUpdateManyWithWhereWithoutSenderUserInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
   export type FacebookAuthUncheckedUpdateOneWithoutUserNestedInput = {
@@ -26162,6 +27663,90 @@ export namespace Prisma {
     deleteMany?: PostsScalarWhereInput | PostsScalarWhereInput[]
   }
 
+  export type ConversationCreateNestedManyWithoutAnonymousParticipantInput = {
+    create?: XOR<ConversationCreateWithoutAnonymousParticipantInput, ConversationUncheckedCreateWithoutAnonymousParticipantInput> | ConversationCreateWithoutAnonymousParticipantInput[] | ConversationUncheckedCreateWithoutAnonymousParticipantInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAnonymousParticipantInput | ConversationCreateOrConnectWithoutAnonymousParticipantInput[]
+    createMany?: ConversationCreateManyAnonymousParticipantInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type MessageCreateNestedManyWithoutSenderAnonymousInput = {
+    create?: XOR<MessageCreateWithoutSenderAnonymousInput, MessageUncheckedCreateWithoutSenderAnonymousInput> | MessageCreateWithoutSenderAnonymousInput[] | MessageUncheckedCreateWithoutSenderAnonymousInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderAnonymousInput | MessageCreateOrConnectWithoutSenderAnonymousInput[]
+    createMany?: MessageCreateManySenderAnonymousInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ConversationUncheckedCreateNestedManyWithoutAnonymousParticipantInput = {
+    create?: XOR<ConversationCreateWithoutAnonymousParticipantInput, ConversationUncheckedCreateWithoutAnonymousParticipantInput> | ConversationCreateWithoutAnonymousParticipantInput[] | ConversationUncheckedCreateWithoutAnonymousParticipantInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAnonymousParticipantInput | ConversationCreateOrConnectWithoutAnonymousParticipantInput[]
+    createMany?: ConversationCreateManyAnonymousParticipantInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutSenderAnonymousInput = {
+    create?: XOR<MessageCreateWithoutSenderAnonymousInput, MessageUncheckedCreateWithoutSenderAnonymousInput> | MessageCreateWithoutSenderAnonymousInput[] | MessageUncheckedCreateWithoutSenderAnonymousInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderAnonymousInput | MessageCreateOrConnectWithoutSenderAnonymousInput[]
+    createMany?: MessageCreateManySenderAnonymousInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ConversationUpdateManyWithoutAnonymousParticipantNestedInput = {
+    create?: XOR<ConversationCreateWithoutAnonymousParticipantInput, ConversationUncheckedCreateWithoutAnonymousParticipantInput> | ConversationCreateWithoutAnonymousParticipantInput[] | ConversationUncheckedCreateWithoutAnonymousParticipantInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAnonymousParticipantInput | ConversationCreateOrConnectWithoutAnonymousParticipantInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutAnonymousParticipantInput | ConversationUpsertWithWhereUniqueWithoutAnonymousParticipantInput[]
+    createMany?: ConversationCreateManyAnonymousParticipantInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutAnonymousParticipantInput | ConversationUpdateWithWhereUniqueWithoutAnonymousParticipantInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutAnonymousParticipantInput | ConversationUpdateManyWithWhereWithoutAnonymousParticipantInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type MessageUpdateManyWithoutSenderAnonymousNestedInput = {
+    create?: XOR<MessageCreateWithoutSenderAnonymousInput, MessageUncheckedCreateWithoutSenderAnonymousInput> | MessageCreateWithoutSenderAnonymousInput[] | MessageUncheckedCreateWithoutSenderAnonymousInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderAnonymousInput | MessageCreateOrConnectWithoutSenderAnonymousInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutSenderAnonymousInput | MessageUpsertWithWhereUniqueWithoutSenderAnonymousInput[]
+    createMany?: MessageCreateManySenderAnonymousInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutSenderAnonymousInput | MessageUpdateWithWhereUniqueWithoutSenderAnonymousInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutSenderAnonymousInput | MessageUpdateManyWithWhereWithoutSenderAnonymousInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutAnonymousParticipantNestedInput = {
+    create?: XOR<ConversationCreateWithoutAnonymousParticipantInput, ConversationUncheckedCreateWithoutAnonymousParticipantInput> | ConversationCreateWithoutAnonymousParticipantInput[] | ConversationUncheckedCreateWithoutAnonymousParticipantInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAnonymousParticipantInput | ConversationCreateOrConnectWithoutAnonymousParticipantInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutAnonymousParticipantInput | ConversationUpsertWithWhereUniqueWithoutAnonymousParticipantInput[]
+    createMany?: ConversationCreateManyAnonymousParticipantInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutAnonymousParticipantInput | ConversationUpdateWithWhereUniqueWithoutAnonymousParticipantInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutAnonymousParticipantInput | ConversationUpdateManyWithWhereWithoutAnonymousParticipantInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutSenderAnonymousNestedInput = {
+    create?: XOR<MessageCreateWithoutSenderAnonymousInput, MessageUncheckedCreateWithoutSenderAnonymousInput> | MessageCreateWithoutSenderAnonymousInput[] | MessageUncheckedCreateWithoutSenderAnonymousInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSenderAnonymousInput | MessageCreateOrConnectWithoutSenderAnonymousInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutSenderAnonymousInput | MessageUpsertWithWhereUniqueWithoutSenderAnonymousInput[]
+    createMany?: MessageCreateManySenderAnonymousInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutSenderAnonymousInput | MessageUpdateWithWhereUniqueWithoutSenderAnonymousInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutSenderAnonymousInput | MessageUpdateManyWithWhereWithoutSenderAnonymousInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
   export type MessageCreateNestedManyWithoutConversationInput = {
     create?: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput> | MessageCreateWithoutConversationInput[] | MessageUncheckedCreateWithoutConversationInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutConversationInput | MessageCreateOrConnectWithoutConversationInput[]
@@ -26173,6 +27758,12 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutConversationsInput, UserUncheckedCreateWithoutConversationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutConversationsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type AnonymousParticipantCreateNestedOneWithoutConversationsInput = {
+    create?: XOR<AnonymousParticipantCreateWithoutConversationsInput, AnonymousParticipantUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: AnonymousParticipantCreateOrConnectWithoutConversationsInput
+    connect?: AnonymousParticipantWhereUniqueInput
   }
 
   export type MessageUncheckedCreateNestedManyWithoutConversationInput = {
@@ -26210,6 +27801,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConversationsInput, UserUpdateWithoutConversationsInput>, UserUncheckedUpdateWithoutConversationsInput>
   }
 
+  export type AnonymousParticipantUpdateOneWithoutConversationsNestedInput = {
+    create?: XOR<AnonymousParticipantCreateWithoutConversationsInput, AnonymousParticipantUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: AnonymousParticipantCreateOrConnectWithoutConversationsInput
+    upsert?: AnonymousParticipantUpsertWithoutConversationsInput
+    disconnect?: AnonymousParticipantWhereInput | boolean
+    delete?: AnonymousParticipantWhereInput | boolean
+    connect?: AnonymousParticipantWhereUniqueInput
+    update?: XOR<XOR<AnonymousParticipantUpdateToOneWithWhereWithoutConversationsInput, AnonymousParticipantUpdateWithoutConversationsInput>, AnonymousParticipantUncheckedUpdateWithoutConversationsInput>
+  }
+
   export type MessageUncheckedUpdateManyWithoutConversationNestedInput = {
     create?: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput> | MessageCreateWithoutConversationInput[] | MessageUncheckedCreateWithoutConversationInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutConversationInput | MessageCreateOrConnectWithoutConversationInput[]
@@ -26224,10 +27825,42 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutMessagesSentInput = {
+    create?: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMessagesSentInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AnonymousParticipantCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<AnonymousParticipantCreateWithoutMessagesInput, AnonymousParticipantUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: AnonymousParticipantCreateOrConnectWithoutMessagesInput
+    connect?: AnonymousParticipantWhereUniqueInput
+  }
+
   export type ConversationCreateNestedOneWithoutMessagesInput = {
     create?: XOR<ConversationCreateWithoutMessagesInput, ConversationUncheckedCreateWithoutMessagesInput>
     connectOrCreate?: ConversationCreateOrConnectWithoutMessagesInput
     connect?: ConversationWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutMessagesSentNestedInput = {
+    create?: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMessagesSentInput
+    upsert?: UserUpsertWithoutMessagesSentInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessagesSentInput, UserUpdateWithoutMessagesSentInput>, UserUncheckedUpdateWithoutMessagesSentInput>
+  }
+
+  export type AnonymousParticipantUpdateOneWithoutMessagesNestedInput = {
+    create?: XOR<AnonymousParticipantCreateWithoutMessagesInput, AnonymousParticipantUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: AnonymousParticipantCreateOrConnectWithoutMessagesInput
+    upsert?: AnonymousParticipantUpsertWithoutMessagesInput
+    disconnect?: AnonymousParticipantWhereInput | boolean
+    delete?: AnonymousParticipantWhereInput | boolean
+    connect?: AnonymousParticipantWhereUniqueInput
+    update?: XOR<XOR<AnonymousParticipantUpdateToOneWithWhereWithoutMessagesInput, AnonymousParticipantUpdateWithoutMessagesInput>, AnonymousParticipantUncheckedUpdateWithoutMessagesInput>
   }
 
   export type ConversationUpdateOneRequiredWithoutMessagesNestedInput = {
@@ -26893,11 +28526,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutConversationInput
+    anonymousParticipant?: AnonymousParticipantCreateNestedOneWithoutConversationsInput
   }
 
   export type ConversationUncheckedCreateWithoutUserInput = {
     id?: string
     guestName?: string | null
+    anonymousParticipantId?: string | null
     status?: $Enums.ConversationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26911,6 +28546,42 @@ export namespace Prisma {
 
   export type ConversationCreateManyUserInputEnvelope = {
     data: ConversationCreateManyUserInput | ConversationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MessageCreateWithoutSenderUserInput = {
+    id?: string
+    role?: $Enums.Role
+    readByAdmin?: boolean
+    readByUser?: boolean
+    revokedAt?: Date | string | null
+    content?: string | null
+    fileUrl?: string | null
+    createdAt?: Date | string
+    senderAnonymous?: AnonymousParticipantCreateNestedOneWithoutMessagesInput
+    conversation: ConversationCreateNestedOneWithoutMessagesInput
+  }
+
+  export type MessageUncheckedCreateWithoutSenderUserInput = {
+    id?: string
+    conversationId: string
+    role?: $Enums.Role
+    readByAdmin?: boolean
+    readByUser?: boolean
+    revokedAt?: Date | string | null
+    content?: string | null
+    fileUrl?: string | null
+    senderAnonymousId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MessageCreateOrConnectWithoutSenderUserInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutSenderUserInput, MessageUncheckedCreateWithoutSenderUserInput>
+  }
+
+  export type MessageCreateManySenderUserInputEnvelope = {
+    data: MessageCreateManySenderUserInput | MessageCreateManySenderUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -27224,9 +28895,43 @@ export namespace Prisma {
     id?: StringFilter<"Conversation"> | string
     userId?: StringNullableFilter<"Conversation"> | string | null
     guestName?: StringNullableFilter<"Conversation"> | string | null
+    anonymousParticipantId?: StringNullableFilter<"Conversation"> | string | null
     status?: EnumConversationStatusFilter<"Conversation"> | $Enums.ConversationStatus
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
+  }
+
+  export type MessageUpsertWithWhereUniqueWithoutSenderUserInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutSenderUserInput, MessageUncheckedUpdateWithoutSenderUserInput>
+    create: XOR<MessageCreateWithoutSenderUserInput, MessageUncheckedCreateWithoutSenderUserInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutSenderUserInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutSenderUserInput, MessageUncheckedUpdateWithoutSenderUserInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutSenderUserInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutSenderUserInput>
+  }
+
+  export type MessageScalarWhereInput = {
+    AND?: MessageScalarWhereInput | MessageScalarWhereInput[]
+    OR?: MessageScalarWhereInput[]
+    NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
+    id?: StringFilter<"Message"> | string
+    conversationId?: StringFilter<"Message"> | string
+    role?: EnumRoleFilter<"Message"> | $Enums.Role
+    readByAdmin?: BoolFilter<"Message"> | boolean
+    readByUser?: BoolFilter<"Message"> | boolean
+    revokedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
+    content?: StringNullableFilter<"Message"> | string | null
+    fileUrl?: StringNullableFilter<"Message"> | string | null
+    senderUserId?: StringNullableFilter<"Message"> | string | null
+    senderAnonymousId?: StringNullableFilter<"Message"> | string | null
+    createdAt?: DateTimeFilter<"Message"> | Date | string
   }
 
   export type FacebookAuthUpsertWithoutUserInput = {
@@ -27280,6 +28985,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
   }
 
   export type UserUncheckedCreateWithoutFacebookAuthInput = {
@@ -27304,6 +29010,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
   }
 
   export type UserCreateOrConnectWithoutFacebookAuthInput = {
@@ -27344,6 +29051,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFacebookAuthInput = {
@@ -27368,6 +29076,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
   }
 
   export type UserCreateWithoutVerificationTokensInput = {
@@ -27391,6 +29100,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -27415,6 +29125,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -27455,6 +29166,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -27479,6 +29191,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -27503,6 +29216,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -27527,6 +29241,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -27666,6 +29381,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -27690,6 +29406,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -27906,6 +29623,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -27930,6 +29648,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -28126,6 +29845,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -28150,6 +29870,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -28357,6 +30078,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -28381,6 +30103,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -28466,6 +30189,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -28490,6 +30214,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -28553,6 +30278,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -28577,6 +30303,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -28717,6 +30444,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -28741,6 +30469,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -28851,6 +30580,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -28875,6 +30605,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -28960,6 +30691,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -28984,6 +30716,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -29047,6 +30780,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -29071,6 +30805,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -29156,6 +30891,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -29180,6 +30916,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -29204,6 +30941,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -29228,6 +30966,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -29268,6 +31007,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -29292,6 +31032,7 @@ export namespace Prisma {
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -29337,6 +31078,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     conversations?: ConversationCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -29361,6 +31103,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -29428,6 +31171,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     conversations?: ConversationUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -29452,6 +31196,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -29507,6 +31252,104 @@ export namespace Prisma {
     data: XOR<PostsUpdateManyMutationInput, PostsUncheckedUpdateManyWithoutCategoryInput>
   }
 
+  export type ConversationCreateWithoutAnonymousParticipantInput = {
+    id?: string
+    guestName?: string | null
+    status?: $Enums.ConversationStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    user?: UserCreateNestedOneWithoutConversationsInput
+  }
+
+  export type ConversationUncheckedCreateWithoutAnonymousParticipantInput = {
+    id?: string
+    userId?: string | null
+    guestName?: string | null
+    status?: $Enums.ConversationStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutAnonymousParticipantInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutAnonymousParticipantInput, ConversationUncheckedCreateWithoutAnonymousParticipantInput>
+  }
+
+  export type ConversationCreateManyAnonymousParticipantInputEnvelope = {
+    data: ConversationCreateManyAnonymousParticipantInput | ConversationCreateManyAnonymousParticipantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MessageCreateWithoutSenderAnonymousInput = {
+    id?: string
+    role?: $Enums.Role
+    readByAdmin?: boolean
+    readByUser?: boolean
+    revokedAt?: Date | string | null
+    content?: string | null
+    fileUrl?: string | null
+    createdAt?: Date | string
+    senderUser?: UserCreateNestedOneWithoutMessagesSentInput
+    conversation: ConversationCreateNestedOneWithoutMessagesInput
+  }
+
+  export type MessageUncheckedCreateWithoutSenderAnonymousInput = {
+    id?: string
+    conversationId: string
+    role?: $Enums.Role
+    readByAdmin?: boolean
+    readByUser?: boolean
+    revokedAt?: Date | string | null
+    content?: string | null
+    fileUrl?: string | null
+    senderUserId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MessageCreateOrConnectWithoutSenderAnonymousInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutSenderAnonymousInput, MessageUncheckedCreateWithoutSenderAnonymousInput>
+  }
+
+  export type MessageCreateManySenderAnonymousInputEnvelope = {
+    data: MessageCreateManySenderAnonymousInput | MessageCreateManySenderAnonymousInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConversationUpsertWithWhereUniqueWithoutAnonymousParticipantInput = {
+    where: ConversationWhereUniqueInput
+    update: XOR<ConversationUpdateWithoutAnonymousParticipantInput, ConversationUncheckedUpdateWithoutAnonymousParticipantInput>
+    create: XOR<ConversationCreateWithoutAnonymousParticipantInput, ConversationUncheckedCreateWithoutAnonymousParticipantInput>
+  }
+
+  export type ConversationUpdateWithWhereUniqueWithoutAnonymousParticipantInput = {
+    where: ConversationWhereUniqueInput
+    data: XOR<ConversationUpdateWithoutAnonymousParticipantInput, ConversationUncheckedUpdateWithoutAnonymousParticipantInput>
+  }
+
+  export type ConversationUpdateManyWithWhereWithoutAnonymousParticipantInput = {
+    where: ConversationScalarWhereInput
+    data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutAnonymousParticipantInput>
+  }
+
+  export type MessageUpsertWithWhereUniqueWithoutSenderAnonymousInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutSenderAnonymousInput, MessageUncheckedUpdateWithoutSenderAnonymousInput>
+    create: XOR<MessageCreateWithoutSenderAnonymousInput, MessageUncheckedCreateWithoutSenderAnonymousInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutSenderAnonymousInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutSenderAnonymousInput, MessageUncheckedUpdateWithoutSenderAnonymousInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutSenderAnonymousInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutSenderAnonymousInput>
+  }
+
   export type MessageCreateWithoutConversationInput = {
     id?: string
     role?: $Enums.Role
@@ -29516,6 +31359,8 @@ export namespace Prisma {
     content?: string | null
     fileUrl?: string | null
     createdAt?: Date | string
+    senderUser?: UserCreateNestedOneWithoutMessagesSentInput
+    senderAnonymous?: AnonymousParticipantCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateWithoutConversationInput = {
@@ -29526,6 +31371,8 @@ export namespace Prisma {
     revokedAt?: Date | string | null
     content?: string | null
     fileUrl?: string | null
+    senderUserId?: string | null
+    senderAnonymousId?: string | null
     createdAt?: Date | string
   }
 
@@ -29560,6 +31407,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
     posts?: PostsCreateNestedManyWithoutAuthorInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
   }
 
@@ -29584,12 +31432,34 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
     flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
     posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderUserInput
     facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutConversationsInput, UserUncheckedCreateWithoutConversationsInput>
+  }
+
+  export type AnonymousParticipantCreateWithoutConversationsInput = {
+    id: string
+    displayName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageCreateNestedManyWithoutSenderAnonymousInput
+  }
+
+  export type AnonymousParticipantUncheckedCreateWithoutConversationsInput = {
+    id: string
+    displayName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderAnonymousInput
+  }
+
+  export type AnonymousParticipantCreateOrConnectWithoutConversationsInput = {
+    where: AnonymousParticipantWhereUniqueInput
+    create: XOR<AnonymousParticipantCreateWithoutConversationsInput, AnonymousParticipantUncheckedCreateWithoutConversationsInput>
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -29606,21 +31476,6 @@ export namespace Prisma {
   export type MessageUpdateManyWithWhereWithoutConversationInput = {
     where: MessageScalarWhereInput
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutConversationInput>
-  }
-
-  export type MessageScalarWhereInput = {
-    AND?: MessageScalarWhereInput | MessageScalarWhereInput[]
-    OR?: MessageScalarWhereInput[]
-    NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
-    id?: StringFilter<"Message"> | string
-    conversationId?: StringFilter<"Message"> | string
-    role?: EnumRoleFilter<"Message"> | $Enums.Role
-    readByAdmin?: BoolFilter<"Message"> | boolean
-    readByUser?: BoolFilter<"Message"> | boolean
-    revokedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
-    content?: StringNullableFilter<"Message"> | string | null
-    fileUrl?: StringNullableFilter<"Message"> | string | null
-    createdAt?: DateTimeFilter<"Message"> | Date | string
   }
 
   export type UserUpsertWithoutConversationsInput = {
@@ -29655,6 +31510,7 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
     posts?: PostsUpdateManyWithoutAuthorNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
   }
 
@@ -29679,7 +31535,111 @@ export namespace Prisma {
     flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
     flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type AnonymousParticipantUpsertWithoutConversationsInput = {
+    update: XOR<AnonymousParticipantUpdateWithoutConversationsInput, AnonymousParticipantUncheckedUpdateWithoutConversationsInput>
+    create: XOR<AnonymousParticipantCreateWithoutConversationsInput, AnonymousParticipantUncheckedCreateWithoutConversationsInput>
+    where?: AnonymousParticipantWhereInput
+  }
+
+  export type AnonymousParticipantUpdateToOneWithWhereWithoutConversationsInput = {
+    where?: AnonymousParticipantWhereInput
+    data: XOR<AnonymousParticipantUpdateWithoutConversationsInput, AnonymousParticipantUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type AnonymousParticipantUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUpdateManyWithoutSenderAnonymousNestedInput
+  }
+
+  export type AnonymousParticipantUncheckedUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutSenderAnonymousNestedInput
+  }
+
+  export type UserCreateWithoutMessagesSentInput = {
+    id?: string
+    username?: string | null
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    googleProviderId?: string | null
+    verifyAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationTokens?: VerificationTokenCreateNestedManyWithoutUserInput
+    flowShareDowloads?: FlowShareDowloadCreateNestedManyWithoutUserInput
+    flowShareLikes?: FlowShareLikeCreateNestedManyWithoutUserInput
+    flowShareSaves?: FlowShareSaveCreateNestedManyWithoutUserInput
+    flowShareComments?: FlowShareCommentCreateNestedManyWithoutUserInput
+    posts?: PostsCreateNestedManyWithoutAuthorInput
+    conversations?: ConversationCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMessagesSentInput = {
+    id?: string
+    username?: string | null
+    displayName?: string | null
+    email: string
+    avatar?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    googleProviderId?: string | null
+    verifyAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    flows?: FlowUncheckedCreateNestedManyWithoutUserInput
+    flowShares?: FlowShareUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationTokens?: VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    flowShareDowloads?: FlowShareDowloadUncheckedCreateNestedManyWithoutUserInput
+    flowShareLikes?: FlowShareLikeUncheckedCreateNestedManyWithoutUserInput
+    flowShareSaves?: FlowShareSaveUncheckedCreateNestedManyWithoutUserInput
+    flowShareComments?: FlowShareCommentUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostsUncheckedCreateNestedManyWithoutAuthorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
+    facebookAuth?: FacebookAuthUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMessagesSentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+  }
+
+  export type AnonymousParticipantCreateWithoutMessagesInput = {
+    id: string
+    displayName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conversations?: ConversationCreateNestedManyWithoutAnonymousParticipantInput
+  }
+
+  export type AnonymousParticipantUncheckedCreateWithoutMessagesInput = {
+    id: string
+    displayName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conversations?: ConversationUncheckedCreateNestedManyWithoutAnonymousParticipantInput
+  }
+
+  export type AnonymousParticipantCreateOrConnectWithoutMessagesInput = {
+    where: AnonymousParticipantWhereUniqueInput
+    create: XOR<AnonymousParticipantCreateWithoutMessagesInput, AnonymousParticipantUncheckedCreateWithoutMessagesInput>
   }
 
   export type ConversationCreateWithoutMessagesInput = {
@@ -29689,12 +31649,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutConversationsInput
+    anonymousParticipant?: AnonymousParticipantCreateNestedOneWithoutConversationsInput
   }
 
   export type ConversationUncheckedCreateWithoutMessagesInput = {
     id?: string
     userId?: string | null
     guestName?: string | null
+    anonymousParticipantId?: string | null
     status?: $Enums.ConversationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29703,6 +31665,94 @@ export namespace Prisma {
   export type ConversationCreateOrConnectWithoutMessagesInput = {
     where: ConversationWhereUniqueInput
     create: XOR<ConversationCreateWithoutMessagesInput, ConversationUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type UserUpsertWithoutMessagesSentInput = {
+    update: XOR<UserUpdateWithoutMessagesSentInput, UserUncheckedUpdateWithoutMessagesSentInput>
+    create: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMessagesSentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMessagesSentInput, UserUncheckedUpdateWithoutMessagesSentInput>
+  }
+
+  export type UserUpdateWithoutMessagesSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationTokens?: VerificationTokenUpdateManyWithoutUserNestedInput
+    flowShareDowloads?: FlowShareDowloadUpdateManyWithoutUserNestedInput
+    flowShareLikes?: FlowShareLikeUpdateManyWithoutUserNestedInput
+    flowShareSaves?: FlowShareSaveUpdateManyWithoutUserNestedInput
+    flowShareComments?: FlowShareCommentUpdateManyWithoutUserNestedInput
+    posts?: PostsUpdateManyWithoutAuthorNestedInput
+    conversations?: ConversationUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMessagesSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    googleProviderId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flows?: FlowUncheckedUpdateManyWithoutUserNestedInput
+    flowShares?: FlowShareUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationTokens?: VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    flowShareDowloads?: FlowShareDowloadUncheckedUpdateManyWithoutUserNestedInput
+    flowShareLikes?: FlowShareLikeUncheckedUpdateManyWithoutUserNestedInput
+    flowShareSaves?: FlowShareSaveUncheckedUpdateManyWithoutUserNestedInput
+    flowShareComments?: FlowShareCommentUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostsUncheckedUpdateManyWithoutAuthorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
+    facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type AnonymousParticipantUpsertWithoutMessagesInput = {
+    update: XOR<AnonymousParticipantUpdateWithoutMessagesInput, AnonymousParticipantUncheckedUpdateWithoutMessagesInput>
+    create: XOR<AnonymousParticipantCreateWithoutMessagesInput, AnonymousParticipantUncheckedCreateWithoutMessagesInput>
+    where?: AnonymousParticipantWhereInput
+  }
+
+  export type AnonymousParticipantUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: AnonymousParticipantWhereInput
+    data: XOR<AnonymousParticipantUpdateWithoutMessagesInput, AnonymousParticipantUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type AnonymousParticipantUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversations?: ConversationUpdateManyWithoutAnonymousParticipantNestedInput
+  }
+
+  export type AnonymousParticipantUncheckedUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversations?: ConversationUncheckedUpdateManyWithoutAnonymousParticipantNestedInput
   }
 
   export type ConversationUpsertWithoutMessagesInput = {
@@ -29723,12 +31773,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutConversationsNestedInput
+    anonymousParticipant?: AnonymousParticipantUpdateOneWithoutConversationsNestedInput
   }
 
   export type ConversationUncheckedUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    anonymousParticipantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29901,9 +31953,23 @@ export namespace Prisma {
   export type ConversationCreateManyUserInput = {
     id?: string
     guestName?: string | null
+    anonymousParticipantId?: string | null
     status?: $Enums.ConversationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type MessageCreateManySenderUserInput = {
+    id?: string
+    conversationId: string
+    role?: $Enums.Role
+    readByAdmin?: boolean
+    readByUser?: boolean
+    revokedAt?: Date | string | null
+    content?: string | null
+    fileUrl?: string | null
+    senderAnonymousId?: string | null
+    createdAt?: Date | string
   }
 
   export type FlowUpdateWithoutUserInput = {
@@ -30183,11 +32249,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutConversationNestedInput
+    anonymousParticipant?: AnonymousParticipantUpdateOneWithoutConversationsNestedInput
   }
 
   export type ConversationUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    anonymousParticipantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30197,9 +32265,49 @@ export namespace Prisma {
   export type ConversationUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    anonymousParticipantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUpdateWithoutSenderUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    readByAdmin?: BoolFieldUpdateOperationsInput | boolean
+    readByUser?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    senderAnonymous?: AnonymousParticipantUpdateOneWithoutMessagesNestedInput
+    conversation?: ConversationUpdateOneRequiredWithoutMessagesNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutSenderUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    readByAdmin?: BoolFieldUpdateOperationsInput | boolean
+    readByUser?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAnonymousId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateManyWithoutSenderUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    readByAdmin?: BoolFieldUpdateOperationsInput | boolean
+    readByUser?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAnonymousId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FlowShareCreateManyFlowInput = {
@@ -30573,6 +32681,96 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ConversationCreateManyAnonymousParticipantInput = {
+    id?: string
+    userId?: string | null
+    guestName?: string | null
+    status?: $Enums.ConversationStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MessageCreateManySenderAnonymousInput = {
+    id?: string
+    conversationId: string
+    role?: $Enums.Role
+    readByAdmin?: boolean
+    readByUser?: boolean
+    revokedAt?: Date | string | null
+    content?: string | null
+    fileUrl?: string | null
+    senderUserId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ConversationUpdateWithoutAnonymousParticipantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    user?: UserUpdateOneWithoutConversationsNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutAnonymousParticipantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutAnonymousParticipantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    guestName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUpdateWithoutSenderAnonymousInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    readByAdmin?: BoolFieldUpdateOperationsInput | boolean
+    readByUser?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    senderUser?: UserUpdateOneWithoutMessagesSentNestedInput
+    conversation?: ConversationUpdateOneRequiredWithoutMessagesNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutSenderAnonymousInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    readByAdmin?: BoolFieldUpdateOperationsInput | boolean
+    readByUser?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateManyWithoutSenderAnonymousInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    readByAdmin?: BoolFieldUpdateOperationsInput | boolean
+    readByUser?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MessageCreateManyConversationInput = {
     id?: string
     role?: $Enums.Role
@@ -30581,6 +32779,8 @@ export namespace Prisma {
     revokedAt?: Date | string | null
     content?: string | null
     fileUrl?: string | null
+    senderUserId?: string | null
+    senderAnonymousId?: string | null
     createdAt?: Date | string
   }
 
@@ -30593,6 +32793,8 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    senderUser?: UserUpdateOneWithoutMessagesSentNestedInput
+    senderAnonymous?: AnonymousParticipantUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutConversationInput = {
@@ -30603,6 +32805,8 @@ export namespace Prisma {
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAnonymousId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -30614,6 +32818,8 @@ export namespace Prisma {
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    senderUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAnonymousId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

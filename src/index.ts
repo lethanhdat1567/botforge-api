@@ -29,7 +29,14 @@ app.use(
             }
         },
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-        allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'Accept'],
+        allowedHeaders: [
+            'Content-Type',
+            'Authorization',
+            'ngrok-skip-browser-warning',
+            'Accept',
+            'X-Anonymous-Id',
+            'X-Anonymous-Display-Name'
+        ],
         credentials: true
     })
 );
