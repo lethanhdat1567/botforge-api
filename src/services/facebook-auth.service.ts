@@ -65,7 +65,7 @@ class FacebookAuthService {
             const responsePages = result.data.data.map((page: any) => ({
                 id: page.id,
                 name: page.name,
-                accessToken: accessToken
+                accessToken: page.access_token
             }));
 
             return responsePages;

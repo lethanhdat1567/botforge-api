@@ -8,6 +8,8 @@ class FacebookWebhookController {
         const challenge = req.query['hub.challenge'];
 
         if (mode && token) {
+            console.log('run here');
+
             if (mode === 'subscribe' && token === envConfig.facebook.verifyToken) {
                 console.log('WEBHOOK_VERIFIED');
                 return res.status(200).send(challenge);

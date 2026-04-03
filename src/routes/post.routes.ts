@@ -7,11 +7,11 @@ const router = Router();
 
 router.get('/public', postController.listPublic);
 router.get('/category/:categorySlug', postController.listByCategory);
+router.get('/slug/:slug', postController.detailBySlug);
+
 router.use(authMiddleware);
 
 router.get('/admin', requireRole, postController.listAdmin);
-router.get('/slug/:slug', postController.detailBySlug);
-
 router.get('/:id', postController.detail);
 
 router.post('/', requireRole, postController.create);

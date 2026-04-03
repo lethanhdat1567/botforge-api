@@ -5,10 +5,10 @@ import requireRole from '~/middlewares/role.middleware';
 
 const router = express.Router();
 
-router.use(authMiddleware, requireRole);
-
 router.get('/', postCategoryController.list);
 router.get('/:id', postCategoryController.detail);
+router.use(authMiddleware, requireRole);
+
 router.post('/', postCategoryController.create);
 router.patch('/:id', postCategoryController.update);
 router.delete('/:id', postCategoryController.delete);
