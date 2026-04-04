@@ -14,6 +14,9 @@ class PostCategoryService {
                 name: {
                     contains: query.q
                 }
+            },
+            orderBy: {
+                createdAt: 'asc'
             }
         });
 
