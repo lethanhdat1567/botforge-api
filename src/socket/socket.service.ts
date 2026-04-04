@@ -1,12 +1,13 @@
 import { getIO } from './index';
-import { SocketEvent } from './socket.types';
+import { SocketEvent, type NotificationPublicDTO } from './socket.types';
 
-export function emitNewNotification(userId: string) {
+export function emitNewNotification(
+    userId: string,
+    payload: { notification: NotificationPublicDTO }
+) {
     const io = getIO();
 
-    io.to(`user:${userId}`).emit(SocketEvent.NEW_NOTIFICATION, {
-        event: 'new_notification'
-    });
+    io.to(`user:${userId}`).emit(SocketEvent.NEW_NOTIFICATION, payload);
 }
 
 /** @deprecated Dùng `emitNewChatMessageForConversation` để hỗ trợ cả khách ẩn danh. */

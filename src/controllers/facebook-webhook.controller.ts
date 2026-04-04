@@ -1,4 +1,5 @@
 import { envConfig } from '~/config/envConfig';
+import { FbRequest } from '~/middlewares/facebookWebhook.middleware';
 import facebookWebhookService from '~/services/facebook-webhook.service';
 
 class FacebookWebhookController {
@@ -20,8 +21,8 @@ class FacebookWebhookController {
 
         res.sendStatus(400);
     }
-    async handle(req: any, res: any) {
-        await facebookWebhookService.execute(req.body);
+    async handle(req: FbRequest, res: any) {
+        await facebookWebhookService.executeEvents(req.fbEvents ?? []);
 
         return res.status(200).send('EVENT_RECEIVED');
     }

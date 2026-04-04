@@ -150,8 +150,6 @@ export const NotificationType: {
   comment: 'comment',
   reply: 'reply',
   download: 'download',
-  flow_done: 'flow_done',
-  flow_cancelled: 'flow_cancelled',
   new_user: 'new_user',
   chat_message: 'chat_message'
 };
@@ -2596,11 +2594,13 @@ export namespace Prisma {
   export type FlowCountOutputType = {
     shares: number
     flowRecords: number
+    flowShareDownloadClones: number
   }
 
   export type FlowCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shares?: boolean | FlowCountOutputTypeCountSharesArgs
     flowRecords?: boolean | FlowCountOutputTypeCountFlowRecordsArgs
+    flowShareDownloadClones?: boolean | FlowCountOutputTypeCountFlowShareDownloadClonesArgs
   }
 
   // Custom InputTypes
@@ -2626,6 +2626,13 @@ export namespace Prisma {
    */
   export type FlowCountOutputTypeCountFlowRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlowRecordWhereInput
+  }
+
+  /**
+   * FlowCountOutputType without action
+   */
+  export type FlowCountOutputTypeCountFlowShareDownloadClonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowShareDowloadWhereInput
   }
 
 
@@ -6283,6 +6290,7 @@ export namespace Prisma {
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     flowRecords?: boolean | Flow$flowRecordsArgs<ExtArgs>
     page?: boolean | Flow$pageArgs<ExtArgs>
+    flowShareDownloadClones?: boolean | Flow$flowShareDownloadClonesArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["flow"]>
 
@@ -6308,6 +6316,7 @@ export namespace Prisma {
     shares?: boolean | Flow$sharesArgs<ExtArgs>
     flowRecords?: boolean | Flow$flowRecordsArgs<ExtArgs>
     page?: boolean | Flow$pageArgs<ExtArgs>
+    flowShareDownloadClones?: boolean | Flow$flowShareDownloadClonesArgs<ExtArgs>
     _count?: boolean | FlowCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6318,6 +6327,7 @@ export namespace Prisma {
       shares: Prisma.$FlowSharePayload<ExtArgs>[]
       flowRecords: Prisma.$FlowRecordPayload<ExtArgs>[]
       page: Prisma.$PagePayload<ExtArgs> | null
+      flowShareDownloadClones: Prisma.$FlowShareDowloadPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6675,6 +6685,7 @@ export namespace Prisma {
     shares<T extends Flow$sharesArgs<ExtArgs> = {}>(args?: Subset<T, Flow$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flowRecords<T extends Flow$flowRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Flow$flowRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     page<T extends Flow$pageArgs<ExtArgs> = {}>(args?: Subset<T, Flow$pageArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    flowShareDownloadClones<T extends Flow$flowShareDownloadClonesArgs<ExtArgs> = {}>(args?: Subset<T, Flow$flowShareDownloadClonesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowShareDowloadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7122,6 +7133,30 @@ export namespace Prisma {
      */
     include?: PageInclude<ExtArgs> | null
     where?: PageWhereInput
+  }
+
+  /**
+   * Flow.flowShareDownloadClones
+   */
+  export type Flow$flowShareDownloadClonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FlowShareDowload
+     */
+    select?: FlowShareDowloadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FlowShareDowload
+     */
+    omit?: FlowShareDowloadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowShareDowloadInclude<ExtArgs> | null
+    where?: FlowShareDowloadWhereInput
+    orderBy?: FlowShareDowloadOrderByWithRelationInput | FlowShareDowloadOrderByWithRelationInput[]
+    cursor?: FlowShareDowloadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowShareDowloadScalarFieldEnum | FlowShareDowloadScalarFieldEnum[]
   }
 
   /**
@@ -10160,6 +10195,8 @@ export namespace Prisma {
     id: string | null
     flowShareId: string | null
     userId: string | null
+    clonedFlowId: string | null
+    lastKnownCloneUpdatedAt: Date | null
     createdAt: Date | null
   }
 
@@ -10167,6 +10204,8 @@ export namespace Prisma {
     id: string | null
     flowShareId: string | null
     userId: string | null
+    clonedFlowId: string | null
+    lastKnownCloneUpdatedAt: Date | null
     createdAt: Date | null
   }
 
@@ -10174,6 +10213,8 @@ export namespace Prisma {
     id: number
     flowShareId: number
     userId: number
+    clonedFlowId: number
+    lastKnownCloneUpdatedAt: number
     createdAt: number
     _all: number
   }
@@ -10183,6 +10224,8 @@ export namespace Prisma {
     id?: true
     flowShareId?: true
     userId?: true
+    clonedFlowId?: true
+    lastKnownCloneUpdatedAt?: true
     createdAt?: true
   }
 
@@ -10190,6 +10233,8 @@ export namespace Prisma {
     id?: true
     flowShareId?: true
     userId?: true
+    clonedFlowId?: true
+    lastKnownCloneUpdatedAt?: true
     createdAt?: true
   }
 
@@ -10197,6 +10242,8 @@ export namespace Prisma {
     id?: true
     flowShareId?: true
     userId?: true
+    clonedFlowId?: true
+    lastKnownCloneUpdatedAt?: true
     createdAt?: true
     _all?: true
   }
@@ -10277,6 +10324,8 @@ export namespace Prisma {
     id: string
     flowShareId: string
     userId: string
+    clonedFlowId: string | null
+    lastKnownCloneUpdatedAt: Date | null
     createdAt: Date
     _count: FlowShareDowloadCountAggregateOutputType | null
     _min: FlowShareDowloadMinAggregateOutputType | null
@@ -10301,9 +10350,12 @@ export namespace Prisma {
     id?: boolean
     flowShareId?: boolean
     userId?: boolean
+    clonedFlowId?: boolean
+    lastKnownCloneUpdatedAt?: boolean
     createdAt?: boolean
     flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    clonedFlow?: boolean | FlowShareDowload$clonedFlowArgs<ExtArgs>
   }, ExtArgs["result"]["flowShareDowload"]>
 
 
@@ -10312,13 +10364,16 @@ export namespace Prisma {
     id?: boolean
     flowShareId?: boolean
     userId?: boolean
+    clonedFlowId?: boolean
+    lastKnownCloneUpdatedAt?: boolean
     createdAt?: boolean
   }
 
-  export type FlowShareDowloadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "flowShareId" | "userId" | "createdAt", ExtArgs["result"]["flowShareDowload"]>
+  export type FlowShareDowloadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "flowShareId" | "userId" | "clonedFlowId" | "lastKnownCloneUpdatedAt" | "createdAt", ExtArgs["result"]["flowShareDowload"]>
   export type FlowShareDowloadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     flowShare?: boolean | FlowShareDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    clonedFlow?: boolean | FlowShareDowload$clonedFlowArgs<ExtArgs>
   }
 
   export type $FlowShareDowloadPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10326,11 +10381,14 @@ export namespace Prisma {
     objects: {
       flowShare: Prisma.$FlowSharePayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
+      clonedFlow: Prisma.$FlowPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       flowShareId: string
       userId: string
+      clonedFlowId: string | null
+      lastKnownCloneUpdatedAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["flowShareDowload"]>
     composites: {}
@@ -10674,6 +10732,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     flowShare<T extends FlowShareDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FlowShareDefaultArgs<ExtArgs>>): Prisma__FlowShareClient<$Result.GetResult<Prisma.$FlowSharePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    clonedFlow<T extends FlowShareDowload$clonedFlowArgs<ExtArgs> = {}>(args?: Subset<T, FlowShareDowload$clonedFlowArgs<ExtArgs>>): Prisma__FlowClient<$Result.GetResult<Prisma.$FlowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10706,6 +10765,8 @@ export namespace Prisma {
     readonly id: FieldRef<"FlowShareDowload", 'String'>
     readonly flowShareId: FieldRef<"FlowShareDowload", 'String'>
     readonly userId: FieldRef<"FlowShareDowload", 'String'>
+    readonly clonedFlowId: FieldRef<"FlowShareDowload", 'String'>
+    readonly lastKnownCloneUpdatedAt: FieldRef<"FlowShareDowload", 'DateTime'>
     readonly createdAt: FieldRef<"FlowShareDowload", 'DateTime'>
   }
     
@@ -11047,6 +11108,25 @@ export namespace Prisma {
      * Limit how many FlowShareDowloads to delete.
      */
     limit?: number
+  }
+
+  /**
+   * FlowShareDowload.clonedFlow
+   */
+  export type FlowShareDowload$clonedFlowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flow
+     */
+    select?: FlowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flow
+     */
+    omit?: FlowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowInclude<ExtArgs> | null
+    where?: FlowWhereInput
   }
 
   /**
@@ -21862,6 +21942,8 @@ export namespace Prisma {
     id: 'id',
     flowShareId: 'flowShareId',
     userId: 'userId',
+    clonedFlowId: 'clonedFlowId',
+    lastKnownCloneUpdatedAt: 'lastKnownCloneUpdatedAt',
     createdAt: 'createdAt'
   };
 
@@ -22139,7 +22221,8 @@ export namespace Prisma {
   export const FlowShareDowloadOrderByRelevanceFieldEnum: {
     id: 'id',
     flowShareId: 'flowShareId',
-    userId: 'userId'
+    userId: 'userId',
+    clonedFlowId: 'clonedFlowId'
   };
 
   export type FlowShareDowloadOrderByRelevanceFieldEnum = (typeof FlowShareDowloadOrderByRelevanceFieldEnum)[keyof typeof FlowShareDowloadOrderByRelevanceFieldEnum]
@@ -22635,6 +22718,7 @@ export namespace Prisma {
     shares?: FlowShareListRelationFilter
     flowRecords?: FlowRecordListRelationFilter
     page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
+    flowShareDownloadClones?: FlowShareDowloadListRelationFilter
   }
 
   export type FlowOrderByWithRelationInput = {
@@ -22653,6 +22737,7 @@ export namespace Prisma {
     shares?: FlowShareOrderByRelationAggregateInput
     flowRecords?: FlowRecordOrderByRelationAggregateInput
     page?: PageOrderByWithRelationInput
+    flowShareDownloadClones?: FlowShareDowloadOrderByRelationAggregateInput
     _relevance?: FlowOrderByRelevanceInput
   }
 
@@ -22676,6 +22761,7 @@ export namespace Prisma {
     shares?: FlowShareListRelationFilter
     flowRecords?: FlowRecordListRelationFilter
     page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
+    flowShareDownloadClones?: FlowShareDowloadListRelationFilter
   }, "id" | "userId_name">
 
   export type FlowOrderByWithAggregationInput = {
@@ -22925,18 +23011,24 @@ export namespace Prisma {
     id?: StringFilter<"FlowShareDowload"> | string
     flowShareId?: StringFilter<"FlowShareDowload"> | string
     userId?: StringFilter<"FlowShareDowload"> | string
+    clonedFlowId?: StringNullableFilter<"FlowShareDowload"> | string | null
+    lastKnownCloneUpdatedAt?: DateTimeNullableFilter<"FlowShareDowload"> | Date | string | null
     createdAt?: DateTimeFilter<"FlowShareDowload"> | Date | string
     flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    clonedFlow?: XOR<FlowNullableScalarRelationFilter, FlowWhereInput> | null
   }
 
   export type FlowShareDowloadOrderByWithRelationInput = {
     id?: SortOrder
     flowShareId?: SortOrder
     userId?: SortOrder
+    clonedFlowId?: SortOrderInput | SortOrder
+    lastKnownCloneUpdatedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     flowShare?: FlowShareOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
+    clonedFlow?: FlowOrderByWithRelationInput
     _relevance?: FlowShareDowloadOrderByRelevanceInput
   }
 
@@ -22947,15 +23039,20 @@ export namespace Prisma {
     NOT?: FlowShareDowloadWhereInput | FlowShareDowloadWhereInput[]
     flowShareId?: StringFilter<"FlowShareDowload"> | string
     userId?: StringFilter<"FlowShareDowload"> | string
+    clonedFlowId?: StringNullableFilter<"FlowShareDowload"> | string | null
+    lastKnownCloneUpdatedAt?: DateTimeNullableFilter<"FlowShareDowload"> | Date | string | null
     createdAt?: DateTimeFilter<"FlowShareDowload"> | Date | string
     flowShare?: XOR<FlowShareScalarRelationFilter, FlowShareWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    clonedFlow?: XOR<FlowNullableScalarRelationFilter, FlowWhereInput> | null
   }, "id">
 
   export type FlowShareDowloadOrderByWithAggregationInput = {
     id?: SortOrder
     flowShareId?: SortOrder
     userId?: SortOrder
+    clonedFlowId?: SortOrderInput | SortOrder
+    lastKnownCloneUpdatedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: FlowShareDowloadCountOrderByAggregateInput
     _max?: FlowShareDowloadMaxOrderByAggregateInput
@@ -22969,6 +23066,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"FlowShareDowload"> | string
     flowShareId?: StringWithAggregatesFilter<"FlowShareDowload"> | string
     userId?: StringWithAggregatesFilter<"FlowShareDowload"> | string
+    clonedFlowId?: StringNullableWithAggregatesFilter<"FlowShareDowload"> | string | null
+    lastKnownCloneUpdatedAt?: DateTimeNullableWithAggregatesFilter<"FlowShareDowload"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"FlowShareDowload"> | Date | string
   }
 
@@ -24027,6 +24126,7 @@ export namespace Prisma {
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
     page?: PageCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowUncheckedCreateInput = {
@@ -24044,6 +24144,7 @@ export namespace Prisma {
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
     page?: PageUncheckedCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowUpdateInput = {
@@ -24061,6 +24162,7 @@ export namespace Prisma {
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
     page?: PageUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowUncheckedUpdateInput = {
@@ -24078,6 +24180,7 @@ export namespace Prisma {
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
     page?: PageUncheckedUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowCreateManyInput = {
@@ -24340,29 +24443,37 @@ export namespace Prisma {
 
   export type FlowShareDowloadCreateInput = {
     id?: string
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
     flowShare: FlowShareCreateNestedOneWithoutFlowShareDowloadsInput
     user: UserCreateNestedOneWithoutFlowShareDowloadsInput
+    clonedFlow?: FlowCreateNestedOneWithoutFlowShareDownloadClonesInput
   }
 
   export type FlowShareDowloadUncheckedCreateInput = {
     id?: string
     flowShareId: string
     userId: string
+    clonedFlowId?: string | null
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
   }
 
   export type FlowShareDowloadUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShare?: FlowShareUpdateOneRequiredWithoutFlowShareDowloadsNestedInput
     user?: UserUpdateOneRequiredWithoutFlowShareDowloadsNestedInput
+    clonedFlow?: FlowUpdateOneWithoutFlowShareDownloadClonesNestedInput
   }
 
   export type FlowShareDowloadUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     flowShareId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    clonedFlowId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -24370,11 +24481,14 @@ export namespace Prisma {
     id?: string
     flowShareId: string
     userId: string
+    clonedFlowId?: string | null
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
   }
 
   export type FlowShareDowloadUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -24382,6 +24496,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     flowShareId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    clonedFlowId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -25825,6 +25941,11 @@ export namespace Prisma {
     isNot?: FlowShareWhereInput
   }
 
+  export type FlowNullableScalarRelationFilter = {
+    is?: FlowWhereInput | null
+    isNot?: FlowWhereInput | null
+  }
+
   export type FlowShareDowloadOrderByRelevanceInput = {
     fields: FlowShareDowloadOrderByRelevanceFieldEnum | FlowShareDowloadOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -25835,6 +25956,8 @@ export namespace Prisma {
     id?: SortOrder
     flowShareId?: SortOrder
     userId?: SortOrder
+    clonedFlowId?: SortOrder
+    lastKnownCloneUpdatedAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -25842,6 +25965,8 @@ export namespace Prisma {
     id?: SortOrder
     flowShareId?: SortOrder
     userId?: SortOrder
+    clonedFlowId?: SortOrder
+    lastKnownCloneUpdatedAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -25849,6 +25974,8 @@ export namespace Prisma {
     id?: SortOrder
     flowShareId?: SortOrder
     userId?: SortOrder
+    clonedFlowId?: SortOrder
+    lastKnownCloneUpdatedAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -26999,6 +27126,13 @@ export namespace Prisma {
     connect?: PageWhereUniqueInput
   }
 
+  export type FlowShareDowloadCreateNestedManyWithoutClonedFlowInput = {
+    create?: XOR<FlowShareDowloadCreateWithoutClonedFlowInput, FlowShareDowloadUncheckedCreateWithoutClonedFlowInput> | FlowShareDowloadCreateWithoutClonedFlowInput[] | FlowShareDowloadUncheckedCreateWithoutClonedFlowInput[]
+    connectOrCreate?: FlowShareDowloadCreateOrConnectWithoutClonedFlowInput | FlowShareDowloadCreateOrConnectWithoutClonedFlowInput[]
+    createMany?: FlowShareDowloadCreateManyClonedFlowInputEnvelope
+    connect?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+  }
+
   export type FlowShareUncheckedCreateNestedManyWithoutFlowInput = {
     create?: XOR<FlowShareCreateWithoutFlowInput, FlowShareUncheckedCreateWithoutFlowInput> | FlowShareCreateWithoutFlowInput[] | FlowShareUncheckedCreateWithoutFlowInput[]
     connectOrCreate?: FlowShareCreateOrConnectWithoutFlowInput | FlowShareCreateOrConnectWithoutFlowInput[]
@@ -27017,6 +27151,13 @@ export namespace Prisma {
     create?: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
     connectOrCreate?: PageCreateOrConnectWithoutFlowInput
     connect?: PageWhereUniqueInput
+  }
+
+  export type FlowShareDowloadUncheckedCreateNestedManyWithoutClonedFlowInput = {
+    create?: XOR<FlowShareDowloadCreateWithoutClonedFlowInput, FlowShareDowloadUncheckedCreateWithoutClonedFlowInput> | FlowShareDowloadCreateWithoutClonedFlowInput[] | FlowShareDowloadUncheckedCreateWithoutClonedFlowInput[]
+    connectOrCreate?: FlowShareDowloadCreateOrConnectWithoutClonedFlowInput | FlowShareDowloadCreateOrConnectWithoutClonedFlowInput[]
+    createMany?: FlowShareDowloadCreateManyClonedFlowInputEnvelope
+    connect?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
   }
 
   export type EnumFlowStatusFieldUpdateOperationsInput = {
@@ -27069,6 +27210,20 @@ export namespace Prisma {
     update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowInput, PageUpdateWithoutFlowInput>, PageUncheckedUpdateWithoutFlowInput>
   }
 
+  export type FlowShareDowloadUpdateManyWithoutClonedFlowNestedInput = {
+    create?: XOR<FlowShareDowloadCreateWithoutClonedFlowInput, FlowShareDowloadUncheckedCreateWithoutClonedFlowInput> | FlowShareDowloadCreateWithoutClonedFlowInput[] | FlowShareDowloadUncheckedCreateWithoutClonedFlowInput[]
+    connectOrCreate?: FlowShareDowloadCreateOrConnectWithoutClonedFlowInput | FlowShareDowloadCreateOrConnectWithoutClonedFlowInput[]
+    upsert?: FlowShareDowloadUpsertWithWhereUniqueWithoutClonedFlowInput | FlowShareDowloadUpsertWithWhereUniqueWithoutClonedFlowInput[]
+    createMany?: FlowShareDowloadCreateManyClonedFlowInputEnvelope
+    set?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    disconnect?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    delete?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    connect?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    update?: FlowShareDowloadUpdateWithWhereUniqueWithoutClonedFlowInput | FlowShareDowloadUpdateWithWhereUniqueWithoutClonedFlowInput[]
+    updateMany?: FlowShareDowloadUpdateManyWithWhereWithoutClonedFlowInput | FlowShareDowloadUpdateManyWithWhereWithoutClonedFlowInput[]
+    deleteMany?: FlowShareDowloadScalarWhereInput | FlowShareDowloadScalarWhereInput[]
+  }
+
   export type FlowShareUncheckedUpdateManyWithoutFlowNestedInput = {
     create?: XOR<FlowShareCreateWithoutFlowInput, FlowShareUncheckedCreateWithoutFlowInput> | FlowShareCreateWithoutFlowInput[] | FlowShareUncheckedCreateWithoutFlowInput[]
     connectOrCreate?: FlowShareCreateOrConnectWithoutFlowInput | FlowShareCreateOrConnectWithoutFlowInput[]
@@ -27105,6 +27260,20 @@ export namespace Prisma {
     delete?: PageWhereInput | boolean
     connect?: PageWhereUniqueInput
     update?: XOR<XOR<PageUpdateToOneWithWhereWithoutFlowInput, PageUpdateWithoutFlowInput>, PageUncheckedUpdateWithoutFlowInput>
+  }
+
+  export type FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowNestedInput = {
+    create?: XOR<FlowShareDowloadCreateWithoutClonedFlowInput, FlowShareDowloadUncheckedCreateWithoutClonedFlowInput> | FlowShareDowloadCreateWithoutClonedFlowInput[] | FlowShareDowloadUncheckedCreateWithoutClonedFlowInput[]
+    connectOrCreate?: FlowShareDowloadCreateOrConnectWithoutClonedFlowInput | FlowShareDowloadCreateOrConnectWithoutClonedFlowInput[]
+    upsert?: FlowShareDowloadUpsertWithWhereUniqueWithoutClonedFlowInput | FlowShareDowloadUpsertWithWhereUniqueWithoutClonedFlowInput[]
+    createMany?: FlowShareDowloadCreateManyClonedFlowInputEnvelope
+    set?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    disconnect?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    delete?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    connect?: FlowShareDowloadWhereUniqueInput | FlowShareDowloadWhereUniqueInput[]
+    update?: FlowShareDowloadUpdateWithWhereUniqueWithoutClonedFlowInput | FlowShareDowloadUpdateWithWhereUniqueWithoutClonedFlowInput[]
+    updateMany?: FlowShareDowloadUpdateManyWithWhereWithoutClonedFlowInput | FlowShareDowloadUpdateManyWithWhereWithoutClonedFlowInput[]
+    deleteMany?: FlowShareDowloadScalarWhereInput | FlowShareDowloadScalarWhereInput[]
   }
 
   export type FlowCreateNestedOneWithoutPageInput = {
@@ -27409,6 +27578,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type FlowCreateNestedOneWithoutFlowShareDownloadClonesInput = {
+    create?: XOR<FlowCreateWithoutFlowShareDownloadClonesInput, FlowUncheckedCreateWithoutFlowShareDownloadClonesInput>
+    connectOrCreate?: FlowCreateOrConnectWithoutFlowShareDownloadClonesInput
+    connect?: FlowWhereUniqueInput
+  }
+
   export type FlowShareUpdateOneRequiredWithoutFlowShareDowloadsNestedInput = {
     create?: XOR<FlowShareCreateWithoutFlowShareDowloadsInput, FlowShareUncheckedCreateWithoutFlowShareDowloadsInput>
     connectOrCreate?: FlowShareCreateOrConnectWithoutFlowShareDowloadsInput
@@ -27423,6 +27598,16 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutFlowShareDowloadsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFlowShareDowloadsInput, UserUpdateWithoutFlowShareDowloadsInput>, UserUncheckedUpdateWithoutFlowShareDowloadsInput>
+  }
+
+  export type FlowUpdateOneWithoutFlowShareDownloadClonesNestedInput = {
+    create?: XOR<FlowCreateWithoutFlowShareDownloadClonesInput, FlowUncheckedCreateWithoutFlowShareDownloadClonesInput>
+    connectOrCreate?: FlowCreateOrConnectWithoutFlowShareDownloadClonesInput
+    upsert?: FlowUpsertWithoutFlowShareDownloadClonesInput
+    disconnect?: FlowWhereInput | boolean
+    delete?: FlowWhereInput | boolean
+    connect?: FlowWhereUniqueInput
+    update?: XOR<XOR<FlowUpdateToOneWithWhereWithoutFlowShareDownloadClonesInput, FlowUpdateWithoutFlowShareDownloadClonesInput>, FlowUncheckedUpdateWithoutFlowShareDownloadClonesInput>
   }
 
   export type FlowShareCreateNestedOneWithoutFlowShareCommentsInput = {
@@ -28257,6 +28442,7 @@ export namespace Prisma {
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
     page?: PageCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowUncheckedCreateWithoutUserInput = {
@@ -28273,6 +28459,7 @@ export namespace Prisma {
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
     page?: PageUncheckedCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowCreateOrConnectWithoutUserInput = {
@@ -28389,13 +28576,17 @@ export namespace Prisma {
 
   export type FlowShareDowloadCreateWithoutUserInput = {
     id?: string
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
     flowShare: FlowShareCreateNestedOneWithoutFlowShareDowloadsInput
+    clonedFlow?: FlowCreateNestedOneWithoutFlowShareDownloadClonesInput
   }
 
   export type FlowShareDowloadUncheckedCreateWithoutUserInput = {
     id?: string
     flowShareId: string
+    clonedFlowId?: string | null
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -28755,6 +28946,8 @@ export namespace Prisma {
     id?: StringFilter<"FlowShareDowload"> | string
     flowShareId?: StringFilter<"FlowShareDowload"> | string
     userId?: StringFilter<"FlowShareDowload"> | string
+    clonedFlowId?: StringNullableFilter<"FlowShareDowload"> | string | null
+    lastKnownCloneUpdatedAt?: DateTimeNullableFilter<"FlowShareDowload"> | Date | string | null
     createdAt?: DateTimeFilter<"FlowShareDowload"> | Date | string
   }
 
@@ -29349,6 +29542,32 @@ export namespace Prisma {
     create: XOR<PageCreateWithoutFlowInput, PageUncheckedCreateWithoutFlowInput>
   }
 
+  export type FlowShareDowloadCreateWithoutClonedFlowInput = {
+    id?: string
+    lastKnownCloneUpdatedAt?: Date | string | null
+    createdAt?: Date | string
+    flowShare: FlowShareCreateNestedOneWithoutFlowShareDowloadsInput
+    user: UserCreateNestedOneWithoutFlowShareDowloadsInput
+  }
+
+  export type FlowShareDowloadUncheckedCreateWithoutClonedFlowInput = {
+    id?: string
+    flowShareId: string
+    userId: string
+    lastKnownCloneUpdatedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type FlowShareDowloadCreateOrConnectWithoutClonedFlowInput = {
+    where: FlowShareDowloadWhereUniqueInput
+    create: XOR<FlowShareDowloadCreateWithoutClonedFlowInput, FlowShareDowloadUncheckedCreateWithoutClonedFlowInput>
+  }
+
+  export type FlowShareDowloadCreateManyClonedFlowInputEnvelope = {
+    data: FlowShareDowloadCreateManyClonedFlowInput | FlowShareDowloadCreateManyClonedFlowInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutFlowsInput = {
     update: XOR<UserUpdateWithoutFlowsInput, UserUncheckedUpdateWithoutFlowsInput>
     create: XOR<UserCreateWithoutFlowsInput, UserUncheckedCreateWithoutFlowsInput>
@@ -29485,6 +29704,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FlowShareDowloadUpsertWithWhereUniqueWithoutClonedFlowInput = {
+    where: FlowShareDowloadWhereUniqueInput
+    update: XOR<FlowShareDowloadUpdateWithoutClonedFlowInput, FlowShareDowloadUncheckedUpdateWithoutClonedFlowInput>
+    create: XOR<FlowShareDowloadCreateWithoutClonedFlowInput, FlowShareDowloadUncheckedCreateWithoutClonedFlowInput>
+  }
+
+  export type FlowShareDowloadUpdateWithWhereUniqueWithoutClonedFlowInput = {
+    where: FlowShareDowloadWhereUniqueInput
+    data: XOR<FlowShareDowloadUpdateWithoutClonedFlowInput, FlowShareDowloadUncheckedUpdateWithoutClonedFlowInput>
+  }
+
+  export type FlowShareDowloadUpdateManyWithWhereWithoutClonedFlowInput = {
+    where: FlowShareDowloadScalarWhereInput
+    data: XOR<FlowShareDowloadUpdateManyMutationInput, FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowInput>
+  }
+
   export type FlowCreateWithoutPageInput = {
     id?: string
     name: string
@@ -29499,6 +29734,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowUncheckedCreateWithoutPageInput = {
@@ -29515,6 +29751,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
     flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowCreateOrConnectWithoutPageInput = {
@@ -29547,6 +29784,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutPageInput = {
@@ -29563,6 +29801,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowCreateWithoutSharesInput = {
@@ -29579,6 +29818,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutFlowsInput
     flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
     page?: PageCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowUncheckedCreateWithoutSharesInput = {
@@ -29595,6 +29835,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
     page?: PageUncheckedCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowCreateOrConnectWithoutSharesInput = {
@@ -29659,13 +29900,17 @@ export namespace Prisma {
 
   export type FlowShareDowloadCreateWithoutFlowShareInput = {
     id?: string
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutFlowShareDowloadsInput
+    clonedFlow?: FlowCreateNestedOneWithoutFlowShareDownloadClonesInput
   }
 
   export type FlowShareDowloadUncheckedCreateWithoutFlowShareInput = {
     id?: string
     userId: string
+    clonedFlowId?: string | null
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -29795,6 +30040,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
     page?: PageUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutSharesInput = {
@@ -29811,6 +30057,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
     page?: PageUncheckedUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type UserUpsertWithoutFlowSharesInput = {
@@ -30112,6 +30359,45 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutFlowShareDowloadsInput, UserUncheckedCreateWithoutFlowShareDowloadsInput>
   }
 
+  export type FlowCreateWithoutFlowShareDownloadClonesInput = {
+    id?: string
+    name: string
+    status?: $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: string
+    startNodeId?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFlowsInput
+    shares?: FlowShareCreateNestedManyWithoutFlowInput
+    flowRecords?: FlowRecordCreateNestedManyWithoutFlowInput
+    page?: PageCreateNestedOneWithoutFlowInput
+  }
+
+  export type FlowUncheckedCreateWithoutFlowShareDownloadClonesInput = {
+    id?: string
+    userId: string
+    name: string
+    status?: $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: string
+    startNodeId?: string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
+    flowRecords?: FlowRecordUncheckedCreateNestedManyWithoutFlowInput
+    page?: PageUncheckedCreateNestedOneWithoutFlowInput
+  }
+
+  export type FlowCreateOrConnectWithoutFlowShareDownloadClonesInput = {
+    where: FlowWhereUniqueInput
+    create: XOR<FlowCreateWithoutFlowShareDownloadClonesInput, FlowUncheckedCreateWithoutFlowShareDownloadClonesInput>
+  }
+
   export type FlowShareUpsertWithoutFlowShareDowloadsInput = {
     update: XOR<FlowShareUpdateWithoutFlowShareDowloadsInput, FlowShareUncheckedUpdateWithoutFlowShareDowloadsInput>
     create: XOR<FlowShareCreateWithoutFlowShareDowloadsInput, FlowShareUncheckedCreateWithoutFlowShareDowloadsInput>
@@ -30216,6 +30502,51 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSenderUserNestedInput
     facebookAuth?: FacebookAuthUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type FlowUpsertWithoutFlowShareDownloadClonesInput = {
+    update: XOR<FlowUpdateWithoutFlowShareDownloadClonesInput, FlowUncheckedUpdateWithoutFlowShareDownloadClonesInput>
+    create: XOR<FlowCreateWithoutFlowShareDownloadClonesInput, FlowUncheckedCreateWithoutFlowShareDownloadClonesInput>
+    where?: FlowWhereInput
+  }
+
+  export type FlowUpdateToOneWithWhereWithoutFlowShareDownloadClonesInput = {
+    where?: FlowWhereInput
+    data: XOR<FlowUpdateWithoutFlowShareDownloadClonesInput, FlowUncheckedUpdateWithoutFlowShareDownloadClonesInput>
+  }
+
+  export type FlowUpdateWithoutFlowShareDownloadClonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: StringFieldUpdateOperationsInput | string
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFlowsNestedInput
+    shares?: FlowShareUpdateManyWithoutFlowNestedInput
+    flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
+    page?: PageUpdateOneWithoutFlowNestedInput
+  }
+
+  export type FlowUncheckedUpdateWithoutFlowShareDownloadClonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumFlowStatusFieldUpdateOperationsInput | $Enums.FlowStatus
+    logicJson?: NullableJsonNullValueInput | InputJsonValue
+    layoutJson?: NullableJsonNullValueInput | InputJsonValue
+    timeoutDuration?: StringFieldUpdateOperationsInput | string
+    startNodeId?: NullableStringFieldUpdateOperationsInput | string | null
+    timeoutJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
+    flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
+    page?: PageUncheckedUpdateOneWithoutFlowNestedInput
   }
 
   export type FlowShareCreateWithoutFlowShareCommentsInput = {
@@ -31800,6 +32131,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutFlowsInput
     shares?: FlowShareCreateNestedManyWithoutFlowInput
     page?: PageCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowUncheckedCreateWithoutFlowRecordsInput = {
@@ -31816,6 +32148,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     shares?: FlowShareUncheckedCreateNestedManyWithoutFlowInput
     page?: PageUncheckedCreateNestedOneWithoutFlowInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedCreateNestedManyWithoutClonedFlowInput
   }
 
   export type FlowCreateOrConnectWithoutFlowRecordsInput = {
@@ -31848,6 +32181,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutFlowsNestedInput
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     page?: PageUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutFlowRecordsInput = {
@@ -31864,6 +32198,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
     page?: PageUncheckedUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowCreateManyUserInput = {
@@ -31913,6 +32248,8 @@ export namespace Prisma {
   export type FlowShareDowloadCreateManyUserInput = {
     id?: string
     flowShareId: string
+    clonedFlowId?: string | null
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -31986,6 +32323,7 @@ export namespace Prisma {
     shares?: FlowShareUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUpdateManyWithoutFlowNestedInput
     page?: PageUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowUncheckedUpdateWithoutUserInput = {
@@ -32002,6 +32340,7 @@ export namespace Prisma {
     shares?: FlowShareUncheckedUpdateManyWithoutFlowNestedInput
     flowRecords?: FlowRecordUncheckedUpdateManyWithoutFlowNestedInput
     page?: PageUncheckedUpdateOneWithoutFlowNestedInput
+    flowShareDownloadClones?: FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowNestedInput
   }
 
   export type FlowUncheckedUpdateManyWithoutUserInput = {
@@ -32122,19 +32461,25 @@ export namespace Prisma {
 
   export type FlowShareDowloadUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     flowShare?: FlowShareUpdateOneRequiredWithoutFlowShareDowloadsNestedInput
+    clonedFlow?: FlowUpdateOneWithoutFlowShareDownloadClonesNestedInput
   }
 
   export type FlowShareDowloadUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     flowShareId?: StringFieldUpdateOperationsInput | string
+    clonedFlowId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FlowShareDowloadUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     flowShareId?: StringFieldUpdateOperationsInput | string
+    clonedFlowId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -32334,6 +32679,14 @@ export namespace Prisma {
     expiresAt?: Date | string | null
   }
 
+  export type FlowShareDowloadCreateManyClonedFlowInput = {
+    id?: string
+    flowShareId: string
+    userId: string
+    lastKnownCloneUpdatedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type FlowShareUpdateWithoutFlowInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -32416,9 +32769,35 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type FlowShareDowloadUpdateWithoutClonedFlowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    flowShare?: FlowShareUpdateOneRequiredWithoutFlowShareDowloadsNestedInput
+    user?: UserUpdateOneRequiredWithoutFlowShareDowloadsNestedInput
+  }
+
+  export type FlowShareDowloadUncheckedUpdateWithoutClonedFlowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowShareDowloadUncheckedUpdateManyWithoutClonedFlowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    flowShareId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FlowShareDowloadCreateManyFlowShareInput = {
     id?: string
     userId: string
+    clonedFlowId?: string | null
+    lastKnownCloneUpdatedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -32445,19 +32824,25 @@ export namespace Prisma {
 
   export type FlowShareDowloadUpdateWithoutFlowShareInput = {
     id?: StringFieldUpdateOperationsInput | string
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFlowShareDowloadsNestedInput
+    clonedFlow?: FlowUpdateOneWithoutFlowShareDownloadClonesNestedInput
   }
 
   export type FlowShareDowloadUncheckedUpdateWithoutFlowShareInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    clonedFlowId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FlowShareDowloadUncheckedUpdateManyWithoutFlowShareInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    clonedFlowId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastKnownCloneUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

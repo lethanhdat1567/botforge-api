@@ -9,6 +9,14 @@ class NotificationController {
         res.success(notifications);
     }
 
+    async unreadCount(req: any, res: any) {
+        const userId = req.user.id;
+
+        const count = await notificationService.countUnreadForUser(userId);
+
+        res.success({ count });
+    }
+
     async markRead(req: any, res: any) {
         const userId = req.user.id;
         const notificationId = req.params.id;

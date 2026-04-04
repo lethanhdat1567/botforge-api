@@ -60,13 +60,19 @@ class FlowShareCommentService {
     }
 
     async create(data: CreateComment) {
+        const comment = await prisma.flowShareComment.create({ data });
+
         if (data.parentId) {
-            notificationService.notifyReplyComment(data.parentId, data.flowShareId, data.userId);
+            await notificationService.notifyReplyComment(
+                data.parentId,
+                data.flowShareId,
+                data.userId
+            );
         } else {
-            notificationService.notifyNewComment(data.flowShareId, data.userId);
+            await notificationService.notifyNewComment(data.flowShareId, data.userId);
         }
 
-        return await prisma.flowShareComment.create({ data });
+        return comment;
     }
 
     async update(id: string, data: Partial<CreateComment>) {

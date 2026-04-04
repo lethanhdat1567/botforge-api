@@ -163,7 +163,7 @@ class FlowExecutorService {
                 return { type: 'NONE' };
             }
             case 'set_variable': {
-                flowRecordService.setVariable(flowRecordId, field.name, field.value);
+                await flowRecordService.setVariable(flowRecordId, field.name, field.value);
                 return { type: 'NONE' };
             }
         }

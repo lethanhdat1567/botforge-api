@@ -199,6 +199,8 @@ exports.Prisma.FlowShareDowloadScalarFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
   userId: 'userId',
+  clonedFlowId: 'clonedFlowId',
+  lastKnownCloneUpdatedAt: 'lastKnownCloneUpdatedAt',
   createdAt: 'createdAt'
 };
 
@@ -401,7 +403,8 @@ exports.Prisma.FlowShareCategoryOrderByRelevanceFieldEnum = {
 exports.Prisma.FlowShareDowloadOrderByRelevanceFieldEnum = {
   id: 'id',
   flowShareId: 'flowShareId',
-  userId: 'userId'
+  userId: 'userId',
+  clonedFlowId: 'clonedFlowId'
 };
 
 exports.Prisma.FlowShareCommentOrderByRelevanceFieldEnum = {
@@ -507,8 +510,6 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   comment: 'comment',
   reply: 'reply',
   download: 'download',
-  flow_done: 'flow_done',
-  flow_cancelled: 'flow_cancelled',
   new_user: 'new_user',
   chat_message: 'chat_message'
 };

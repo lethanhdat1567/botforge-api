@@ -1,4 +1,5 @@
 import { prisma } from '~/config/prisma';
+import notificationService from '~/services/notification.service';
 import { emitNewChatMessageForConversation } from '~/socket/socket.service';
 import type { LiveChatParticipant } from '~/types/live-chat-participant';
 
@@ -97,20 +98,50 @@ class MessageService {
             select: {
                 id: true,
                 userId: true,
-                anonymousParticipantId: true
+                anonymousParticipantId: true,
+                guestName: true,
+                user: { select: { displayName: true } },
+                anonymousParticipant: { select: { displayName: true } }
             }
         });
 
         if (conversation) {
             const content = data.content ?? data.fileUrl ?? '';
-            emitNewChatMessageForConversation(conversation, {
-                conversationId: conversation.id,
-                id: result.id,
-                sender: role === 'admin' ? 'admin' : 'user',
-                type: data.fileUrl ? 'image' : 'text',
-                content,
-                createdAt: result.createdAt
-            });
+            emitNewChatMessageForConversation(
+                {
+                    id: conversation.id,
+                    userId: conversation.userId,
+                    anonymousParticipantId: conversation.anonymousParticipantId
+                },
+                {
+                    conversationId: conversation.id,
+                    id: result.id,
+                    sender: role === 'admin' ? 'admin' : 'user',
+                    type: data.fileUrl ? 'image' : 'text',
+                    content,
+                    createdAt: result.createdAt
+                }
+            );
+
+            if (!isAdmin) {
+                const senderLabel =
+                    participant.kind === 'user'
+                        ? conversation.user?.displayName?.trim() || 'Người dùng'
+                        : conversation.anonymousParticipant?.displayName?.trim() ||
+                          conversation.guestName?.trim() ||
+                          'Khách';
+
+                const previewText =
+                    data.fileUrl && !data.content?.trim()
+                        ? '[File đính kèm]'
+                        : content;
+
+                await notificationService.notifyAdminsChatMessage(
+                    conversation.id,
+                    previewText,
+                    senderLabel
+                );
+            }
         }
 
         return [null, result] as const;

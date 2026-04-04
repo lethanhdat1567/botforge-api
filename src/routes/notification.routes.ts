@@ -7,6 +7,8 @@ const router = Router();
 
 router.use(authMiddleware);
 
+router.get('/unread-count', NotificationController.unreadCount);
+
 router.get('/', NotificationController.list);
 
 router.put('/:id/read', NotificationController.markRead);

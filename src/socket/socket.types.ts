@@ -1,3 +1,14 @@
+export type NotificationPublicDTO = {
+    id: string;
+    type: string;
+    message: string;
+    thumbnail: string | null;
+    relatedId: string;
+    read: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
 export enum SocketEvent {
     // Notification
     NEW_NOTIFICATION = 'notification:new',

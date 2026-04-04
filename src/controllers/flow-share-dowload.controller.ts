@@ -1,5 +1,5 @@
 import { httpCode } from '~/constants/httpsCode';
-import flowShareDowloadService from '~/services/flow-share-dowload.service';
+import flowShareDowloadService, { FlowShareDownloadHttpError } from '~/services/flow-share-dowload.service';
 
 class FlowShareDowloadController {
     async listMyDowload(req: any, res: any) {
@@ -17,9 +17,20 @@ class FlowShareDowloadController {
     }
 
     async create(req: any, res: any) {
-        const dowload = await flowShareDowloadService.create(req.body, req.user.id);
+        try {
+            const dowload = await flowShareDowloadService.create(req.body, req.user.id);
 
-        return res.success(dowload);
+            if ('message' in dowload) {
+                return res.success(dowload);
+            }
+
+            return res.success(dowload, httpCode.success.created);
+        } catch (e) {
+            if (e instanceof FlowShareDownloadHttpError) {
+                return res.error(e.message, e.statusCode);
+            }
+            throw e;
+        }
     }
 
     async listForAdmin(req: any, res: any) {

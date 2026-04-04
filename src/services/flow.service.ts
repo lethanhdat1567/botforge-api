@@ -88,6 +88,22 @@ class FlowService {
         };
     }
 
+    async resolveUniqueFlowName(userId: string, baseName: string) {
+        const trimmed = baseName.trim() || 'Untitled';
+        let n = 0;
+        let candidate = trimmed;
+
+        for (;;) {
+            const existing = await prisma.flow.findFirst({
+                where: { userId, name: candidate },
+                select: { id: true }
+            });
+            if (!existing) return candidate;
+            n += 1;
+            candidate = `${trimmed} (${n})`;
+        }
+    }
+
     async create(data: CreateFlow) {
         const flow = await prisma.flow.create({ data });
 

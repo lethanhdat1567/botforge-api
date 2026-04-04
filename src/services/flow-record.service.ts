@@ -61,6 +61,7 @@ class FlowRecordService {
                 senderId,
                 OR: [{ status: 'pending' }, { status: 'running' }, { status: 'processing' }]
             },
+            orderBy: { lastInteraction: 'desc' },
             include: {
                 flow: {
                     include: {
@@ -156,6 +157,22 @@ class FlowRecordService {
 
     async setProcessing(flowRecordId: string) {
         await prisma.flowRecord.update({ where: { id: flowRecordId }, data: { status: 'processing' } });
+    }
+
+    /** Only succeeds if record is still `pending` — avoids double-handling concurrent webhooks. */
+    async trySetProcessing(id: string): Promise<boolean> {
+        const result = await prisma.flowRecord.updateMany({
+            where: { id, status: 'pending' },
+            data: { status: 'processing' }
+        });
+        return result.count === 1;
+    }
+
+    async revertToPending(flowRecordId: string) {
+        await prisma.flowRecord.update({
+            where: { id: flowRecordId },
+            data: { status: 'pending' }
+        });
     }
 
     async updateCurrentNode(flowRecordId: string, currentNodeId: string) {

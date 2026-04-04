@@ -86,12 +86,13 @@ model Flow {
     startNodeId     String?    @map("start_node_id")
     timeoutJson     Json?      @map("timeout_json")
     createdAt       DateTime   @default(now()) @map("created_at")
-    updatedAt       DateTime   @default(now()) @map("updated_at")
+    updatedAt       DateTime   @default(now()) @updatedAt @map("updated_at")
 
     user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     shares      FlowShare[]
     flowRecords FlowRecord[]
     page        Page?
+    flowShareDownloadClones FlowShareDowload[] @relation("FlowShareDownloadClone")
 
     @@unique([userId, name])
     @@map("flows")
@@ -154,15 +155,19 @@ model FlowShareCategory {
 }
 
 model FlowShareDowload {
-    id          String   @id @default(uuid())
-    flowShareId String   @map("flow_share_id")
-    userId      String   @map("user_id")
-    createdAt   DateTime @default(now()) @map("created_at")
+    id                        String    @id @default(uuid())
+    flowShareId               String    @map("flow_share_id")
+    userId                    String    @map("user_id")
+    clonedFlowId              String?   @map("cloned_flow_id")
+    lastKnownCloneUpdatedAt   DateTime? @map("last_known_clone_updated_at")
+    createdAt                 DateTime  @default(now()) @map("created_at")
 
-    flowShare FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
-    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    flowShare  FlowShare @relation(fields: [flowShareId], references: [id], onDelete: Cascade)
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    clonedFlow Flow?     @relation("FlowShareDownloadClone", fields: [clonedFlowId], references: [id], onDelete: SetNull)
 
     @@index([flowShareId])
+    @@index([clonedFlowId])
     @@map("flow_share_dowloads")
 }
 
@@ -231,8 +236,6 @@ enum NotificationType {
     comment
     reply
     download
-    flow_done
-    flow_cancelled
     new_user
     chat_message
 }

@@ -22,6 +22,8 @@ class FlowController {
     async detail(req: any, res: any) {
         const flow = await flowService.detail(req.params.id);
 
+        res.setHeader('Cache-Control', 'private, no-store');
+
         return res.success(flow);
     }
 
