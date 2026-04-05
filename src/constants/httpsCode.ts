@@ -14,6 +14,7 @@ export const httpCode = {
     },
 
     serverError: {
-        internalServerError: 500
+        internalServerError: 500,
+        badGateway: 502
     }
 } as const;

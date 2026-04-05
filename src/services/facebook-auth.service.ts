@@ -56,7 +56,7 @@ class FacebookAuthService {
         const accessToken = FBAuth.fbAccessToken;
 
         try {
-            const result = await axios.get('https://graph.facebook.com/v19.0/me/accounts', {
+            const result = await axios.get('https://graph.facebook.com/v21.0/me/accounts', {
                 params: {
                     access_token: accessToken
                 }

@@ -49,9 +49,14 @@ const errorHandler = (error: any, req: any, res: any, next: any) => {
         }
     }
 
+    const message =
+        error != null && typeof error.message === 'string' && error.message
+            ? error.message
+            : String(error);
+
     return res.error(
         {
-            message: String(error),
+            message,
             error
         },
         error.status

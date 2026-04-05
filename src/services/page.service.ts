@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { envConfig } from '~/config/envConfig';
 import { prisma } from '~/config/prisma';
+import { httpCode } from '~/constants/httpsCode';
 
 const FB_GRAPH_VERSION = 'v21.0';
 
@@ -12,10 +13,28 @@ interface UpsertPageService {
     pageAccessToken: string;
 }
 
+export type MessengerSubscribeResult = {
+    subscribedFields: string;
+    postResponse: unknown;
+    subscribedAppsSnapshot: unknown;
+    pageTokenDebug: {
+        is_valid?: boolean;
+        scopes?: string[];
+        granular_scopes?: unknown;
+    } | null;
+};
+
 /**
- * Meta (manual): Messenger product Webhooks — Page object: callback URL + verify token;
- * tick subscription fields (messages, messaging_postbacks, …). FE Facebook Login appId must
- * match FACEBOOK_APP_ID. Non-test users need Live app + Advanced Access for pages_messaging.
+ * Two separate Meta steps (both required for Messenger):
+ *
+ * 1) App — Developer Console → Messenger → Webhooks: set Callback URL to `{BASE_URL}/api/webhook`
+ *    and Verify Token to the same value as env `VERIFY_TOKEN`. Complete verification (GET challenge).
+ *
+ * 2) Page — After connect, `subscribeWebhook` calls `POST /{page-id}/subscribed_apps` with the fields
+ *    in MESSENGER_SUBSCRIBED_FIELDS (does not replace step 1).
+ *
+ * `NEXT_PUBLIC_FACEBOOK_APP_ID` / Login must match `FACEBOOK_APP_ID`. Non-test users need Live app +
+ * Advanced Access for `pages_messaging`.
  */
 class PageService {
     private graphUrl(path: string) {
@@ -30,10 +49,12 @@ class PageService {
         return data;
     }
 
-    /** Logs Page token scopes when app id/secret are configured (troubleshoot missing messaging). */
+    /**
+     * Page token scopes (needs FACEBOOK_APP_ID + FACEBOOK_APP_SECRET). Logged to console and returned on connect for debugging.
+     */
     private async logPageAccessTokenDebug(pageAccessToken: string) {
         const { appId, appSecret } = envConfig.facebook;
-        if (!appId || !appSecret) return;
+        if (!appId || !appSecret) return null;
 
         try {
             const { data } = await axios.get(this.graphUrl('/debug_token'), {
@@ -44,18 +65,21 @@ class PageService {
             });
             const info = data?.data;
             if (info) {
-                console.log('[Facebook] debug_token (page access token):', {
-                    is_valid: info.is_valid,
-                    scopes: info.scopes,
+                const summary = {
+                    is_valid: info.is_valid as boolean | undefined,
+                    scopes: info.scopes as string[] | undefined,
                     granular_scopes: info.granular_scopes
-                });
+                };
+                console.log('[Facebook] debug_token (page access token):', summary);
+                return summary;
             }
         } catch (e: any) {
             console.warn('[Facebook] debug_token failed:', e.response?.data || e.message);
         }
+        return null;
     }
 
-    private async subscribeWebhook(pageUid: string, pageAccessToken: string) {
+    private async subscribeWebhook(pageUid: string, pageAccessToken: string): Promise<MessengerSubscribeResult> {
         const url = this.graphUrl(`/${pageUid}/subscribed_apps`);
 
         try {
@@ -71,15 +95,34 @@ class PageService {
             const subscribed = await this.fetchSubscribedApps(pageUid, pageAccessToken);
             console.log('[Facebook] subscribed_apps GET (verify):', JSON.stringify(subscribed));
 
-            await this.logPageAccessTokenDebug(pageAccessToken);
+            const pageTokenDebug = await this.logPageAccessTokenDebug(pageAccessToken);
+
+            return {
+                subscribedFields: MESSENGER_SUBSCRIBED_FIELDS,
+                postResponse: postData,
+                subscribedAppsSnapshot: subscribed,
+                pageTokenDebug
+            };
         } catch (error: any) {
             const errBody = error.response?.data;
+            const fbErr = errBody?.error;
+            const detail =
+                (fbErr && typeof fbErr.message === 'string' && fbErr.message) ||
+                error.message ||
+                'Unknown error';
             console.error('[Facebook] subscribed_apps POST error:', {
                 pageUid,
                 message: error.message,
                 response: errBody ?? null
             });
-            throw new Error('Không thể đăng ký Webhook với Facebook. Vui lòng thử lại.');
+            const suffix = fbErr?.code != null ? ` (Facebook code ${fbErr.code})` : '';
+            const err = new Error(`Không thể đăng ký Webhook với Facebook: ${detail}${suffix}`) as Error & {
+                status?: number;
+                facebookResponse?: unknown;
+            };
+            err.status = httpCode.serverError.badGateway;
+            err.facebookResponse = errBody;
+            throw err;
         }
     }
 
@@ -112,9 +155,9 @@ class PageService {
             }
         });
 
-        await this.subscribeWebhook(res.pageUid, res.pageAccessToken);
+        const messenger = await this.subscribeWebhook(res.pageUid, res.pageAccessToken);
 
-        return res;
+        return { ...res, messenger };
     }
 
     async delete(flowId: string) {

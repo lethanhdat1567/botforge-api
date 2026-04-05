@@ -100,19 +100,14 @@ class FacebookWebhookService {
                 }
 
                 if (isMatch) {
-                    await flowRecordService.setVariable(exitFlowRecord.id, waitingVariables.variable.key, textRaw);
-                    await flowRecordService.setRunning(exitFlowRecord.id);
-
-                    if (!currentNode.next) {
-                        return await flowRecordService.setComplete(exitFlowRecord.id);
-                    }
-
-                    return await flowExecutorService.runFlow(
+                    return await this.resumeFlowAfterCollectionInput(
                         exitFlowRecord.id,
                         flowPageId,
                         senderId,
-                        currentNode.next,
-                        currentFlow.logicJson as any
+                        exitFlowRecord.flowId,
+                        exitFlowRecord.currentNodeId,
+                        waitingVariables.variable.key,
+                        textRaw
                     );
                 }
 
@@ -176,6 +171,46 @@ class FacebookWebhookService {
         const flow = await flowService.findById(flowRecord.flowId);
         if (!flow?.page || flow.page.pageUid !== pageUid) return;
 
+        if (flowRecord.status === 'pending') {
+            const acquired = await flowRecordService.trySetProcessing(flowRecord.id);
+            if (!acquired) return;
+
+            const waitingVariables = await flowRecordService.getWaitingVariable(flowRecord.id);
+
+            if (!waitingVariables) {
+                return await flowRecordService.setError(flowRecord.id, 'Không có pending variable');
+            }
+
+            const isExpired = isFlowExpired(flowRecord.expiresAt);
+
+            if (isExpired) {
+                await facebookSenderService.sendTextMessage(flowRecord.id, flow.page.id, senderId, {
+                    text: waitingVariables.fallback.message
+                });
+                return await flowRecordService.setCancel(flowRecord.id);
+            }
+
+            const valueTrimmed = String(buttonPayload.value ?? '').trim();
+            if (!valueTrimmed) {
+                const hint =
+                    waitingVariables.variable.regexMessage?.trim() || 'Vui lòng nhập nội dung dạng chữ.';
+                await facebookSenderService.sendTextMessage(flowRecord.id, flow.page.id, senderId, {
+                    text: hint
+                });
+                return await flowRecordService.revertToPending(flowRecord.id);
+            }
+
+            return await this.resumeFlowAfterCollectionInput(
+                flowRecord.id,
+                flow.page.id,
+                senderId,
+                flowRecord.flowId,
+                flowRecord.currentNodeId,
+                waitingVariables.variable.key,
+                valueTrimmed
+            );
+        }
+
         const { key, value } = buttonPayload;
         if (key && value != null && value !== '') {
             await flowRecordService.setVariable(buttonPayload.flowRecordId, key, String(value));
@@ -193,6 +228,42 @@ class FacebookWebhookService {
             flowRecord.senderId,
             buttonPayload.next,
             logicJsonObj
+        );
+    }
+
+    /** Sau khi đã có giá trị hợp lệ cho collection (text hoặc postback). */
+    private async resumeFlowAfterCollectionInput(
+        flowRecordId: string,
+        flowPageId: string,
+        senderId: string,
+        flowId: string,
+        currentNodeId: string,
+        variableKey: string,
+        storedValue: string
+    ) {
+        await flowRecordService.setVariable(flowRecordId, variableKey, storedValue);
+        const currentFlow = await flowService.findById(flowId);
+        const { currentNode, logicJson } = getCurrentNodeAndLogicJson(currentFlow, currentNodeId);
+
+        if (!currentFlow || !currentNode || !logicJson || Object.keys(logicJson).length === 0) {
+            return await flowRecordService.setError(
+                flowRecordId,
+                'Flow not found when resuming after collection input'
+            );
+        }
+
+        await flowRecordService.setRunning(flowRecordId);
+
+        if (!currentNode.next) {
+            return await flowRecordService.setComplete(flowRecordId);
+        }
+
+        return await flowExecutorService.runFlow(
+            flowRecordId,
+            flowPageId,
+            senderId,
+            currentNode.next,
+            currentFlow.logicJson as any
         );
     }
 }

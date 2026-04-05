@@ -121,7 +121,7 @@ model FlowShare {
   flowId      String          @map("flow_id")
   userId      String          @map("user_id")
   name        String
-  description String?
+  description String?         @db.Text
   thumbnail   String?
   content     String?         @db.Text
   status      FlowShareStatus @default(active)
@@ -247,7 +247,7 @@ model Posts {
 
   slug        String      @unique
   title       String
-  description String
+  description String      @db.Text
   content     String      @map("content") @db.Text
   thumbnail   String      @map("thumbnail")
   status      PostsStatus @default(active) @map("status")

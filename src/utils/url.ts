@@ -13,7 +13,7 @@ export const formatMediaUrl = (url: string): string => {
 
     const cleanBase = baseUrl.replace(/\/$/, '');
     const cleanPath = url.startsWith('/') ? url : `/${url}`;
-
+    console.log(`${cleanBase}${cleanPath}`);
     return `${cleanBase}${cleanPath}`;
 };
 
