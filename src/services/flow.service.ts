@@ -1,5 +1,5 @@
 import { prisma } from '~/config/prisma';
-import { FlowStatus, Prisma } from '~/generated/prisma';
+import { FlowStatus, Prisma } from '@prisma/client';
 import { getPaginationOptions } from '~/utils/pagination';
 
 type ListQuery = {

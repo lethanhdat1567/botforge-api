@@ -1,5 +1,5 @@
 import { prisma } from '~/config/prisma';
-import { ConversationStatus } from '~/generated/prisma';
+import { ConversationStatus } from '@prisma/client';
 import type { LiveChatParticipant } from '~/types/live-chat-participant';
 
 class ConversationService {

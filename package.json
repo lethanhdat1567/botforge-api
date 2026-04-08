@@ -6,7 +6,7 @@
         "dev": "npx nodemon",
         "queue": "tsx ./src/queue.ts",
         "schedule": "tsx ./src/schedule.ts",
-        "build": "rimraf ./dist && tsc && tsc-alias",
+        "build": "rimraf ./dist && tsc && tsc-alias -p tsconfig.json",
         "start": "node dist/index.js",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",

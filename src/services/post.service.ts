@@ -1,5 +1,5 @@
 import { prisma } from '~/config/prisma';
-import { PostsStatus } from '~/generated/prisma';
+import { PostsStatus } from '@prisma/client';
 import { ListQuery } from '~/types/query.type';
 import { getPaginationOptions } from '~/utils/pagination';
 

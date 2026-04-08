@@ -1,5 +1,5 @@
 import { prisma } from '~/config/prisma';
-import { Prisma } from '~/generated/prisma';
+import { Prisma } from '@prisma/client';
 import flowService from '~/services/flow.service';
 import notificationService from '~/services/notification.service';
 import { ListQuery } from '~/types/query.type';

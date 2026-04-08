@@ -1,5 +1,5 @@
 import { prisma } from '~/config/prisma';
-import { QueueStatus } from '~/generated/prisma';
+import { QueueStatus } from '@prisma/client';
 
 class QueueService {
     async findOnePending() {

@@ -1,6 +1,6 @@
 import { sendEmail } from '~/config/mailer';
 import { prisma } from '~/config/prisma';
-import { NotificationType } from '~/generated/prisma';
+import { NotificationType } from '@prisma/client';
 import { emitNewNotification } from '~/socket/socket.service';
 
 type CreateNotification = {

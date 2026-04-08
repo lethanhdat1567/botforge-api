@@ -5,7 +5,7 @@ import { generateAccessToken } from '~/utils/jwt';
 import { envConfig } from '~/config/envConfig';
 import ms, { StringValue } from 'ms';
 import { authCode } from '~/constants/auth';
-import { TokenType, User } from '~/generated/prisma';
+import { TokenType, User } from '@prisma/client';
 import notificationService from '~/services/notification.service';
 import { firebaseAdmin } from '~/config/firebase';
 
