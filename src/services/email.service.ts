@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { User } from '~/generated/prisma';
 import { envConfig } from '~/config/envConfig';
 import { sendEmail } from '~/config/mailer';
 
