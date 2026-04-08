@@ -123,13 +123,13 @@ class AuthController {
     }
 
     async googleLogin(req: Request, res: any) {
-        const { code } = req.body;
+        const { idToken } = req.body;
 
-        if (!code) {
-            return res.error({ message: 'Code is required' }, httpCode.clientError.badRequest);
+        if (!idToken) {
+            return res.error({ message: 'idToken is required' }, httpCode.clientError.badRequest);
         }
 
-        const [error, data] = await authService.googleLogin(code);
+        const [error, data] = await authService.googleLogin(idToken);
 
         if (error) {
             return res.error({ message: error }, httpCode.clientError.unauthorized);

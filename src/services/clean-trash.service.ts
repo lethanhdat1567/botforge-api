@@ -6,13 +6,12 @@ class CleanTrashService {
     async getUsedFiles(): Promise<Set<string>> {
         const usedFiles = new Set<string>();
 
-        const [users, shares, posts, messages, flowShares, pages, notifications] = await Promise.all([
+        const [users, shares, posts, messages, flowShares, notifications] = await Promise.all([
             prisma.user.findMany({ select: { avatar: true } }),
             prisma.flowShare.findMany({ select: { thumbnail: true } }),
             prisma.posts.findMany({ select: { thumbnail: true } }),
             prisma.message.findMany({ select: { fileUrl: true } }),
             prisma.flowShare.findMany({ select: { content: true } }),
-            prisma.page.findMany({ select: { avatar: true } }),
             prisma.notification.findMany({ select: { thumbnail: true } })
         ]);
 
@@ -22,7 +21,6 @@ class CleanTrashService {
             ...posts.map((p) => p.thumbnail),
             ...messages.map((m) => m.fileUrl),
             ...flowShares.map((fs) => fs.content),
-            ...pages.map((p) => p.avatar),
             ...notifications.map((n) => n.thumbnail)
         ];
 

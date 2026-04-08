@@ -9,11 +9,10 @@ export const formatMediaUrl = (url: string): string => {
         return url;
     }
 
-    const baseUrl = envConfig.ngrokUrl || 'https://your-domain.com';
+    const baseUrl = envConfig.baseUrl || 'https://your-domain.com';
 
     const cleanBase = baseUrl.replace(/\/$/, '');
     const cleanPath = url.startsWith('/') ? url : `/${url}`;
-    console.log(`${cleanBase}${cleanPath}`);
     return `${cleanBase}${cleanPath}`;
 };
 

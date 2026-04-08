@@ -1,8 +1,8 @@
 export const envConfig = {
+    nodeEnv: process.env.NODE_ENV || 'development',
     port: parseInt(process.env.PORT || '8000'),
     baseUrl: process.env.BASE_URL || 'http://localhost:8000',
     frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
-    ngrokUrl: process.env.NGROK_URL,
 
     jwt: {
         accessSecret: process.env.JWT_ACCESS_SECRET,

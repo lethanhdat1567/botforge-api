@@ -15,7 +15,8 @@ class FlowRecordService {
     async listByUser(userId: string, filter: ListQuery<FlowRecordStatus>) {
         const ownFlow = await prisma.flow.findFirst({
             where: {
-                userId
+                userId,
+                status: 'active'
             },
             select: {
                 id: true,

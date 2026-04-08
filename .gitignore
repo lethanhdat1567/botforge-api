@@ -6,3 +6,9 @@ dist/
 # env
 .env
 .env.*
+
+# runtime artifacts
+uploads/
+logs/
+*.log
+backup/

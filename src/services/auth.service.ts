@@ -7,7 +7,7 @@ import ms, { StringValue } from 'ms';
 import { authCode } from '~/constants/auth';
 import { TokenType, User } from '~/generated/prisma';
 import notificationService from '~/services/notification.service';
-import { OAuth2Client } from 'google-auth-library';
+import { firebaseAdmin } from '~/config/firebase';
 
 class AuthService {
     async getMe(userId: string) {
@@ -252,27 +252,28 @@ class AuthService {
             ...token
         };
     }
-    async googleLogin(code: string) {
-        const client = new OAuth2Client(envConfig.google.clientId, envConfig.google.clientSecret, 'postmessage');
-
+    async googleLogin(idToken: string) {
         try {
-            const { tokens } = await client.getToken({
-                code: code,
-                redirect_uri: 'postmessage'
-            });
+            const decoded = await firebaseAdmin.auth().verifyIdToken(idToken, true);
 
-            const idToken = tokens.id_token;
-            if (!idToken) return ['Không lấy được ID Token từ Google', null];
+            if (decoded.firebase?.sign_in_provider !== 'google.com') {
+                return ['Chỉ hỗ trợ đăng nhập Google qua Firebase', null];
+            }
 
-            const ticket = await client.verifyIdToken({
-                idToken,
-                audience: envConfig.google.clientId
-            });
-            const payload = ticket.getPayload();
+            let googleId = decoded.firebase?.identities?.['google.com']?.[0];
+            if (!googleId) {
+                const userRecord = await firebaseAdmin.auth().getUser(decoded.uid);
+                googleId =
+                    userRecord.providerData.find((p) => p.providerId === 'google.com')?.uid ?? undefined;
+            }
 
-            if (!payload) return ['Token không hợp lệ', null];
+            if (!googleId) return ['Không xác định được tài khoản Google', null];
 
-            const { email, name, picture, sub: googleId } = payload;
+            const email = decoded.email;
+            if (!email) return ['Token không chứa email', null];
+
+            const name = decoded.name;
+            const picture = decoded.picture;
 
             let user = await prisma.user.findUnique({ where: { email } });
 
@@ -303,12 +304,9 @@ class AuthService {
 
             const systemTokens = await this.getAuthResponse(user);
             return [null, systemTokens];
-        } catch (error: any) {
-            if (error.response) {
-                console.error('Google API Error Response:', error.response.data);
-            } else {
-                console.error('Google Login Error:', error.message);
-            }
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error('Firebase Google login error:', message);
             return ['Xác thực Google thất bại', null];
         }
     }
