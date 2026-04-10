@@ -18,7 +18,11 @@ async function backupDB() {
 
         // 2. Kiểm tra thông tin -u và -p (phải dính liền hoặc dùng --user=...)
         // Hãy chắc chắn mật khẩu 'admin' là đúng cho máy chủ InterData
-        const mysqldump = spawn('mysqldump', ['-uadmin', '-padmin', 'botforge']);
+        const mysqldump = spawn('mysqldump', [
+            `-u${process.env.DATABASE_USER}`,
+            `-p${process.env.DATABASE_PASSWORD}`,
+            `${process.env.DATABASE_NAME}`
+        ]);
 
         mysqldump.stdout.pipe(outputStream);
 
