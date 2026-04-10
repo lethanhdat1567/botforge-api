@@ -4,19 +4,23 @@ import backupDB from '~/schedules/backupDB';
 import clearTrashFile from '~/schedules/clearTrashFile';
 
 new CronJob(
-    '0 3 * * *',
+    '*/1 * * * *',
     function () {
+        console.log('Backup DB');
         backupDB();
     },
     null,
-    true
+    true,
+    'Asia/Ho_Chi_Minh'
 );
 
 new CronJob(
-    '0 4 * * *',
+    '*/10 * * * * *',
     function () {
+        console.log('Clear Trash File');
         clearTrashFile();
     },
     null,
-    true
+    true,
+    'Asia/Ho_Chi_Minh'
 );
