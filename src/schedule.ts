@@ -4,7 +4,7 @@ import backupDB from '~/schedules/backupDB';
 import clearTrashFile from '~/schedules/clearTrashFile';
 
 new CronJob(
-    '*/1 * * * *',
+    '0 3 * * *',
     function () {
         console.log('Backup DB');
         backupDB();
@@ -15,7 +15,7 @@ new CronJob(
 );
 
 new CronJob(
-    '*/10 * * * * *',
+    '0 4 * * *',
     function () {
         console.log('Clear Trash File');
         clearTrashFile();
